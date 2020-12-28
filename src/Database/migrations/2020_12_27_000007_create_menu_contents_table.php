@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFormsTable extends Migration
+class CreateMenuContentsTable extends Migration
 {
     /**
      * Run the migrations.min
@@ -13,16 +13,20 @@ class CreateFormsTable extends Migration
      */
     public function up()
     {
-        Schema::create('forms', function (Blueprint $table) {
+        Schema::create('menu_contents', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('menu_id');
+            $table->integer('language_id');
             $table->tinyInteger('status');
             $table->string('name');
-            $table->string('slug');
-            $table->string('sender');
-            $table->text('receivers');
-            $table->tinyInteger('recaptcha_status');
-            $table->string('recaptcha_site_key')->nullable();
-            $table->string('recaptcha_secret_key')->nullable();
+            $table->string('target');
+            $table->tinyInteger('type');
+            $table->integer('url_id');
+            $table->text('out_link');
+            $table->integer('parent');
+            $table->integer('lft');
+            $table->integer('rgt');
+            $table->integer('depth');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -35,6 +39,6 @@ class CreateFormsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('forms');
+        Schema::dropIfExists('menu_contents');
     }
 }

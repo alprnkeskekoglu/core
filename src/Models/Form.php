@@ -9,14 +9,7 @@ class Form extends Model
 {
     use SoftDeletes;
     protected $table = 'forms';
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
-    protected $fillable = [
-        'name',
-        'slug',
-        'sender',
-        'receivers',
-        'recaptcha_status',
-        'recaptcha_site_key',
-        'recaptcha_secret_key',
-    ];
+    protected $guarded = ['id'];
 }
