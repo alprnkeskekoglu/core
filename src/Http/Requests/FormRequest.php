@@ -26,6 +26,7 @@ class FormRequest extends Request
         return [
             'status' => 'required',
             'name' => 'required',
+            'key' => 'required|unique',
             'sender' => 'required|email',
             'receivers' => 'required',
             'recaptcha_status' => 'required',

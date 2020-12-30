@@ -6,6 +6,9 @@ return [
     'submit' => 'Gönder',
     'refresh' => 'Yenile',
 
+    'edit' => 'Düzenle',
+    'delete' => 'Sil',
+
     'status_title' => [
         'active' => 'Aktif',
         'draft' => 'Taslak',
@@ -13,7 +16,7 @@ return [
     ],
 
     'error_occured' => 'Hata oluştu!',
-    
+
     'swal' => [
         'title' => 'Emin misiniz?',
         'subtitle' => 'İçerik kalıcı olarak silinecektir!',

@@ -13,16 +13,22 @@ class FormResultController extends PanelController
         $form = Form::find($formId);
 
         if (is_null($form)) {
-            return redirect()->route('form.index')->withErrors("Verilen id'ye ($formId) ait form bulunamadı!")->withInput();
+            return redirect()->route('form.index')->withErrors(__('DawnstarLang::form.response_message.id_error', ['id' => $formId]))->withInput();
         }
 
         //TODO: Add paginate
         $results = $form->results;
 
-        $breadcrumb = $this->getBreadcrumb([
-            ['index', 'index'],
-            ['result', 'result.index', ['formId' => $form->id]]
-        ]);
+        $breadcrumb = [
+            [
+                'name' => __('DawnstarLang::form.index_title'),
+                'url' => route('form.index')
+            ],
+            [
+                'name' => __('DawnstarLang::form.result_title'),
+                'url' => '#'
+            ]
+        ];
 
         return view('DawnstarView::pages.form_results.index', compact('form', 'results', 'breadcrumb'));
     }

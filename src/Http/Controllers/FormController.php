@@ -10,19 +10,28 @@ class FormController extends PanelController
     public function index()
     {
         $forms = Form::all();
-        $breadcrumb = $this->getBreadcrumb([
-            ['index', []]
-        ]);
+        $breadcrumb = [
+            [
+                'name' => __('DawnstarLang::form.index_title'),
+                'url' => '#'
+            ]
+        ];
 
         return view('DawnstarView::pages.form.index', compact('forms', 'breadcrumb'));
     }
 
     public function create()
     {
-        $breadcrumb = $this->getBreadcrumb([
-            ['index', []],
-            ['create', []]
-        ]);
+        $breadcrumb = [
+            [
+                'name' => __('DawnstarLang::form.index_title'),
+                'url' => route('form.index')
+            ],
+            [
+                'name' => __('DawnstarLang::form.create_title'),
+                'url' => '#'
+            ]
+        ];
 
         return view('DawnstarView::pages.form.create', compact('breadcrumb'));
     }
@@ -36,16 +45,12 @@ class FormController extends PanelController
         $data['receivers'] = explode(',', $data['receivers']);
 
         $key = \Str::slug($data['name']);
-        $form = Form::firstOrCreate(
+        Form::firstOrCreate(
             ['key' => $key],
             $data
         );
 
-        if ($form->wasRecentlyCreated) {
-            return redirect()->route('form.index')->with('success_message', 'Form başarıyla oluşturulmuştur.');
-        }
-
-        return redirect()->route('form.create')->withErrors(['error_message' => 'Bu isme sahip form mevcut!'])->withInput();
+        return redirect()->route('form.index')->with('success_message', __('DawnstarLang::form.response_message.store'));
     }
 
     public function edit(int $id)
@@ -53,14 +58,19 @@ class FormController extends PanelController
         $form = Form::find($id);
 
         if (is_null($form)) {
-            return redirect()->route('form.index')->withErrors("Verilen id'ye ($id) ait form bulunamadı!")->withInput();
+            return redirect()->route('form.index')->withErrors(__('DawnstarLang::form.response_message.id_error', ['id' => $id]))->withInput();
         }
 
-
-        $breadcrumb = $this->getBreadcrumb([
-            ['index', []],
-            ['edit', ['id' => $id]]
-        ]);
+        $breadcrumb = [
+            [
+                'name' => __('DawnstarLang::form.index_title'),
+                'url' => route('form.index')
+            ],
+            [
+                'name' => __('DawnstarLang::form.edit_title'),
+                'url' => '#'
+            ]
+        ];
 
         return view('DawnstarView::pages.form.edit', compact('form', 'breadcrumb'));
     }
@@ -70,7 +80,7 @@ class FormController extends PanelController
         $form = Form::find($id);
 
         if (is_null($form)) {
-            return redirect()->route('form.index')->withErrors("Verilen id'ye ($id) ait form bulunamadı!")->withInput();
+            return redirect()->route('form.index')->withErrors(__('DawnstarLang::form.response_message.id_error', ['id' => $id]))->withInput();
         }
 
         $data = $request->except('_token');
@@ -82,10 +92,9 @@ class FormController extends PanelController
 
         $data['receivers'] = explode(',', $data['receivers']);
 
-        //$key = \Str::slug($data['name']);
-        $form = $form->update($data);
+        $form->update($data);
 
-        return redirect()->route('form.index')->with('success_message', 'Form başarıyla güncellenmiştir.');
+        return redirect()->route('form.index')->with('success_message', __('DawnstarLang::form.response_message.update'));
     }
 
     public function delete($id)
@@ -99,19 +108,5 @@ class FormController extends PanelController
         $form->delete();
 
         return response()->json(['title' => __('DawnstarLang::general.swal.success.title'), 'subtitle' => __('DawnstarLang::general.swal.success.subtitle')]);
-    }
-
-    private function getBreadcrumb(array $parameters)
-    {
-        $breadcrumb = [];
-
-        foreach ($parameters as $param) {
-            $breadcrumb[] = [
-                'name' => __('DawnstarLang::form.' . $param[0] . '_title'),
-                'url' => route('form.' . $param[0], $param[1])
-            ];
-        }
-
-        return $breadcrumb;
     }
 }

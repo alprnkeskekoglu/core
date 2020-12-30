@@ -14,7 +14,7 @@
         <div class="content">
             <div class="block block-rounded">
                 <div class="block-content">
-                    @include('DawnstarView::errors.alert')
+                    @include('DawnstarView::layouts.alerts')
 
                     <div class="row items-push justify-content-end text-right">
                         <div class="mr-2">
@@ -61,15 +61,15 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <a href="{{ route('form.edit', ['id' => $form->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                        <a href="{{ route('form.edit', ['id' => $form->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
 
-                                        <button type="button" class="js-swal-confirm btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('form.delete', ['id' => $form->id]) }}" title="Delete">
+                                        <button type="button" class="js-swal-confirm btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('form.delete', ['id' => $form->id]) }}" title="{{ __('DawnstarLang::general.delete') }}">
                                             <i class="fa fa-times"></i>
                                         </button>
 
-                                        <a href="{{ route('form.result.index', ['formId' => $form->id]) }}" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Results">
+                                        <a href="{{ route('form.result.index', ['formId' => $form->id]) }}" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::form.result_title') }}">
                                             <i class="fa fa-comments"></i>
                                         </a>
                                     </div>

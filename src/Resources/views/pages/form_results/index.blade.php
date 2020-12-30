@@ -36,7 +36,7 @@
                                 <div id="accordion_q{{ $result->id }}" class="collapse" role="tabpanel" aria-labelledby="accordion_{{ $result->id }}" data-parent="#accordion">
 
                                     <div class="block-content">
-                                        <table class="table table-borderless table-vcenter">
+                                        <table class="table table-vcenter">
                                             <tbody>
                                                 @foreach($result->data as $label => $value)
                                                     <tr>
@@ -53,7 +53,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <th class="font-w600">Gönderilme Zamanı</th>
+                                                    <th class="font-w600">{{ __('DawnstarLang::form.send_time') }}</th>
                                                     <td>
                                                         {{ $result->created_at->formatLocalized('%d %B %Y, %H:%M:%S') }}
                                                     </td>

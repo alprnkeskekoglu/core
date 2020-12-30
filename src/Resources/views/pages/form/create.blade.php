@@ -11,7 +11,7 @@
         </div>
 
         <div class="content">
-            @include('DawnstarView::errors.alert')
+            @include('DawnstarView::layouts.alerts')
             <form action="{{ route('form.store') }}" method="POST">
                 @csrf
                 <div class="block block-rounded">
