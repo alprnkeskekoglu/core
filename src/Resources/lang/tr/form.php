@@ -4,6 +4,7 @@ return [
     'index_title' => 'Formlar',
     'create_title' => 'Form Oluştur',
     'edit_title' => 'Form Düzenle',
+    'result_title' => 'Form Sonuçları',
     'status' => "Durum",
     'name' => 'Form Adı',
     'result_count' => 'Toplam / Okunmayanlar',

@@ -2,25 +2,29 @@
 
 namespace Dawnstar\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Analytics;
 use Dawnstar\Http\Requests\FormRequest;
 use Dawnstar\Models\Form;
-use Illuminate\Http\Request;
-use Spatie\Analytics\Period;
 
-class FormController extends Controller
+class FormController extends PanelController
 {
     public function index()
     {
         $forms = Form::all();
+        $breadcrumb = $this->getBreadcrumb([
+            ['index', []]
+        ]);
 
-        return view('DawnstarView::pages.form.index', compact('forms'));
+        return view('DawnstarView::pages.form.index', compact('forms', 'breadcrumb'));
     }
 
     public function create()
     {
-        return view('DawnstarView::pages.form.create');
+        $breadcrumb = $this->getBreadcrumb([
+            ['index', []],
+            ['create', []]
+        ]);
+
+        return view('DawnstarView::pages.form.create', compact('breadcrumb'));
     }
 
     public function store(FormRequest $request)
@@ -37,7 +41,7 @@ class FormController extends Controller
             $data
         );
 
-        if($form->wasRecentlyCreated) {
+        if ($form->wasRecentlyCreated) {
             return redirect()->route('form.index')->with('success_message', 'Form başarıyla oluşturulmuştur.');
         }
 
@@ -48,19 +52,24 @@ class FormController extends Controller
     {
         $form = Form::find($id);
 
-        if(is_null($form)) {
+        if (is_null($form)) {
             return redirect()->route('form.index')->withErrors("Verilen id'ye ($id) ait form bulunamadı!")->withInput();
         }
 
 
-        return view('DawnstarView::pages.form.edit', compact('form'));
+        $breadcrumb = $this->getBreadcrumb([
+            ['index', []],
+            ['edit', ['id' => $id]]
+        ]);
+
+        return view('DawnstarView::pages.form.edit', compact('form', 'breadcrumb'));
     }
 
     public function update(FormRequest $request, $id)
     {
         $form = Form::find($id);
 
-        if(is_null($form)) {
+        if (is_null($form)) {
             return redirect()->route('form.index')->withErrors("Verilen id'ye ($id) ait form bulunamadı!")->withInput();
         }
 
@@ -83,12 +92,26 @@ class FormController extends Controller
     {
         $form = Form::find($id);
 
-        if(is_null($form)) {
+        if (is_null($form)) {
             return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
         }
 
         $form->delete();
 
         return response()->json(['title' => __('DawnstarLang::general.swal.success.title'), 'subtitle' => __('DawnstarLang::general.swal.success.subtitle')]);
+    }
+
+    private function getBreadcrumb(array $parameters)
+    {
+        $breadcrumb = [];
+
+        foreach ($parameters as $param) {
+            $breadcrumb[] = [
+                'name' => __('DawnstarLang::form.' . $param[0] . '_title'),
+                'url' => route('form.' . $param[0], $param[1])
+            ];
+        }
+
+        return $breadcrumb;
     }
 }

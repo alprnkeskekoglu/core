@@ -5,7 +5,7 @@
         </li>
         @isset($breadcrumb)
             @foreach($breadcrumb as $crumb)
-                @if($loop->last())
+                @if($loop->last)
                     <li class="breadcrumb-item active" aria-current="page">{!! $crumb['name'] !!}</li>
                 @else
                     <li class="breadcrumb-item">

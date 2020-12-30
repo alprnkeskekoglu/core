@@ -2,11 +2,7 @@
 
 namespace Dawnstar\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Analytics;
-use Spatie\Analytics\Period;
-
-class DashboardController extends Controller
+class DashboardController extends PanelController
 {
     public function index()
     {

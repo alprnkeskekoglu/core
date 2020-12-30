@@ -15,15 +15,18 @@ class Form extends Model
     ];
     protected $guarded = ['id'];
 
-    public function getStatusTextAttribute()
+    public function results()
     {
-        switch ($this->status) {
-            case 1:
-                return __('DawnstarLang::general.status_title.active');
-            case 2:
-                return __('DawnstarLang::general.status_title.draft');
-            case 3:
-                return __('DawnstarLang::general.status_title.passive');
-        }
+        return $this->hasMany(FormResult::class);
+    }
+
+    public function getReadResultCountAttribute()
+    {
+        return $this->results()->where('read', 1)->count();
+    }
+
+    public function getUnreadResultCountAttribute()
+    {
+        return $this->results()->where('read', 2)->count();
     }
 }

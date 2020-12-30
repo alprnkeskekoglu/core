@@ -1,5 +1,6 @@
 @extends('DawnstarView::layouts.app')
 
+
 @section('content')
     <main id="main-container">
 
@@ -36,6 +37,10 @@
                         </thead>
                         <tbody>
                         @foreach($forms as $form)
+                            @php
+                                $resultCount = $form->results->count();
+                                $unreadResultCount = $form->unread_result_count;
+                            @endphp
                             <tr>
                                 <th class="text-center" scope="row">
                                     {{ $form->id }}
@@ -49,9 +54,9 @@
                                     {{ $form->name }}
                                 </td>
                                 <td class="text-center">
-                                    125 /
-                                    <span class="badge badge-success p-1 fa-1x">
-                                        15
+                                    {{ $resultCount }} /
+                                    <span class="badge badge-pill badge-{{ $unreadResultCount == 0 ? 'secondary' : 'success' }} p-1 fa-1x">
+                                        {{ $unreadResultCount }}
                                     </span>
                                 </td>
                                 <td class="text-center">
@@ -63,6 +68,10 @@
                                         <button type="button" class="js-swal-confirm btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('form.delete', ['id' => $form->id]) }}" title="Delete">
                                             <i class="fa fa-times"></i>
                                         </button>
+
+                                        <a href="{{ route('form.result.index', ['formId' => $form->id]) }}" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Results">
+                                            <i class="fa fa-comments"></i>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>

@@ -10,4 +10,11 @@ Route::prefix('Form')->group(function () {
      Route::get('/edit/{id}', 'FormController@edit')->name('form.edit');
      Route::post('/update/{id}', 'FormController@update')->name('form.update');
      Route::post('/delete/{id}', 'FormController@delete')->name('form.delete');
+
+
+
+    Route::prefix('{formId}/Results')->group(function () {
+        Route::get('/', 'FormResultController@index')->name('form.result.index');
+        Route::get('/updateReadStatus', 'FormResultController@updateReadStatus')->name('form.result.updateReadStatus');
+    });
 });
