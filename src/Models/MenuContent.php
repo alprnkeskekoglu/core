@@ -9,7 +9,7 @@ class MenuContent extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'menus';
+    protected $table = 'menu_contents';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $guarded = ['id'];

@@ -17,8 +17,11 @@ class DawnstarServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__ . DIRECTORY_SEPARATOR . 'Resources' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR, 'DawnstarView');
-        $this->publishes([__DIR__ . DIRECTORY_SEPARATOR . 'Assets' => public_path('vendor/dawnstar/assets')], 'DawnstarPublish');
+        $this->loadTranslationsFrom(__DIR__. '/Resources/lang', 'DawnstarLang');
+        $this->loadViewsFrom(__DIR__. '/Resources/views', 'DawnstarView');
+
+        $this->publishes([__DIR__ . '/Assets' => public_path('vendor/dawnstar/assets')], 'DawnstarPublish');
+        $this->publishes([__DIR__ . '/Publishes' => resource_path('lang')]);
 
         $this->loadMigrationsFrom(__DIR__ . '/Database/migrations');
     }

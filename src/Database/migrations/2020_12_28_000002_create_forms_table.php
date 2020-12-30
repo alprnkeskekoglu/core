@@ -17,7 +17,7 @@ class CreateFormsTable extends Migration
             $table->increments('id');
             $table->tinyInteger('status');
             $table->string('name');
-            $table->string('slug');
+            $table->string('key');
             $table->string('sender');
             $table->text('receivers');
             $table->tinyInteger('recaptcha_status');
