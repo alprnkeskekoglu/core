@@ -12,4 +12,9 @@ class CustomContent extends Model
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $guarded = ['id'];
+
+    public function language()
+    {
+        return $this->belongsTo(Language::class);
+    }
 }
