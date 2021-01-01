@@ -1,7 +1,7 @@
 <div id="accordion" class="mb-3" role="tablist" aria-multiselectable="true">
     @foreach($customContents as $key => $content)
         <div class="block block-rounded mb-1">
-            <div class="block-header {{ $loop->iteration % 2 == 0 ? 'block-header-default' : '' }}" role="tab" id="accordion_{{ $loop->iteration }}">
+            <div class="block-header block-header-default" role="tab" id="accordion_{{ $loop->iteration }}">
                 <a class="font-w600 w-100 accordionBtn"
                    data-toggle="collapse"
                    data-parent="#accordion"

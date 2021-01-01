@@ -9,6 +9,8 @@ return [
     'edit' => 'Düzenle',
     'delete' => 'Sil',
 
+    'select' => 'Seçiniz',
+
     'status_title' => [
         'active' => 'Aktif',
         'draft' => 'Taslak',

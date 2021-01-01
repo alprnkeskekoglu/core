@@ -4,7 +4,7 @@ namespace Dawnstar\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest as Request;
 
-class FormRequest extends Request
+class MenuRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +26,6 @@ class FormRequest extends Request
         return [
             'status' => 'required',
             'name' => 'required',
-            'sender' => 'required|email',
-            'receivers' => 'required',
-            'recaptcha_status' => 'required',
-            'recaptcha_site_key' => 'required_if:recaptcha_status, 1',
-            'recaptcha_secret_key' => 'required_if:recaptcha_status, 1',
         ];
     }
 
@@ -41,6 +36,6 @@ class FormRequest extends Request
      */
     public function attributes()
     {
-        return __('DawnstarLang::form.labels');
+        return __('DawnstarLang::menu.labels');
     }
 }

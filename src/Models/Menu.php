@@ -12,4 +12,9 @@ class Menu extends Model
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $guarded = ['id'];
+
+    public function contents()
+    {
+        return $this->hasMany(MenuContent::class);
+    }
 }

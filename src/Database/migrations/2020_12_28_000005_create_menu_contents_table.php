@@ -19,10 +19,10 @@ class CreateMenuContentsTable extends Migration
             $table->integer('language_id');
             $table->tinyInteger('status');
             $table->string('name');
-            $table->string('target');
             $table->tinyInteger('type');
             $table->integer('url_id')->nullable();
             $table->text('out_link')->nullable();
+            $table->string('target')->nullable();
             $table->integer('parent_id');
             $table->integer('lft');
             $table->integer('rgt');

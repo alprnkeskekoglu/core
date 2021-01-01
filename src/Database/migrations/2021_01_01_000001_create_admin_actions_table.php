@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMenusTable extends Migration
+class CreateAdminActionsTable extends Migration
 {
     /**
      * Run the migrations.min
@@ -13,13 +13,13 @@ class CreateMenusTable extends Migration
      */
     public function up()
     {
-        Schema::create('menus', function (Blueprint $table) {
-            $table->increments('id');
-            $table->tinyInteger('status');
-            $table->string('name');
-            $table->string('key');
+        Schema::create('admin_actions', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('admin_id');
+            $table->string('model_class');
+            $table->string('model_id');
+            $table->string('action');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -30,6 +30,6 @@ class CreateMenusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menus');
+        Schema::dropIfExists('admin_actions');
     }
 }

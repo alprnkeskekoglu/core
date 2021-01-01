@@ -6,8 +6,8 @@
     <title>Dawnstar</title>
     <link rel="shortcut icon" href="assets/media/favicons/favicon.png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-    <link rel="stylesheet" id="css-main" href="{{ asset('vendor/dawnstar/assets/css/dashmix.min.css') }}">
     @stack('styles')
+    <link rel="stylesheet" id="css-main" href="{{ asset('vendor/dawnstar/assets/css/dashmix.min.css') }}">
 </head>
 <body>
 

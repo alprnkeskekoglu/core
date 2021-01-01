@@ -1,10 +1,26 @@
 <?php
 
-function dawnstarAsset($path) {
+function addAction($model, $action)
+{
+    $adminId = 1;
+    $modelClass = get_class($model);
+    $modelId = $model->id;
+
+    \Dawnstar\Models\AdminAction::create([
+        'admin_id' => $adminId,
+        'model_class' => $modelClass,
+        'model_id' => $modelId,
+        'action' => $action
+    ]);
+}
+
+function dawnstarAsset($path)
+{
     return asset('vendor/dawnstar/assets/' . $path);
 }
 
-function getStatusText($status) {
+function getStatusText($status)
+{
     switch ($status) {
         case 1:
             return __('DawnstarLang::general.status_title.active');
@@ -15,7 +31,8 @@ function getStatusText($status) {
     }
 }
 
-function getStatusColorClass($status) {
+function getStatusColorClass($status)
+{
     switch ($status) {
         case 1:
             return 'success';

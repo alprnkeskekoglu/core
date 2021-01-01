@@ -45,10 +45,13 @@ class FormController extends PanelController
         $data['receivers'] = explode(',', $data['receivers']);
 
         $key = \Str::slug($data['name']);
-        Form::firstOrCreate(
+        $form = Form::firstOrCreate(
             ['key' => $key],
             $data
         );
+
+        // Admin Action
+        addAction($form, 'store');
 
         return redirect()->route('form.index')->with('success_message', __('DawnstarLang::form.response_message.store'));
     }
@@ -94,6 +97,9 @@ class FormController extends PanelController
 
         $form->update($data);
 
+        // Admin Action
+        addAction($form, 'update');
+
         return redirect()->route('form.index')->with('success_message', __('DawnstarLang::form.response_message.update'));
     }
 
@@ -106,6 +112,9 @@ class FormController extends PanelController
         }
 
         $form->delete();
+
+        // Admin Action
+        addAction($form, 'delete');
 
         return response()->json(['title' => __('DawnstarLang::general.swal.success.title'), 'subtitle' => __('DawnstarLang::general.swal.success.subtitle')]);
     }

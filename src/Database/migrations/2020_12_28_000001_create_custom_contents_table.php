@@ -15,6 +15,7 @@ class CreateCustomContentsTable extends Migration
     {
         Schema::create('custom_contents', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('language_id');
             $table->string('key');
             $table->string('value')->nullable();
             $table->timestamps();

@@ -43,6 +43,9 @@ class CustomContentController extends PanelController
         }
 
         $customContent->update(['value' => $value]);
+
+        // Admin Action
+        addAction($customContent, 'update');
     }
 
     private function getCustomContents(string $search = null)
