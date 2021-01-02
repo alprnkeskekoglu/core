@@ -25,7 +25,7 @@ class MenuController extends PanelController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::menu.index_title'),
-                'url' => route('menu.index')
+                'url' => route('dawnstar.menu.index')
             ],
             [
                 'name' => __('DawnstarLang::menu.create_title'),
@@ -51,7 +51,7 @@ class MenuController extends PanelController
         // Admin Action
         addAction($menu, 'store');
 
-        return redirect()->route('menu.index')->with('success_message', __('DawnstarLang::menu.response_message.store'));
+        return redirect()->route('dawnstar.menu.index')->with('success_message', __('DawnstarLang::menu.response_message.store'));
     }
 
     public function edit(int $id)
@@ -59,13 +59,13 @@ class MenuController extends PanelController
         $menu = Menu::find($id);
 
         if (is_null($menu)) {
-            return redirect()->route('menu.index')->withErrors(__('DawnstarLang::menu.response_message.id_error', ['id' => $id]))->withInput();
+            return redirect()->route('dawnstar.menu.index')->withErrors(__('DawnstarLang::menu.response_message.id_error', ['id' => $id]))->withInput();
         }
 
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::menu.index_title'),
-                'url' => route('menu.index')
+                'url' => route('dawnstar.menu.index')
             ],
             [
                 'name' => __('DawnstarLang::menu.edit_title'),
@@ -81,7 +81,7 @@ class MenuController extends PanelController
         $menu = Menu::find($id);
 
         if (is_null($menu)) {
-            return redirect()->route('menu.index')->withErrors(__('DawnstarLang::menu.response_message.id_error', ['id' => $id]))->withInput();
+            return redirect()->route('dawnstar.menu.index')->withErrors(__('DawnstarLang::menu.response_message.id_error', ['id' => $id]))->withInput();
         }
 
         $data = $request->except('_token');
@@ -92,7 +92,7 @@ class MenuController extends PanelController
         // Admin Action
         addAction($menu, 'update');
 
-        return redirect()->route('menu.index')->with('success_message', __('DawnstarLang::menu.response_message.update'));
+        return redirect()->route('dawnstar.menu.index')->with('success_message', __('DawnstarLang::menu.response_message.update'));
     }
 
     public function delete($id)

@@ -12,7 +12,7 @@ class MenuContentController extends PanelController
         $menu = Menu::find($menuId);
 
         if (is_null($menu)) {
-            return redirect()->route('menu.index')->withErrors(__('DawnstarLang::menu.response_message.id_error', ['id' => $menuId]));
+            return redirect()->route('dawnstar.menu.index')->withErrors(__('DawnstarLang::menu.response_message.id_error', ['id' => $menuId]));
         }
 
         $menuContents = $menu->contents->groupBy('language_id');
@@ -20,7 +20,7 @@ class MenuContentController extends PanelController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::menu.index_title'),
-                'url' => route('menu.index')
+                'url' => route('dawnstar.menu.index')
             ],
             [
                 'name' => __('DawnstarLang::menu_content.create_title'),
@@ -43,7 +43,7 @@ class MenuContentController extends PanelController
             $data
         );
 
-        return redirect()->route('menu.index')->with('success_message', __('DawnstarLang::menu.response_message.store'));
+        return redirect()->route('dawnstar.menu.index')->with('success_message', __('DawnstarLang::menu.response_message.store'));
     }
 
     public function edit(int $id)
@@ -51,13 +51,13 @@ class MenuContentController extends PanelController
         $menu = Menu::find($id);
 
         if (is_null($menu)) {
-            return redirect()->route('menu.index')->withErrors(__('DawnstarLang::menu.response_message.id_error', ['id' => $id]))->withInput();
+            return redirect()->route('dawnstar.menu.index')->withErrors(__('DawnstarLang::menu.response_message.id_error', ['id' => $id]))->withInput();
         }
 
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::menu.index_title'),
-                'url' => route('menu.index')
+                'url' => route('dawnstar.menu.index')
             ],
             [
                 'name' => __('DawnstarLang::menu.edit_title'),
@@ -73,7 +73,7 @@ class MenuContentController extends PanelController
         $menu = Menu::find($id);
 
         if (is_null($menu)) {
-            return redirect()->route('menu.index')->withErrors(__('DawnstarLang::menu.response_message.id_error', ['id' => $id]))->withInput();
+            return redirect()->route('dawnstar.menu.index')->withErrors(__('DawnstarLang::menu.response_message.id_error', ['id' => $id]))->withInput();
         }
 
         $data = $request->except('_token');
@@ -81,7 +81,7 @@ class MenuContentController extends PanelController
 
         $menu->update($data);
 
-        return redirect()->route('menu.index')->with('success_message', __('DawnstarLang::menu.response_message.update'));
+        return redirect()->route('dawnstar.menu.index')->with('success_message', __('DawnstarLang::menu.response_message.update'));
     }
 
     public function delete($id)

@@ -15,6 +15,7 @@ class CreateStructuresTable extends Migration
     {
         Schema::create('structures', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('website_id');
             $table->tinyInteger('status');
             $table->tinyInteger('type');
             $table->tinyInteger('has_detail');

@@ -25,7 +25,7 @@ class FormController extends PanelController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::form.index_title'),
-                'url' => route('form.index')
+                'url' => route('dawnstar.form.index')
             ],
             [
                 'name' => __('DawnstarLang::form.create_title'),
@@ -53,7 +53,7 @@ class FormController extends PanelController
         // Admin Action
         addAction($form, 'store');
 
-        return redirect()->route('form.index')->with('success_message', __('DawnstarLang::form.response_message.store'));
+        return redirect()->route('dawnstar.form.index')->with('success_message', __('DawnstarLang::form.response_message.store'));
     }
 
     public function edit(int $id)
@@ -61,13 +61,13 @@ class FormController extends PanelController
         $form = Form::find($id);
 
         if (is_null($form)) {
-            return redirect()->route('form.index')->withErrors(__('DawnstarLang::form.response_message.id_error', ['id' => $id]))->withInput();
+            return redirect()->route('dawnstar.form.index')->withErrors(__('DawnstarLang::form.response_message.id_error', ['id' => $id]))->withInput();
         }
 
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::form.index_title'),
-                'url' => route('form.index')
+                'url' => route('dawnstar.form.index')
             ],
             [
                 'name' => __('DawnstarLang::form.edit_title'),
@@ -83,7 +83,7 @@ class FormController extends PanelController
         $form = Form::find($id);
 
         if (is_null($form)) {
-            return redirect()->route('form.index')->withErrors(__('DawnstarLang::form.response_message.id_error', ['id' => $id]))->withInput();
+            return redirect()->route('dawnstar.form.index')->withErrors(__('DawnstarLang::form.response_message.id_error', ['id' => $id]))->withInput();
         }
 
         $data = $request->except('_token');
@@ -100,7 +100,7 @@ class FormController extends PanelController
         // Admin Action
         addAction($form, 'update');
 
-        return redirect()->route('form.index')->with('success_message', __('DawnstarLang::form.response_message.update'));
+        return redirect()->route('dawnstar.form.index')->with('success_message', __('DawnstarLang::form.response_message.update'));
     }
 
     public function delete($id)

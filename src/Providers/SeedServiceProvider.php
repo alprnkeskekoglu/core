@@ -15,6 +15,7 @@ class SeedServiceProvider extends ServiceProvider
     {
         $this->runSeeds();
     }
+
     private function runSeeds()
     {
         if ($this->app->runningInConsole()) {
@@ -34,6 +35,7 @@ class SeedServiceProvider extends ServiceProvider
             }
         }
     }
+
     private function isConsoleCommandContains($contain_options, $exclude_options = null): bool
     {
         $args = request()->server('argv', null);
@@ -45,7 +47,8 @@ class SeedServiceProvider extends ServiceProvider
         }
         return false;
     }
-    private function getClassesFromFile(string $filename) : array
+
+    private function getClassesFromFile(string $filename): array
     {
         // Get namespace of class (if vary)
         $namespace = "";

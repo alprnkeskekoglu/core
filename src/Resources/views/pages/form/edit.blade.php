@@ -12,12 +12,12 @@
 
         <div class="content">
             @include('DawnstarView::layouts.alerts')
-            <form action="{{ route('form.update', ['id' => $form->id]) }}" method="POST">
+            <form action="{{ route('dawnstar.form.update', ['id' => $form->id]) }}" method="POST">
                 @csrf
                 <div class="block block-rounded">
                     <div class="block-header block-header-default block-header-rtl">
                         <div class="block-options">
-                            <a href="{{ route('form.index') }}" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ route('dawnstar.form.index') }}" class="btn btn-sm btn-outline-secondary">
                                 <i class="fa fa-arrow-left"></i>
                                 {{ __('DawnstarLang::general.go_back') }}
                             </a>

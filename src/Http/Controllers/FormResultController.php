@@ -13,7 +13,7 @@ class FormResultController extends PanelController
         $form = Form::find($formId);
 
         if (is_null($form)) {
-            return redirect()->route('form.index')->withErrors(__('DawnstarLang::form.response_message.id_error', ['id' => $formId]))->withInput();
+            return redirect()->route('dawnstar.form.index')->withErrors(__('DawnstarLang::form.response_message.id_error', ['id' => $formId]))->withInput();
         }
 
         //TODO: Add paginate
@@ -22,7 +22,7 @@ class FormResultController extends PanelController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::form.index_title'),
-                'url' => route('form.index')
+                'url' => route('dawnstar.form.index')
             ],
             [
                 'name' => __('DawnstarLang::form.result_title'),
@@ -52,7 +52,7 @@ class FormResultController extends PanelController
         foreach ($parameters as $param) {
             $breadcrumb[] = [
                 'name' => __('DawnstarLang::form.' . $param[0] . '_title'),
-                'url' => route('form.' . $param[1] ?? '', $param[2] ?? [])
+                'url' => route('dawnstar.form.' . $param[1] ?? '', $param[2] ?? [])
             ];
         }
 

@@ -60,6 +60,32 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-main-item">
+                    <a class="nav-main-link" href="{{ route('dawnstar.form.index') }}">
+                        <span class="nav-main-link-name">Form</span>
+                    </a>
+                </li>
+                <li class="nav-main-item">
+                    <a class="nav-main-link" href="{{ route('dawnstar.menu.index') }}">
+                        <span class="nav-main-link-name">Menu</span>
+                    </a>
+                </li>
+                <li class="nav-main-item">
+                    <a class="nav-main-link" href="{{ route('dawnstar.website.index') }}">
+                        <span class="nav-main-link-name">Website</span>
+                    </a>
+                </li>
+                <li class="nav-main-item">
+                    <a class="nav-main-link" href="{{ route('dawnstar.custom_content.index') }}">
+                        <span class="nav-main-link-name">Custom Content</span>
+                    </a>
+                </li>
+                <li class="nav-main-item">
+                    <a class="nav-main-link" href="{{ route('dawnstar.structure.index') }}">
+                        <span class="nav-main-link-name">Structure</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- END Side Navigation -->

@@ -15,6 +15,7 @@ class CreateAdminActionsTable extends Migration
     {
         Schema::create('admin_actions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('website_id');
             $table->integer('admin_id');
             $table->string('model_class');
             $table->string('model_id');

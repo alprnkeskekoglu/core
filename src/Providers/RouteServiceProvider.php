@@ -51,6 +51,7 @@ class RouteServiceProvider extends ServiceProvider
             'middleware' => 'web',
             'namespace' => $this->namespace,
             'prefix' => 'dawnstar',
+            'as' => 'dawnstar.'
         ], function ($router) {
             require __DIR__.'/../Routes/panel.php';
         });

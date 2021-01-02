@@ -11,6 +11,9 @@ return [
 
     'select' => 'Seçiniz',
 
+    'yes' => 'Evet',
+    'no' => 'Hayır',
+
     'status_title' => [
         'active' => 'Aktif',
         'draft' => 'Taslak',

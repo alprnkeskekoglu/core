@@ -1,7 +1,7 @@
 <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
     <ol class="breadcrumb breadcrumb-alt">
         <li class="breadcrumb-item">
-            <a href="{!! route('dashboard') !!}">Dashboard</a>
+            <a href="{!! route('dawnstar.dashboard') !!}">Dashboard</a>
         </li>
         @isset($breadcrumb)
             @foreach($breadcrumb as $crumb)

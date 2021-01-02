@@ -36,14 +36,13 @@
                         <div role="separator" class="dropdown-divider"></div>
 
                         <!-- Toggle Side Overlay -->
-                        <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
                         <a class="dropdown-item" href="javascript:void(0)" data-toggle="layout" data-action="side_overlay_toggle">
                             <i class="far fa-fw fa-building mr-1"></i> Settings
                         </a>
                         <!-- END Side Overlay -->
 
                         <div role="separator" class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="javascript:void(0)">
+                        <a class="dropdown-item" href="{{ route('dawnstar.auth.logout') }}">
                             <i class="far fa-fw fa-arrow-alt-circle-left mr-1"></i> Sign Out
                         </a>
                     </div>

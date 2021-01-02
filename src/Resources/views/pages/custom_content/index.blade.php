@@ -55,7 +55,7 @@
             var value = typedInput.val();
 
             $.ajax({
-                'url': '{{ route('custom_content.update') }}',
+                'url': '{{ route('dawnstar.custom_content.update') }}',
                 'data': {'key': key, 'language_id': languageId, 'value': value},
                 'method': 'GET',
                 success: function (response) {
@@ -80,7 +80,7 @@
             var value = $(this).val();
 
             $.ajax({
-                'url': '{{ route('custom_content.search') }}',
+                'url': '{{ route('dawnstar.custom_content.search') }}',
                 'data': {'search': value},
                 'method': 'GET',
                 success: function (response) {

@@ -88,7 +88,7 @@ class CustomContentController extends PanelController
         foreach ($parameters as $param) {
             $breadcrumb[] = [
                 'name' => __('DawnstarLang::form.' . $param[0] . '_title'),
-                'url' => route('form.' . $param[1] ?? '', $param[2] ?? [])
+                'url' => route('dawnstar.form.' . $param[1] ?? '', $param[2] ?? [])
             ];
         }
 

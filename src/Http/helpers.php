@@ -2,11 +2,13 @@
 
 function addAction($model, $action)
 {
-    $adminId = 1;
+    $adminId = session('dawnstar.admin.id');
+    $websiteId = session('dawnstar.website.id');
     $modelClass = get_class($model);
     $modelId = $model->id;
 
     \Dawnstar\Models\AdminAction::create([
+        'website_id' => $websiteId,
         'admin_id' => $adminId,
         'model_class' => $modelClass,
         'model_id' => $modelId,
