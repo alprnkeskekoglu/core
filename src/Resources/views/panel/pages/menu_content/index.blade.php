@@ -1,4 +1,4 @@
-@extends('DawnstarView::layouts.app')
+@extends('DawnstarView::panel.pages.menu_content.vendor.dawnstar.dawnstar.src.Resources.views.panel.layouts.app')
 
 
 @section('content')
@@ -7,14 +7,14 @@
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                 <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('DawnstarLang::menu.index_title') }}</h1>
-                @include('DawnstarView::layouts.breadcrumb')
+                @include('DawnstarView::panel.pages.menu_content.vendor.dawnstar.dawnstar.src.Resources.views.panel.layouts.breadcrumb')
             </div>
         </div>
 
         <div class="content">
             <div class="block block-rounded">
                 <div class="block-content">
-                    @include('DawnstarView::layouts.alerts')
+                    @include('DawnstarView::panel.pages.menu_content.vendor.dawnstar.dawnstar.src.Resources.views.panel.layouts.alerts')
 
                     <div class="row items-push justify-content-end text-right">
                         <div class="mr-2">

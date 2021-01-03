@@ -3,6 +3,7 @@
 namespace Dawnstar\Http\Controllers;
 
 use Dawnstar\Models\Admin;
+use Dawnstar\Models\Language;
 use Dawnstar\Models\Website;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,7 @@ class AuthController extends PanelController
 
             $this->createAdminSession($request);
             $this->createWebsiteSession();
+            $this->createLanguageSession();
 
             return redirect()->intended('dawnstar');
         }
@@ -57,5 +59,12 @@ class AuthController extends PanelController
         $website = Website::where('is_default', 1)->first();
 
         session(['dawnstar.website' => $website]);
+    }
+
+    private function createLanguageSession()
+    {
+        $language = Language::find(168)->first(); //TODO: change to 40
+
+        session(['dawnstar.language' => $language]);
     }
 }

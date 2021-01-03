@@ -2,6 +2,7 @@
 
 namespace Dawnstar\Http\Controllers;
 
+use Dawnstar\Foundation\ContainerFileKit;
 use Dawnstar\Http\Requests\ContainerRequest;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\ContainerDetail;
@@ -51,6 +52,7 @@ class ContainerController extends PanelController
         $request->validated();
 
         $data['website_id'] = session('dawnstar.website.id');
+        $data['key'] = strtolower(str_replace(' ', '', $data['key']));
 
         $details = $data['details'];
 
@@ -70,7 +72,8 @@ class ContainerController extends PanelController
             ]);
         }
 
-        //TODO create files
+        $kit = new ContainerFileKit($container);
+        $kit->createFiles();
 
         // Admin Action
         addAction($container, 'store');

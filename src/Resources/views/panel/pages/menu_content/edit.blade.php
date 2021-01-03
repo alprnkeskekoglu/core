@@ -1,4 +1,4 @@
-@extends('DawnstarView::layouts.app')
+@extends('DawnstarView::panel.pages.menu_content.vendor.dawnstar.dawnstar.src.Resources.views.panel.layouts.app')
 
 @section('content')
     <main id="main-container">
@@ -6,12 +6,12 @@
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                 <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ $menu->name }}</h1>
-                @include('DawnstarView::layouts.breadcrumb')
+                @include('DawnstarView::panel.pages.menu_content.vendor.dawnstar.dawnstar.src.Resources.views.panel.layouts.breadcrumb')
             </div>
         </div>
 
         <div class="content">
-            @include('DawnstarView::layouts.alerts')
+            @include('DawnstarView::panel.pages.menu_content.vendor.dawnstar.dawnstar.src.Resources.views.panel.layouts.alerts')
             <form action="{{ route('dawnstar.menu.update', ['id' => $menu->id]) }}" method="POST">
                 @csrf
                 <div class="block block-rounded">

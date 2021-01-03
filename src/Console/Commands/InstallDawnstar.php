@@ -16,7 +16,9 @@ class InstallDawnstar extends Command
     {
         $this->createDefaultWebsite();
 
-        Admin::create([
+        $this->createDefaultBladeFiles();
+
+        Admin::firstOrCreate([
             'role_id' => 1,
             'fullname' => 'test',
             'username' => 'test',
@@ -38,6 +40,40 @@ class InstallDawnstar extends Command
             'slug' => $parsedUrl,
         ]);
 
+
+        $websiteControllerFolder = app_path('Http/Controllers/Website1');
+        if (!file_exists($websiteControllerFolder)) {
+            $oldmask = umask(0);
+            mkdir($websiteControllerFolder, 0777, true);
+            umask($oldmask);
+        }
+
         $this->info('Default Website Created !!');
+    }
+
+    private function createDefaultBladeFiles()
+    {
+        $layoutFolder = resource_path('views/layouts');
+        $pageFolder = resource_path('views/pages');
+
+        if (!file_exists($layoutFolder)) {
+            $oldmask = umask(0);
+            mkdir($layoutFolder, 0777, true);
+            umask($oldmask);
+        }
+        if (!file_exists($pageFolder)) {
+            $oldmask = umask(0);
+            mkdir($pageFolder, 0777, true);
+            umask($oldmask);
+        }
+
+
+        $defaultApp = file_get_contents(__DIR__ . '/../../Resources/views/web/default/layouts/app.blade.php');
+        file_put_contents(resource_path('views/layouts/app.blade.php'), $defaultApp);
+
+        file_put_contents(resource_path('views/layouts/header.blade.php'), '@include("DawnstarWebView::default.layouts.header")');
+        file_put_contents(resource_path('views/layouts/footer.blade.php'), '@include("DawnstarWebView::default.layouts.footer")');
+
+        $this->info('Default Blade Files Created !!');
     }
 }

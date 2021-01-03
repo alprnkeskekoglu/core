@@ -28,7 +28,8 @@ class DawnstarServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadTranslationsFrom(__DIR__ . '/Resources/lang', 'DawnstarLang');
-        $this->loadViewsFrom(__DIR__ . '/Resources/views', 'DawnstarView');
+        $this->loadViewsFrom(__DIR__ . '/Resources/views/panel', 'DawnstarView');
+        $this->loadViewsFrom(__DIR__ . '/Resources/views/web', 'DawnstarWebView');
         $this->publishes([__DIR__ . '/Assets' => public_path('vendor/dawnstar/assets')], 'DawnstarPublish');
         $this->publishes([__DIR__ . '/Publishes' => resource_path('lang')]);
 

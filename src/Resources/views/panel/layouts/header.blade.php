@@ -122,6 +122,22 @@
                 </div>
             </div>
             <!-- END Notifications Dropdown -->
+
+            <div class="dropdown d-inline-block">
+                <button type="button" class="btn btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-fw fa-angle-down"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="page-header-user-dropdown">
+                    <div class="p-2">
+                        <a class="dropdown-item" href="{{ route('dawnstar.auth.logout') }}">
+                            TR
+                        </a>
+                        <a class="dropdown-item" href="{{ route('dawnstar.auth.logout') }}">
+                            EN
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- END Right Section -->
     </div>
