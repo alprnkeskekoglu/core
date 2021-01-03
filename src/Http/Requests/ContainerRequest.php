@@ -4,7 +4,7 @@ namespace Dawnstar\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest as Request;
 
-class WebsiteRequest extends Request
+class ContainerRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,11 @@ class WebsiteRequest extends Request
     public function rules()
     {
         return [
+            'key' => "filled|unique:containers,key,{$this->id}",
             'status' => 'required',
-            'order' => 'required',
-            'is_default' => 'required',
-            'name' => 'required',
-            'slug' => "required|unique:websites,slug,{$this->id}",
-            'languages' => 'required',
-            'default_language' => 'required',
+            'type' => 'filled',
+            'details.*.name' => 'required_if:details.*.status, 1',
+            'details.*.slug' => 'required_if:details.*.status, 1',
         ];
     }
 
@@ -41,6 +39,6 @@ class WebsiteRequest extends Request
      */
     public function attributes()
     {
-        return __('DawnstarLang::website.labels');
+        return __('DawnstarLang::menu.labels');
     }
 }

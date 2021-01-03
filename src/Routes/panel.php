@@ -19,13 +19,15 @@ Route::middleware(['dawnstar.auth'])->group(function () {
         Route::post('/delete/{id}', 'WebsiteController@delete')->name('delete');
     });
 
-    Route::prefix('Structure')->as('structure.')->group(function () {
-        Route::get('/', 'StructureController@index')->name('index');
-        Route::get('/create', 'StructureController@create')->name('create');
-        Route::post('/store', 'StructureController@store')->name('store');
-        Route::get('/edit/{id}', 'StructureController@edit')->name('edit');
-        Route::post('/update/{id}', 'StructureController@update')->name('update');
-        Route::post('/delete/{id}', 'StructureController@delete')->name('delete');
+    Route::prefix('Container')->as('container.')->group(function () {
+        Route::get('/', 'ContainerController@index')->name('index');
+        Route::get('/create', 'ContainerController@create')->name('create');
+        Route::post('/store', 'ContainerController@store')->name('store');
+        Route::get('/edit/{id}', 'ContainerController@edit')->name('edit');
+        Route::post('/update/{id}', 'ContainerController@update')->name('update');
+        Route::post('/delete/{id}', 'ContainerController@delete')->name('delete');
+        
+        Route::get('/getUrl', 'ContainerController@getUrl')->name('getUrl');
     });
 
     Route::prefix('Menu')->as('menu.')->group(function () {

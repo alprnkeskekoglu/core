@@ -5,10 +5,9 @@ namespace Dawnstar\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CategoryContent extends Model
+class CategoryDetailExtra extends Model
 {
-    use SoftDeletes;
-    protected $table = 'category_contents';
+    protected $table = 'category_detail_extras';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $guarded = ['id'];

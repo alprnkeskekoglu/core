@@ -5,7 +5,7 @@
 
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('DawnstarLang::structure.index_title') }}</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('DawnstarLang::container.index_title') }}</h1>
                 @include('DawnstarView::layouts.breadcrumb')
             </div>
         </div>
@@ -17,7 +17,7 @@
 
                     <div class="row items-push justify-content-end text-right">
                         <div class="mr-2">
-                            <a href="{{ route('dawnstar.structure.create') }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
+                            <a href="{{ route('dawnstar.container.create') }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
                                 <i class="fa fa-fw fa-plus mr-1"></i>
                                 {{ __('DawnstarLang::general.add_new') }}
                             </a>
@@ -28,49 +28,38 @@
                         <thead>
                         <tr>
                             <th class="text-center" style="width: 50px;">#</th>
-                            <th class="text-center">{{ __('DawnstarLang::structure.status') }}</th>
-                            <th>{{ __('DawnstarLang::structure.name') }}</th>
-                            <th class="text-center">{{ __('DawnstarLang::structure.result_count') }}</th>
-                            <th class="text-center" style="width: 100px;">{{ __('DawnstarLang::structure.actions') }}</th>
+                            <th class="text-center">{{ __('DawnstarLang::container.status') }}</th>
+                            <th>{{ __('DawnstarLang::container.name') }}</th>
+                            <th>{{ __('DawnstarLang::container.labels.type') }}</th>
+                            <th class="text-center" style="width: 100px;">{{ __('DawnstarLang::container.actions') }}</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($structures as $structure)
-                            @php
-                                $resultCount = $form->results->count();
-                                $unreadResultCount = $form->unread_result_count;
-                            @endphp
+                        @foreach($containers as $container)
                             <tr>
                                 <th class="text-center" scope="row">
-                                    {{ $form->id }}
+                                    {{ $container->id }}
                                 </th>
                                 <td class="text-center">
-                                    <span class="badge badge-{{ getStatusColorClass($form->status) }} fa-1x p-2">
-                                        {{ getStatusText($form->status) }}
+                                    <span class="badge badge-{{ getStatusColorClass($container->status) }} fa-1x p-2">
+                                        {{ getStatusText($container->status) }}
                                     </span>
                                 </td>
                                 <td class="font-w600 fa-1x">
-                                    {{ $form->name }}
+                                    {{ $container->detail->name . ' - ' . $container->key }}
                                 </td>
-                                <td class="text-center">
-                                    {{ $resultCount }} /
-                                    <span class="badge badge-pill badge-{{ $unreadResultCount == 0 ? 'secondary' : 'success' }} p-1 fa-1x">
-                                        {{ $unreadResultCount }}
-                                    </span>
+                                <td>
+                                    {{ $container->type }}
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <a href="{{ route('dawnstar.form.edit', ['id' => $form->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">
+                                        <a href="{{ route('dawnstar.container.edit', ['id' => $container->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
 
-                                        <button type="button" class="js-swal-confirm btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('dawnstar.form.delete', ['id' => $form->id]) }}" title="{{ __('DawnstarLang::general.delete') }}">
+                                        <button type="button" class="js-swal-confirm btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('dawnstar.container.delete', ['id' => $container->id]) }}" title="{{ __('DawnstarLang::general.delete') }}">
                                             <i class="fa fa-times"></i>
                                         </button>
-
-                                        <a href="{{ route('dawnstar.form.result.index', ['formId' => $form->id]) }}" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::form.result_title') }}">
-                                            <i class="fa fa-comments"></i>
-                                        </a>
                                     </div>
                                 </td>
                             </tr>

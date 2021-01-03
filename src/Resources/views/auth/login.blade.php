@@ -12,8 +12,8 @@
 <body>
 <div id="page-container">
     <main id="main-container">
-        <div class="bg-image" style="background-image: url('assets/media/photos/photo22@2x.jpg');">
-            <div class="row no-gutters bg-primary-op">
+        <div class="bg-image" style="background-image: url('{{ dawnstarAsset('media/images/login_bg.jpg') }}');">
+            <div class="row no-gutters bg-xpro-dark-op">
                 <div class="hero-static col-md-6 d-flex align-items-center bg-white">
                     <div class="p-3 w-100">
                         <div class="mb-3 text-center">

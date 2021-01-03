@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStructuresTable extends Migration
+class CreateContainerDetailsTable extends Migration
 {
     /**
      * Run the migrations.min
@@ -13,14 +13,14 @@ class CreateStructuresTable extends Migration
      */
     public function up()
     {
-        Schema::create('structures', function (Blueprint $table) {
+        Schema::create('container_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('website_id');
+            $table->integer('container_id');
+            $table->integer('language_id');
             $table->tinyInteger('status');
-            $table->tinyInteger('type');
-            $table->tinyInteger('has_detail');
-            $table->tinyInteger('has_category');
-            $table->tinyInteger('is_searchable');
+            $table->string('name');
+            $table->string('slug');
+            $table->text('detail')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -33,6 +33,6 @@ class CreateStructuresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('structures');
+        Schema::dropIfExists('container_details');
     }
 }

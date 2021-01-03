@@ -2,9 +2,6 @@
     <div class="content-header">
         <div>
             <!-- Toggle Sidebar -->
-            <button type="button" class="btn btn-dual mr-1" data-toggle="layout" data-action="sidebar_mini_toggle">
-                <i class="fa fa-fw fa-bars"></i>
-            </button>
             <!-- END Toggle Sidebar -->
         </div>
         <!-- END Left Section -->

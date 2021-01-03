@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePageContentsTable extends Migration
+class CreateContainerDetailExtrasTable extends Migration
 {
     /**
      * Run the migrations.min
@@ -13,16 +13,12 @@ class CreatePageContentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('page_contents', function (Blueprint $table) {
+        Schema::create('container_detail_extras', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('page_id');
-            $table->integer('language_id');
-            $table->tinyInteger('status');
-            $table->string('name');
-            $table->string('slug');
-            $table->text('detail');
+            $table->integer('container_detail_id');
+            $table->string('key');
+            $table->string('value');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -33,6 +29,6 @@ class CreatePageContentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('page_contents');
+        Schema::dropIfExists('container_detail_extras');
     }
 }

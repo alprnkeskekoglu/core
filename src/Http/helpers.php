@@ -3,7 +3,7 @@
 function addAction($model, $action)
 {
     $adminId = session('dawnstar.admin.id');
-    $websiteId = session('dawnstar.website.id');
+    $websiteId = session('dawnstar.website.id') ?: 1;
     $modelClass = get_class($model);
     $modelId = $model->id;
 

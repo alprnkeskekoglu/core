@@ -2,6 +2,7 @@
 
 namespace Dawnstar\Console\Commands;
 
+use Dawnstar\Models\Admin;
 use Dawnstar\Models\Website;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
@@ -14,6 +15,14 @@ class InstallDawnstar extends Command
     public function handle()
     {
         $this->createDefaultWebsite();
+
+        Admin::create([
+            'role_id' => 1,
+            'fullname' => 'test',
+            'username' => 'test',
+            'email' => 'test@test.com',
+            'password' => '$2y$10$c0ncNq4BfdWo4gINdcdnEu9rc7BxBHjK9LhE.6sIDIawcjAYlt6VS'
+        ]);
     }
 
     private function createDefaultWebsite()

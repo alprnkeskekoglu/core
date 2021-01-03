@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Dawnstar</title>
     <link rel="shortcut icon" href="assets/media/favicons/favicon.png">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap">
     @stack('styles')
     <link rel="stylesheet" id="css-main" href="{{ asset('vendor/dawnstar/assets/css/dashmix.min.css') }}">
+    <link rel="stylesheet" id="css-theme" href="{{ asset('vendor/dawnstar/assets/css/xpro.min.css') }}">
 </head>
 <body>
 

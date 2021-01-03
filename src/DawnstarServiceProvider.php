@@ -5,6 +5,8 @@ namespace Dawnstar;
 use Dawnstar\Console\Commands\InstallDawnstar;
 use Dawnstar\Http\Middleware\DawnstarAuthenticate;
 use Dawnstar\Http\Middleware\DawnstarRedirectIfAuthenticated;
+use Dawnstar\Models\ContainerDetail;
+use Dawnstar\Observers\ContainerDetailObserver;
 use Illuminate\Routing\Router;
 use Dawnstar\Console\Kernel;
 use Dawnstar\Providers\ConfigServiceProvider;
@@ -41,5 +43,8 @@ class DawnstarServiceProvider extends ServiceProvider
         $router = $this->app->make(Router::class);
         $router->aliasMiddleware('dawnstar.auth', DawnstarAuthenticate::class);
         $router->aliasMiddleware('dawnstar.guest', DawnstarRedirectIfAuthenticated::class);
+
+
+        ContainerDetail::observe(ContainerDetailObserver::class);
     }
 }

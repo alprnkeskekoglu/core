@@ -17,6 +17,9 @@
             <!-- Options -->
             <div>
 
+                <button type="button" class="btn btn-dual mr-1" data-toggle="layout" data-action="sidebar_mini_toggle">
+                    <i class="fa fa-fw fa-bars"></i>
+                </button>
                 <!-- Close Sidebar, Visible only on mobile screens -->
                 <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
                 <a class="d-lg-none text-white ml-2" data-toggle="layout" data-action="sidebar_close" href="javascript:void(0)">
@@ -82,8 +85,8 @@
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link" href="{{ route('dawnstar.structure.index') }}">
-                        <span class="nav-main-link-name">Structure</span>
+                    <a class="nav-main-link" href="{{ route('dawnstar.container.index') }}">
+                        <span class="nav-main-link-name">Container</span>
                     </a>
                 </li>
             </ul>

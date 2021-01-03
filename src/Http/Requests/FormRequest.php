@@ -25,7 +25,7 @@ class FormRequest extends Request
     {
         return [
             'status' => 'required',
-            'name' => 'required',
+            'name' => "required|unique:forms,name,{$this->id}",
             'sender' => 'required|email',
             'receivers' => 'required',
             'recaptcha_status' => 'required',

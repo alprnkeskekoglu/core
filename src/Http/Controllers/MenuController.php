@@ -42,6 +42,8 @@ class MenuController extends PanelController
 
         $request->validated();
 
+        $data['website_id'] = session('dawnstar.website.id');
+
         $key = \Str::slug($data['name']);
         $menu = Menu::firstOrCreate(
             ['key' => $key],

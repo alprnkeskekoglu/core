@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePageContentExtrasTable extends Migration
+class CreateCategoryDetailExtrasTable extends Migration
 {
     /**
      * Run the migrations.min
@@ -13,9 +13,9 @@ class CreatePageContentExtrasTable extends Migration
      */
     public function up()
     {
-        Schema::create('page_content_extras', function (Blueprint $table) {
+        Schema::create('category_detail_extras', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('page_content_id');
+            $table->integer('category_detail_id');
             $table->string('key');
             $table->string('value');
             $table->timestamps();
@@ -29,6 +29,6 @@ class CreatePageContentExtrasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('page_content_extras');
+        Schema::dropIfExists('category_detail_extras');
     }
 }

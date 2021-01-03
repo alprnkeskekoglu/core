@@ -5,10 +5,11 @@ namespace Dawnstar\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PageContentExtra extends Model
+class PageDetail extends Model
 {
-    protected $table = 'page_content_extras';
-    protected $dates = ['created_at', 'updated_at'];
+    use SoftDeletes;
+    protected $table = 'page_details';
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $guarded = ['id'];
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategoryContentsTable extends Migration
+class CreatePageDetailsTable extends Migration
 {
     /**
      * Run the migrations.min
@@ -13,9 +13,9 @@ class CreateCategoryContentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('category_contents', function (Blueprint $table) {
+        Schema::create('page_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('category_id');
+            $table->integer('page_id');
             $table->integer('language_id');
             $table->tinyInteger('status');
             $table->string('name');
@@ -33,6 +33,6 @@ class CreateCategoryContentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_contents');
+        Schema::dropIfExists('page_details');
     }
 }

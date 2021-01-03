@@ -25,7 +25,7 @@ class MenuRequest extends Request
     {
         return [
             'status' => 'required',
-            'name' => 'required',
+            'name' => "required|unique:menus,name,{$this->id}",
         ];
     }
 

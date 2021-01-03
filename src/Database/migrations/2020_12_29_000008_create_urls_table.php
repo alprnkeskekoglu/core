@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategoryContentExtrasTable extends Migration
+class CreateUrlsTable extends Migration
 {
     /**
      * Run the migrations.min
@@ -13,12 +13,14 @@ class CreateCategoryContentExtrasTable extends Migration
      */
     public function up()
     {
-        Schema::create('category_content_extras', function (Blueprint $table) {
+        Schema::create('urls', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('category_content_id');
-            $table->string('key');
-            $table->string('value');
+            $table->string('model_class');
+            $table->integer('model_id');
+            $table->string('url');
+            $table->enum('type', ['original', 'redirect'])->default('original');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,6 +31,6 @@ class CreateCategoryContentExtrasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_content_extras');
+        Schema::dropIfExists('urls');
     }
 }

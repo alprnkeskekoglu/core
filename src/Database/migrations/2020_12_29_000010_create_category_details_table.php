@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUrlsTable extends Migration
+class CreateCategoryDetailsTable extends Migration
 {
     /**
      * Run the migrations.min
@@ -13,12 +13,14 @@ class CreateUrlsTable extends Migration
      */
     public function up()
     {
-        Schema::create('urls', function (Blueprint $table) {
+        Schema::create('category_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('model_id');
-            $table->string('model_type');
-            $table->string('url');
-            $table->enum('type', ['original', 'redirect'])->default('original');
+            $table->integer('category_id');
+            $table->integer('language_id');
+            $table->tinyInteger('status');
+            $table->string('name');
+            $table->string('slug');
+            $table->text('detail');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +33,6 @@ class CreateUrlsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('urls');
+        Schema::dropIfExists('category_details');
     }
 }

@@ -43,6 +43,7 @@ class FormController extends PanelController
         $request->validated();
 
         $data['receivers'] = explode(',', $data['receivers']);
+        $data['website_id'] = session('dawnstar.website.id');
 
         $key = \Str::slug($data['name']);
         $form = Form::firstOrCreate(
