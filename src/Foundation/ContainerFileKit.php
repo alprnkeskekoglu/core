@@ -35,7 +35,7 @@ class ContainerFileKit
     {
         Artisan::call('make:controller Website' . $this->websiteId . '/' . ucfirst($this->key) . 'Controller');
 
-        //TODO: write functions
+        // TODO: write functions
     }
     //endregion
 
@@ -108,26 +108,7 @@ class ContainerFileKit
 
     private function createCategoryBlade()
     {
-        //TODO: check
-        if ($this->hasCategory) {
-            $default_view = "container_dynamic_category.page";
-        } else {
-            $default_view = "container_dynamic.page";
-        }
-
-        $viewFolder = resource_path('views/pages/' . strtolower($this->key));
-        $view = $view_folder . "/page.blade.php";
-
-        if (!file_exists($viewFolder)) {
-            $oldmask = umask(0);
-            mkdir($viewFolder, 0777, true);
-            umask($oldmask);
-        }
-
-        if (!file_exists($view)) {
-            $replaced = "@extends('web.layouts.app')\n\n@section('content')\n\t@include('DawnstarWebView::default." . $default_view . "')\n@endsection";
-            file_put_contents($view, $replaced);
-        }
+        // TODO: write
     }
     //endregion
 }

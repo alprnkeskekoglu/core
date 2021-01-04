@@ -4,8 +4,9 @@ namespace Dawnstar\Http\Controllers;
 
 use Dawnstar\Http\Requests\FormRequest;
 use Dawnstar\Models\Form;
+use Illuminate\Routing\Controller as BaseController;
 
-class FormController extends PanelController
+class FormController extends BaseController
 {
     public function index()
     {

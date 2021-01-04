@@ -1,8 +1,9 @@
 <?php
 
 namespace Dawnstar\Http\Controllers;
+use Illuminate\Routing\Controller as BaseController;
 
-class DashboardController extends PanelController
+class DashboardController extends BaseController
 {
     public function index()
     {

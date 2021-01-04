@@ -5,8 +5,9 @@ namespace Dawnstar\Http\Controllers;
 use Dawnstar\Http\Requests\WebsiteRequest;
 use Dawnstar\Models\Language;
 use Dawnstar\Models\Website;
+use Illuminate\Routing\Controller as BaseController;
 
-class WebsiteController extends PanelController
+class WebsiteController extends BaseController
 {
     public function index()
     {
@@ -125,7 +126,7 @@ class WebsiteController extends PanelController
         }
 
         $website->delete();
-        //TODO delete everything
+        // TODO delete everything
 
         // Admin Action
         addAction($website, 'delete');

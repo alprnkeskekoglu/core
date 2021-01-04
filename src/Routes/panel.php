@@ -26,7 +26,7 @@ Route::middleware(['dawnstar.auth'])->group(function () {
         Route::get('/edit/{id}', 'ContainerController@edit')->name('edit');
         Route::post('/update/{id}', 'ContainerController@update')->name('update');
         Route::post('/delete/{id}', 'ContainerController@delete')->name('delete');
-        
+
         Route::get('/getUrl', 'ContainerController@getUrl')->name('getUrl');
     });
 
@@ -43,6 +43,8 @@ Route::middleware(['dawnstar.auth'])->group(function () {
             Route::get('/create', 'MenuContentController@create')->name('create');
             Route::post('/store', 'MenuContentController@store')->name('store');
         });
+
+        Route::get('/getUrls', 'MenuContentController@getUrls')->name('getUrls');
     });
 
     Route::prefix('Form')->as('form.')->group(function () {
@@ -65,5 +67,10 @@ Route::middleware(['dawnstar.auth'])->group(function () {
         Route::get('/', 'CustomContentController@index')->name('index');
         Route::get('/update', 'CustomContentController@update')->name('update');
         Route::get('/search', 'CustomContentController@search')->name('search');
+    });
+
+
+    Route::prefix('Panel')->as('panel.')->group(function () {
+        Route::get('/changeLanguage/{code}', 'PanelController@changeLanguage')->name('changeLanguage');
     });
 });

@@ -3,7 +3,7 @@
 @section('content')
     <main id="main-container">
 
-        <div class="content content-full">
+        <div class="content content-max-width">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                 <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('DawnstarLang::form.create_title') }}</h1>
                 @include('DawnstarView::layouts.breadcrumb')

@@ -5,8 +5,9 @@ namespace Dawnstar\Http\Controllers;
 use Dawnstar\Models\Form;
 use Dawnstar\Models\FormResult;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller as BaseController;
 
-class FormResultController extends PanelController
+class FormResultController extends BaseController
 {
     public function index(int $formId)
     {
@@ -16,8 +17,7 @@ class FormResultController extends PanelController
             return redirect()->route('dawnstar.form.index')->withErrors(__('DawnstarLang::form.response_message.id_error', ['id' => $formId]))->withInput();
         }
 
-        //TODO: Add paginate
-        $results = $form->results;
+        $results = $form->results()->paginate(20);
 
         $breadcrumb = [
             [

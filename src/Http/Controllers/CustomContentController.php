@@ -4,8 +4,9 @@ namespace Dawnstar\Http\Controllers;
 
 use Dawnstar\Models\CustomContent;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller as BaseController;
 
-class CustomContentController extends PanelController
+class CustomContentController extends BaseController
 {
     public function index()
     {

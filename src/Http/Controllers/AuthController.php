@@ -7,8 +7,9 @@ use Dawnstar\Models\Language;
 use Dawnstar\Models\Website;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controller as BaseController;
 
-class AuthController extends PanelController
+class AuthController extends BaseController
 {
     public function index()
     {
@@ -63,7 +64,7 @@ class AuthController extends PanelController
 
     private function createLanguageSession()
     {
-        $language = Language::find(168)->first(); //TODO: change to 40
+        $language = Language::find(168)->first(); // TODO: change to 40
 
         session(['dawnstar.language' => $language]);
     }

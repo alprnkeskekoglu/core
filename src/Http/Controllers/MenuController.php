@@ -4,8 +4,9 @@ namespace Dawnstar\Http\Controllers;
 
 use Dawnstar\Http\Requests\MenuRequest;
 use Dawnstar\Models\Menu;
+use Illuminate\Routing\Controller as BaseController;
 
-class MenuController extends PanelController
+class MenuController extends BaseController
 {
     public function index()
     {

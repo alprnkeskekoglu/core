@@ -9,8 +9,9 @@ use Dawnstar\Models\ContainerDetail;
 use Dawnstar\Models\Language;
 use Dawnstar\Models\Url;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller as BaseController;
 
-class ContainerController extends PanelController
+class ContainerController extends BaseController
 {
     public function index()
     {

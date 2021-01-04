@@ -12,4 +12,9 @@ class Url extends Model
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $guarded = ['id'];
+
+    public function model()
+    {
+        return $this->morphTo(__FUNCTION__, 'model_class', 'model_id');
+    }
 }

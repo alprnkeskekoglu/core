@@ -3,7 +3,7 @@
 @section('content')
     <main id="main-container">
 
-        <div class="content content-full">
+        <div class="content content-max-width">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                 <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ $form->name }}</h1>
                 @include('DawnstarView::layouts.breadcrumb')
@@ -65,18 +65,20 @@
                             </div>
                         @endforeach
                     </div>
+                    @if($results->hasPages())
+                        <div class="row mt-5">
+                            <div class="col-md-12 d-flex justify-content-center">
+                                {!! $results->links('DawnstarView::layouts.pagination') !!}
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
     </main>
 @endsection
 
-@push('styles')
-    <link rel="stylesheet" href="{{ dawnstarAsset('plugins/sweetalert2/sweetalert2.min.css') }}">
-@endpush
-
 @push('scripts')
-    <script src="{{ dawnstarAsset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script>
         $('.accordionBtn').click(function () {
             var self = $(this);

@@ -15,6 +15,9 @@ class DawnstarAuthenticate
     public function handle($request, Closure $next, ...$guards)
     {
         if (auth('admin')->check()) {
+
+            app()->setLocale(session("dawnstar.language.code"));
+
             return $next($request);
         }
         return redirect()->route('dawnstar.auth.index');

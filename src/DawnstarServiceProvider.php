@@ -31,6 +31,8 @@ class DawnstarServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/Resources/views/panel', 'DawnstarView');
         $this->loadViewsFrom(__DIR__ . '/Resources/views/web', 'DawnstarWebView');
         $this->publishes([__DIR__ . '/Assets' => public_path('vendor/dawnstar/assets')], 'DawnstarPublish');
+
+
         $this->publishes([__DIR__ . '/Publishes' => resource_path('lang')]);
 
         $this->loadMigrationsFrom(__DIR__ . '/Database/migrations');

@@ -4,7 +4,7 @@
 @section('content')
     <main id="main-container">
 
-        <div class="content content-full">
+        <div class="content content-max-width">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                 <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('DawnstarLang::form.index_title') }}</h1>
                 @include('DawnstarView::layouts.breadcrumb')
@@ -55,7 +55,7 @@
                                 </td>
                                 <td class="text-center">
                                     {{ $resultCount }} /
-                                    <span class="badge badge-pill badge-{{ $unreadResultCount == 0 ? 'secondary' : 'success' }} p-1 fa-1x">
+                                    <span class="badge badge-pill {{ $unreadResultCount == 0 ? '' : 'badge-success' }} p-1 fa-1x">
                                         {{ $unreadResultCount }}
                                     </span>
                                 </td>
@@ -69,9 +69,11 @@
                                             <i class="fa fa-times"></i>
                                         </button>
 
-                                        <a href="{{ route('dawnstar.form.result.index', ['formId' => $form->id]) }}" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::form.result_title') }}">
-                                            <i class="fa fa-comments"></i>
-                                        </a>
+                                        @if($form->results->isNotEmpty())
+                                            <a href="{{ route('dawnstar.form.result.index', ['formId' => $form->id]) }}" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::form.result_title') }}">
+                                                <i class="fa fa-comments"></i>
+                                            </a>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

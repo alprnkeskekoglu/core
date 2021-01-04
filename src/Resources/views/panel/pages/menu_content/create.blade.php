@@ -1,17 +1,17 @@
-@extends('DawnstarView::panel.pages.menu_content.vendor.dawnstar.dawnstar.src.Resources.views.panel.layouts.app')
+@extends('DawnstarView::layouts.app')
 
 @section('content')
     <main id="main-container">
 
-        <div class="content content-full">
+        <div class="content content-max-width">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                 <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('DawnstarLang::menu_content.create_title') }}</h1>
-                @include('DawnstarView::panel.pages.menu_content.vendor.dawnstar.dawnstar.src.Resources.views.panel.layouts.breadcrumb')
+                @include('DawnstarView::layouts.breadcrumb')
             </div>
         </div>
 
         <div class="content">
-            @include('DawnstarView::panel.pages.menu_content.vendor.dawnstar.dawnstar.src.Resources.views.panel.layouts.alerts')
+            @include('DawnstarView::layouts.alerts')
             <form action="{{ route('dawnstar.menu.content.store', ['menuId' => $menu->id]) }}" method="POST">
                 @csrf
                 <div class="block block-rounded">
@@ -21,10 +21,6 @@
                                 <i class="fa fa-arrow-left"></i>
                                 {{ __('DawnstarLang::general.go_back') }}
                             </a>
-                            <button type="reset" class="btn btn-sm btn-outline-danger">
-                                <i class="fa fa-sync"></i>
-                                {{ __('DawnstarLang::general.refresh') }}
-                            </button>
                             <button type="submit" class="btn btn-sm btn-outline-primary">
                                 <i class="fa fa-check"></i>
                                 {{ __('DawnstarLang::general.submit') }}
@@ -76,79 +72,88 @@
                             <div class="col-md-6 offset-md-2">
 
                                 <ul class="nav nav-tabs nav-tabs-alt" data-toggle="tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="#btabs-alt-static-home">Home</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#btabs-alt-static-profile">Profile</a>
-                                    </li>
+                                    @foreach($languages as $language)
+                                        <li class="nav-item">
+                                            <a class="nav-link {{ $loop->first ? 'active' : '' }}" href="#{{$language->code}}">
+                                                {{ $language->native_name . ' (' . strtoupper($language->code) . ')' }}
+                                            </a>
+                                        </li>
+                                    @endforeach
                                 </ul>
                                 <div class="block-content tab-content">
-                                    <div class="tab-pane active" id="btabs-alt-static-home" role="tabpanel">
 
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">{{ __('DawnstarLang::menu_content.labels.status') }}</label>
-                                            <div class="col-sm-9">
-                                                <div class="custom-control custom-radio custom-control-inline custom-control-success custom-control-lg">
-                                                    <input type="radio" class="custom-control-input" id="status_active" name="status" value="1" {{ old('status') == 1 ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="status_active">{{ __('DawnstarLang::general.status_title.active') }}</label>
+                                    @foreach($languages as $language)
+                                        <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="{{$language->code}}" role="tabpanel">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">{{ __('DawnstarLang::menu_content.labels.status') }}</label>
+                                                <div class="col-sm-9">
+                                                    <div class="custom-control custom-radio custom-control-inline custom-control-success custom-control-lg">
+                                                        <input type="radio" class="custom-control-input" id="status{{$language->id}}_active"
+                                                               name="contents[{{$language->id}}][status]" value="1" {{ old('contents.'.$language->id.'.status') == 1 ? 'checked' : '' }}>
+                                                        <label class="custom-control-label" for="status{{$language->id}}_active">{{ __('DawnstarLang::general.status_title.active') }}</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline custom-control-light custom-control-lg">
+                                                        <input type="radio" class="custom-control-input" id="status{{$language->id}}_draft"
+                                                               name="contents[{{$language->id}}][status]" value="2" {{ old('contents.'.$language->id.'.status', 2) == 2 ? 'checked' : '' }}>
+                                                        <label class="custom-control-label" for="status{{$language->id}}_draft">{{ __('DawnstarLang::general.status_title.draft') }}</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline custom-control-danger custom-control-lg">
+                                                        <input type="radio" class="custom-control-input" id="status{{$language->id}}_passive"
+                                                               name="contents[{{$language->id}}][status]" value="3" {{ old('contents.'.$language->id.'.status') == 3 ? 'checked' : '' }}>
+                                                        <label class="custom-control-label" for="status{{$language->id}}_passive">{{ __('DawnstarLang::general.status_title.passive') }}</label>
+                                                    </div>
                                                 </div>
-                                                <div class="custom-control custom-radio custom-control-inline custom-control-light custom-control-lg">
-                                                    <input type="radio" class="custom-control-input" id="status_draft" name="status" value="2" {{ old('status', 2) == 2 ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="status_draft">{{ __('DawnstarLang::general.status_title.draft') }}</label>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label" for="name{{$language->id}}">{{ __('DawnstarLang::menu_content.labels.name') }}</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="name{{$language->id}}" name="contents[{{$language->id}}][name]"
+                                                           value="{{ old('contents.'.$language->id.'.name') }}">
                                                 </div>
-                                                <div class="custom-control custom-radio custom-control-inline custom-control-danger custom-control-lg">
-                                                    <input type="radio" class="custom-control-input" id="status_passive" name="status" value="3" {{ old('status') == 3 ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="status_passive">{{ __('DawnstarLang::general.status_title.passive') }}</label>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label" for="type{{$language->id}}">{{ __('DawnstarLang::menu_content.labels.type') }}</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control" id="type{{$language->id}}" data-language="{{$language->id}}" name="contents[{{$language->id}}][type]">
+                                                        <option value="">{{ __('DawnstarLang::general.select') }}</option>
+                                                        <option
+                                                            value="1" {{ old('contents.'.$language->id.'.type') == 1 ? 'selected' : '' }}>{{ __('DawnstarLang::menu_content.type.internal_link') }}</option>
+                                                        <option
+                                                            value="2" {{ old('contents.'.$language->id.'.type') == 2 ? 'selected' : '' }}>{{ __('DawnstarLang::menu_content.type.out_link') }}</option>
+                                                        <option
+                                                            value="3" {{ old('contents.'.$language->id.'.type') == 3 ? 'selected' : '' }}>{{ __('DawnstarLang::menu_content.type.blank_link') }}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row {{ old('contents.'.$language->id.'.type') == 1 ? '' : 'd-none' }}">
+                                                <label class="col-sm-3 col-form-label" for="url_id{{$language->id}}">{{ __('DawnstarLang::menu_content.labels.url_id') }}</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control" id="url_id{{$language->id}}" name="contents[{{$language->id}}][url_id]">
+                                                        <option value="">{{ __('DawnstarLang::general.select') }}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row {{ old('contents.'.$language->id.'.type') == 2 ? '' : 'd-none' }}">
+                                                <label class="col-sm-3 col-form-label" for="out_link{{$language->id}}">{{ __('DawnstarLang::menu_content.labels.out_link') }}</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="out_link{{$language->id}}" name="contents[{{$language->id}}][out_link]"
+                                                           value="{{ old('contents.'.$language->id.'.out_link') }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row {{ old('contents.'.$language->id.'.type') == 3 ? 'd-none' : '' }}">
+                                                <label class="col-sm-3 col-form-label" for="target{{$language->id}}">{{ __('DawnstarLang::menu_content.labels.target') }}</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control" id="target{{$language->id}}" name="contents[{{$language->id}}][target]">
+                                                        <option value="">{{ __('DawnstarLang::general.select') }}</option>
+                                                        <option
+                                                            value="_blank" {{ old('contents.'.$language->id.'.target') == '_blank' ? 'selected' : '' }}>{{ __('DawnstarLang::menu_content.target.blank') }}</option>
+                                                        <option
+                                                            value="_self" {{ old('contents.'.$language->id.'.target') == '_self' ? 'selected' : '' }}>{{ __('DawnstarLang::menu_content.target.self') }}</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="name">{{ __('DawnstarLang::menu_content.labels.name') }}</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="type">{{ __('DawnstarLang::menu_content.labels.type') }}</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control" id="type" name="type">
-                                                    <option value="">{{ __('DawnstarLang::general.select') }}</option>
-                                                    <option value="1" {{ old('type') == 1 ? 'selected' : '' }}>{{ __('DawnstarLang::menu_content.type.internal_link') }}</option>
-                                                    <option value="2" {{ old('type') == 2 ? 'selected' : '' }}>{{ __('DawnstarLang::menu_content.type.out_link') }}</option>
-                                                    <option value="3" {{ old('type') == 3 ? 'selected' : '' }}>{{ __('DawnstarLang::menu_content.type.blank_link') }}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row d-none">
-                                            <label class="col-sm-3 col-form-label" for="url_id">{{ __('DawnstarLang::menu_content.labels.url_id') }}</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control" id="url_id" name="url_id">
-                                                    <option value="">{{ __('DawnstarLang::general.select') }}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row d-none">
-                                            <label class="col-sm-3 col-form-label" for="out_link">{{ __('DawnstarLang::menu_content.labels.out_link') }}</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="out_link" name="out_link" value="{{ old('out_link') }}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row d-none">
-                                            <label class="col-sm-3 col-form-label" for="target">{{ __('DawnstarLang::menu_content.labels.target') }}</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control" id="target" name="target">
-                                                    <option value="">{{ __('DawnstarLang::general.select') }}</option>
-                                                    <option value="_blank" {{ old('target') == '_blank' ? 'selected' : '' }}>{{ __('DawnstarLang::menu_content.target.blank') }}</option>
-                                                    <option value="_self" {{ old('target') == '_self' ? 'selected' : '' }}>{{ __('DawnstarLang::menu_content.target.self') }}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="btabs-alt-static-profile" role="tabpanel">
-                                        <h4 class="font-w400">Profile Content</h4>
-                                        <p>...</p>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -161,30 +166,55 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ dawnstarAsset('plugins/nestable2/jquery.nestable.min.css') }}">
+    <link rel="stylesheet" href="{{ dawnstarAsset('plugins/select2/css/select2.min.css') }}">
 @endpush
 
 @push('scripts')
     <script src="{{ dawnstarAsset('plugins/nestable2/jquery.nestable.min.js') }}"></script>
+    <script src="{{ dawnstarAsset('plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
-        $(".js-nestable-connected-simple").nestable({maxDepth:3})
+        $(".js-nestable-connected-simple").nestable({maxDepth: 3})
 
-        $('#type').on('change', function () {
+
+        $('[id^="type"]').on('change', function () {
             var value = $(this).val();
+            var languageId = $(this).attr('data-language');
 
-            if(value == 1) {
-                $('#url_id').closest('.form-group').removeClass('d-none');
-                $('#out_link').closest('.form-group').addClass('d-none');
-                $('#target').closest('.form-group').removeClass('d-none');
-            } else if(value == 2) {
-                $('#url_id').closest('.form-group').addClass('d-none');
-                $('#out_link').closest('.form-group').removeClass('d-none');
-                $('#target').closest('.form-group').removeClass('d-none');
+            alert(value);
+
+            if (value == 1) {
+                $('#url_id' + languageId).closest('.form-group').removeClass('d-none');
+                $('#out_link' + languageId).closest('.form-group').addClass('d-none');
+                $('#target' + languageId).closest('.form-group').removeClass('d-none');
+                getUrls(languageId);
+            } else if (value == 2) {
+                $('#url_id' + languageId).closest('.form-group').addClass('d-none');
+                $('#out_link' + languageId).closest('.form-group').removeClass('d-none');
+                $('#target' + languageId).closest('.form-group').removeClass('d-none');
 
             } else {
-                $('#url_id').closest('.form-group').addClass('d-none');
-                $('#out_link').closest('.form-group').addClass('d-none');
-                $('#target').closest('.form-group').addClass('d-none');
+                $('#url_id' + languageId).closest('.form-group').addClass('d-none');
+                $('#out_link' + languageId).closest('.form-group').addClass('d-none');
+                $('#target' + languageId).closest('.form-group').addClass('d-none');
             }
-        })
+        });
+
+        function getUrls(languageId) {
+            $('#url_id' + languageId).select2({
+                language: '{{ session('dawnstar.language.code') ?: 'en' }}',
+                ajax: {
+                    url: '{{ route('dawnstar.menu.getUrls') }}',
+                    data: function (params) {
+                        var query = {
+                            search: params.term,
+                            type: 'public',
+                            language_id: languageId
+                        }
+                        return query;
+                    }
+                }
+            });
+        }
+
     </script>
 @endpush
