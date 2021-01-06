@@ -27,63 +27,114 @@
                             </button>
                         </div>
                     </div>
-                    <div class="block-content">
-                        <div class="row justify-content-center py-sm-3 py-md-5">
-                            <div class="col-md-4">
-                                <div class="js-nestable-connected-simple dd">
-                                    <ol class="dd-list">
-                                        <li class="dd-item" data-id="1">
-                                            <div class="dd-handle">Bootstrap</div>
-                                            <ol class="dd-list">
-                                                <li class="dd-item" data-id="2">
-                                                    <div class="dd-handle">Themes</div>
-                                                </li>
-                                                <li class="dd-item" data-id="3">
-                                                    <div class="dd-handle">Documentation</div>
-                                                </li>
-                                            </ol>
-                                        </li>
-                                        <li class="dd-item" data-id="4">
-                                            <div class="dd-handle">Learning</div>
-                                            <ol class="dd-list">
-                                                <li class="dd-item" data-id="5">
-                                                    <div class="dd-handle">Code</div>
-                                                </li>
-                                                <li class="dd-item" data-id="6">
-                                                    <div class="dd-handle">Tutorials</div>
-                                                </li>
-                                                <li class="dd-item" data-id="7">
-                                                    <div class="dd-handle">Articles</div>
-                                                </li>
-                                            </ol>
-                                        </li>
-                                        <li class="dd-item" data-id="8">
-                                            <div class="dd-handle">Design</div>
-                                        </li>
-                                        <li class="dd-item" data-id="9">
-                                            <div class="dd-handle">Coding</div>
-                                        </li>
-                                        <li class="dd-item" data-id="10">
-                                            <div class="dd-handle">Marketing</div>
-                                        </li>
-                                    </ol>
-                                </div>
-                            </div>
-                            <div class="col-md-6 offset-md-2">
+                    <div class="block-content tab-content">
 
-                                <ul class="nav nav-tabs nav-tabs-alt" data-toggle="tabs" role="tablist">
-                                    @foreach($languages as $language)
-                                        <li class="nav-item">
-                                            <a class="nav-link {{ $loop->first ? 'active' : '' }}" href="#{{$language->code}}">
-                                                {{ $language->native_name . ' (' . strtoupper($language->code) . ')' }}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                <div class="block-content tab-content">
+                        <ul class="nav nav-tabs nav-tabs-alt" data-toggle="tabs" role="tablist">
+                            @foreach($languages as $language)
+                                <li class="nav-item">
+                                    <a class="nav-link {{ $loop->first ? 'active' : '' }}" href="#{{$language->code}}">
+                                        {{ $language->native_name . ' (' . strtoupper($language->code) . ')' }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
 
-                                    @foreach($languages as $language)
-                                        <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="{{$language->code}}" role="tabpanel">
+                        @foreach($languages as $language)
+                            <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="{{$language->code}}" role="tabpanel">
+                                <div class="row justify-content-center py-sm-3 py-md-5">
+                                    <div class="col-md-4">
+                                        @if($menuContents->get($language->id))
+                                            <div class="row mb-5">
+                                                <div class="col-md-6">
+                                                    <button type="button" class="btn btn-alt-warning orderSaveBtn" data-language="{{ $language->id }}">Sıralama Kaydet</button>
+                                                </div>
+                                            </div>
+                                            <div class="menu-list dd" data-language="{{ $language->id }}">
+                                                <ol class="dd-list">
+                                                    @foreach($menuContents->get($language->id) as $menuContent)
+                                                        <li class="dd-item" data-id="{{ $menuContent->id }}">
+                                                            <div class="float-right p-2 mr-2">
+                                                                <div class="badge badge-{{ $menuContent->status == 1 ? 'success' : 'danger' }} mr-2">&nbsp;&nbsp;</div>
+                                                                <a href="{{ route('dawnstar.menu.content.edit', ['menuId' => $menu->id, 'id' => $menuContent->id]) }}" class="mr-2 text-black"
+                                                                   data-toggle="tooltip" data-placement="right" title="{{ __('DawnstarLang::general.edit') }}">
+                                                                    <i class="fa fa-pencil-alt"></i>
+                                                                </a>
+                                                                <a href="javascript:void(0);"
+                                                                        class="text-black deleteBtn"
+                                                                        data-url="{{ route('dawnstar.menu.content.delete', ['menuId' => $menu->id, 'id' => $menuContent->id]) }}"
+                                                                        data-toggle="tooltip"
+                                                                        data-placement="right"
+                                                                        title="{{ __('DawnstarLang::general.delete') }}">
+                                                                    <i class="fa fa-trash-alt"></i>
+                                                                </a>
+                                                            </div>
+                                                            <div class="dd-handle">
+                                                                {{ $menuContent->name }}
+                                                            </div>
+                                                            @if($menuContent->children->isNotEmpty())
+                                                                <ol class="dd-list">
+                                                                    @foreach($menuContent->children as $menuContentChild)
+                                                                        <li class="dd-item" data-id="{{ $menuContentChild->id }}">
+                                                                            <div class="float-right p-2 mr-2">
+                                                                                <div class="badge badge-{{ $menuContentChild->status == 1 ? 'success' : 'danger' }} mr-2">&nbsp;&nbsp;</div>
+                                                                                <a href="{{ route('dawnstar.menu.content.edit', ['menuId' => $menu->id, 'id' => $menuContentChild->id]) }}"
+                                                                                   class="mr-2 text-black"
+                                                                                   data-toggle="tooltip"
+                                                                                   data-placement="right"
+                                                                                   title="{{ __('DawnstarLang::general.edit') }}">
+                                                                                    <i class="fa fa-pencil-alt"></i>
+                                                                                </a>
+                                                                                <a href="javascript:void(0);"
+                                                                                        class="text-black deleteBtn"
+                                                                                        data-url="{{ route('dawnstar.menu.content.delete', ['menuId' => $menu->id, 'id' => $menuContentChild->id]) }}"
+                                                                                        data-toggle="tooltip"
+                                                                                        data-placement="right"
+                                                                                        title="{{ __('DawnstarLang::general.delete') }}">
+                                                                                    <i class="fa fa-trash-alt"></i>
+                                                                                </a>
+                                                                            </div>
+                                                                            <div class="dd-handle">{{ $menuContentChild->name }}</div>
+                                                                            @if($menuContentChild->children->isNotEmpty())
+                                                                                <ol class="dd-list">
+                                                                                    @foreach($menuContentChild->children as $menuContentCh)
+                                                                                        <li class="dd-item" data-id="{{ $menuContentCh->id }}">
+                                                                                            <div class="float-right p-2 mr-2">
+                                                                                                <div class="badge badge-{{ $menuContentCh->status == 1 ? 'success' : 'danger' }} mr-2">
+                                                                                                    &nbsp;&nbsp;
+                                                                                                </div>
+                                                                                                <a href="{{ route('dawnstar.menu.content.edit', ['menuId' => $menu->id, 'id' => $menuContentCh->id]) }}"
+                                                                                                   class="mr-2 text-black"
+                                                                                                   data-toggle="tooltip"
+                                                                                                   data-placement="right"
+                                                                                                   title="{{ __('DawnstarLang::general.edit') }}">
+                                                                                                    <i class="fa fa-pencil-alt"></i>
+                                                                                                </a>
+                                                                                                <a href="javascript:void(0);"
+                                                                                                   class="text-black deleteBtn"
+                                                                                                   data-url="{{ route('dawnstar.menu.content.delete', ['menuId' => $menu->id, 'id' => $menuContentCh->id]) }}"
+                                                                                                   data-toggle="tooltip"
+                                                                                                   data-placement="right"
+                                                                                                   title="{{ __('DawnstarLang::general.delete') }}">
+                                                                                                    <i class="fa fa-trash-alt"></i>
+                                                                                                </a>
+                                                                                            </div>
+                                                                                            <div class="dd-handle">{{ $menuContentCh->name }}</div>
+                                                                                        </li>
+                                                                                    @endforeach
+                                                                                </ol>
+                                                                            @endif
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ol>
+                                                            @endif
+                                                        </li>
+                                                    @endforeach
+                                                </ol>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6 offset-md-2">
+                                        <div class="block-content">
                                             <div class="form-group row">
                                                 <label class="col-sm-3 col-form-label">{{ __('DawnstarLang::menu_content.labels.status') }}</label>
                                                 <div class="col-sm-9">
@@ -92,14 +143,9 @@
                                                                name="contents[{{$language->id}}][status]" value="1" {{ old('contents.'.$language->id.'.status') == 1 ? 'checked' : '' }}>
                                                         <label class="custom-control-label" for="status{{$language->id}}_active">{{ __('DawnstarLang::general.status_title.active') }}</label>
                                                     </div>
-                                                    <div class="custom-control custom-radio custom-control-inline custom-control-light custom-control-lg">
-                                                        <input type="radio" class="custom-control-input" id="status{{$language->id}}_draft"
-                                                               name="contents[{{$language->id}}][status]" value="2" {{ old('contents.'.$language->id.'.status', 2) == 2 ? 'checked' : '' }}>
-                                                        <label class="custom-control-label" for="status{{$language->id}}_draft">{{ __('DawnstarLang::general.status_title.draft') }}</label>
-                                                    </div>
                                                     <div class="custom-control custom-radio custom-control-inline custom-control-danger custom-control-lg">
                                                         <input type="radio" class="custom-control-input" id="status{{$language->id}}_passive"
-                                                               name="contents[{{$language->id}}][status]" value="3" {{ old('contents.'.$language->id.'.status') == 3 ? 'checked' : '' }}>
+                                                               name="contents[{{$language->id}}][status]" value="3" {{ old('contents.'.$language->id.'.status', 3) == 3 ? 'checked' : '' }}>
                                                         <label class="custom-control-label" for="status{{$language->id}}_passive">{{ __('DawnstarLang::general.status_title.passive') }}</label>
                                                     </div>
                                                 </div>
@@ -153,10 +199,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </form>
@@ -167,20 +213,32 @@
 @push('styles')
     <link rel="stylesheet" href="{{ dawnstarAsset('plugins/nestable2/jquery.nestable.min.css') }}">
     <link rel="stylesheet" href="{{ dawnstarAsset('plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ dawnstarAsset('plugins/sweetalert2/sweetalert2.min.css') }}">
 @endpush
 
 @push('scripts')
     <script src="{{ dawnstarAsset('plugins/nestable2/jquery.nestable.min.js') }}"></script>
     <script src="{{ dawnstarAsset('plugins/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{ dawnstarAsset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script>
-        $(".js-nestable-connected-simple").nestable({maxDepth: 3})
+        $(".menu-list").nestable({maxDepth: 3})
+
+        $('.orderSaveBtn').on('click', function () {
+            var languageId = $(this).attr('data-language');
+
+            $.ajax({
+                url: '{{ route('dawnstar.menu.content.saveOrder', ['menuId' => $menu->id]) }}',
+                data: {
+                    'language_id': languageId,
+                    'data': $('.menu-list[data-language="' + languageId + '"]').nestable('serialize')
+                }
+            })
+        });
 
 
         $('[id^="type"]').on('change', function () {
             var value = $(this).val();
             var languageId = $(this).attr('data-language');
-
-            alert(value);
 
             if (value == 1) {
                 $('#url_id' + languageId).closest('.form-group').removeClass('d-none');
@@ -216,5 +274,45 @@
             });
         }
 
+        jQuery('.deleteBtn').on('click', e => {
+            var url = e.currentTarget.getAttribute('data-url');
+            swal.fire({
+                title: '{{ __('DawnstarLang::general.swal.title') }}',
+                text: '{{ __('DawnstarLang::general.swal.subtitle') }}',
+                icon: 'warning',
+                showCancelButton: true,
+                customClass: {
+                    confirmButton: 'btn btn-danger m-1',
+                    cancelButton: 'btn btn-secondary m-1'
+                },
+                confirmButtonText: '{{ __('DawnstarLang::general.swal.confirm_btn') }}',
+                cancelButtonText: '{{ __('DawnstarLang::general.swal.cancel_btn') }}',
+                html: false,
+                preConfirm: e => {
+                    return new Promise(resolve => {
+                        setTimeout(() => {
+                            resolve();
+                        }, 50);
+                    });
+                }
+            }).then(result => {
+                if (result.value) {
+                    $.ajax({
+                        'url': url,
+                        'method': 'POST',
+                        'data': {'_token': '{{ csrf_token() }}'},
+                        success: function (response) {
+                            swal.fire('{{ __('DawnstarLang::general.swal.success.title') }}', '{{ __('DawnstarLang::general.swal.success.subtitle') }}', 'success');
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+                        },
+                        error: function (response) {
+                            swal.fire('{{ __('DawnstarLang::general.swal.error.title') }}', '{{ __('DawnstarLang::general.swal.error.subtitle') }}', 'error');
+                        }
+                    })
+                }
+            });
+        });
     </script>
 @endpush

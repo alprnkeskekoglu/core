@@ -4,6 +4,7 @@ namespace Dawnstar\Http\Controllers;
 
 use Dawnstar\Http\Requests\MenuContentRequest;
 use Dawnstar\Models\Menu;
+use Dawnstar\Models\MenuContent;
 use Dawnstar\Models\Url;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
@@ -21,7 +22,17 @@ class MenuContentController extends BaseController
         $website = session('dawnstar.website');
         $languages = $website->languages;
 
-        $menuContents = $menu->contents->groupBy('language_id');
+        $menuContents = $menu->contents()
+            ->where('parent_id', 0)
+            ->orderBy('lft')
+            ->with(['children' => function ($q) {
+                $q->with(['children' => function ($que) {
+                    $que->orderBy('lft');
+                }])
+                    ->orderBy('lft');
+            }])
+            ->get()
+            ->groupBy('language_id');
 
         $breadcrumb = [
             [
@@ -37,29 +48,48 @@ class MenuContentController extends BaseController
         return view('DawnstarView::pages.menu_content.create', compact('menu', 'menuContents', 'languages', 'breadcrumb'));
     }
 
-    public function store(MenuContentRequest $request)
+    public function store(MenuContentRequest $request, int $menuId)
     {
         $data = $request->except('_token');
 
         $request->validated();
-        dd($data);
 
-        $key = \Str::slug($data['name']);
-        Menu::firstOrCreate(
-            ['key' => $key],
-            $data
-        );
+        foreach ($data['contents'] as $languageId => $values) {
+            if($values['status'] == 3) {
+                continue;
+            }
+            MenuContent::firstOrCreate([
+                'menu_id' => $menuId,
+                'language_id' => $languageId,
+                'status' => $values['status'],
+                'name' => $values['name'],
+                'type' => $values['type'],
+                'url_id' => $values['url_id'],
+                'out_link' => $values['out_link'],
+                'target' => $values['target'],
+            ]);
+        }
 
-        return redirect()->route('dawnstar.menu.index')->with('success_message', __('DawnstarLang::menu.response_message.store'));
+        return redirect()->route('dawnstar.menu.content.create', ['menuId' => $menuId])->with('success_message', __('DawnstarLang::menu_content.response_message.store'));
     }
 
-    public function edit(int $id)
+    public function edit(int $menuId, int $id)
     {
-        $menu = Menu::find($id);
+        $menu = Menu::find($menuId);
+        $selectedMenuContent = MenuContent::find($id);
 
-        if (is_null($menu)) {
-            return redirect()->route('dawnstar.menu.index')->withErrors(__('DawnstarLang::menu.response_message.id_error', ['id' => $id]))->withInput();
-        }
+        $menuContents = $menu->contents()
+            ->where('language_id', $selectedMenuContent->language_id)
+            ->where('parent_id', 0)
+            ->orderBy('lft')
+            ->with(['children' => function ($q) {
+                $q->with(['children' => function ($que) {
+                    $que->orderBy('lft');
+                }])
+                    ->orderBy('lft');
+            }])
+            ->get();
+
 
         $breadcrumb = [
             [
@@ -67,41 +97,101 @@ class MenuContentController extends BaseController
                 'url' => route('dawnstar.menu.index')
             ],
             [
-                'name' => __('DawnstarLang::menu.edit_title'),
+                'name' => __('DawnstarLang::menu_content.create_title'),
                 'url' => '#'
             ]
         ];
 
-        return view('DawnstarView::pages.menu.edit', compact('menu', 'breadcrumb'));
+        return view('DawnstarView::pages.menu_content.edit', compact('menu', 'selectedMenuContent', 'menuContents', 'breadcrumb'));
     }
 
-    public function update(MenuRequest $request, $id)
+    public function update(MenuContentRequest $request, int $menuId, int $id)
     {
-        $menu = Menu::find($id);
-
-        if (is_null($menu)) {
-            return redirect()->route('dawnstar.menu.index')->withErrors(__('DawnstarLang::menu.response_message.id_error', ['id' => $id]))->withInput();
-        }
-
-        $data = $request->except('_token');
         $request->validated();
 
-        $menu->update($data);
+        $data = $request->except('_token');
 
-        return redirect()->route('dawnstar.menu.index')->with('success_message', __('DawnstarLang::menu.response_message.update'));
+        $menuContent = MenuContent::find($id);
+        $menuContent->update($data);
+
+        return redirect()->route('dawnstar.menu.content.create', ['menuId' => $menuId])->with('success_message', __('DawnstarLang::menu.response_message.update'));
     }
 
-    public function delete($id)
+    public function delete(int $menuId, int $id)
     {
-        $menu = Menu::find($id);
+        $menuContent = MenuContent::find($id);
 
-        if (is_null($menu)) {
+        if (is_null($menuContent)) {
             return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
         }
 
-        $menu->delete();
+        if($menuContent->children->isNotEmpty()) {
+            $menuContent->children->update(['parent_id' => $menuContent->parent_id]);
+        }
+
+        $menuContent->delete();
 
         return response()->json(['title' => __('DawnstarLang::general.swal.success.title'), 'subtitle' => __('DawnstarLang::general.swal.success.subtitle')]);
+    }
+
+    public function saveOrder(Request $request, $menuId)
+    {
+        $data = $request->get('data');
+
+        $orderedData = $this->buildTree($data);
+
+        foreach ($orderedData as $ordered) {
+            $menuContent = MenuContent::find($ordered['id']);
+
+            if($menuContent) {
+                unset($ordered['id']);
+
+                $menuContent->update($ordered);
+            }
+        }
+    }
+
+    public function buildTree(array $elements, $parentId = 0, $max = 0)
+    {
+        $branch = array();
+        foreach ($elements as $element)
+        {
+            $element['lft'] = $max = $max + 1;
+            $element['rgt'] = $max + 1;
+            $element['parent_id'] = $parentId;
+
+            if (isset($element['children']))
+            {
+                $children = $this->buildTree($element['children'], $element['id'], $max);
+                if ($children)
+                {
+
+                    $element['rgt'] = $max = (isset(end($children)['rgt']) ? end($children)['rgt'] : 1) + 1;
+                    $element['children'] = $children;
+                } else
+                {
+                    $element['rgt'] = $max = $max + 1;
+                }
+            }
+
+            $branch[] = $element;
+        }
+
+        return $this->unBuildTree($branch);
+    }
+
+    public function unBuildTree($elements, $branch = [])
+    {
+        foreach ($elements as $element)
+        {
+            if (isset($element['children']))
+            {
+                $branch = $this->unBuildTree($element['children'], $branch);
+                unset($element['children']);
+            }
+            $branch[] = $element;
+        }
+        return $branch;
     }
 
     public function getUrls(Request $request)

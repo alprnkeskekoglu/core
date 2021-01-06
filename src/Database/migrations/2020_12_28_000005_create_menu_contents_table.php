@@ -23,9 +23,9 @@ class CreateMenuContentsTable extends Migration
             $table->integer('url_id')->nullable();
             $table->text('out_link')->nullable();
             $table->string('target')->nullable();
-            $table->integer('parent_id');
-            $table->integer('lft');
-            $table->integer('rgt');
+            $table->integer('parent_id')->default(0);
+            $table->integer('lft')->nullable();
+            $table->integer('rgt')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

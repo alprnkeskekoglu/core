@@ -42,6 +42,11 @@ Route::middleware(['dawnstar.auth'])->group(function () {
         Route::prefix('{menuId}/Contents')->as('content.')->group(function () {
             Route::get('/create', 'MenuContentController@create')->name('create');
             Route::post('/store', 'MenuContentController@store')->name('store');
+            Route::get('/edit/{id}', 'MenuContentController@edit')->name('edit');
+            Route::post('/update/{id}', 'MenuContentController@update')->name('update');
+            Route::post('/delete/{id}', 'MenuContentController@delete')->name('delete');
+
+            Route::get('/saveOrder', 'MenuContentController@saveOrder')->name('saveOrder');
         });
 
         Route::get('/getUrls', 'MenuContentController@getUrls')->name('getUrls');

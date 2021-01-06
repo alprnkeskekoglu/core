@@ -58,10 +58,9 @@
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
 
-                                        <button type="button" class="js-swal-confirm btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('dawnstar.menu.delete', ['id' => $menu->id]) }}" title="{{ __('DawnstarLang::general.delete') }}">
+                                        <button type="button" class="deleteBtn btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('dawnstar.menu.delete', ['id' => $menu->id]) }}" title="{{ __('DawnstarLang::general.delete') }}">
                                             <i class="fa fa-times"></i>
                                         </button>
-
 
                                         <a href="{{ route('dawnstar.menu.content.create', ['menuId' => $menu->id]) }}" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::menu.content_title') }}">
                                             <i class="fa fa-bars"></i>
@@ -85,7 +84,7 @@
 @push('scripts')
     <script src="{{ dawnstarAsset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script>
-        jQuery('.js-swal-confirm').on('click', e => {
+        jQuery('.deleteBtn').on('click', e => {
             var url = e.currentTarget.getAttribute('data-url');
             swal.fire({
                 title: '{{ __('DawnstarLang::general.swal.title') }}',
