@@ -8,7 +8,6 @@ return [
     'status' => "Durum",
     'name' => 'Website Adı',
     'slug' => 'Website Slug',
-    'actions' => 'İşlemler',
 
     'labels' => [
         'status' => 'Durum',
@@ -21,8 +20,8 @@ return [
     ],
 
     'response_message' => [
-        'store' => 'Form başarıyla oluşturulmuştur.',
-        'update' => 'Form başarıyla güncellenmiştir.',
-        'id_error' => "Verilen id'ye (:id) ait form bulunamadı!"
+        'store' => 'Website başarıyla oluşturulmuştur.',
+        'update' => 'Website başarıyla güncellenmiştir.',
+        'id_error' => "Verilen id'ye (:id) ait website bulunamadı!"
     ],
 ];

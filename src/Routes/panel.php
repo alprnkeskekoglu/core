@@ -19,6 +19,15 @@ Route::middleware(['dawnstar.auth'])->group(function () {
         Route::post('/delete/{id}', 'WebsiteController@delete')->name('delete');
     });
 
+    Route::prefix('Admin')->as('admin.')->group(function () {
+        Route::get('/', 'AdminController@index')->name('index');
+        Route::get('/create', 'AdminController@create')->name('create');
+        Route::post('/store', 'AdminController@store')->name('store');
+        Route::get('/edit/{id}', 'AdminController@edit')->name('edit');
+        Route::post('/update/{id}', 'AdminController@update')->name('update');
+        Route::post('/delete/{id}', 'AdminController@delete')->name('delete');
+    });
+
     Route::prefix('Container')->as('container.')->group(function () {
         Route::get('/', 'ContainerController@index')->name('index');
         Route::get('/create', 'ContainerController@create')->name('create');

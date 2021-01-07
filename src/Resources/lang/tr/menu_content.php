@@ -5,8 +5,6 @@ return [
     'create_title' => 'Menü İçeriği Oluştur',
     'edit_title' => 'Menü İçeriği Düzenle',
 
-    'actions' => 'İşlemler',
-
     'labels' => [
         'status' => 'Durum',
         'name' => 'Adı',
@@ -28,8 +26,8 @@ return [
     ],
 
     'response_message' => [
-        'store' => 'Menü başarıyla oluşturulmuştur.',
-        'update' => 'Menü başarıyla güncellenmiştir.',
-        'id_error' => "Verilen id'ye (:id) ait menü bulunamadı!"
+        'store' => 'Menü İçeriği başarıyla oluşturulmuştur.',
+        'update' => 'Menü İçeriği başarıyla güncellenmiştir.',
+        'id_error' => "Verilen id'ye (:id) ait menü içeriği bulunamadı!"
     ],
 ];

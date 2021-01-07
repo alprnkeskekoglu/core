@@ -6,6 +6,7 @@ return [
     'submit' => 'Gönder',
     'refresh' => 'Yenile',
 
+    'actions' => 'İşlemler',
     'edit' => 'Düzenle',
     'delete' => 'Sil',
 

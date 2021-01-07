@@ -7,7 +7,6 @@ return [
 
     'status' => "Durum",
     'name' => 'Sayfa Yapısı Adı',
-    'actions' => 'İşlemler',
     'properties' => 'Yapısal Özellikler',
 
     'labels' => [

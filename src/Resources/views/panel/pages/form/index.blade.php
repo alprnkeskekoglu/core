@@ -32,7 +32,7 @@
                             <th class="text-center">{{ __('DawnstarLang::form.status') }}</th>
                             <th>{{ __('DawnstarLang::form.name') }}</th>
                             <th class="text-center">{{ __('DawnstarLang::form.result_count') }}</th>
-                            <th class="text-center" style="width: 100px;">{{ __('DawnstarLang::form.actions') }}</th>
+                            <th class="text-center" style="width: 100px;">{{ __('DawnstarLang::general.actions') }}</th>
                         </tr>
                         </thead>
                         <tbody>

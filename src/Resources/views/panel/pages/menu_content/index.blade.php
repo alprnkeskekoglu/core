@@ -32,7 +32,7 @@
                             <th class="text-center">{{ __('DawnstarLang::menu.labels.status') }}</th>
                             <th>{{ __('DawnstarLang::menu.labels.name') }}</th>
                             <th>{{ __('DawnstarLang::menu.labels.key') }}</th>
-                            <th class="text-center" style="width: 100px;">{{ __('DawnstarLang::menu.actions') }}</th>
+                            <th class="text-center" style="width: 100px;">{{ __('DawnstarLang::general.actions') }}</th>
                         </tr>
                         </thead>
                         <tbody>

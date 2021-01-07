@@ -150,7 +150,7 @@ class ContainerController extends BaseController
         $container = Container::find($id);
 
         if (is_null($container)) {
-            return redirect()->route('dawnstar.container.index')->withErrors(__('DawnstarLang::container.response_message.id_error', ['id' => $id]))->withInput();
+            return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
         }
 
         $container->delete();

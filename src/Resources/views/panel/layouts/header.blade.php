@@ -20,7 +20,7 @@
                         User Options
                     </div>
                     <div class="p-2">
-                        <a class="dropdown-item" href="javascript:void(0)">
+                        <a class="dropdown-item" href="{{ route('dawnstar.admin.edit', ['id' => auth('admin')->id()]) }}">
                             <i class="far fa-fw fa-user mr-1"></i> Profile
                         </a>
                         <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">

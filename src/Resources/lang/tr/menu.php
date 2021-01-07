@@ -6,8 +6,6 @@ return [
     'edit_title' => 'Menü Düzenle',
     'content_title' => 'Menü İçerikleri',
 
-    'actions' => 'İşlemler',
-
     'labels' => [
         'status' => 'Durum',
         'name' => 'Menü Adı',

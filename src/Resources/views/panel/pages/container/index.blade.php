@@ -31,7 +31,7 @@
                             <th class="text-center">{{ __('DawnstarLang::container.status') }}</th>
                             <th>{{ __('DawnstarLang::container.name') }}</th>
                             <th>{{ __('DawnstarLang::container.labels.type') }}</th>
-                            <th class="text-center" style="width: 100px;">{{ __('DawnstarLang::container.actions') }}</th>
+                            <th class="text-center" style="width: 100px;">{{ __('DawnstarLang::general.actions') }}</th>
                         </tr>
                         </thead>
                         <tbody>

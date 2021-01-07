@@ -8,7 +8,6 @@ return [
     'status' => "Durum",
     'name' => 'Form Adı',
     'result_count' => 'Toplam / Okunmayanlar',
-    'actions' => 'İşlemler',
     'send_time' => 'Gönderilme Zamanı',
 
     'labels' => [

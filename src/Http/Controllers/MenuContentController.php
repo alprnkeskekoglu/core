@@ -58,7 +58,7 @@ class MenuContentController extends BaseController
             if($values['status'] == 3) {
                 continue;
             }
-            MenuContent::firstOrCreate([
+            $menuContent = MenuContent::firstOrCreate([
                 'menu_id' => $menuId,
                 'language_id' => $languageId,
                 'status' => $values['status'],
@@ -68,7 +68,10 @@ class MenuContentController extends BaseController
                 'out_link' => $values['out_link'],
                 'target' => $values['target'],
             ]);
+            // Admin Action
+            addAction($menuContent, 'store');
         }
+
 
         return redirect()->route('dawnstar.menu.content.create', ['menuId' => $menuId])->with('success_message', __('DawnstarLang::menu_content.response_message.store'));
     }
@@ -114,6 +117,9 @@ class MenuContentController extends BaseController
         $menuContent = MenuContent::find($id);
         $menuContent->update($data);
 
+        // Admin Action
+        addAction($menuContent, 'update');
+
         return redirect()->route('dawnstar.menu.content.create', ['menuId' => $menuId])->with('success_message', __('DawnstarLang::menu.response_message.update'));
     }
 
@@ -131,6 +137,9 @@ class MenuContentController extends BaseController
 
         $menuContent->delete();
 
+        // Admin Action
+        addAction($menuContent, 'delete');
+
         return response()->json(['title' => __('DawnstarLang::general.swal.success.title'), 'subtitle' => __('DawnstarLang::general.swal.success.subtitle')]);
     }
 
@@ -138,6 +147,7 @@ class MenuContentController extends BaseController
     {
         $data = $request->get('data');
 
+        $menu = Menu::find($menuId);
         $orderedData = $this->buildTree($data);
 
         foreach ($orderedData as $ordered) {
@@ -149,6 +159,9 @@ class MenuContentController extends BaseController
                 $menuContent->update($ordered);
             }
         }
+
+        // Admin Action
+        addAction($menu, 'saveOrder');
     }
 
     public function buildTree(array $elements, $parentId = 0, $max = 0)
