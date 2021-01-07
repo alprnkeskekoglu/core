@@ -65,6 +65,12 @@
                 </li>
 
                 <li class="nav-main-item">
+                    <a class="nav-main-link" href="{{ route('dawnstar.admin.index') }}">
+                        <span class="nav-main-link-name">Admin</span>
+                    </a>
+                </li>
+
+                <li class="nav-main-item">
                     <a class="nav-main-link" href="{{ route('dawnstar.form.index') }}">
                         <span class="nav-main-link-name">Form</span>
                     </a>

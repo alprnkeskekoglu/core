@@ -14,7 +14,7 @@ class PanelController extends BaseController
 
         session(['dawnstar.language' => $language]);
 
-        return redirect()->route('dawnstar.dashboard');
+        return redirect()->back();
     }
 
 }
