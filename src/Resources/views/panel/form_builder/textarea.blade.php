@@ -1,22 +1,22 @@
 @php
+    $id = $input['id'];
     $name = $input['name'];
-    $id = str_replace('.', '_', $name);
 
     $parentClass = $input['parent_class'] ?? 'col-md-6';
-    $labelText = $input['label']['text'][$languageCode] ?? array_shift($input['label']['text']);
-
-    $input['input']['attributes']['type'] = $input['attributes']['type'] ?? 'text';
+    $labelText = $input['label']['text'][$dawnstarLanguageCode] ?? array_shift($input['label']['text']);
 
     $inputAttributes = '';
-    foreach ($input['input']['attributes'] as $tag => $value) {
-        $inputAttributes .= $tag.'="'.$value.'" ';
+    if(isset($input['input']['attributes'])) {
+        foreach ($input['input']['attributes'] as $tag => $attr) {
+            $inputAttributes .= $tag.'="'.$attr.'" ';
+        }
     }
 @endphp
 
 <div class="{{ $parentClass }}">
     <div class="form-group">
         <label for="{{ $id }}">{{ $labelText }}</label>
-        <textarea {!! $inputAttributes !!} id="{{ $id }}" name="{{ $name }}" style="resize: none">{{ old($name) }}</textarea>
+        <textarea {!! $inputAttributes !!} id="{{ $id }}" name="{{ $name }}" style="resize: none">{{ old($name, $value) }}</textarea>
     </div>
 </div>
 

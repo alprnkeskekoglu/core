@@ -12,7 +12,7 @@
 
         <div class="content">
             @include('DawnstarView::layouts.alerts')
-            <form action="{{ route('dawnstar.container.structure.update', ['id' => $container->id]) }}" method="POST">
+            <form action="{{ route('dawnstar.container.update', ['id' => $container->id]) }}" method="POST">
                 @csrf
                 <div class="block block-rounded">
                     <div class="block-header block-header-default block-header-rtl">
@@ -47,7 +47,7 @@
                                         @foreach($languages as $language)
                                             <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="{{$language->code}}" role="tabpanel">
                                                 <div class="row">
-                                                    {!! $formBuilder->render($language->id) !!}
+                                                    {!! $formBuilder->render($language) !!}
                                                 </div>
                                             </div>
                                         @endforeach
@@ -69,21 +69,19 @@
         var typedInput;
         var typedInput;
 
-        $('body').delegate('.containerName', 'keyup', function () {
+        $('body').delegate('[id$="_name"]', 'keyup', function () {
             clearTimeout(typingTimer);
             typedInput = $(this);
             var languageId = typedInput.attr('data-language');
 
             if(typedInput.val().length) {
-                $('#details'+languageId+'_status_active').prop('checked', true)
                 typingTimer = setTimeout(slugify, doneTypingInterval);
             } else {
-                $('#details'+languageId+'_status_passive').prop('checked', true)
-                $('.containerSlug[data-language="' + languageId + '"]').val('');
+                $('[id$="_slug"][data-language="' + languageId + '"]').val('');
             }
         });
 
-        $('body').delegate('.containerName', 'keydown', function () {
+        $('body').delegate('[id$="_name"]', 'keydown', function () {
             clearTimeout(typingTimer);
         });
 
@@ -114,7 +112,7 @@
                 'data': {'language_id': languageId, 'url': slug, 'name': name},
                 'method': 'GET',
                 success: function (response) {
-                    $('.containerSlug[data-language="' + languageId + '"]').val(response);
+                    $('[id$="_slug"][data-language="' + languageId + '"]').val(response);
                 },
             });
         }

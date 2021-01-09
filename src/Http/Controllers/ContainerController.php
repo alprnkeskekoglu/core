@@ -7,6 +7,7 @@ use Dawnstar\Foundation\FormBuilder;
 use Dawnstar\Http\Requests\ContainerRequest;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\ContainerDetail;
+use Dawnstar\Models\ContainerDetailExtra;
 use Dawnstar\Models\Language;
 use Dawnstar\Models\Url;
 use Illuminate\Http\Request;
@@ -162,7 +163,7 @@ class ContainerController extends BaseController
         return response()->json(['title' => __('DawnstarLang::general.swal.success.title'), 'subtitle' => __('DawnstarLang::general.swal.success.subtitle')]);
     }
 
-    public function edit($id)
+    public function edit(int $id)
     {
         $container = Container::find($id);
 
@@ -172,11 +173,58 @@ class ContainerController extends BaseController
 
         $languages = $container->languages();
 
-        $formBuilder = new FormBuilder(2, 'container');
+        $formBuilder = new FormBuilder('container', 2);
 
         $breadcrumb = [];
 
         return view('DawnstarView::pages.container.edit', compact('container', 'languages', 'formBuilder', 'breadcrumb'));
+    }
+
+    public function update(Request $request, int $id)
+    {
+        $container = Container::find($id);
+
+        if (is_null($container)) {
+            // TODO: change page index
+            return redirect()->route('dawnstar.container.structure.index')->withErrors(__('DawnstarLang::container.response_message.id_error', ['id' => $id]))->withInput();
+        }
+
+        $data = $request->except('_token');
+
+        $details = $data['details'] ?? [];
+        unset($data['details']);
+
+        $container->update($data);
+
+
+        foreach ($details as $languageId => $detail) {
+
+            $extras = $detail['extras'] ?? [];
+            unset($detail['extras']);
+
+            $containerDetail = ContainerDetail::updateOrCreate(
+                [
+                    'container_id' => $container->id,
+                    'language_id' => $languageId
+                ],
+                $detail
+            );
+
+            $containerDetail->extras()->delete();
+            foreach ($extras as $key => $value) {
+                ContainerDetailExtra::create([
+                    'container_detail_id' => $containerDetail->id,
+                    'key' => $key,
+                    'value' => $value,
+                ]);
+            }
+        }
+        // Admin Action
+        addAction($container, 'update');
+
+        // TODO: change page index
+        return redirect()->route('dawnstar.container.structure.index')->with('success_message', __('DawnstarLang::container.response_message.update'));
+
     }
 
     public function getUrl(Request $request)
@@ -192,7 +240,7 @@ class ContainerController extends BaseController
         $url = Url::where('url', $urlText)->first();
 
         if ($url) {
-            if($containerName == $url->model->name) {
+            if ($containerName == $url->model->name) {
                 return $containerSlug;
             }
             return $this->getNewSlug($language->code, $containerSlug, 1);

@@ -17,7 +17,7 @@ class CreateContainerDetailExtrasTable extends Migration
             $table->increments('id');
             $table->integer('container_detail_id');
             $table->string('key');
-            $table->string('value');
+            $table->string('value')->nullable();
             $table->timestamps();
         });
     }
