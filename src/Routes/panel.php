@@ -29,12 +29,17 @@ Route::middleware(['dawnstar.auth'])->group(function () {
     });
 
     Route::prefix('Container')->as('container.')->group(function () {
-        Route::get('/', 'ContainerController@index')->name('index');
-        Route::get('/create', 'ContainerController@create')->name('create');
-        Route::post('/store', 'ContainerController@store')->name('store');
+        Route::prefix('Structure')->as('structure.')->group(function () {
+            Route::get('/', 'ContainerController@structureIndex')->name('index');
+            Route::get('/create', 'ContainerController@structureCreate')->name('create');
+            Route::post('/store', 'ContainerController@structureStore')->name('store');
+            Route::get('/edit/{id}', 'ContainerController@structureEdit')->name('edit');
+            Route::post('/update/{id}', 'ContainerController@structureUpdate')->name('update');
+            Route::post('/delete/{id}', 'ContainerController@structureDelete')->name('delete');
+        });
+
         Route::get('/edit/{id}', 'ContainerController@edit')->name('edit');
         Route::post('/update/{id}', 'ContainerController@update')->name('update');
-        Route::post('/delete/{id}', 'ContainerController@delete')->name('delete');
 
         Route::get('/getUrl', 'ContainerController@getUrl')->name('getUrl');
     });

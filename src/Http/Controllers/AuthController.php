@@ -8,7 +8,6 @@ use Dawnstar\Models\Website;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends BaseController
 {

@@ -3,6 +3,7 @@
 namespace Dawnstar\Http\Controllers;
 
 use Dawnstar\Foundation\ContainerFileKit;
+use Dawnstar\Foundation\FormBuilder;
 use Dawnstar\Http\Requests\ContainerRequest;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\ContainerDetail;
@@ -13,7 +14,7 @@ use Illuminate\Routing\Controller as BaseController;
 
 class ContainerController extends BaseController
 {
-    public function index()
+    public function structureIndex()
     {
         $containers = Container::all();
 
@@ -24,10 +25,10 @@ class ContainerController extends BaseController
             ]
         ];
 
-        return view('DawnstarView::pages.container.index', compact('containers', 'breadcrumb'));
+        return view('DawnstarView::pages.container.structure.index', compact('containers', 'breadcrumb'));
     }
 
-    public function create()
+    public function structureCreate()
     {
         $website = session('dawnstar.website');
         $languages = $website->languages;
@@ -35,7 +36,7 @@ class ContainerController extends BaseController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::container.index_title'),
-                'url' => route('dawnstar.container.index')
+                'url' => route('dawnstar.container.structure.index')
             ],
             [
                 'name' => __('DawnstarLang::container.create_title'),
@@ -43,10 +44,10 @@ class ContainerController extends BaseController
             ]
         ];
 
-        return view('DawnstarView::pages.container.create', compact('languages', 'breadcrumb'));
+        return view('DawnstarView::pages.container.structure.create', compact('languages', 'breadcrumb'));
     }
 
-    public function store(ContainerRequest $request)
+    public function structureStore(ContainerRequest $request)
     {
         $data = $request->except('_token');
 
@@ -79,15 +80,15 @@ class ContainerController extends BaseController
         // Admin Action
         addAction($container, 'store');
 
-        return redirect()->route('dawnstar.container.index')->with('success_message', __('DawnstarLang::container.response_message.store'));
+        return redirect()->route('dawnstar.container.structure.index')->with('success_message', __('DawnstarLang::container.response_message.store'));
     }
 
-    public function edit(int $id)
+    public function structureEdit(int $id)
     {
         $container = Container::find($id);
 
         if (is_null($container)) {
-            return redirect()->route('dawnstar.container.index')->withErrors(__('DawnstarLang::container.response_message.id_error', ['id' => $id]))->withInput();
+            return redirect()->route('dawnstar.container.structure.index')->withErrors(__('DawnstarLang::container.response_message.id_error', ['id' => $id]))->withInput();
         }
         $website = session('dawnstar.website');
         $languages = $website->languages;
@@ -95,7 +96,7 @@ class ContainerController extends BaseController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::container.index_title'),
-                'url' => route('dawnstar.container.index')
+                'url' => route('dawnstar.container.structure.index')
             ],
             [
                 'name' => __('DawnstarLang::container.edit_title'),
@@ -103,15 +104,15 @@ class ContainerController extends BaseController
             ]
         ];
 
-        return view('DawnstarView::pages.container.edit', compact('container', 'languages', 'breadcrumb'));
+        return view('DawnstarView::pages.container.structure.edit', compact('container', 'languages', 'breadcrumb'));
     }
 
-    public function update(ContainerRequest $request, $id)
+    public function structureUpdate(ContainerRequest $request, $id)
     {
         $container = Container::find($id);
 
         if (is_null($container)) {
-            return redirect()->route('dawnstar.container.index')->withErrors(__('DawnstarLang::container.response_message.id_error', ['id' => $id]))->withInput();
+            return redirect()->route('dawnstar.container.structure.index')->withErrors(__('DawnstarLang::container.response_message.id_error', ['id' => $id]))->withInput();
         }
         $request->validated();
 
@@ -142,10 +143,10 @@ class ContainerController extends BaseController
         // Admin Action
         addAction($container, 'update');
 
-        return redirect()->route('dawnstar.container.index')->with('success_message', __('DawnstarLang::container.response_message.update'));
+        return redirect()->route('dawnstar.container.structure.index')->with('success_message', __('DawnstarLang::container.response_message.update'));
     }
 
-    public function delete($id)
+    public function structureDelete($id)
     {
         $container = Container::find($id);
 
@@ -161,18 +162,39 @@ class ContainerController extends BaseController
         return response()->json(['title' => __('DawnstarLang::general.swal.success.title'), 'subtitle' => __('DawnstarLang::general.swal.success.subtitle')]);
     }
 
+    public function edit($id)
+    {
+        $container = Container::find($id);
+
+        if (is_null($container)) {
+            return redirect()->route('dawnstar.container.structure.index')->withErrors(__('DawnstarLang::container.response_message.id_error', ['id' => $id]))->withInput();
+        }
+
+        $languages = $container->languages();
+
+        $formBuilder = new FormBuilder(2, 'container');
+
+        $breadcrumb = [];
+
+        return view('DawnstarView::pages.container.edit', compact('container', 'languages', 'formBuilder', 'breadcrumb'));
+    }
+
     public function getUrl(Request $request)
     {
         $languageId = $request->get('language_id');
         $containerSlug = $request->get('url');
+        $containerName = $request->get('name');
 
         $language = Language::find($languageId);
 
-        $url = '/' . $language->code . $containerSlug;
+        $urlText = '/' . $language->code . $containerSlug;
 
-        $urlExist = Url::where('url', $url)->exists();
+        $url = Url::where('url', $urlText)->first();
 
-        if ($urlExist) {
+        if ($url) {
+            if($containerName == $url->model->name) {
+                return $containerSlug;
+            }
             return $this->getNewSlug($language->code, $containerSlug, 1);
         }
         return $containerSlug;

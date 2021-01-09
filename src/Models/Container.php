@@ -10,7 +10,7 @@ class Container extends Model
 {
     use SoftDeletes;
     use HasDetail;
-    
+
     protected $table = 'containers';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
@@ -20,5 +20,11 @@ class Container extends Model
     public function details()
     {
         return $this->hasMany(ContainerDetail::class);
+    }
+
+    public function languages()
+    {
+        $detailLanguageIds = $this->details()->where('status', 1)->get()->pluck('language_id')->toArray();
+        return Language::whereIn('id', $detailLanguageIds)->get();
     }
 }

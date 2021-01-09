@@ -99,8 +99,7 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div class="form-group">
-                                            <label
-                                                for="languages">{{ __('DawnstarLang::website.labels.languages') }}</label>
+                                            <label for="languages">{{ __('DawnstarLang::website.labels.languages') }}</label>
                                             <select class="form-control w-100" id="languages" name="languages[]" multiple>
                                                 @foreach($languages as $language)
                                                     <option value="{{ $language->id }}" {{ in_array($language->id, old('languages', [])) }}>

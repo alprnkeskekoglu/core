@@ -91,7 +91,7 @@
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link" href="{{ route('dawnstar.container.index') }}">
+                    <a class="nav-main-link" href="{{ route('dawnstar.container.structure.index') }}">
                         <span class="nav-main-link-name">Container</span>
                     </a>
                 </li>
