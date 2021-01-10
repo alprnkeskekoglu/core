@@ -125,7 +125,7 @@
 
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn btn-dual" id="language-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-fw fa-language"></i>
+                    <i class="fa fa-fw fa-globe-europe"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="language-dropdown" style="min-width: auto">
                     <div class="p-2">

@@ -17,10 +17,10 @@ class CreatePageDetailsTable extends Migration
             $table->increments('id');
             $table->integer('page_id');
             $table->integer('language_id');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->string('name');
-            $table->string('slug');
-            $table->text('detail');
+            $table->string('slug')->nullable();
+            $table->text('detail')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

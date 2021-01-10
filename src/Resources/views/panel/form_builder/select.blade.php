@@ -17,7 +17,7 @@
 <div class="{{ $parentClass }}">
     <label class="d-block">{{ $labelText }}</label>
     <div class="form-group">
-        <select class="form-control select2" {{ $isMultiple ? 'multiple' : '' }} id="{{ $id }}" name="{{ $name }}">
+        <select {!! $inputAttributes !!} } {{ $isMultiple ? 'multiple' : '' }} id="{{ $id }}" name="{{ $name }}">
             @if(!$isMultiple)
                 <option value="">{{ __('DawnstarLang::general.select') }}</option>
             @endif

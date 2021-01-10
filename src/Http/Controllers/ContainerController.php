@@ -165,29 +165,20 @@ class ContainerController extends BaseController
 
     public function edit(int $id)
     {
-        $container = Container::find($id);
-
-        if (is_null($container)) {
-            return redirect()->route('dawnstar.container.structure.index')->withErrors(__('DawnstarLang::container.response_message.id_error', ['id' => $id]))->withInput();
-        }
+        $container = Container::findOrFail($id);
 
         $languages = $container->languages();
 
         $formBuilder = new FormBuilder('container', 2);
 
-        $breadcrumb = [];
+        $breadcrumb = []; // TODO
 
         return view('DawnstarView::pages.container.edit', compact('container', 'languages', 'formBuilder', 'breadcrumb'));
     }
 
     public function update(Request $request, int $id)
     {
-        $container = Container::find($id);
-
-        if (is_null($container)) {
-            // TODO: change page index
-            return redirect()->route('dawnstar.container.structure.index')->withErrors(__('DawnstarLang::container.response_message.id_error', ['id' => $id]))->withInput();
-        }
+        $container = Container::findOrFail($id);
 
         $data = $request->except('_token');
 
@@ -223,7 +214,7 @@ class ContainerController extends BaseController
         addAction($container, 'update');
 
         // TODO: change page index
-        return redirect()->route('dawnstar.container.structure.index')->with('success_message', __('DawnstarLang::container.response_message.update'));
+        return redirect()->route('dawnstar.page.index', ['containerId' => $id])->with('success_message', __('DawnstarLang::container.response_message.update'));
 
     }
 

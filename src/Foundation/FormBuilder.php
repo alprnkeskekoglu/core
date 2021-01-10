@@ -32,10 +32,12 @@ class FormBuilder
 
         $this->languageCode = session('dawnstar.language.code');
 
-        if($id) {
-            $this->model = $model->find($id);
-        } else {
+        if($type == 'container') {
             $this->model = $this->container;
+        } elseif($id && isset($this->models[$type])) {
+            $model = $this->models[$type];
+
+            $this->model = $model::find($id);
         }
     }
 
@@ -51,7 +53,7 @@ class FormBuilder
         $contents = include $this->builderFile;
 
         if($tabLanguage) {
-            $this->modelDetail = $this->model->details()->where('language_id', $tabLanguage->id)->first();
+            $this->modelDetail = $this->model ? $this->model->details()->where('language_id', $tabLanguage->id)->first() : null;
             return isset($contents['languages']) ? $this->getHtml($contents['languages']) : null;
         }
         return isset($contents['general']) ? $this->getHtml($contents['general']) : null;
@@ -77,7 +79,7 @@ class FormBuilder
     {
         $type = $input['type'];
         $whiteList = [
-            'input', 'radio', 'checkbox', 'select', 'textarea', 'ckeditor'
+            'input', 'radio', 'checkbox', 'select', 'textarea', 'ckeditor', 'date'
         ];
 
         if(!in_array($type, $whiteList)) {
@@ -126,6 +128,10 @@ class FormBuilder
 
     private function getInputValue($name)
     {
+        if(is_null($this->model)) {
+            return null;
+        }
+
         if(is_null($this->tabLanguage)) {
             return $this->getNonDetailValue($name);
         }
@@ -138,8 +144,6 @@ class FormBuilder
 
         if($isExtras) {
             $name = str_replace(['extras.', '[]'], '', $name);
-
-            return $this->modelDetail->{$name};
         }
         return $this->model->{$name};
     }

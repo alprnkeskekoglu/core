@@ -6,7 +6,9 @@ use Dawnstar\Console\Commands\InstallDawnstar;
 use Dawnstar\Http\Middleware\DawnstarAuthenticate;
 use Dawnstar\Http\Middleware\DawnstarRedirectIfAuthenticated;
 use Dawnstar\Models\ContainerDetail;
+use Dawnstar\Models\PageDetail;
 use Dawnstar\Observers\ContainerDetailObserver;
+use Dawnstar\Observers\PageDetailObserver;
 use Illuminate\Routing\Router;
 use Dawnstar\Console\Kernel;
 use Dawnstar\Providers\ConfigServiceProvider;
@@ -49,5 +51,6 @@ class DawnstarServiceProvider extends ServiceProvider
 
 
         ContainerDetail::observe(ContainerDetailObserver::class);
+        PageDetail::observe(PageDetailObserver::class);
     }
 }

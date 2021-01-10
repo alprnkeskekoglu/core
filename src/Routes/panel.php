@@ -28,20 +28,34 @@ Route::middleware(['dawnstar.auth'])->group(function () {
         Route::post('/delete/{id}', 'AdminController@delete')->name('delete');
     });
 
-    Route::prefix('Container')->as('container.')->group(function () {
-        Route::prefix('Structure')->as('structure.')->group(function () {
-            Route::get('/', 'ContainerController@structureIndex')->name('index');
-            Route::get('/create', 'ContainerController@structureCreate')->name('create');
-            Route::post('/store', 'ContainerController@structureStore')->name('store');
-            Route::get('/edit/{id}', 'ContainerController@structureEdit')->name('edit');
-            Route::post('/update/{id}', 'ContainerController@structureUpdate')->name('update');
-            Route::post('/delete/{id}', 'ContainerController@structureDelete')->name('delete');
+    Route::prefix('Container')->group(function () {
+
+        Route::as('container.')->group(function () {
+            Route::prefix('Structure')->as('structure.')->group(function () {
+                Route::get('/', 'ContainerController@structureIndex')->name('index');
+                Route::get('/create', 'ContainerController@structureCreate')->name('create');
+                Route::post('/store', 'ContainerController@structureStore')->name('store');
+                Route::get('/edit/{id}', 'ContainerController@structureEdit')->name('edit');
+                Route::post('/update/{id}', 'ContainerController@structureUpdate')->name('update');
+                Route::post('/delete/{id}', 'ContainerController@structureDelete')->name('delete');
+            });
+
+            Route::get('/edit/{id}', 'ContainerController@edit')->name('edit');
+            Route::post('/update/{id}', 'ContainerController@update')->name('update');
+            Route::get('/getUrl', 'ContainerController@getUrl')->name('getUrl');
         });
 
-        Route::get('/edit/{id}', 'ContainerController@edit')->name('edit');
-        Route::post('/update/{id}', 'ContainerController@update')->name('update');
 
-        Route::get('/getUrl', 'ContainerController@getUrl')->name('getUrl');
+        Route::prefix('{containerId}/Pages')->as('page.')->group(function () {
+            Route::get('/', 'PageController@index')->name('index');
+            Route::get('/create', 'PageController@create')->name('create');
+            Route::post('/store', 'PageController@store')->name('store');
+            Route::get('/edit/{id}', 'PageController@edit')->name('edit');
+            Route::post('/update/{id}', 'PageController@update')->name('update');
+            Route::post('/delete/{id}', 'PageController@delete')->name('delete');
+        });
+
+
     });
 
     Route::prefix('Menu')->as('menu.')->group(function () {
