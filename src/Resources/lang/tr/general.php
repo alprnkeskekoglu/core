@@ -21,6 +21,11 @@ return [
         'passive' => 'Pasif',
     ],
 
+    'datatable' => [
+        'lengthMenu' => "_MENU_ kayıt göster",
+        'search' => "Arama:",
+    ],
+
     'error_occured' => 'Hata oluştu!',
 
     'swal' => [

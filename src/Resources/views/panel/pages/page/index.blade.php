@@ -6,7 +6,7 @@
 
         <div class="content content-max-width">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('DawnstarLang::menu.index_title') }}</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('DawnstarLang::page.index_title') }}</h1>
                 @include('DawnstarView::layouts.breadcrumb')
             </div>
         </div>
@@ -31,7 +31,7 @@
                         </div>
                     </div>
 
-                    <table class="table table-striped table-vcenter">
+                    <table class="table table-striped table-vcenter dataTable">
                         <thead>
                         <tr>
                             <th class="text-center" style="width: 50px;">#</th>
@@ -42,35 +42,6 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($pages as $page)
-                            <tr>
-                                <th class="text-center" scope="row">
-                                    {{ $page->id }}
-                                </th>
-                                <td class="text-center">
-                                    <span class="badge badge-{{ getStatusColorClass($page->status) }} fa-1x p-2">
-                                        {{ getStatusText($page->status) }}
-                                    </span>
-                                </td>
-                                <td class="font-w600 fa-1x">
-                                    {{ $page->detail->name }}
-                                </td>
-                                <td>
-                                    {{ $page->detail->url->url }}
-                                </td>
-                                <td class="text-center">
-                                    <div class="btn-group">
-                                        <a href="{{ route('dawnstar.page.edit', ['containerId' => $container->id, 'id' => $page->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">
-                                            <i class="fa fa-pencil-alt"></i>
-                                        </a>
-
-                                        <button type="button" class="deleteBtn btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('dawnstar.page.delete', ['containerId' => $container->id, 'id' => $page->id]) }}" title="{{ __('DawnstarLang::general.delete') }}">
-                                            <i class="fa fa-times"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -80,14 +51,92 @@
 @endsection
 
 @push('styles')
+    <link rel="stylesheet" href="{{ dawnstarAsset('plugins/datatables/dataTables.bootstrap4.css') }}">
     <link rel="stylesheet" href="{{ dawnstarAsset('plugins/sweetalert2/sweetalert2.min.css') }}">
 @endpush
 
 @push('scripts')
+    <script src="{{ dawnstarAsset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ dawnstarAsset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script>
-        jQuery('.deleteBtn').on('click', e => {
-            var url = e.currentTarget.getAttribute('data-url');
+        var table = $('.dataTable').DataTable({
+            "iDisplayLength": 10,
+            "bProcessing": true,
+            "bServerSide": true,
+            "info": false,
+            "ordering": false,
+            "language": {
+                "lengthMenu": '{{ __("DawnstarLang::general.datatable.lengthMenu") }}',
+                "search": '{{ __("DawnstarLang::general.datatable.search") }}'
+            },
+            columns: [
+                {data: "order"},
+                {data: "status"},
+                {data: "name"},
+                {data: "slug"},
+                {
+                    defaultContent: '' +
+                        '<div class="dropdown">\n' +
+                        '<div class="btn-group">' +
+                            '<a href="" class="btn btn-sm btn-primary edit" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">'+
+                                '<i class="fa fa-pencil-alt"></i>' +
+                            '</a>' +
+
+                            '<button type="button" class="deleteBtn btn btn-sm btn-danger delete" data-toggle="tooltip" data-placement="bottom" data-url="" title="{{ __('DawnstarLang::general.delete') }}">' +
+                                '<i class="fa fa-times"></i>' +
+                            '</button>' +
+                        '</div>' +
+                        '</div>'
+                },
+            ],
+            columnDefs: [//Update Columns
+                {
+                    targets: 1,
+                    'createdCell':  function (td, cellData, rowData, row, col) {
+                        if(rowData.status == 1) {
+                            var badge = 'success';
+                            var text = '{{ __('DawnstarLang::general.status_title.active') }}'
+                        } else if(rowData.status == 3) {
+                            var badge = 'danger';
+                            var text = '{{ __('DawnstarLang::general.status_title.passive') }}'
+                        } else {
+                            var badge = 'secondary';
+                            var text = '{{ __('DawnstarLang::general.status_title.draft') }}'
+                        }
+
+                        $(td).addClass('text-center');
+                        $(td).html('<span class="badge badge-'+badge+' fa-1x p-2">'+ text + '</span>');
+                    }
+                },
+                {
+                    targets: 4,
+                    'createdCell':  function (td, cellData, rowData, row, col) {
+                        $(td).find('.edit').first().attr('href', "/dawnstar/Container/" + rowData.container_id + "/Pages/edit/" + rowData.id);
+                        $(td).find('.delete').first().attr('data-url', "/dawnstar/Container/" + rowData.container_id + "/Pages/delete" + rowData.id);
+                    }
+                },
+            ],
+            ajax: {
+                url: "{!! route("dawnstar.page.getPageList", ['containerId' => $container->id]) !!}",
+                method: "GET",
+                "dataSrc": function (response) { //ajax success
+                    $('#dataTable-count').html(response.recordsTotal);
+                    return response.data;
+                }
+            },
+        }).on('preDraw', function () {
+            if ($('.dataTables_paginate > span > a.paginate_button').length > 1) {
+                $('.dataTables_paginate').css('display', 'block');
+            } else {
+                $('.dataTables_paginate').css('display', 'none');
+            }
+            $('.dataTables_filter input').addClass('form-control');
+            $('.dataTables_length select').addClass('form-control-plaintext');
+        })
+
+
+        $('body').delegate('.deleteBtn', 'click', function () {
+            var url = $(this).attr('data-url');
             swal.fire({
                 title: '{{ __('DawnstarLang::general.swal.title') }}',
                 text: '{{ __('DawnstarLang::general.swal.subtitle') }}',
@@ -100,13 +149,6 @@
                 confirmButtonText: '{{ __('DawnstarLang::general.swal.confirm_btn') }}',
                 cancelButtonText: '{{ __('DawnstarLang::general.swal.cancel_btn') }}',
                 html: false,
-                preConfirm: e => {
-                    return new Promise(resolve => {
-                        setTimeout(() => {
-                            resolve();
-                        }, 50);
-                    });
-                }
             }).then(result => {
                 if (result.value) {
                     $.ajax({
@@ -125,6 +167,6 @@
                     })
                 }
             });
-        });
+        })
     </script>
 @endpush

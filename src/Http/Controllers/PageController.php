@@ -18,9 +18,6 @@ class PageController extends BaseController
     {
         $container = Container::findOrFail($containerId);
 
-        $pages = $container->pages()->orderBy('order')->get();
-
-
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::page.index_title'),
@@ -28,7 +25,7 @@ class PageController extends BaseController
             ]
         ];
 
-        return view('DawnstarView::pages.page.index', compact('container', 'pages', 'breadcrumb'));
+        return view('DawnstarView::pages.page.index', compact('container', 'breadcrumb'));
     }
 
     public function create(int $containerId)
@@ -187,5 +184,49 @@ class PageController extends BaseController
         addAction($page, 'delete');
 
         return response()->json(['title' => __('DawnstarLang::general.swal.success.title'), 'subtitle' => __('DawnstarLang::general.swal.success.subtitle')]);
+    }
+
+    public function getPageList(Request $request, int $containerId)
+    {
+        $draw = $request->draw;
+        $start = $request->start;
+        $length = $request->length;
+        $search = $request->search['value'] ?? null;
+
+        $pages = Page::where('container_id', $containerId)
+            ->with('detail')
+            ->orderBy('order');
+
+        if ($search) {
+            $pages = $pages->whereHas('detail', function ($q) use($search) {
+                $q->where('name', 'like', '%' . $search . '%');
+            });
+        }
+
+        $totalCount = $pages->count();
+        $pages = $pages
+            ->offset($start)
+            ->limit($length)
+            ->get(['id', 'container_id', 'order', 'status', 'created_at']);
+
+
+        $holder = [];
+        foreach ($pages as $page) {
+            $holder[] = [
+                'id' => $page->id,
+                'container_id' => $page->container_id,
+                'status' => $page->status,
+                'order' => $page->order,
+                'name' => $page->detail->name,
+                'slug' => $page->detail->slug
+            ];
+        }
+
+        $data['draw'] = $draw;
+        $data['recordsTotal'] = $totalCount;
+        $data['recordsFiltered'] = $totalCount;
+        $data['data'] = $holder;
+
+        return response()->json($data);
     }
 }

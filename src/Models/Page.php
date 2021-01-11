@@ -39,7 +39,6 @@ class Page extends Model
             return $attribute;
         }
 
-
         $extras = $this->extras()->where('key', $key)->get();
 
         if($extras->isNotEmpty()) {
@@ -49,5 +48,6 @@ class Page extends Model
                 return $extras->first()->value;
             }
         }
+        return $attribute;
     }
 }

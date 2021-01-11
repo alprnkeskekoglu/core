@@ -53,6 +53,8 @@ Route::middleware(['dawnstar.auth'])->group(function () {
             Route::get('/edit/{id}', 'PageController@edit')->name('edit');
             Route::post('/update/{id}', 'PageController@update')->name('update');
             Route::post('/delete/{id}', 'PageController@delete')->name('delete');
+
+            Route::get('/getPageList', 'PageController@getPageList')->name('getPageList');
         });
 
 
