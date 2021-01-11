@@ -6,6 +6,7 @@ return [
     'edit_title' => 'Sayfa Düzenle',
 
     'container' => 'Sayfa Yapısı',
+    'category' => 'Kategoriler',
 
     'labels' => [
         'status' => 'Durum',

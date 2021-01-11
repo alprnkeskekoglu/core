@@ -57,6 +57,16 @@ Route::middleware(['dawnstar.auth'])->group(function () {
             Route::get('/getPageList', 'PageController@getPageList')->name('getPageList');
         });
 
+        Route::prefix('{containerId}/Categories')->as('category.')->group(function () {
+            Route::get('/', 'CategoryController@index')->name('index');
+            Route::get('/create', 'CategoryController@create')->name('create');
+            Route::post('/store', 'CategoryController@store')->name('store');
+            Route::get('/edit/{id}', 'CategoryController@edit')->name('edit');
+            Route::post('/update/{id}', 'CategoryController@update')->name('update');
+            Route::post('/delete/{id}', 'CategoryController@delete')->name('delete');
+
+            Route::get('/saveOrder', 'CategoryController@saveOrder')->name('saveOrder');
+        });
 
     });
 

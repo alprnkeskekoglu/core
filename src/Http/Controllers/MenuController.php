@@ -10,7 +10,7 @@ class MenuController extends BaseController
 {
     public function index()
     {
-        $menus = Menu::all();
+        $menus = Menu::where('website_id', session('dawnstar.website.id'))->get();
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::menu.index_title'),
@@ -59,11 +59,7 @@ class MenuController extends BaseController
 
     public function edit(int $id)
     {
-        $menu = Menu::find($id);
-
-        if (is_null($menu)) {
-            return redirect()->route('dawnstar.menu.index')->withErrors(__('DawnstarLang::menu.response_message.id_error', ['id' => $id]))->withInput();
-        }
+        $menu = Menu::findOrFail($id);
 
         $breadcrumb = [
             [
@@ -81,11 +77,7 @@ class MenuController extends BaseController
 
     public function update(MenuRequest $request, $id)
     {
-        $menu = Menu::find($id);
-
-        if (is_null($menu)) {
-            return redirect()->route('dawnstar.menu.index')->withErrors(__('DawnstarLang::menu.response_message.id_error', ['id' => $id]))->withInput();
-        }
+        $menu = Menu::findOrFail($id);
 
         $data = $request->except('_token');
         $request->validated();

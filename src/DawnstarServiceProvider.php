@@ -5,8 +5,10 @@ namespace Dawnstar;
 use Dawnstar\Console\Commands\InstallDawnstar;
 use Dawnstar\Http\Middleware\DawnstarAuthenticate;
 use Dawnstar\Http\Middleware\DawnstarRedirectIfAuthenticated;
+use Dawnstar\Models\CategoryDetail;
 use Dawnstar\Models\ContainerDetail;
 use Dawnstar\Models\PageDetail;
+use Dawnstar\Observers\CategoryDetailObserver;
 use Dawnstar\Observers\ContainerDetailObserver;
 use Dawnstar\Observers\PageDetailObserver;
 use Illuminate\Routing\Router;
@@ -52,5 +54,6 @@ class DawnstarServiceProvider extends ServiceProvider
 
         ContainerDetail::observe(ContainerDetailObserver::class);
         PageDetail::observe(PageDetailObserver::class);
+        CategoryDetail::observe(CategoryDetailObserver::class);
     }
 }

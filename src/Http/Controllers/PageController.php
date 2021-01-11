@@ -33,7 +33,7 @@ class PageController extends BaseController
         $container = Container::findOrFail($containerId);
         $languages = $container->languages();
 
-        $formBuilder = new FormBuilder('page', 2);
+        $formBuilder = new FormBuilder('page', $containerId);
 
         $breadcrumb = [
             [
@@ -106,7 +106,7 @@ class PageController extends BaseController
 
         $languages = $container->languages();
 
-        $formBuilder = new FormBuilder('page', 2, $id);
+        $formBuilder = new FormBuilder('page', $containerId, $id);
 
         $breadcrumb = [
             [
@@ -175,8 +175,15 @@ class PageController extends BaseController
 
     public function delete(int $containerId, int $id)
     {
-        $container = Container::findOrFail($containerId);
-        $page = Page::findOrFail($id);
+        $container = Container::find($containerId);
+        if (is_null($container)) {
+            return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
+        }
+
+        $page = Page::find($id);
+        if (is_null($page)) {
+            return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
+        }
 
         $page->delete();
 

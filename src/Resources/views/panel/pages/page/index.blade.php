@@ -23,6 +23,14 @@
                                 {{ __('DawnstarLang::page.container') }}
                             </a>
                         </div>
+                        @if($container->has_category == 1)
+                            <div class="mr-2">
+                                <a href="{{ route('dawnstar.category.index', ['containerId' => $container->id]) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
+                                    <i class="fa fa-fw fa-grip-horizontal mr-1"></i>
+                                    {{ __('DawnstarLang::page.category') }}
+                                </a>
+                            </div>
+                        @endif
                         <div class="mr-2">
                             <a href="{{ route('dawnstar.page.create', ['containerId' => $container->id]) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
                                 <i class="fa fa-fw fa-plus mr-1"></i>

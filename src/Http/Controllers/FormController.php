@@ -10,7 +10,7 @@ class FormController extends BaseController
 {
     public function index()
     {
-        $forms = Form::all();
+        $forms = Form::where('website_id', session('dawnstar.website.id'))->get();
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::form.index_title'),
@@ -60,11 +60,7 @@ class FormController extends BaseController
 
     public function edit(int $id)
     {
-        $form = Form::find($id);
-
-        if (is_null($form)) {
-            return redirect()->route('dawnstar.form.index')->withErrors(__('DawnstarLang::form.response_message.id_error', ['id' => $id]))->withInput();
-        }
+        $form = Form::findOrFail($id);
 
         $breadcrumb = [
             [
@@ -82,11 +78,7 @@ class FormController extends BaseController
 
     public function update(FormRequest $request, $id)
     {
-        $form = Form::find($id);
-
-        if (is_null($form)) {
-            return redirect()->route('dawnstar.form.index')->withErrors(__('DawnstarLang::form.response_message.id_error', ['id' => $id]))->withInput();
-        }
+        $form = Form::findOrFail($id);
 
         $data = $request->except('_token');
 

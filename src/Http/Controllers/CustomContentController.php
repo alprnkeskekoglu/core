@@ -51,7 +51,7 @@ class CustomContentController extends BaseController
 
     private function getCustomContents(string $search = null)
     {
-        $customContents = CustomContent::query();
+        $customContents = CustomContent::where('website_id', session('dawnstar.website.id'));
 
         if ($search) {
             $customContents = $customContents->where(function ($q) use ($search) {

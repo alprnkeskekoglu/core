@@ -17,9 +17,9 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->integer('container_id');
             $table->tinyInteger('status');
-            $table->integer('parent_id');
-            $table->integer('lft');
-            $table->integer('rgt');
+            $table->integer('parent_id')->default(0);
+            $table->integer('lft')->nullable();
+            $table->integer('rgt')->nullable();
             $table->string('cvar_1')->nullable();
             $table->string('cvar_2')->nullable();
             $table->string('cvar_3')->nullable();

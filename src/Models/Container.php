@@ -27,6 +27,11 @@ class Container extends Model
         return $this->hasMany(Page::class);
     }
 
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
+
     public function languages()
     {
         $detailLanguageIds = $this->details()->where('status', 1)->get()->pluck('language_id')->toArray();

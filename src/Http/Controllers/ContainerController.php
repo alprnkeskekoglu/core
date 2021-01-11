@@ -17,7 +17,7 @@ class ContainerController extends BaseController
 {
     public function structureIndex()
     {
-        $containers = Container::all();
+        $containers = Container::where('website_id', session('dawnstar.website.id'))->get();
 
         $breadcrumb = [
             [
@@ -86,11 +86,8 @@ class ContainerController extends BaseController
 
     public function structureEdit(int $id)
     {
-        $container = Container::find($id);
+        $container = Container::findOrFail($id);
 
-        if (is_null($container)) {
-            return redirect()->route('dawnstar.container.structure.index')->withErrors(__('DawnstarLang::container.response_message.id_error', ['id' => $id]))->withInput();
-        }
         $website = session('dawnstar.website');
         $languages = $website->languages;
 
@@ -110,11 +107,8 @@ class ContainerController extends BaseController
 
     public function structureUpdate(ContainerRequest $request, $id)
     {
-        $container = Container::find($id);
+        $container = Container::findOrFail($id);
 
-        if (is_null($container)) {
-            return redirect()->route('dawnstar.container.structure.index')->withErrors(__('DawnstarLang::container.response_message.id_error', ['id' => $id]))->withInput();
-        }
         $request->validated();
 
         $data = $request->except('_token');

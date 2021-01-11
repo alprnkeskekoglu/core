@@ -2,12 +2,12 @@
 
 namespace Dawnstar\Observers;
 
-use Dawnstar\Models\PageDetail;
+use Dawnstar\Models\CategoryDetail;
 use Dawnstar\Models\Url;
 
-class PageDetailObserver
+class CategoryDetailObserver
 {
-    public function created(PageDetail $detail)
+    public function created(CategoryDetail $detail)
     {
         if($detail && $detail->slug) {
             $language = $detail->language;
@@ -25,7 +25,7 @@ class PageDetailObserver
         }
     }
 
-    public function saved(PageDetail $detail)
+    public function saved(CategoryDetail $detail)
     {
         if($detail && $detail->slug) {
             $language = $detail->language;

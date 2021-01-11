@@ -5,22 +5,26 @@
 
         <div class="content content-max-width">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('DawnstarLang::container.edit_title') }}</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('DawnstarLang::container.create_title') }}</h1>
                 @include('DawnstarView::layouts.breadcrumb')
             </div>
         </div>
 
         <div class="content">
             @include('DawnstarView::layouts.alerts')
-            <form action="{{ route('dawnstar.container.update', ['id' => $container->id]) }}" method="POST">
+            <form action="{{ route('dawnstar.category.store', ['containerId' => $container->id]) }}" method="POST">
                 @csrf
                 <div class="block block-rounded">
                     <div class="block-header block-header-default block-header-rtl">
                         <div class="block-options">
-                            <a href="{{ route('dawnstar.page.index', ['containerId' => $container->id]) }}" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ route('dawnstar.category.index', ['containerId' => $container->id]) }}" class="btn btn-sm btn-outline-secondary">
                                 <i class="fa fa-arrow-left"></i>
                                 {{ __('DawnstarLang::general.go_back') }}
                             </a>
+                            <button type="reset" class="btn btn-sm btn-outline-danger">
+                                <i class="fa fa-sync"></i>
+                                {{ __('DawnstarLang::general.refresh') }}
+                            </button>
                             <button type="submit" class="btn btn-sm btn-outline-primary">
                                 <i class="fa fa-check"></i>
                                 {{ __('DawnstarLang::general.submit') }}
@@ -66,7 +70,6 @@
     <script>
         var typingTimer;
         var doneTypingInterval = 500;
-        var typedInput;
         var typedInput;
 
         $('body').delegate('[id$="_name"]', 'keyup', function () {

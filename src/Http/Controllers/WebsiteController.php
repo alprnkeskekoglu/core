@@ -65,11 +65,8 @@ class WebsiteController extends BaseController
 
     public function edit(int $id)
     {
-        $website = Website::find($id);
+        $website = Website::findOrFail($id);
 
-        if (is_null($website)) {
-            return redirect()->route('dawnstar.website.index')->withErrors(__('DawnstarLang::website.response_message.id_error', ['id' => $id]))->withInput();
-        }
         $languages = Language::all();
 
         $breadcrumb = [
@@ -88,11 +85,7 @@ class WebsiteController extends BaseController
 
     public function update(WebsiteRequest $request, $id)
     {
-        $website = Website::find($id);
-
-        if (is_null($website)) {
-            return redirect()->route('dawnstar.website.index')->withErrors(__('DawnstarLang::website.response_message.id_error', ['id' => $id]))->withInput();
-        }
+        $website = Website::findOrFail($id);
 
         $data = $request->except('_token');
 

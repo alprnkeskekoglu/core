@@ -71,7 +71,6 @@
         var typingTimer;
         var doneTypingInterval = 500;
         var typedInput;
-        var typedInput;
 
         $('body').delegate('[id$="_name"]', 'keyup', function () {
             clearTimeout(typingTimer);

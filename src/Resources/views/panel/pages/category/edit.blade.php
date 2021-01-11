@@ -12,12 +12,12 @@
 
         <div class="content">
             @include('DawnstarView::layouts.alerts')
-            <form action="{{ route('dawnstar.container.update', ['id' => $container->id]) }}" method="POST">
+            <form action="{{ route('dawnstar.category.update', ['containerId' => $container->id, 'id' => $category->id]) }}" method="POST">
                 @csrf
                 <div class="block block-rounded">
                     <div class="block-header block-header-default block-header-rtl">
                         <div class="block-options">
-                            <a href="{{ route('dawnstar.page.index', ['containerId' => $container->id]) }}" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ route('dawnstar.category.index', ['containerId' => $container->id]) }}" class="btn btn-sm btn-outline-secondary">
                                 <i class="fa fa-arrow-left"></i>
                                 {{ __('DawnstarLang::general.go_back') }}
                             </a>
@@ -66,7 +66,6 @@
     <script>
         var typingTimer;
         var doneTypingInterval = 500;
-        var typedInput;
         var typedInput;
 
         $('body').delegate('[id$="_name"]', 'keyup', function () {

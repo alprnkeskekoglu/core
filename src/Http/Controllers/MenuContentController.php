@@ -13,11 +13,7 @@ class MenuContentController extends BaseController
 {
     public function create(int $menuId)
     {
-        $menu = Menu::find($menuId);
-
-        if (is_null($menu)) {
-            return redirect()->route('dawnstar.menu.index')->withErrors(__('DawnstarLang::menu.response_message.id_error', ['id' => $menuId]));
-        }
+        $menu = Menu::findOrFail($menuId);
 
         $website = session('dawnstar.website');
         $languages = $website->languages;
