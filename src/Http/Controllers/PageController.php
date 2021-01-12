@@ -54,13 +54,16 @@ class PageController extends BaseController
         $container = Container::findOrFail($containerId);
         $data = $request->except('_token');
 
+        $categories = $data['categories'] ?? [];
         $details = $data['details'] ?? [];
         $extras = $data['extras'] ?? [];
-        unset($data['details'], $data['extras']);
+        unset($data['categories'], $data['details'], $data['extras']);
 
         $data['container_id'] = $containerId;
 
         $page = Page::firstOrCreate($data);
+
+        $page->sync($categories);
 
         foreach ($extras as $key => $value) {
             PageExtra::firstOrCreate([
@@ -128,12 +131,15 @@ class PageController extends BaseController
         $page = Page::findOrFail($id);
         $data = $request->except('_token');
 
+        $categories = $data['categories'] ?? [];
         $details = $data['details'] ?? [];
         $extras = $data['extras'] ?? [];
-        unset($data['details'], $data['extras']);
+        unset($data['categories'], $data['details'], $data['extras']);
 
 
         $page->update($data);
+
+        $page->categories()->sync($categories);
 
         $page->extras()->delete();
         foreach ($extras as $key => $value) {

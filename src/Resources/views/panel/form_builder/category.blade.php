@@ -1,6 +1,5 @@
 @php
     $id = $input['id'];
-    $isMultiple = isset($input['multiple']) && $input['multiple'];
     $name = $input['name'];
 
     $parentClass = $input['parent_class'] ?? 'col-md-6';
@@ -17,18 +16,9 @@
 <div class="{{ $parentClass }}">
     <label class="d-block">{{ $labelText }}</label>
     <div class="form-group">
-        <select {!! $inputAttributes !!} } {{ $isMultiple ? 'multiple' : '' }} id="{{ $id }}" name="{{ $name }}">
-            @if(!$isMultiple)
-                <option value="">{{ __('DawnstarLang::general.select') }}</option>
-            @endif
-            @foreach($input['options'] as $option)
-                @php
-                    $isSelected = old($name, $value) == $option['value'];
-                    if($isMultiple) {
-                        $isSelected = in_array($option['value'], old($name, $value ?: []));
-                    }
-                @endphp
-                <option {{ $isSelected ? 'selected' : '' }} value="{{ $option['value'] }}">{{ $option['text'][$dawnstarLanguageCode] ?? array_shift($option['text']) }}</option>
+        <select {!! $inputAttributes !!} } multiple id="{{ $id }}" name="{{ $name }}">
+            @foreach($input['categories'] as $id => $categoryName)
+                <option {{ in_array($id, old($name, $value ?: [])) ? 'selected' : '' }} value="{{ $id }}">{{ $categoryName }}</option>
             @endforeach
         </select>
     </div>

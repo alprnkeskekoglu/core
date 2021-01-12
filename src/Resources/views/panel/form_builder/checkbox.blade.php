@@ -1,6 +1,7 @@
 @php
     $id = $input['id'];
-    $name = $input['name'] . (isset($input['multiple']) && $input['multiple'] ? '[]' : '');
+    $isMultiple = isset($input['multiple']) && $input['multiple'];
+    $name = $input['name'];
 
     $parentClass = $input['parent_class'] ?? 'col-md-6';
     $labelText = $input['label']['text'][$dawnstarLanguageCode] ?? array_shift($input['label']['text']);
@@ -19,7 +20,7 @@
         @foreach($input['options'] as $option)
             <div class="col-md-3">
                 <div class="custom-control custom-checkbox custom-control-lg custom-control-inline">
-                    @if(isset($input['multiple']) && $input['multiple'])
+                    @if($isMultiple)
                         <input type="checkbox" {!! $inputAttributes !!} id="{{ $id . '_' . $option['value'] }}" name="{{ $name }}" value="{{ $option['value'] }}" {{ in_array($option['value'], old($input['name'], $value ?: [])) ? 'checked' : '' }}>
                     @else
                         <input type="checkbox" {!! $inputAttributes !!} id="{{ $id . '_' . $option['value'] }}" name="{{ $name }}" value="{{ $option['value'] }}" {{ old($input['name'], $value) == $option['value'] ? 'checked' : '' }}>

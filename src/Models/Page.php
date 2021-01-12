@@ -31,6 +31,11 @@ class Page extends Model
         return $this->hasMany(PageExtra::class);
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_pages');
+    }
+
     public function __get($key)
     {
         $attribute = $this->getAttribute($key);
