@@ -18,11 +18,14 @@ class InstallDawnstar extends Command
 
         $this->createDefaultBladeFiles();
 
+        $this->createSymbolicLink();
+
         Admin::firstOrCreate([
             'role_id' => 1,
-            'fullname' => 'test',
-            'username' => 'test',
-            'email' => 'test@test.com',
+            'status' => 1,
+            'fullname' => 'Alperen Keşkekoğlu',
+            'username' => 'alprnkeskekoglu',
+            'email' => 'keskekoglualperen@gmail.com',
             'password' => '$2y$10$c0ncNq4BfdWo4gINdcdnEu9rc7BxBHjK9LhE.6sIDIawcjAYlt6VS'
         ]);
     }
@@ -75,5 +78,11 @@ class InstallDawnstar extends Command
         file_put_contents(resource_path('views/layouts/footer.blade.php'), '@include("DawnstarWebView::default.layouts.footer")');
 
         $this->info('Default Blade Files Created !!');
+    }
+
+    private function createSymbolicLink()
+    {
+        Artisan::call('storage:link');
+        $this->info(Artisan::output());
     }
 }

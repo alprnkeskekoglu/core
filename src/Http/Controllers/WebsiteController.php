@@ -104,6 +104,7 @@ class WebsiteController extends BaseController
         $website->languages()->updateExistingPivot($defaultLangauge, ['is_default' => 1]);
 
 
+
         // Admin Action
         addAction($website, 'update');
 

@@ -64,7 +64,7 @@ class AuthController extends BaseController
 
     private function createLanguageSession()
     {
-        $language = Language::find(168)->first(); // TODO: change to 40
+        $language = Language::find(40);
 
         session(['dawnstar.language' => $language]);
     }

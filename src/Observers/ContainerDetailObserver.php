@@ -9,7 +9,6 @@ class ContainerDetailObserver
 {
     public function created(ContainerDetail $detail)
     {
-        dd($detail);
         $language = $detail->language;
 
         $modelId = $detail->id;
@@ -41,4 +40,9 @@ class ContainerDetailObserver
         ]);
     }
 
+    public function deleted(ContainerDetail $detail)
+    {
+        $detail->url()->delete();
+        $detail->extras()->delete();
+    }
 }

@@ -44,3 +44,26 @@ function getStatusColorClass($status)
             return 'danger';
     }
 }
+
+function dawnstarMenu()
+{
+    return \Illuminate\Support\Facades\Cache::rememberForever('dawnstarMenu', function() {
+
+        $menu = [];
+
+        $containers = \Dawnstar\Models\Container::all();
+        foreach ($containers as $container) {
+            if ($container->type == 'static') {
+                $url = route('dawnstar.container.edit', ['id' => $container->id]);
+            } else {
+                $url = route('dawnstar.page.index', ['containerId' => $container->id]);
+            }
+
+            $menu[] = [
+                'name' => $container->detail->name,
+                'url' => $url,
+            ];
+        }
+        return $menu;
+    });
+}

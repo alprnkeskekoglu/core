@@ -165,7 +165,16 @@ class ContainerController extends BaseController
 
         $formBuilder = new FormBuilder('container', 2);
 
-        $breadcrumb = []; // TODO
+        $breadcrumb = [
+            [
+                'name' => __('DawnstarLang::container.index_title'),
+                'url' => route('dawnstar.page.index', ['containerId' => $id])
+            ],
+            [
+                'name' => __('DawnstarLang::container.create_title'),
+                'url' => '#'
+            ]
+        ];
 
         return view('DawnstarView::pages.container.edit', compact('container', 'languages', 'formBuilder', 'breadcrumb'));
     }
@@ -207,9 +216,8 @@ class ContainerController extends BaseController
         // Admin Action
         addAction($container, 'update');
 
-        // TODO: change page index
-        return redirect()->route('dawnstar.page.index', ['containerId' => $id])->with('success_message', __('DawnstarLang::container.response_message.update'));
 
+        return redirect()->route('dawnstar.page.index', ['containerId' => $id])->with('success_message', __('DawnstarLang::container.response_message.update'));
     }
 
     public function getUrl(Request $request)

@@ -5,6 +5,8 @@ return [
     'create_title' => 'Menü İçeriği Oluştur',
     'edit_title' => 'Menü İçeriği Düzenle',
 
+    'order_save' => 'Sıralamayı Kaydet',
+
     'labels' => [
         'status' => 'Durum',
         'name' => 'Adı',
@@ -30,4 +32,15 @@ return [
         'update' => 'Menü İçeriği başarıyla güncellenmiştir.',
         'id_error' => "Verilen id'ye (:id) ait menü içeriği bulunamadı!"
     ],
+
+    'swal' => [
+        'success' => [
+            'title' => 'Başarılı!',
+            'subtitle' => 'Sıralama başarıyla güncellendi.'
+        ],
+        'error' => [
+            'title' => 'Hata!',
+            'subtitle' => 'Sıralama güncellenirken hata oluştu.'
+        ],
+    ]
 ];

@@ -5,7 +5,7 @@ namespace Dawnstar\Traits;
 use Dawnstar\Models\Language;
 
 trait HasDetail{
-    // TODO rewrite
+    // TODO: write for frontend
 
     public function detail()
     {

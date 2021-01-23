@@ -24,7 +24,7 @@ class ContainerRequest extends Request
     public function rules()
     {
         return [
-            'key' => "filled|unique:containers,key,{$this->id}",
+            'key' => "filled|unique:containers,key,{$this->id},id,deleted_at,NULL",
             'status' => 'required',
             'type' => 'filled',
             'details.*.name' => 'required_if:details.*.status, 1',
@@ -39,6 +39,6 @@ class ContainerRequest extends Request
      */
     public function attributes()
     {
-        return __('DawnstarLang::menu.labels');
+        return __('DawnstarLang::container.labels');
     }
 }

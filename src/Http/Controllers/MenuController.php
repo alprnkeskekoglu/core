@@ -92,11 +92,7 @@ class MenuController extends BaseController
 
     public function delete($id)
     {
-        $menu = Menu::find($id);
-
-        if (is_null($menu)) {
-            return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
-        }
+        $menu = Menu::findOrFail($id);
 
         $menu->delete();
 

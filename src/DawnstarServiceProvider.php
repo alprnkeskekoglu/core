@@ -6,10 +6,12 @@ use Dawnstar\Console\Commands\InstallDawnstar;
 use Dawnstar\Http\Middleware\DawnstarAuthenticate;
 use Dawnstar\Http\Middleware\DawnstarRedirectIfAuthenticated;
 use Dawnstar\Models\CategoryDetail;
+use Dawnstar\Models\Container;
 use Dawnstar\Models\ContainerDetail;
 use Dawnstar\Models\PageDetail;
 use Dawnstar\Observers\CategoryDetailObserver;
 use Dawnstar\Observers\ContainerDetailObserver;
+use Dawnstar\Observers\ContainerObserver;
 use Dawnstar\Observers\PageDetailObserver;
 use Illuminate\Routing\Router;
 use Dawnstar\Console\Kernel;
@@ -52,6 +54,7 @@ class DawnstarServiceProvider extends ServiceProvider
         $router->aliasMiddleware('dawnstar.guest', DawnstarRedirectIfAuthenticated::class);
 
 
+        Container::observe(ContainerObserver::class);
         ContainerDetail::observe(ContainerDetailObserver::class);
         PageDetail::observe(PageDetailObserver::class);
         CategoryDetail::observe(CategoryDetailObserver::class);

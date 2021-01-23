@@ -12,6 +12,10 @@ return [
 
     'select' => 'Seçiniz',
 
+    'filemanager' => 'Dosya Yöneticisi',
+    'content' => 'İçerikler',
+    'pages' => 'Sayfalar',
+
     'yes' => 'Evet',
     'no' => 'Hayır',
 

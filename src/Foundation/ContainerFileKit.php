@@ -92,7 +92,7 @@ class ContainerFileKit
         }
 
         $viewFolder = resource_path('views/pages/' . strtolower($this->key));
-        $view = $view_folder . "/page.blade.php";
+        $view = $viewFolder . "/page.blade.php";
 
         if (!file_exists($viewFolder)) {
             $oldmask = umask(0);

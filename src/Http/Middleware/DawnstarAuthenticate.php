@@ -18,6 +18,8 @@ class DawnstarAuthenticate
 
             app()->setLocale(session("dawnstar.language.code"));
 
+            session(['dawnstar.isPanel' => true]);
+
             return $next($request);
         }
         return redirect()->route('dawnstar.auth.index');

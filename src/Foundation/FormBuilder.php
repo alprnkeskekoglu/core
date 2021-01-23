@@ -5,6 +5,7 @@ namespace Dawnstar\Foundation;
 use Dawnstar\Models\Category;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\Page;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class FormBuilder
 {
@@ -47,7 +48,7 @@ class FormBuilder
     {
         $contents = [];
         if (!file_exists($this->builderFile)) {
-            dd('file not exist!!'); // TODO: error
+            throw new FileNotFoundException($this->builderFile . ' does not exist!!');
         }
 
         $this->tabLanguage = $tabLanguage;
