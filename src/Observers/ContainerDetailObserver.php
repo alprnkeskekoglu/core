@@ -2,26 +2,25 @@
 
 namespace Dawnstar\Observers;
 
+use Dawnstar\Models\CategoryDetail;
 use Dawnstar\Models\ContainerDetail;
+use Dawnstar\Models\PageDetail;
 use Dawnstar\Models\Url;
+use Illuminate\Support\Facades\DB;
 
 class ContainerDetailObserver
 {
     public function created(ContainerDetail $detail)
     {
         $language = $detail->language;
-
-        $modelId = $detail->id;
-        $modelClass = get_class($detail);
-        $type = 'original';
         $urlText = '/' . $language->code . $detail->slug;
 
-        Url::firstOrCreate([
-            'model_id' => $modelId,
-            'model_class' => $modelClass,
-            'type' => $type,
-            'url' => $urlText
-        ]);
+        $detail->url()->create(
+            [
+                'type' => 'original',
+                'url' =>  $urlText
+            ]
+        );
     }
 
     public function saved(ContainerDetail $detail)
@@ -29,15 +28,19 @@ class ContainerDetailObserver
         $language = $detail->language;
 
         $url = $detail->url;
-
-        $modelId = $detail->id;
-        $modelClass = get_class($detail);
-        $type = 'original';
         $urlText = '/' . $language->code . $detail->slug;
+
+        $oldUrl = $url->url;
 
         $url->update([
             'url' =>  $urlText
         ]);
+
+        Url::whereHasMorph('model', [PageDetail::class, CategoryDetail::class], function ($query) use($detail) {
+            $query->whereHas('parent', function ($q) use($detail) {
+                $q->where('container_id', $detail->container_id);
+            });
+        })->update(['url' => DB::raw("REPLACE(url, '$oldUrl', '$urlText')")]);
     }
 
     public function deleted(ContainerDetail $detail)

@@ -2,12 +2,12 @@
 
 namespace Dawnstar\Http\Controllers;
 
+use Dawnstar\Contracts\Services\ModelStoreService;
 use Dawnstar\Foundation\ContainerFileKit;
 use Dawnstar\Foundation\FormBuilder;
 use Dawnstar\Http\Requests\ContainerRequest;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\ContainerDetail;
-use Dawnstar\Models\ContainerDetailExtra;
 use Dawnstar\Models\Language;
 use Dawnstar\Models\Url;
 use Illuminate\Http\Request;
@@ -51,8 +51,6 @@ class ContainerController extends BaseController
     public function structureStore(ContainerRequest $request)
     {
         $data = $request->except('_token');
-
-        $request->validated();
 
         $data['website_id'] = session('dawnstar.website.id');
         $data['key'] = strtolower(str_replace(' ', '', $data['key']));
@@ -163,7 +161,7 @@ class ContainerController extends BaseController
 
         $languages = $container->languages();
 
-        $formBuilder = new FormBuilder('container', 2);
+        $formBuilder = new FormBuilder('container', $id);
 
         $breadcrumb = [
             [
@@ -183,36 +181,20 @@ class ContainerController extends BaseController
     {
         $container = Container::findOrFail($id);
 
+        $storeService = new ModelStoreService();
+
         $data = $request->except('_token');
 
         $details = $data['details'] ?? [];
-        unset($data['details']);
+        $medias = $data['medias'] ?? [];
+        unset($data['details'], $data['medias']);
 
-        $container->update($data);
+        $storeService->update($container, $data);
 
+        $storeService->storeDetails($container, $details);
 
-        foreach ($details as $languageId => $detail) {
+        $storeService->storeMedias($container, $medias);
 
-            $extras = $detail['extras'] ?? [];
-            unset($detail['extras']);
-
-            $containerDetail = ContainerDetail::updateOrCreate(
-                [
-                    'container_id' => $container->id,
-                    'language_id' => $languageId
-                ],
-                $detail
-            );
-
-            $containerDetail->extras()->delete();
-            foreach ($extras as $key => $value) {
-                ContainerDetailExtra::create([
-                    'container_detail_id' => $containerDetail->id,
-                    'key' => $key,
-                    'value' => $value,
-                ]);
-            }
-        }
         // Admin Action
         addAction($container, 'update');
 

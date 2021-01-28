@@ -2,6 +2,7 @@
 
 namespace Dawnstar\Models;
 
+use Dawnstar\FileManager\Models\Media;
 use Dawnstar\Traits\HasDetail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,6 +16,11 @@ class Page extends Model
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $guarded = ['id'];
+
+    public function container()
+    {
+        return $this->belongsTo(Container::class);
+    }
 
     public function page()
     {
@@ -34,6 +40,11 @@ class Page extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_pages');
+    }
+
+    public function medias()
+    {
+        return $this->morphToMany(Media::class, 'model', 'model_medias');
     }
 
     public function __get($key)

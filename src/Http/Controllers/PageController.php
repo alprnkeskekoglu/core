@@ -3,17 +3,17 @@
 namespace Dawnstar\Http\Controllers;
 
 use Carbon\Carbon;
+use Dawnstar\Contracts\Services\ModelStoreService;
 use Dawnstar\Foundation\FormBuilder;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\Page;
-use Dawnstar\Models\PageDetail;
-use Dawnstar\Models\PageDetailExtra;
-use Dawnstar\Models\PageExtra;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 
 class PageController extends BaseController
 {
+
+
     public function index(int $containerId)
     {
         $container = Container::findOrFail($containerId);
@@ -51,50 +51,29 @@ class PageController extends BaseController
 
     public function store(Request $request, int $containerId)
     {
-        $container = Container::findOrFail($containerId);
+        Container::findOrFail($containerId);
+
+        $storeService = new ModelStoreService();
+
         $data = $request->except('_token');
 
         $categories = $data['categories'] ?? [];
         $details = $data['details'] ?? [];
         $extras = $data['extras'] ?? [];
-        unset($data['categories'], $data['details'], $data['extras']);
+        $medias = $data['medias'] ?? [];
+        unset($data['categories'], $data['details'], $data['extras'], $data['medias']);
 
         $data['container_id'] = $containerId;
 
-        $page = Page::firstOrCreate($data);
+        $page = $storeService->store(Page::class, $data);
 
-        $page->sync($categories);
+        $page->categories()->sync($categories);
 
-        foreach ($extras as $key => $value) {
-            PageExtra::firstOrCreate([
-                'page_id' => $page->id,
-                'key' => $key,
-                'value' => $value,
-            ]);
-        }
+        $storeService->storeExtras($page, $extras);
 
-        foreach ($details as $languageId => $detail) {
+        $storeService->storeDetails($page, $details);
 
-            $extras = $detail['extras'] ?? [];
-            unset($detail['extras']);
-
-            $pageDetail = PageDetail::updateOrCreate(
-                [
-                    'page_id' => $page->id,
-                    'language_id' => $languageId
-                ],
-                $detail
-            );
-
-            $pageDetail->extras()->delete();
-            foreach ($extras as $key => $value) {
-                PageDetailExtra::firstOrCreate([
-                    'page_detail_id' => $pageDetail->id,
-                    'key' => $key,
-                    'value' => $value,
-                ]);
-            }
-        }
+        $storeService->storeMedias($page, $medias);
 
         // Admin Action
         addAction($page, 'store');
@@ -129,49 +108,27 @@ class PageController extends BaseController
     {
         $container = Container::findOrFail($containerId);
         $page = Page::findOrFail($id);
+
+        $storeService = new ModelStoreService();
+
         $data = $request->except('_token');
 
         $categories = $data['categories'] ?? [];
         $details = $data['details'] ?? [];
         $extras = $data['extras'] ?? [];
-        unset($data['categories'], $data['details'], $data['extras']);
+        $medias = $data['medias'] ?? [];
+        unset($data['categories'], $data['details'], $data['extras'], $data['medias']);
 
 
-        $page->update($data);
+        $storeService->update($page, $data);
 
         $page->categories()->sync($categories);
 
-        $page->extras()->delete();
-        foreach ($extras as $key => $value) {
-            PageExtra::firstOrCreate([
-                'page_id' => $page->id,
-                'key' => $key,
-                'value' => $value,
-            ]);
-        }
+        $storeService->storeExtras($page, $extras);
 
-        foreach ($details as $languageId => $detail) {
+        $storeService->storeDetails($page, $details);
 
-            $extras = $detail['extras'] ?? [];
-            unset($detail['extras']);
-
-            $pageDetail = PageDetail::updateOrCreate(
-                [
-                    'page_id' => $page->id,
-                    'language_id' => $languageId
-                ],
-                $detail
-            );
-
-            $pageDetail->extras()->delete();
-            foreach ($extras as $key => $value) {
-                PageDetailExtra::firstOrCreate([
-                    'page_detail_id' => $pageDetail->id,
-                    'key' => $key,
-                    'value' => $value,
-                ]);
-            }
-        }
+        $storeService->storeMedias($page, $medias);
 
         // Admin Action
         addAction($page, 'update');
@@ -211,7 +168,7 @@ class PageController extends BaseController
             ->orderBy('order');
 
         if ($search) {
-            $pages = $pages->whereHas('detail', function ($q) use($search) {
+            $pages = $pages->whereHas('detail', function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%');
             });
         }
@@ -231,7 +188,7 @@ class PageController extends BaseController
                 'status' => $page->status,
                 'order' => $page->order,
                 'name' => $page->detail->name,
-                'slug' => $page->detail->slug
+                'slug' => $page->detail->url->url
             ];
         }
 

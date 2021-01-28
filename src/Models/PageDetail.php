@@ -2,6 +2,7 @@
 
 namespace Dawnstar\Models;
 
+use Dawnstar\FileManager\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -18,9 +19,19 @@ class PageDetail extends Model
         return $this->belongsTo(Page::class);
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(Page::class, 'page_id', 'id');
+    }
+
     public function extras()
     {
         return $this->hasMany(PageDetailExtra::class);
+    }
+
+    public function medias()
+    {
+        return $this->morphToMany(Media::class, 'model', 'model_medias');
     }
 
     public function url()

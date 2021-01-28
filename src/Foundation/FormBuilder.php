@@ -82,14 +82,14 @@ class FormBuilder
     {
         $type = $input['type'];
         $whiteList = [
-            'input', 'radio', 'checkbox', 'select', 'textarea', 'ckeditor', 'date', 'category'
+            'input', 'radio', 'checkbox', 'select', 'textarea', 'ckeditor', 'date', 'category', 'media'
         ];
 
         if (!in_array($type, $whiteList)) {
             throw new \Exception('Error ' . $type);
         }
 
-        $value = $this->getInputValue($input['name']);
+        $value = $this->getInputValue($input);
         $input = $this->getInput($input);
 
 
@@ -109,6 +109,7 @@ class FormBuilder
         $isDetail = \Str::startsWith($name, 'detail.');
         $isMultiple = isset($input['multiple']) && $input['multiple'];
         $isCategory = $input['type'] == 'category';
+        $isMedia = $input['type'] == 'media';
 
         if ($isExtras) {
             $key = str_replace(['extras.'], '', $name);
@@ -120,8 +121,13 @@ class FormBuilder
             $input['id'] = 'details_' . $this->tabLanguage->id . '_extras_' . $key;
         } elseif ($isDetail) {
             $key = str_replace(['detail.'], '', $name);
-            $input['name'] = 'details[' . $this->tabLanguage->id . '][' . $key . ']';
-            $input['id'] = 'details_' . $this->tabLanguage->id . '_' . $key;
+            if($isMedia) {
+                $input['name'] = 'details[' . $this->tabLanguage->id . '][medias]['.$key.']';
+                $input['id'] = 'details_' . $this->tabLanguage->id . '_' . $key;
+            } else {
+                $input['name'] = 'details[' . $this->tabLanguage->id . '][' . $key . ']';
+                $input['id'] = 'details_' . $this->tabLanguage->id . '_' . $key;
+            }
         } elseif ($isCategory) {
 
             $input['name'] = $name . '[]';
@@ -140,6 +146,9 @@ class FormBuilder
 
             $input['categories'] = $this->getCategories($categories);
 
+        } elseif ($isMedia) {
+            $input['name'] = 'medias['.$input['name'].']';
+            $input['id'] = $name;
         } else {
             $input['name'] = $name;
             $input['id'] = $name;
@@ -149,39 +158,49 @@ class FormBuilder
     }
 
     # region getValues
-    private function getInputValue($name)
+    private function getInputValue($input)
     {
         if (is_null($this->model)) {
             return null;
         }
 
         if (is_null($this->tabLanguage)) {
-            return $this->getNonDetailValue($name);
+            return $this->getNonDetailValue($input);
         }
-        return $this->getDetailValue($name);
+        return $this->getDetailValue($input);
     }
 
-    private function getNonDetailValue($name)
+    private function getNonDetailValue($input)
     {
+        $name = $input['name'];
+
         $isExtras = \Str::startsWith($name, 'extras.');
         $isCategory = \Str::startsWith($name, 'categories');
+        $isMedia = $input['type'] == 'media';
 
         if ($isExtras) {
             $name = str_replace(['extras.', '[]'], '', $name);
         } else if($isCategory) {
             return $this->model->categories->pluck('id')->toArray();
+        } else if($isMedia) {
+            return $this->model->medias()->wherePivot('media_key', $name)->pluck('id')->toArray();
         }
         return $this->model->{$name};
     }
 
-    private function getDetailValue($name)
+    private function getDetailValue($input)
     {
+        $name = $input['name'];
+
         $isExtras = \Str::startsWith($name, 'detail.extras.');
+        $isMedia = $input['type'] == 'media';
 
         if ($isExtras) {
             $name = str_replace(['detail.extras.', '[]'], '', $name);
-
             return $this->modelDetail->{$name};
+        } else if($isMedia) {
+            $name = str_replace(['detail.', '[]'], '', $name);
+            return $this->modelDetail->medias()->wherePivot('media_key', $name)->pluck('id')->toArray();
         }
         $name = str_replace('detail.', '', $name);
         return $this->modelDetail->{$name};

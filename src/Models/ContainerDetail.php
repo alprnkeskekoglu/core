@@ -2,6 +2,7 @@
 
 namespace Dawnstar\Models;
 
+use Dawnstar\FileManager\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -21,6 +22,11 @@ class ContainerDetail extends Model
     public function extras()
     {
         return $this->hasMany(ContainerDetailExtra::class);
+    }
+
+    public function medias()
+    {
+        return $this->morphToMany(Media::class, 'model', 'model_medias');
     }
 
     public function url()

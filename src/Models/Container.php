@@ -2,6 +2,7 @@
 
 namespace Dawnstar\Models;
 
+use Dawnstar\FileManager\Models\Media;
 use Dawnstar\Traits\HasDetail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -30,6 +31,11 @@ class Container extends Model
     public function categories()
     {
         return $this->hasMany(Category::class);
+    }
+
+    public function medias()
+    {
+        return $this->morphToMany(Media::class, 'model', 'model_medias');
     }
 
     public function languages()

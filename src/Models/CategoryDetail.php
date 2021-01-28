@@ -2,6 +2,7 @@
 
 namespace Dawnstar\Models;
 
+use Dawnstar\FileManager\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -18,9 +19,19 @@ class CategoryDetail extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(Category::class,'category_id', 'id');
+    }
+
     public function extras()
     {
         return $this->hasMany(CategoryDetailExtra::class);
+    }
+
+    public function medias()
+    {
+        return $this->morphToMany(Media::class, 'model', 'model_medias');
     }
 
     public function url()

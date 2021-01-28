@@ -2,10 +2,9 @@
 
 namespace Dawnstar\Http\Controllers;
 
+use Dawnstar\Contracts\Services\ModelStoreService;
 use Dawnstar\Foundation\FormBuilder;
 use Dawnstar\Models\Category;
-use Dawnstar\Models\CategoryDetail;
-use Dawnstar\Models\CategoryDetailExtra;
 use Dawnstar\Models\Container;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
@@ -67,37 +66,22 @@ class CategoryController extends BaseController
     public function store(Request $request, int $containerId)
     {
         $container = Container::findOrFail($containerId);
+
+        $storeService = new ModelStoreService();
+
         $data = $request->except('_token');
 
         $details = $data['details'] ?? [];
-        unset($data['details']);
+        $medias = $data['medias'] ?? [];
+        unset($data['details'], $data['medias']);
 
         $data['container_id'] = $containerId;
 
-        $category = Category::firstOrCreate($data);
+        $category = $storeService->store(Category::class, $data);
 
-        foreach ($details as $languageId => $detail) {
+        $storeService->storeDetails($category, $details);
 
-            $extras = $detail['extras'] ?? [];
-            unset($detail['extras']);
-
-            $categoryDetail = CategoryDetail::updateOrCreate(
-                [
-                    'category_id' => $category->id,
-                    'language_id' => $languageId
-                ],
-                $detail
-            );
-
-            $categoryDetail->extras()->delete();
-            foreach ($extras as $key => $value) {
-                CategoryDetailExtra::firstOrCreate([
-                    'category_detail_id' => $pageDetail->id,
-                    'key' => $key,
-                    'value' => $value,
-                ]);
-            }
-        }
+        $storeService->storeMedias($category, $medias);
 
         // Admin Action
         addAction($category, 'store');
@@ -132,35 +116,19 @@ class CategoryController extends BaseController
         $container = Container::findOrFail($containerId);
         $category = Category::findOrFail($id);
 
+        $storeService = new ModelStoreService();
+
         $data = $request->except('_token');
 
         $details = $data['details'] ?? [];
-        unset($data['details']);
+        $medias = $data['medias'] ?? [];
+        unset($data['details'], $data['medias']);
 
-        $category->update($data);
+        $storeService->update($category, $data);
 
-        foreach ($details as $languageId => $detail) {
+        $storeService->storeDetails($category, $details);
 
-            $extras = $detail['extras'] ?? [];
-            unset($detail['extras']);
-
-            $categoryDetail = CategoryDetail::updateOrCreate(
-                [
-                    'category_id' => $category->id,
-                    'language_id' => $languageId
-                ],
-                $detail
-            );
-
-            $categoryDetail->extras()->delete();
-            foreach ($extras as $key => $value) {
-                CategoryDetailExtra::firstOrCreate([
-                    'category_detail_id' => $categoryDetail->id,
-                    'key' => $key,
-                    'value' => $value,
-                ]);
-            }
-        }
+        $storeService->storeMedias($category, $medias);
 
         // Admin Action
         addAction($category, 'update');
@@ -174,7 +142,7 @@ class CategoryController extends BaseController
         if (is_null($container)) {
             return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
         }
-        
+
         $category = Category::find($id);
         if (is_null($category)) {
             return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
