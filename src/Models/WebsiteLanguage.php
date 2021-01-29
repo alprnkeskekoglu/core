@@ -2,9 +2,7 @@
 
 namespace Dawnstar\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class WebsiteLanguage extends Model
+class WebsiteLanguage extends BaseModel
 {
     protected $table = 'website_languages';
     protected $dates = ['created_at', 'updated_at'];

@@ -8,6 +8,7 @@ return [
     'order_save' => 'Sıralamayı Kaydet',
 
     'labels' => [
+        'image' => 'Görsel',
         'status' => 'Durum',
         'name' => 'Adı',
         'type' => 'Tipi',

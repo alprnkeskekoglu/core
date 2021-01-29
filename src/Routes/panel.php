@@ -114,6 +114,10 @@ Route::middleware(['dawnstar.auth'])->group(function () {
         Route::get('/search', 'CustomContentController@search')->name('search');
     });
 
+    Route::prefix('Tool')->as('tool.')->group(function () {
+        Route::get('/', 'ToolController@index')->name('index');
+        Route::post('/init', 'ToolController@init')->name('init');
+    });
 
     Route::prefix('Panel')->as('panel.')->group(function () {
         Route::get('/changeLanguage/{code}', 'PanelController@changeLanguage')->name('changeLanguage');

@@ -2,9 +2,8 @@
 
 namespace Dawnstar\Models;
 
-use Illuminate\Database\Eloquent\Model;
 
-class CategoryPage extends Model
+class CategoryPage extends BaseModel
 {
     protected $table = 'category_pages';
     public $timestamps = false;

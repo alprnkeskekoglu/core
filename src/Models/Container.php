@@ -4,13 +4,14 @@ namespace Dawnstar\Models;
 
 use Dawnstar\FileManager\Models\Media;
 use Dawnstar\Traits\HasDetail;
-use Illuminate\Database\Eloquent\Model;
+use Dawnstar\Traits\HasMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Container extends Model
+class Container extends BaseModel
 {
     use SoftDeletes;
     use HasDetail;
+    use HasMedia;
 
     protected $table = 'containers';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
@@ -31,11 +32,6 @@ class Container extends Model
     public function categories()
     {
         return $this->hasMany(Category::class);
-    }
-
-    public function medias()
-    {
-        return $this->morphToMany(Media::class, 'model', 'model_medias');
     }
 
     public function languages()

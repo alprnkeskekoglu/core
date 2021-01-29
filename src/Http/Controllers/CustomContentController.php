@@ -80,19 +80,4 @@ class CustomContentController extends BaseController
 
         return $return;
     }
-
-
-    private function getBreadcrumb(array $parameters)
-    {
-        $breadcrumb = [];
-
-        foreach ($parameters as $param) {
-            $breadcrumb[] = [
-                'name' => __('DawnstarLang::form.' . $param[0] . '_title'),
-                'url' => route('dawnstar.form.' . $param[1] ?? '', $param[2] ?? [])
-            ];
-        }
-
-        return $breadcrumb;
-    }
 }

@@ -2,10 +2,9 @@
 
 namespace Dawnstar\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CustomContent extends Model
+class CustomContent extends BaseModel
 {
     use SoftDeletes;
     protected $table = 'custom_contents';

@@ -2,6 +2,7 @@
 
 namespace Dawnstar\Http\Controllers;
 
+use Dawnstar\Contracts\Services\ModelStoreService;
 use Dawnstar\Http\Requests\AdminRequest;
 use Dawnstar\Models\Admin;
 use Illuminate\Routing\Controller as BaseController;
@@ -43,10 +44,15 @@ class AdminController extends BaseController
     {
         $data = $request->except('_token');
 
-        $request->validated();
         $data['password'] = Hash::make($data['password']);
 
+        $image = $data['image'] ?? null;
+        unset($data['image']);
+
         $admin = Admin::firstOrCreate($data);
+
+        $storeDevice = new ModelStoreService();
+        $storeDevice->storeMedias($admin, ['image' => $image]);
 
         // Admin Action
         addAction($admin, 'store');
@@ -84,9 +90,7 @@ class AdminController extends BaseController
             return redirect()->route('dawnstar.admin.index')->withErrors(__('DawnstarLang::admin.response_message.id_error', ['id' => $id]))->withInput();
         }
 
-        $data = $request->except('_token');
-
-        $request->validated();
+        $data = $request->except('_token', 'image');
 
         if(is_null($data['password'])) {
             unset($data['password']);
@@ -95,6 +99,9 @@ class AdminController extends BaseController
         }
 
         $admin->update($data);
+
+        $storeDevice = new ModelStoreService();
+        $storeDevice->storeMedias($admin, ['image' => $request->get('image')]);
 
         // Admin Action
         addAction($admin, 'update');

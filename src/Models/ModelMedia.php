@@ -2,9 +2,7 @@
 
 namespace Dawnstar\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class ModelMedia extends Model
+class ModelMedia extends BaseModel
 {
     protected $table = 'model_medias';
     public $timestamps = false;

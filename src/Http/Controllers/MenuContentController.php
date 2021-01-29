@@ -2,6 +2,7 @@
 
 namespace Dawnstar\Http\Controllers;
 
+use Dawnstar\Contracts\Services\ModelStoreService;
 use Dawnstar\Http\Requests\MenuContentRequest;
 use Dawnstar\Models\Menu;
 use Dawnstar\Models\MenuContent;
@@ -48,8 +49,6 @@ class MenuContentController extends BaseController
     {
         $data = $request->except('_token');
 
-        $request->validated();
-
         foreach ($data['contents'] as $languageId => $values) {
             if($values['status'] == 3) {
                 continue;
@@ -64,6 +63,12 @@ class MenuContentController extends BaseController
                 'out_link' => $values['out_link'],
                 'target' => $values['target'],
             ]);
+
+            if(isset($values['image'])) {
+                $storeService = new ModelStoreService();
+                $storeService->storeMedias($menuContent, ['image' => $values['image']]);
+            }
+
             // Admin Action
             addAction($menuContent, 'store');
         }
@@ -110,8 +115,14 @@ class MenuContentController extends BaseController
 
         $data = $request->except('_token');
 
+        $image = $data['image'] ?? null;
+        unset($data['image']);
+
         $menuContent = MenuContent::find($id);
         $menuContent->update($data);
+
+        $storeService = new ModelStoreService();
+        $storeService->storeMedias($menuContent, ['image' => $image]);
 
         // Admin Action
         addAction($menuContent, 'update');

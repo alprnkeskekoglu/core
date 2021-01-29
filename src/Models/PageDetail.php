@@ -3,12 +3,14 @@
 namespace Dawnstar\Models;
 
 use Dawnstar\FileManager\Models\Media;
-use Illuminate\Database\Eloquent\Model;
+use Dawnstar\Traits\HasMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PageDetail extends Model
+class PageDetail extends BaseModel
 {
     use SoftDeletes;
+    use HasMedia;
+
     protected $table = 'page_details';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
@@ -27,11 +29,6 @@ class PageDetail extends Model
     public function extras()
     {
         return $this->hasMany(PageDetailExtra::class);
-    }
-
-    public function medias()
-    {
-        return $this->morphToMany(Media::class, 'model', 'model_medias');
     }
 
     public function url()

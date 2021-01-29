@@ -24,7 +24,7 @@
                     data-mediaType="{{ $mediaType }}"
                     data-selectableType="{{ $mediaType }}"
                     data-maxMediaCount="{{ $maxMediaCount }}">
-                Media Ekle
+                {{ __('DawnstarLang::general.filemanager') }}
             </button>
         </div>
     </div>

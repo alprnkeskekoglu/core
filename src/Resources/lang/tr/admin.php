@@ -7,6 +7,7 @@ return [
 
 
     'labels' => [
+        'image' => 'Görsel',
         'status' => 'Durum',
         'role_id' => 'Rol',
         'fullname' => 'Ad Soyad',

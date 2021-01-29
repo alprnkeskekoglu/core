@@ -56,6 +56,22 @@
                                     <div class="col-md-6 offset-md-2">
                                         <div class="block-content">
                                             <div class="form-group row">
+                                                <div class="col-md-9">
+                                                    <label for="menu_image">{{ __('DawnstarLang::menu_content.labels.image') }}</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button type="button" class="btn btn-sm btn-primary openFileManagerBtn" data-id="menu_image{{$language->id}}" data-mediatype="image" data-selectabletype="image" data-maxmediacount="1">
+                                                        {{ __('DawnstarLang::general.filemanager') }}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="block">
+                                                <div id="show_menu_image{{$language->id}}">
+                                                </div>
+                                                <input type="hidden" name="contents[{{$language->id}}][image]" id="menu_image{{$language->id}}">
+                                            </div>
+                                            <hr>
+                                            <div class="form-group row">
                                                 <label class="col-sm-3 col-form-label">{{ __('DawnstarLang::menu_content.labels.status') }}</label>
                                                 <div class="col-sm-9">
                                                     <div class="custom-control custom-radio custom-control-inline custom-control-success custom-control-lg">
@@ -240,5 +256,36 @@
                 }
             });
         });
+    </script>
+
+    <script>
+        var currentMediaInputId;
+        $('.openFileManagerBtn').on('click', function () {
+            currentMediaInputId = $(this).attr('data-id');
+            var _mediaType = $(this).attr('data-mediaType');
+            var _selectableType = $(this).attr('data-selectableType');
+            var _maxMediaCount = $(this).attr('data-maxMediaCount');
+            var _selectedMediaIds = $('#' + currentMediaInputId).val();
+            window.open(
+                '{{ route('dawnstar.filemanager.index') }}' + '/' + _mediaType + '?selectableType=' + _selectableType + '&maxMediaCount=' + _maxMediaCount + '&selectedMediaIds=' + _selectedMediaIds,
+                'Dawnstar File Manager', 'width=1520,height=740,left=200,top=100'
+            );
+        });
+
+
+        function handleFileManager(medias){
+            var ids = '';
+            var mediaHtml = '';
+
+            $.each(medias, function (id, data) {
+                ids += id + ',';
+                mediaHtml += '<div class="px-1 text-center">' + data.html + '<div class="font-size-sm text-muted">'+ data.fullname +'</div></div>';
+            });
+
+            ids = ids.replace(/,\s*$/, "")
+
+            $('#' + currentMediaInputId).val(ids);
+            $('#show_' + currentMediaInputId).html(mediaHtml);
+        }
     </script>
 @endpush

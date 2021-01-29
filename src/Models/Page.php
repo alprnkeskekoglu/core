@@ -4,13 +4,14 @@ namespace Dawnstar\Models;
 
 use Dawnstar\FileManager\Models\Media;
 use Dawnstar\Traits\HasDetail;
-use Illuminate\Database\Eloquent\Model;
+use Dawnstar\Traits\HasMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Page extends Model
+class Page extends BaseModel
 {
     use SoftDeletes;
     use HasDetail;
+    use HasMedia;
 
     protected $table = 'pages';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
@@ -40,11 +41,6 @@ class Page extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_pages');
-    }
-
-    public function medias()
-    {
-        return $this->morphToMany(Media::class, 'model', 'model_medias');
     }
 
     public function __get($key)

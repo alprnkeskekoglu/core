@@ -61,11 +61,10 @@
                                         <a href="{{ route('dawnstar.admin.edit', ['id' => $admin->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
-                                        @if(auth('admin')->id() != $admin->id)
-                                            <button type="button" class="deleteBtn btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('dawnstar.admin.delete', ['id' => $admin->id]) }}" title="{{ __('DawnstarLang::general.delete') }}">
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                        @endif
+
+                                        <button type="button" class="btn btn-sm {{ auth('admin')->id() != $admin->id ? 'btn-danger deleteBtn' : 'btn-secondary' }}" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('dawnstar.admin.delete', ['id' => $admin->id]) }}" title="{{ __('DawnstarLang::general.delete') }}">
+                                            <i class="fa fa-times"></i>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>

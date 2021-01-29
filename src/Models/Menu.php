@@ -2,10 +2,9 @@
 
 namespace Dawnstar\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Menu extends Model
+class Menu extends BaseModel
 {
     use SoftDeletes;
     protected $table = 'menus';

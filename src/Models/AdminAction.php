@@ -2,9 +2,7 @@
 
 namespace Dawnstar\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class AdminAction extends Model
+class AdminAction extends BaseModel
 {
     protected $table = 'admin_actions';
 

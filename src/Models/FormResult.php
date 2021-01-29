@@ -2,10 +2,9 @@
 
 namespace Dawnstar\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class FormResult extends Model
+class FormResult extends BaseModel
 {
     use SoftDeletes;
     protected $table = 'form_results';
