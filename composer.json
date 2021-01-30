@@ -5,7 +5,8 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "intervention/image": "^2.4@dev"
+        "intervention/image": "^2.4@dev",
+        "dawnstar/filemanager": "*"
     },
     "autoload": {
         "psr-4": {
