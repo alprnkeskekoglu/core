@@ -71,7 +71,7 @@ class InstallDawnstar extends Command
         }
 
 
-        $defaultApp = file_get_contents(__DIR__ . '/../../Resources/views/web/default/layouts/app.blade.php');
+        $defaultApp = file_get_contents(__DIR__ . '/../../Resources/views/web/default_blades/layouts/app.blade.php');
         file_put_contents(resource_path('views/layouts/app.blade.php'), $defaultApp);
 
         file_put_contents(resource_path('views/layouts/header.blade.php'), '@include("DawnstarWebView::default.layouts.header")');

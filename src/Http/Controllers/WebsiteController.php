@@ -57,6 +57,9 @@ class WebsiteController extends BaseController
         $website->languages()->sync($languages);
         $website->languages()->updateExistingPivot($defaultLangauge, ['is_default' => 1]);
 
+
+        session(['dawnstar.website' => $website]);
+
         // Admin Action
         addAction($website, 'store');
 
@@ -103,7 +106,7 @@ class WebsiteController extends BaseController
         $website->languages()->sync($languages);
         $website->languages()->updateExistingPivot($defaultLangauge, ['is_default' => 1]);
 
-
+        session(['dawnstar.website' => $website]);
 
         // Admin Action
         addAction($website, 'update');

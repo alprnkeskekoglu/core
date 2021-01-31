@@ -58,10 +58,18 @@ class MenuContent extends BaseModel
 
         if(\Str::startsWith($key, 'mf_')) {
             $mediaKey = mb_substr($key, 3);
-            return $this->medias()->wherePivot('media_key', $mediaKey)->first();
+            $medias = $this->medias();
+            if($mediaKey) {
+                $medias->wherePivot('media_key', $mediaKey);
+            }
+            return $medias->first();
         } elseif(\Str::startsWith($key, 'mc_')) {
             $mediaKey = mb_substr($key, 3);
-            return $this->medias()->wherePivot('media_key', $mediaKey)->get();
+            $medias = $this->medias();
+            if($mediaKey) {
+                $medias->wherePivot('media_key', $mediaKey);
+            }
+            return $medias->get();
         }
 
         return $attribute;

@@ -12,8 +12,18 @@ class Url extends BaseModel
 
     protected $guarded = ['id'];
 
+    public function website()
+    {
+        return $this->belongsTo(Website::class);
+    }
+
     public function model()
     {
         return $this->morphTo(__FUNCTION__, 'model_class', 'model_id');
+    }
+
+    public function __toString()
+    {
+        return url($this->url);
     }
 }

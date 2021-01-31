@@ -12,6 +12,7 @@ use Dawnstar\Models\Language;
 use Dawnstar\Models\Url;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Cache;
 
 class ContainerController extends BaseController
 {
@@ -76,6 +77,8 @@ class ContainerController extends BaseController
         $kit = new ContainerFileKit($container);
         $kit->createFiles();
 
+        Cache::flush();
+
         // Admin Action
         addAction($container, 'store');
 
@@ -132,6 +135,8 @@ class ContainerController extends BaseController
                 ]
             );
         }
+
+        Cache::flush();
 
         // Admin Action
         addAction($container, 'update');
@@ -198,6 +203,9 @@ class ContainerController extends BaseController
         // Admin Action
         addAction($container, 'update');
 
+        if($container->type == 'static') {
+            return redirect()->route('dawnstar.container.edit', ['id' => $id])->with('success_message', __('DawnstarLang::container.response_message.update'));
+        }
 
         return redirect()->route('dawnstar.page.index', ['containerId' => $id])->with('success_message', __('DawnstarLang::container.response_message.update'));
     }

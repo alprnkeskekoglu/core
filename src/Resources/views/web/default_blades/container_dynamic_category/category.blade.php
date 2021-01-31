@@ -1,7 +1,10 @@
-<div class="container">
-    <h1 class="my-4">{!! $container->detail->name !!}</h1>
+@php
+    $category = $dawnstar->relation->category;
+    $pages = $category->pages;
+@endphp
 
-    @include("ContentWeb::default.layouts.breadcrumb")
+<div class="container">
+    <h1 class="my-4">{!! $dawnstar->container->detail->name !!}</h1>
 
     <div class="row">
         <div class="col-md-8">
@@ -10,15 +13,8 @@
         </div>
 
         <div class="col-md-4">
-
-            @if($category->f_)
-                @if(is_a($category->f_, 'Illuminate\Database\Eloquent\Collection'))
-                    <img class="img-fluid" src="{!! image($category->f_->first()->id)->resize(['w' => 1050, 'h' => 300]) !!}" width="1050" height="300" alt="">
-                @else
-                    <img class="card-img-top img-fluid" src="{!! image($category->f_->id)->resize(['w' => 1050, 'h' => 300]) !!}" width="1050" height="300" alt="">
-                @endif
-            @else
-                <img class="card-img-top img-fluid" src="http://placehold.it/1050x300" width="1050" height="300" alt="">
+            @if($category->mf_)
+                <img class="img-fluid" src="{!! media($category->mf_->id) !!}" alt="">
             @endif
         </div>
 

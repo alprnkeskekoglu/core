@@ -167,7 +167,10 @@ class FormBuilder
         if (is_null($this->tabLanguage)) {
             return $this->getNonDetailValue($input);
         }
-        return $this->getDetailValue($input);
+        if($this->modelDetail) {
+            return $this->getDetailValue($input);
+        }
+        return null;
     }
 
     private function getNonDetailValue($input)

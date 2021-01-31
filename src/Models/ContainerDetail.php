@@ -36,7 +36,6 @@ class ContainerDetail extends BaseModel
         return $this->belongsTo(Language::class);
     }
 
-
     public function __get($key)
     {
         $attribute = $this->getAttribute($key);
@@ -45,15 +44,34 @@ class ContainerDetail extends BaseModel
             return $attribute;
         }
 
+        if(method_exists($this, 'extras')) {
+            $extras = $this->extras()->where('key', $key)->get();
 
-        $extras = $this->extras()->where('key', $key)->get();
-
-        if($extras->isNotEmpty()) {
-            if($extras->count() > 1) {
-                return $extras->pluck("value")->toArray();
-            } else {
-                return $extras->first()->value;
+            if($extras->isNotEmpty()) {
+                if($extras->count() > 1) {
+                    return $extras->pluck("value")->toArray();
+                } else {
+                    return $extras->first()->value;
+                }
             }
         }
+
+        if(\Str::startsWith($key, 'mf_')) {
+            $mediaKey = mb_substr($key, 3);
+            $medias = $this->medias();
+            if($mediaKey) {
+                $medias->wherePivot('media_key', $mediaKey);
+            }
+            return $medias->first();
+        } elseif(\Str::startsWith($key, 'mc_')) {
+            $mediaKey = mb_substr($key, 3);
+            $medias = $this->medias();
+            if($mediaKey) {
+                $medias->wherePivot('media_key', $mediaKey);
+            }
+            return $medias->get();
+        }
+
+        return $attribute;
     }
 }

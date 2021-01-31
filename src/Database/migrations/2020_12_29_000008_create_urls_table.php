@@ -15,6 +15,7 @@ class CreateUrlsTable extends Migration
     {
         Schema::create('urls', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('website_id');
             $table->string('model_class');
             $table->integer('model_id');
             $table->string('url');

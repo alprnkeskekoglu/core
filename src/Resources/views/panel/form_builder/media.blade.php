@@ -7,7 +7,7 @@
     $parentClass = $input['parent_class'] ?? 'col-md-12';
     $labelText = $input['label']['text'][$dawnstarLanguageCode] ?? array_shift($input['label']['text']);
 
-    $maxMediaCount = $input['max_media_count'] ?? -1;
+    $maxMediaCount = $input['max_media_count'] ?? 1;
     $mediaType = $input['media_type'] ?? 'image';
 @endphp
 
@@ -72,6 +72,7 @@
                 slidesToShow: 5,
                 infinite: false,
             });
+
             function handleFileManager(medias){
                 var ids = '';
                 var mediaHtml = '';

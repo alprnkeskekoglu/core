@@ -22,6 +22,10 @@ class ModelStoreService implements ModelStoreInterface
     {
         foreach ($details as $languageId => $detail) {
 
+            if(isset($detail['status']) && $detail['status'] != 1) {
+                continue;
+            }
+
             $extras = $detail['extras'] ?? [];
             $medias = $detail['medias'] ?? [];
             unset($detail['extras'], $detail['medias']);

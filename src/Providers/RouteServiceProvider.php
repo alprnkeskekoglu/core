@@ -35,6 +35,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         //$this->mapApiRoutes();
         $this->mapPanelRoutes();
+        $this->mapWebRoutes();
         //
     }
 
@@ -50,11 +51,20 @@ class RouteServiceProvider extends ServiceProvider
         Route::group([
             'middleware' => 'web',
             'namespace' => $this->namespace,
+        ], function ($router) {
+            require __DIR__.'/../Routes/web.php';
+        });
+    }
+
+    protected function mapWebRoutes()
+    {
+        Route::group([
+            'middleware' => 'web',
+            'namespace' => $this->namespace,
             'prefix' => 'dawnstar',
             'as' => 'dawnstar.'
         ], function ($router) {
             require __DIR__.'/../Routes/panel.php';
         });
-
     }
 }

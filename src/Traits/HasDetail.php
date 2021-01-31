@@ -5,7 +5,6 @@ namespace Dawnstar\Traits;
 use Dawnstar\Models\Language;
 
 trait HasDetail{
-    // TODO: write for frontend
 
     public function detail()
     {
@@ -42,15 +41,19 @@ trait HasDetail{
                 $return[] = $defaultLanguage->id;
             }
 
-            $return = array_unique(array_merge($return, $languages));
-
         } else {
-            // TODO: change website language
-            $language = Language::where('id', 164)->first();
+            $dawnstar = dawnstar();
 
-            return [$language->id];
+            $languages = $dawnstar->otherLanguages(false)->pluck('id')->toArray();
+
+            $defaultLanguageId = $dawnstar->relation->language_id;
+
+            if($defaultLanguageId) {
+                $return[] = $defaultLanguageId;
+            }
+
         }
 
-        return $return;
+        return array_unique(array_merge($return, $languages));
     }
 }

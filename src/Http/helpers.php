@@ -1,5 +1,9 @@
 <?php
 
+function dawnstar() {
+    return app('Dawnstar');
+}
+
 function addAction($model, $action)
 {
     $adminId = session('dawnstar.admin.id');
