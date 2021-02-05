@@ -32,7 +32,7 @@ class AuthController extends BaseController
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'The provided credentials do not match our records.', //TODO: trans
         ]);
     }
     public function logout(Request $request)

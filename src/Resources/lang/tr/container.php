@@ -10,6 +10,7 @@ return [
     'properties' => 'Yapısal Özellikler',
 
     'labels' => [
+        'feature' => 'Sayfa Yapısı Tipi',
         'key' => 'Sayfa Yapısı Adı',
         'status' => 'Durum',
         'type' => 'Sayfa Yapısı',
@@ -18,6 +19,12 @@ return [
         'is_searchable' => 'Aranabilir',
         'name' => 'Sayfa Adı',
         'slug' => 'Sayfa Url',
+    ],
+
+    'feature' => [
+        'homepage' => 'Anasayfa',
+        'search' => 'Arama Sayfası',
+        'other' => 'Diğer'
     ],
 
     'type' => [

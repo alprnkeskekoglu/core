@@ -28,7 +28,7 @@ class ContainerDetail extends BaseModel
 
     public function url()
     {
-        return $this->morphOne(Url::class, 'model', 'model_class', 'model_id')->withDefault(['url' => '/']);
+        return $this->morphOne(Url::class, 'model', 'model_type', 'model_id')->withDefault(['url' => '/']);
     }
 
     public function language()

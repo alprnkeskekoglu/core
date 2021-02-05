@@ -4,6 +4,57 @@ function dawnstar() {
     return app('Dawnstar');
 }
 
+function custom(string $key, string $value = null, int $languageId = null) {
+
+    $dawnstar = dawnstar();
+
+    $websiteId = $dawnstar->website->id;
+    if(is_null($languageId)) {
+        $languageId = $dawnstar->language->id;
+    }
+
+    return \Illuminate\Support\Facades\Cache::rememberForever('customContent' . $websiteId . $languageId . $key, function () use($dawnstar, $languageId, $websiteId, $key, $value) {
+
+        foreach ($dawnstar->website->languages as $language) {
+            if($languageId == $language->id) {
+                continue;
+            }
+
+            \Dawnstar\Models\CustomContent::firstOrCreate(
+                [
+                    'website_id' => $websiteId,
+                    'language_id' => $language->id,
+                    'key' => $key
+                ],
+            );
+        }
+
+        $customContent = \Dawnstar\Models\CustomContent::firstOrCreate(
+            [
+                'website_id' => $websiteId,
+                'language_id' => $languageId,
+                'key' => $key
+            ],
+            [
+                'value' => $value
+            ]
+        );
+
+        return $customContent->value;
+    });
+}
+
+function searchUrl()
+{
+    $container = \Dawnstar\Models\Container::where('key', 'search')
+        ->first();
+
+    if ($container && $container->detail) {
+        return url($container->detail->url->url);
+    }
+    return "javascript:void(0);";
+}
+
 function addAction($model, $action)
 {
     $adminId = session('dawnstar.admin.id');
@@ -14,7 +65,7 @@ function addAction($model, $action)
     \Dawnstar\Models\AdminAction::create([
         'website_id' => $websiteId,
         'admin_id' => $adminId,
-        'model_class' => $modelClass,
+        'model_type' => $modelClass,
         'model_id' => $modelId,
         'action' => $action
     ]);

@@ -34,7 +34,17 @@ class Dawnstar
         $this->website->defaultLanguage();
     }
 
-    public function otherLanguages(bool $removeActiveLanguage = true)
+    public function homePageUrl()
+    {
+        $container = Container::where('type', 'homepage')->first();
+
+        if($container) {
+            return $container->detail->url;
+        }
+        return '/';
+    }
+
+    public function otherLanguages(bool $removeActiveLanguage = false)
     {
         if(is_a($this->relation, ContainerDetail::class)) {
             $parent = $this->relation->container;
@@ -44,14 +54,20 @@ class Dawnstar
             $parent = $this->relation->category;
         }
 
-        $languageIds = $parent->details->pluck('language_id')->toArray();
+        $details = $parent->details;
+        $activeLanguage = $this->language;
 
-        $languages = Language::whereIn('id', $languageIds);
-
-        if($removeActiveLanguage) {
-            $languages = $languages->where('id', '<>', $this->language->id);
+        $return = [];
+        foreach ($details as $detail) {
+            if($removeActiveLanguage && $activeLanguage->id == $detail->language_id) {
+                continue;
+            }
+            $return[] = [
+                'language_id' => $detail->language_id,
+                'language_code' => $detail->language->code,
+                'url' => url($detail->url->url)
+            ];
         }
-
-        return $languages->get();
+        return $return;
     }
 }

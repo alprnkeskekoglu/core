@@ -2,6 +2,7 @@
 
 namespace Dawnstar;
 
+use Dawnstar\Console\Commands\CreateSearchView;
 use Dawnstar\Console\Commands\InstallDawnstar;
 use Dawnstar\Foundation\Dawnstar;
 use Dawnstar\Http\Middleware\DawnstarAuthenticate;
@@ -50,7 +51,8 @@ class DawnstarServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                InstallDawnstar::class
+                InstallDawnstar::class,
+                CreateSearchView::class
             ]);
         }
 

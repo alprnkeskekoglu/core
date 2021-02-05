@@ -46,12 +46,15 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="language-dropdown" style="min-width: auto">
                     <div class="p-2">
-                        <a class="dropdown-item" href="{{ route('dawnstar.panel.changeLanguage', ['code' => 'tr']) }}">
-                            TR
-                        </a>
-                        <a class="dropdown-item" href="{{ route('dawnstar.panel.changeLanguage', ['code' => 'en']) }}">
-                            EN
-                        </a>
+                        @if(session('dawnstar.language.code') == 'tr')
+                            <a class="dropdown-item" href="{{ route('dawnstar.panel.changeLanguage', ['code' => 'en']) }}">
+                                EN
+                            </a>
+                        @else
+                            <a class="dropdown-item" href="{{ route('dawnstar.panel.changeLanguage', ['code' => 'tr']) }}">
+                                TR
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>

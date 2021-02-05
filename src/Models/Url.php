@@ -19,7 +19,7 @@ class Url extends BaseModel
 
     public function model()
     {
-        return $this->morphTo(__FUNCTION__, 'model_class', 'model_id');
+        return $this->morphTo(__FUNCTION__, 'model_type', 'model_id');
     }
 
     public function __toString()

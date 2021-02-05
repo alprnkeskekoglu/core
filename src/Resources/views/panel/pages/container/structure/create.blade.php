@@ -36,12 +36,21 @@
                             <div class="col-sm-10 col-md-8">
 
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="key">{{ __('DawnstarLang::container.labels.key') }}</label>
-                                            <div class="col-sm-6">
-                                                <input type="text" class="form-control" id="key" name="key" value="{{ old('key') }}">
-                                            </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label" for="feature">{{ __('DawnstarLang::container.labels.feature') }}</label>
+                                            <select class="form-control" id="feature">
+                                                <option value="">{{ __('DawnstarLang::general.select') }}</option>
+                                                <option value="1">{{ __('DawnstarLang::container.feature.homepage') }}</option>
+                                                <option value="2">{{ __('DawnstarLang::container.feature.search') }}</option>
+                                                <option value="3">{{ __('DawnstarLang::container.feature.other') }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group d-none">
+                                            <label class="col-form-label" for="key">{{ __('DawnstarLang::container.labels.key') }}</label>
+                                            <input type="text" class="form-control" id="key" name="key" value="{{ old('key') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -212,6 +221,23 @@
             clearTimeout(typingTimer);
         });
 
+
+        $('#feature').on('change', function () {
+            var value = $(this).val();
+
+            if(value == 1) {
+                $('#key').val('homepage');
+                $('#key').attr('readonly', true);
+            } else if(value == 2) {
+                $('#key').val('search');
+                $('#key').attr('readonly', true);
+            } else {
+                $('#key').val('');
+                $('#key').attr('readonly', false);
+            }
+
+            $('#key').closest('.form-group').removeClass('d-none');
+        })
 
         slugify = function () {
             var text = typedInput.val();

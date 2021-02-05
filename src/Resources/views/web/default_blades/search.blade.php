@@ -4,10 +4,10 @@
             @foreach($results as $result)
                 <div class="item">
                     <h6>{!! $result->detail_name !!}</h6>
-                    <p>{!! searchHighlight(request()->get('q'), $result->detail_detail) !!}</p>
+                    <p>{!! \Str::limit(strip_tags($result->detail_detail, 120)) !!}</p>
 
                     <div class="more">
-                        <a href="{!! $result->url !!}">{!! langPart('search.btn', "Devamı") !!}</a>
+                        <a href="{!! $result->url !!}">{!! custom('search.btn', "Devamı") !!}</a>
                     </div>
                 </div>
             @endforeach

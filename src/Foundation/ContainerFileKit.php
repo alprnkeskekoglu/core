@@ -82,7 +82,15 @@ class ContainerFileKit
     private function getContainerPageFunction()
     {
         $content = 'public function containerPage(Dawnstar $dawnstar) {';
-        $content .= "\n\t\treturn view('pages." . strtolower($this->key) . ".container');";
+
+        if($this->key == 'search') {
+            $content .= "\n\t\t$search = new Dawnstar\Foundation\Search();";
+            $content .= "\n\t\t$results = $search->getResults();";
+            $content .= "\n\t\treturn view('pages." . strtolower($this->key) . ".container', compact('results'));";
+        } else {
+            $content .= "\n\t\treturn view('pages." . strtolower($this->key) . ".container');";
+        }
+
         $content .= "\n\t}\n";
 
         return $content;
@@ -132,6 +140,10 @@ class ContainerFileKit
             if ($this->hasCategory) {
                 $defaultView = "container_dynamic_category.container";
             }
+        } elseif($this->key == 'homepage') {
+            $defaultView = "homepage";
+        } elseif($this->key == 'search') {
+            $defaultView = "search";
         } else {
             $defaultView = "container_static.container";
         }
