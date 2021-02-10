@@ -15,6 +15,7 @@ class CreateContainersTable extends Migration
     {
         Schema::create('containers', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('admin_id')->nullable();
             $table->integer('website_id');
             $table->tinyInteger('status');
             $table->string('key');

@@ -38,6 +38,11 @@ class Category extends BaseModel
         return $this->belongsToMany(Page::class, 'category_pages');
     }
 
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
+
     public function __get($key)
     {
         $attribute = $this->getAttribute($key);

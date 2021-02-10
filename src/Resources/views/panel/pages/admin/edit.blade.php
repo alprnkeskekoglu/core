@@ -36,7 +36,7 @@
                                         <label for="menu_image">{{ __('DawnstarLang::admin.labels.image') }}</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <button type="button" class="btn btn-sm btn-primary openFileManagerBtn" data-id="admin_image" data-mediatype="image" data-selectabletype="image" data-maxmediacount="1">
+                                        <button type="button" class="btn btn-sm btn-primary openFileManagerBtn" data-id="admin_image" data-mediaType="image" data-selectabletype="image" data-maxmediacount="1">
                                             {{ __('DawnstarLang::general.filemanager') }}
                                         </button>
                                     </div>

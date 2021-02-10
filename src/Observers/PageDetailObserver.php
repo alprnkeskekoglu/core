@@ -18,7 +18,7 @@ class PageDetailObserver
 
             $detail->url()->create(
                 [
-                    'website_id' => session('dawnstar.website.id'),
+                    'website_id' => $detail->page->container->website_id,
                     'type' => 'original',
                     'url' =>  $urlText
                 ]

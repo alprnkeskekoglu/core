@@ -97,7 +97,8 @@ class FormBuilder
             'input' => $input,
             'tabLanguage' => $this->tabLanguage,
             'dawnstarLanguageCode' => $this->languageCode,
-            'value' => $value
+            'value' => $value,
+            'container' => $this->container,
         ])->render();
     }
 

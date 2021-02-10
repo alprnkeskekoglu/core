@@ -28,6 +28,11 @@ Route::middleware(['dawnstar.auth'])->group(function () {
         Route::post('/delete/{id}', 'AdminController@delete')->name('delete');
     });
 
+    Route::prefix('Profile')->as('profile.')->group(function () {
+        Route::get('/', 'ProfileController@index')->name('index');
+        Route::post('/update', 'ProfileController@update')->name('update');
+    });
+
     Route::prefix('Container')->group(function () {
 
         Route::as('container.')->group(function () {
@@ -116,6 +121,10 @@ Route::middleware(['dawnstar.auth'])->group(function () {
 
     Route::prefix('Tool')->as('tool.')->group(function () {
         Route::get('/', 'ToolController@index')->name('index');
+
+        Route::get('/env', 'ToolController@env')->name('env');
+        Route::post('/env/update', 'ToolController@envUpdate')->name('env.update');
+
         Route::post('/init', 'ToolController@init')->name('init');
     });
 

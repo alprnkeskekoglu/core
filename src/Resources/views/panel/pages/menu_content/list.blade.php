@@ -10,9 +10,10 @@
                    title="{{ __('DawnstarLang::general.edit') }}">
                     <i class="fa fa-pencil-alt"></i>
                 </a>
-                <a href="{{ route('dawnstar.menu.content.delete', ['menuId' => $menu->id, 'id' => $menuContent->id]) }}"
+                <a href="javascript:void(0)"
+                   data-url="{{ route('dawnstar.menu.content.delete', ['menuId' => $menu->id, 'id' => $menuContent->id]) }}"
                    data-toggle="tooltip"
-                   class="text-black"
+                   class="text-black deleteBtn"
                    data-placement="right"
                    title="{{ __('DawnstarLang::general.delete') }}">
                     <i class="fa fa-trash-alt"></i>

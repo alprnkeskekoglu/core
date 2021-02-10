@@ -14,20 +14,18 @@ class InstallDawnstar extends Command
 
     public function handle()
     {
+        if(! $this->confirm('Are you sure?')) {
+            return;
+        }
         $this->createDefaultWebsite();
 
         $this->createDefaultBladeFiles();
 
+        $this->cleanWebRoute();
+
         $this->createSymbolicLink();
 
-        Admin::firstOrCreate([
-            'role_id' => 1,
-            'status' => 1,
-            'fullname' => 'Alperen Keşkekoğlu',
-            'username' => 'alprnkeskekoglu',
-            'email' => 'keskekoglualperen@gmail.com',
-            'password' => '$2y$10$c0ncNq4BfdWo4gINdcdnEu9rc7BxBHjK9LhE.6sIDIawcjAYlt6VS'
-        ]);
+        $this->createSearchView();
     }
 
     private function createDefaultWebsite()
@@ -74,15 +72,26 @@ class InstallDawnstar extends Command
         $defaultApp = file_get_contents(__DIR__ . '/../../Resources/views/web/default_blades/layouts/app.blade.php');
         file_put_contents(resource_path('views/layouts/app.blade.php'), $defaultApp);
 
-        file_put_contents(resource_path('views/layouts/header.blade.php'), '@include("DawnstarWebView::default.layouts.header")');
-        file_put_contents(resource_path('views/layouts/footer.blade.php'), '@include("DawnstarWebView::default.layouts.footer")');
+        file_put_contents(resource_path('views/layouts/header.blade.php'), '@include("DawnstarWebView::default_blades.layouts.header")');
+        file_put_contents(resource_path('views/layouts/footer.blade.php'), '@include("DawnstarWebView::default_blades.layouts.footer")');
 
         $this->info('Default Blade Files Created !!');
+    }
+
+    private function cleanWebRoute()
+    {
+        file_put_contents(base_path('routes/web.php'), '');
     }
 
     private function createSymbolicLink()
     {
         Artisan::call('storage:link');
+        $this->info(Artisan::output());
+    }
+
+    private function createSearchView()
+    {
+        Artisan::call('ds:search');
         $this->info(Artisan::output());
     }
 }

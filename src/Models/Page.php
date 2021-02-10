@@ -40,7 +40,12 @@ class Page extends BaseModel
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_pages');
+        return $this->belongsToMany(Category::class, 'category_pages', 'category_id', 'page_id');
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
     }
 
     public function __get($key)

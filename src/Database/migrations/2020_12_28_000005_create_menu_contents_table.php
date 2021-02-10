@@ -15,6 +15,7 @@ class CreateMenuContentsTable extends Migration
     {
         Schema::create('menu_contents', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('admin_id')->nullable();
             $table->integer('menu_id');
             $table->integer('language_id');
             $table->tinyInteger('status');

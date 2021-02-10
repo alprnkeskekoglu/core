@@ -54,6 +54,7 @@ class MenuContentController extends BaseController
                 continue;
             }
             $menuContent = MenuContent::firstOrCreate([
+                'admin_id' => auth('admin')->id(),
                 'menu_id' => $menuId,
                 'language_id' => $languageId,
                 'status' => $values['status'],

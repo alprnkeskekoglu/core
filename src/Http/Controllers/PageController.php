@@ -12,8 +12,6 @@ use Illuminate\Routing\Controller as BaseController;
 
 class PageController extends BaseController
 {
-
-
     public function index(int $containerId)
     {
         $container = Container::findOrFail($containerId);

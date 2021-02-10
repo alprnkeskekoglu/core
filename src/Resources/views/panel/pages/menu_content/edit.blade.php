@@ -187,27 +187,26 @@
 
         $('[id^="type"]').on('change', function () {
             var value = $(this).val();
-            languageId = $(this).attr('data-language');
 
             if (value == 1) {
-                $('#url_id' + languageId).closest('.form-group').removeClass('d-none');
-                $('#out_link' + languageId).closest('.form-group').addClass('d-none');
-                $('#target' + languageId).closest('.form-group').removeClass('d-none');
+                $('#url_id').closest('.form-group').removeClass('d-none');
+                $('#out_link').closest('.form-group').addClass('d-none');
+                $('#target').closest('.form-group').removeClass('d-none');
                 getUrls(languageId);
             } else if (value == 2) {
-                $('#url_id' + languageId).closest('.form-group').addClass('d-none');
-                $('#out_link' + languageId).closest('.form-group').removeClass('d-none');
-                $('#target' + languageId).closest('.form-group').removeClass('d-none');
+                $('#url_id').closest('.form-group').addClass('d-none');
+                $('#out_link').closest('.form-group').removeClass('d-none');
+                $('#target').closest('.form-group').removeClass('d-none');
 
             } else {
-                $('#url_id' + languageId).closest('.form-group').addClass('d-none');
-                $('#out_link' + languageId).closest('.form-group').addClass('d-none');
-                $('#target' + languageId).closest('.form-group').addClass('d-none');
+                $('#url_id').closest('.form-group').addClass('d-none');
+                $('#out_link').closest('.form-group').addClass('d-none');
+                $('#target').closest('.form-group').addClass('d-none');
             }
         });
 
         function getUrls(languageId) {
-            $('#url_id' + languageId).select2({
+            $('#url_id').select2({
                 language: '{{ session('dawnstar.language.code') ?: 'en' }}',
                 ajax: {
                     url: '{{ route('dawnstar.menu.getUrls') }}',

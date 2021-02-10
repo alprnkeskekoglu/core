@@ -17,7 +17,7 @@ class CategoryDetailObserver
 
             $detail->url()->create(
                 [
-                    'website_id' => session('dawnstar.website.id'),
+                    'website_id' => $detail->category->container->website_id,
                     'type' => 'original',
                     'url' =>  $urlText
                 ]

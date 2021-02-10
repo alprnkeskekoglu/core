@@ -43,6 +43,16 @@
                             </div>
                         </a>
                     </div>
+                    <div class="col-6 col-md-4 col-xl-2">
+                        <a href="{{ route('dawnstar.tool.env') }}" class="block block-rounded block-link-pop text-center d-flex align-items-center bg-gd-sublime">
+                            <div class="block-content">
+                                <p class="mb-2 d-none d-sm-block text-white">
+                                    <i class="fa fa-edit opacity-75 fa-2x"></i>
+                                </p>
+                                <p class="font-w600 font-size-sm text-uppercase text-white">Edit .env</p>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

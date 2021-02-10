@@ -53,6 +53,7 @@ class ContainerController extends BaseController
     {
         $data = $request->except('_token');
 
+        $data['admin_id'] = $data['admin_id'] ?? auth('admin')->id();
         $data['website_id'] = session('dawnstar.website.id');
         $data['key'] = strtolower(str_replace(' ', '', $data['key']));
 
@@ -65,6 +66,9 @@ class ContainerController extends BaseController
             if (!isset($detail['name'])) {
                 continue;
             }
+
+            $detail['slug'] = rtrim($detail['slug'], '/');
+
             ContainerDetail::firstOrCreate([
                 'container_id' => $container->id,
                 'language_id' => $languageId,

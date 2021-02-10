@@ -36,6 +36,11 @@ class MenuContent extends BaseModel
         return $this->belongsTo(Language::class);
     }
 
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
+
     public function __get($key)
     {
         $attribute = $this->getAttribute($key);

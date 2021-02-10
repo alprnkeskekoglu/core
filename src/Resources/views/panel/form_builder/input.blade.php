@@ -20,10 +20,13 @@
     <div class="form-group">
         <label for="{{ $id }}">{{ $labelText }}</label>
         @if(strpos($input['id'], 'slug') != false)
+            @php
+                $containerDetail = $container->details()->where('language_id', $tabLanguage->id)->first();
+            @endphp
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text">
-                        {{ '/' . $tabLanguage->code }}
+                        {{ '/' . $tabLanguage->code . ($containerDetail ? $containerDetail->slug : '') }}
                     </span>
                 </div>
                 <input {!! $inputAttributes !!}

@@ -15,6 +15,7 @@ class CreatePagesTable extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('admin_id')->nullable();
             $table->integer('container_id');
             $table->integer('page_id')->nullable();
             $table->tinyInteger('status');

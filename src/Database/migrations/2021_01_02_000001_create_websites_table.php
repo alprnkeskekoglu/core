@@ -15,6 +15,7 @@ class CreateWebsitesTable extends Migration
     {
         Schema::create('websites', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('admin_id')->nullable();
             $table->tinyInteger('status');
             $table->tinyInteger('order');
             $table->tinyInteger('is_default');

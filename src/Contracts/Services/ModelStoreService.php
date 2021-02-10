@@ -10,6 +10,8 @@ class ModelStoreService implements ModelStoreInterface
 {
     public function store($model, $data)
     {
+        $data['admin_id'] = $data['admin_id'] ?? auth('admin')->id();
+
         return $model::create($data);
     }
 

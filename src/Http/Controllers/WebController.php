@@ -29,7 +29,8 @@ class WebController extends BaseController
             abort(404);
         }
 
-        $url = Url::where('url', $parsedUrl['path'])->where('website_id', $website->id)->first();
+        $path = $parsedUrl['path'] ?? '/';
+        $url = Url::where('url', $path)->where('website_id', $website->id)->first();
 
         if(is_null($url)) {
             abort(404);

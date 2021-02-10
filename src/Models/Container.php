@@ -40,6 +40,11 @@ class Container extends BaseModel
         return Language::whereIn('id', $detailLanguageIds)->get();
     }
 
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
+
     public function __get($key)
     {
         $attribute = $this->getAttribute($key);
