@@ -21,6 +21,11 @@ class CategoryDetail extends BaseModel
         return $this->belongsTo(Category::class);
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
     public function extras()
     {
         return $this->hasMany(CategoryDetailExtra::class);

@@ -50,8 +50,15 @@
                                     <div class="block-content tab-content">
                                         @foreach($languages as $language)
                                             <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="{{$language->code}}" role="tabpanel">
-                                                <div class="row">
+                                                <div class="row mb-5">
                                                     {!! $formBuilder->render($language) !!}
+                                                </div>
+
+                                                <h2 class="content-heading">{{ __('DawnstarLang::general.meta_tags') }}</h2>
+                                                <div class="block-content bg-gray-light">
+                                                    <div class="row">
+                                                        {!! $formBuilder->metas($language) !!}
+                                                    </div>
                                                 </div>
                                             </div>
                                         @endforeach

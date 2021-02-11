@@ -46,13 +46,7 @@ class Dawnstar
 
     public function otherLanguages(bool $removeActiveLanguage = false)
     {
-        if(is_a($this->relation, ContainerDetail::class)) {
-            $parent = $this->relation->container;
-        } elseif(is_a($this->relation, PageDetail::class)) {
-            $parent = $this->relation->page;
-        } elseif(is_a($this->relation, CategoryDetail::class)) {
-            $parent = $this->relation->category;
-        }
+        $parent = $this->relation->parent;
 
         $details = $parent->details;
         $activeLanguage = $this->language;
@@ -69,5 +63,17 @@ class Dawnstar
             ];
         }
         return $return;
+    }
+
+    public function metas()
+    {
+        return $this->url->metas;
+    }
+
+    public function metasHtml()
+    {
+        $metaFound = new Meta();
+
+        return $metaFound->getHtml();
     }
 }

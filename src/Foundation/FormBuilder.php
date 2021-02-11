@@ -62,11 +62,26 @@ class FormBuilder
         return isset($contents['general']) ? $this->getHtml($contents['general']) : null;
     }
 
+    public function metas($tabLanguage)
+    {
+        $contents = [];
+        if (!file_exists($this->builderFile)) {
+            throw new FileNotFoundException($this->builderFile . ' does not exist!!');
+        }
+
+        $this->tabLanguage = $tabLanguage;
+
+        $contents = include $this->builderFile;
+        $this->modelDetail = $this->model ? $this->model->details()->where('language_id', $tabLanguage->id)->first() : null;
+        return $this->getMetaHtml($contents['metas'] ?? []);
+    }
+
     public function scripts()
     {
         return view('DawnstarView::form_builder.scripts')->render();
     }
 
+    # region Get Inputs
     private function getHtml(array $inputs)
     {
         $html = '';
@@ -122,8 +137,8 @@ class FormBuilder
             $input['id'] = 'details_' . $this->tabLanguage->id . '_extras_' . $key;
         } elseif ($isDetail) {
             $key = str_replace(['detail.'], '', $name);
-            if($isMedia) {
-                $input['name'] = 'details[' . $this->tabLanguage->id . '][medias]['.$key.']';
+            if ($isMedia) {
+                $input['name'] = 'details[' . $this->tabLanguage->id . '][medias][' . $key . ']';
                 $input['id'] = 'details_' . $this->tabLanguage->id . '_' . $key;
             } else {
                 $input['name'] = 'details[' . $this->tabLanguage->id . '][' . $key . ']';
@@ -148,7 +163,7 @@ class FormBuilder
             $input['categories'] = $this->getCategories($categories);
 
         } elseif ($isMedia) {
-            $input['name'] = 'medias['.$input['name'].']';
+            $input['name'] = 'medias[' . $input['name'] . ']';
             $input['id'] = $name;
         } else {
             $input['name'] = $name;
@@ -157,60 +172,6 @@ class FormBuilder
 
         return $input;
     }
-
-    # region getValues
-    private function getInputValue($input)
-    {
-        if (is_null($this->model)) {
-            return null;
-        }
-
-        if (is_null($this->tabLanguage)) {
-            return $this->getNonDetailValue($input);
-        }
-        if($this->modelDetail) {
-            return $this->getDetailValue($input);
-        }
-        return null;
-    }
-
-    private function getNonDetailValue($input)
-    {
-        $name = $input['name'];
-
-        $isExtras = \Str::startsWith($name, 'extras.');
-        $isCategory = \Str::startsWith($name, 'categories');
-        $isMedia = $input['type'] == 'media';
-
-        if ($isExtras) {
-            $name = str_replace(['extras.', '[]'], '', $name);
-        } else if($isCategory) {
-            return $this->model->categories->pluck('id')->toArray();
-        } else if($isMedia) {
-            return $this->model->medias()->wherePivot('media_key', $name)->pluck('id')->toArray();
-        }
-        return $this->model->{$name};
-    }
-
-    private function getDetailValue($input)
-    {
-        $name = $input['name'];
-
-        $isExtras = \Str::startsWith($name, 'detail.extras.');
-        $isMedia = $input['type'] == 'media';
-
-        if ($isExtras) {
-            $name = str_replace(['detail.extras.', '[]'], '', $name);
-            return $this->modelDetail->{$name};
-        } else if($isMedia) {
-            $name = str_replace(['detail.', '[]'], '', $name);
-            return $this->modelDetail->medias()->wherePivot('media_key', $name)->pluck('id')->toArray();
-        }
-        $name = str_replace('detail.', '', $name);
-        return $this->modelDetail->{$name};
-    }
-
-    # endregion
 
     private function getCategories($categories)
     {
@@ -241,4 +202,94 @@ class FormBuilder
 
         return $hold;
     }
+    # endregion
+
+    # region Get Values
+    private function getInputValue($input)
+    {
+        if (is_null($this->model)) {
+            return null;
+        }
+
+        if (is_null($this->tabLanguage)) {
+            return $this->getNonDetailValue($input);
+        }
+        if ($this->modelDetail) {
+            return $this->getDetailValue($input);
+        }
+        return null;
+    }
+
+    private function getNonDetailValue($input)
+    {
+        $name = $input['name'];
+
+        $isExtras = \Str::startsWith($name, 'extras.');
+        $isCategory = \Str::startsWith($name, 'categories');
+        $isMedia = $input['type'] == 'media';
+
+        if ($isExtras) {
+            $name = str_replace(['extras.', '[]'], '', $name);
+        } else if ($isCategory) {
+            return $this->model->categories->pluck('id')->toArray();
+        } else if ($isMedia) {
+            return $this->model->medias()->wherePivot('media_key', $name)->pluck('id')->toArray();
+        }
+        return $this->model->{$name};
+    }
+
+    private function getDetailValue($input)
+    {
+        $name = $input['name'];
+
+        $isExtras = \Str::startsWith($name, 'detail.extras.');
+        $isMedia = $input['type'] == 'media';
+
+        if ($isExtras) {
+            $name = str_replace(['detail.extras.', '[]'], '', $name);
+            return $this->modelDetail->{$name};
+        } else if ($isMedia) {
+            $name = str_replace(['detail.', '[]'], '', $name);
+            return $this->modelDetail->medias()->wherePivot('media_key', $name)->pluck('id')->toArray();
+        }
+        $name = str_replace('detail.', '', $name);
+        return $this->modelDetail->{$name};
+    }
+    # endregion
+
+    # region Get Metas
+    private function getMetaHtml(array $inputs)
+    {
+        $html = '';
+
+        if(count($inputs) == 0) {
+            $inputs = [
+                [
+                    'type' => 'title',
+                ],
+                [
+                    'type' => 'description',
+                ]
+            ];
+        }
+
+        foreach ($inputs as $input) {
+
+            $key = $input['type'];
+
+            $input['name'] = 'metas[' . $this->tabLanguage->id . '][' . $key . ']';
+            $input['id'] = 'metas_' . $this->tabLanguage->id . '_' . $key;
+            $meta = $this->modelDetail ? $this->modelDetail->url->getMeta($key) : '';
+
+            $html .= view('DawnstarView::form_builder.meta', [
+                'input' => $input,
+                'tabLanguage' => $this->tabLanguage,
+                'dawnstarLanguageCode' => $this->languageCode,
+                'meta' => $meta,
+            ])->render();
+        }
+
+        return $html;
+    }
+    # endregion
 }

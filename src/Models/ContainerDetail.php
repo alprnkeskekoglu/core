@@ -21,6 +21,11 @@ class ContainerDetail extends BaseModel
         return $this->belongsTo(Container::class);
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(Container::class, 'container_id', 'id');
+    }
+
     public function extras()
     {
         return $this->hasMany(ContainerDetailExtra::class);

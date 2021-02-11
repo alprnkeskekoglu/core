@@ -59,7 +59,8 @@ class PageController extends BaseController
         $details = $data['details'] ?? [];
         $extras = $data['extras'] ?? [];
         $medias = $data['medias'] ?? [];
-        unset($data['categories'], $data['details'], $data['extras'], $data['medias']);
+        $metas = $data['metas'] ?? [];
+        unset($data['categories'], $data['details'], $data['extras'], $data['medias'], $data['metas']);
 
         $data['container_id'] = $containerId;
 
@@ -72,6 +73,8 @@ class PageController extends BaseController
         $storeService->storeDetails($page, $details);
 
         $storeService->storeMedias($page, $medias);
+
+        dd($metas);
 
         // Admin Action
         addAction($page, 'store');

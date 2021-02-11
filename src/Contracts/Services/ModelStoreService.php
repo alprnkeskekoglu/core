@@ -24,7 +24,7 @@ class ModelStoreService implements ModelStoreInterface
     {
         foreach ($details as $languageId => $detail) {
 
-            if(isset($detail['status']) && $detail['status'] != 1) {
+            if (isset($detail['status']) && $detail['status'] != 1) {
                 continue;
             }
 
@@ -60,7 +60,7 @@ class ModelStoreService implements ModelStoreInterface
     {
         foreach ($medias as $key => $mediaIds) {
 
-            if(is_null($mediaIds)) {
+            if (is_null($mediaIds)) {
                 $mediaIds = [];
             } else {
                 $mediaIds = explode(',', $mediaIds);
@@ -77,6 +77,24 @@ class ModelStoreService implements ModelStoreInterface
             }
 
             $model->medias()->wherePivot('media_key', $key)->sync($temp);
+        }
+    }
+
+    public function storeMetas($model, $metas)
+    {
+        foreach ($metas as $languageId => $meta) {
+            $detail = $model->details()->where('language_id', $languageId)->first();
+            $url = $detail ? $detail->url : null;
+
+            if($url) {
+                foreach ($meta as $key => $value) {
+                    $url->metas()->updateOrCreate(
+                        [
+                            'key' => $key,
+                            'value' => $value
+                        ]);
+                }
+            }
         }
     }
 }

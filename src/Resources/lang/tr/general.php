@@ -15,6 +15,7 @@ return [
     'filemanager' => 'Dosya Yöneticisi',
     'content' => 'İçerikler',
     'pages' => 'Sayfalar',
+    'meta_tags' => 'Meta Etiketleri',
 
     'yes' => 'Evet',
     'no' => 'Hayır',

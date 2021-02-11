@@ -154,4 +154,12 @@ return [
             ],
         ],
     ],
+    'metas' => [
+        [
+            'type' => 'title',
+        ],
+        [
+            'type' => 'description',
+        ],
+    ],
 ];

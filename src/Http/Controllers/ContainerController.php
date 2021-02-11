@@ -196,13 +196,16 @@ class ContainerController extends BaseController
 
         $details = $data['details'] ?? [];
         $medias = $data['medias'] ?? [];
-        unset($data['details'], $data['medias']);
+        $metas = $data['metas'] ?? [];
+        unset($data['details'], $data['medias'], $data['metas']);
 
         $storeService->update($container, $data);
 
         $storeService->storeDetails($container, $details);
 
         $storeService->storeMedias($container, $medias);
+
+        $storeService->storeMetas($container, $metas);
 
         // Admin Action
         addAction($container, 'update');
