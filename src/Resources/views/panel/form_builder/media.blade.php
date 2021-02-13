@@ -14,10 +14,10 @@
 
 <div class="{{ $parentClass }}">
     <div class="form-group row">
-        <div class="col-md-2">
+        <div class="col-md-4">
             <label for="{{ $id }}">{{ $labelText }}</label>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <button type="button"
                     class="btn btn-sm btn-primary openFileManagerBtn"
                     data-id="{{ $id }}"

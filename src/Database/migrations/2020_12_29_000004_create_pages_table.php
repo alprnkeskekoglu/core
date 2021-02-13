@@ -19,7 +19,7 @@ class CreatePagesTable extends Migration
             $table->integer('container_id');
             $table->integer('page_id')->nullable();
             $table->tinyInteger('status');
-            $table->integer('order');
+            $table->integer('order')->nullable();
             $table->date('date')->nullable();
             $table->string('cvar_1')->nullable();
             $table->string('cvar_2')->nullable();

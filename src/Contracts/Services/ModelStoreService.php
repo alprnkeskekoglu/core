@@ -92,7 +92,8 @@ class ModelStoreService implements ModelStoreInterface
                         [
                             'key' => $key,
                             'value' => $value
-                        ]);
+                        ]
+                    );
                 }
             }
         }

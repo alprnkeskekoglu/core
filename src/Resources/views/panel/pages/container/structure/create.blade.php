@@ -39,18 +39,18 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="col-form-label" for="feature">{{ __('DawnstarLang::container.labels.feature') }}</label>
-                                            <select class="form-control" id="feature">
+                                            <select class="form-control" id="feature" name="feature">
                                                 <option value="">{{ __('DawnstarLang::general.select') }}</option>
-                                                <option value="1">{{ __('DawnstarLang::container.feature.homepage') }}</option>
-                                                <option value="2">{{ __('DawnstarLang::container.feature.search') }}</option>
-                                                <option value="3">{{ __('DawnstarLang::container.feature.other') }}</option>
+                                                <option value="1" {{ old('feature') == 1 ? 'selected' : '' }}>{{ __('DawnstarLang::container.feature.homepage') }}</option>
+                                                <option value="2" {{ old('feature') == 2 ? 'selected' : '' }}>{{ __('DawnstarLang::container.feature.search') }}</option>
+                                                <option value="3" {{ old('feature') == 3 ? 'selected' : '' }}>{{ __('DawnstarLang::container.feature.other') }}</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group d-none">
+                                        <div class="form-group {{ old('feature') ? '' : 'd-none' }}">
                                             <label class="col-form-label" for="key">{{ __('DawnstarLang::container.labels.key') }}</label>
-                                            <input type="text" class="form-control" id="key" name="key" value="{{ old('key') }}">
+                                            <input type="text" class="form-control" id="key" name="key" value="{{ old('key') }}" {{ old('feature') != 3 ? 'readonly' : '' }}>
                                         </div>
                                     </div>
                                 </div>
@@ -199,7 +199,7 @@
 @push('scripts')
     <script>
         var typingTimer;
-        var doneTypingInterval = 500;
+        var doneTypingInterval = 400;
         var typedInput;
 
         $('body').delegate('.containerName', 'keyup', function () {
@@ -228,16 +228,34 @@
             if(value == 1) {
                 $('#key').val('homepage');
                 $('#key').attr('readonly', true);
+                $('#type_multiple, #has_category, #is_searchable').attr('disabled', true);
+                $('#type_multiple').attr('checked', false);
+                $('#type_single, #has_detail').attr('checked', true);
             } else if(value == 2) {
                 $('#key').val('search');
                 $('#key').attr('readonly', true);
+                $('#type_multiple, #has_category, #is_searchable').attr('disabled', true);
+                $('#type_multiple').attr('checked', false);
+                $('#type_single, #has_detail').attr('checked', true);
             } else {
                 $('#key').val('');
                 $('#key').attr('readonly', false);
+                $('#type_multiple, #has_category, #is_searchable').attr('disabled', false);
+                $('#type_single, #has_detail').attr('checked', false);
             }
 
             $('#key').closest('.form-group').removeClass('d-none');
-        })
+        });
+
+        $('[name="type"]').on('change', function () {
+
+            var value = $(this).val();
+            if(value == 'dynamic') {
+                $('#has_category, #is_searchable').attr('disabled', false);
+            } else if(value == 'static') {
+                $('#has_category, #is_searchable').attr('disabled', true);
+            }
+        });
 
         slugify = function () {
             var text = typedInput.val();

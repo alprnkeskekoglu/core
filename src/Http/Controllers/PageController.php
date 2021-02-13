@@ -74,8 +74,6 @@ class PageController extends BaseController
 
         $storeService->storeMedias($page, $medias);
 
-        dd($metas);
-
         // Admin Action
         addAction($page, 'store');
 

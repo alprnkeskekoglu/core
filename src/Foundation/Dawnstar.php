@@ -36,7 +36,7 @@ class Dawnstar
 
     public function homePageUrl()
     {
-        $container = Container::where('type', 'homepage')->first();
+        $container = Container::where('key', 'homepage')->first();
 
         if($container) {
             return $container->detail->url;

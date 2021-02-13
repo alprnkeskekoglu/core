@@ -51,7 +51,7 @@ class ContainerController extends BaseController
 
     public function structureStore(ContainerRequest $request)
     {
-        $data = $request->except('_token');
+        $data = $request->except('_token', 'feature');
 
         $data['admin_id'] = $data['admin_id'] ?? auth('admin')->id();
         $data['website_id'] = session('dawnstar.website.id');

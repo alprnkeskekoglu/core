@@ -120,7 +120,7 @@
                     targets: 4,
                     'createdCell':  function (td, cellData, rowData, row, col) {
                         $(td).find('.edit').first().attr('href', "/dawnstar/Container/" + rowData.container_id + "/Pages/edit/" + rowData.id);
-                        $(td).find('.delete').first().attr('data-url', "/dawnstar/Container/" + rowData.container_id + "/Pages/delete" + rowData.id);
+                        $(td).find('.delete').first().attr('data-url', "/dawnstar/Container/" + rowData.container_id + "/Pages/delete/" + rowData.id);
                     }
                 },
             ],

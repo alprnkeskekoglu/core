@@ -21,7 +21,6 @@ class WebController extends BaseController
         $fullUrl = $request->fullUrl();
         $parsedUrl = parse_url($fullUrl);
 
-
         $domain = $parsedUrl["host"] = str_replace("www.", "", $parsedUrl["host"]);
         $domainArray = [$domain, "www.".$domain];
 
@@ -30,6 +29,8 @@ class WebController extends BaseController
         if(is_null($website)) {
             abort(404);
         }
+
+        $dawnstar->website = $website;
 
         if(!isset($parsedUrl['path'])) {
             $homePage = Container::where('website_id', $website->id)->where('key', 'homepage')->first();
@@ -50,7 +51,6 @@ class WebController extends BaseController
 
         $detail = $url->model;
 
-        $dawnstar->website = $website;
         $dawnstar->url = $url;
         $dawnstar->language = Language::find($detail->language_id);
         $dawnstar->relation = $detail;
