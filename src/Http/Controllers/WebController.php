@@ -3,6 +3,7 @@
 namespace Dawnstar\Http\Controllers;
 
 use Dawnstar\Models\CategoryDetail;
+use Dawnstar\Models\Container;
 use Dawnstar\Models\ContainerDetail;
 use Dawnstar\Models\Language;
 use Dawnstar\Models\PageDetail;
@@ -20,6 +21,7 @@ class WebController extends BaseController
         $fullUrl = $request->fullUrl();
         $parsedUrl = parse_url($fullUrl);
 
+
         $domain = $parsedUrl["host"] = str_replace("www.", "", $parsedUrl["host"]);
         $domainArray = [$domain, "www.".$domain];
 
@@ -29,7 +31,17 @@ class WebController extends BaseController
             abort(404);
         }
 
-        $path = $parsedUrl['path'] ?? '/';
+        if(!isset($parsedUrl['path'])) {
+            $homePage = Container::where('website_id', $website->id)->where('key', 'homepage')->first();
+            $homePageDetail = $homePage->details()->where('language_id', $website->defaultLanguage()->id)->first();
+
+            if($homePageDetail) {
+                return redirect()->to($homePageDetail->url->url);
+            }
+            abort(404);
+        }
+
+        $path = $parsedUrl['path'];
         $url = Url::where('url', $path)->where('website_id', $website->id)->first();
 
         if(is_null($url)) {

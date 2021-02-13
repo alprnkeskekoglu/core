@@ -12,6 +12,12 @@ class Website extends BaseModel
 
     protected $guarded = ['id'];
 
+
+    public function containers()
+    {
+        return $this->hasMany(Container::class);
+    }
+    
     public function languages()
     {
         return $this->belongsToMany(Language::class, 'website_languages');
