@@ -21,9 +21,9 @@
             <button type="button"
                     class="btn btn-sm btn-primary openFileManagerBtn"
                     data-id="{{ $id }}"
-                    data-mediaType="{{ $mediaType }}"
-                    data-selectableType="{{ $mediaType }}"
-                    data-maxMediaCount="{{ $maxMediaCount }}">
+                    data-mediatype="{{ $mediaType }}"
+                    data-selectabletype="{{ $mediaType }}"
+                    data-maxmediacount="{{ $maxMediaCount }}">
                 {{ __('DawnstarLang::general.filemanager') }}
             </button>
         </div>
@@ -57,9 +57,9 @@
             var currentMediaInputId;
             $('.openFileManagerBtn').on('click', function () {
                 currentMediaInputId = $(this).attr('data-id');
-                var _mediaType = $(this).attr('data-mediaType');
-                var _selectableType = $(this).attr('data-selectableType');
-                var _maxMediaCount = $(this).attr('data-maxMediaCount');
+                var _mediaType = $(this).attr('data-mediatype');
+                var _selectableType = $(this).attr('data-selectabletype');
+                var _maxMediaCount = $(this).attr('data-maxmediacount');
                 var _selectedMediaIds = $('#' + currentMediaInputId).val();
                 window.open(
                     '{{ route('dawnstar.filemanager.index') }}' + '/' + _mediaType + '?selectableType=' + _selectableType + '&maxMediaCount=' + _maxMediaCount + '&selectedMediaIds=' + _selectedMediaIds,

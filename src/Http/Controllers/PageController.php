@@ -16,6 +16,10 @@ class PageController extends BaseController
     {
         $container = Container::findOrFail($containerId);
 
+        if($container->type == 'static') {
+            return redirect()->route('dawnstar.container.edit', ['id' => $containerId]);
+        }
+
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::page.index_title'),
@@ -29,6 +33,11 @@ class PageController extends BaseController
     public function create(int $containerId)
     {
         $container = Container::findOrFail($containerId);
+
+        if($container->type == 'static') {
+            return redirect()->route('dawnstar.container.edit', ['id' => $containerId]);
+        }
+
         $languages = $container->languages();
 
         $formBuilder = new FormBuilder('page', $containerId);
@@ -50,6 +59,10 @@ class PageController extends BaseController
     public function store(Request $request, int $containerId)
     {
         Container::findOrFail($containerId);
+
+        if($container->type == 'static') {
+            return redirect()->route('dawnstar.container.edit', ['id' => $containerId]);
+        }
 
         $storeService = new ModelStoreService();
 

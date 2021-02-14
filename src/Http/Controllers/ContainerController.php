@@ -172,15 +172,17 @@ class ContainerController extends BaseController
 
         $formBuilder = new FormBuilder('container', $id);
 
-        $breadcrumb = [
-            [
+        $breadcrumb = [];
+        if ($container->type == 'dynamic') {
+            $breadcrumb[] = [
                 'name' => __('DawnstarLang::container.index_title'),
                 'url' => route('dawnstar.page.index', ['containerId' => $id])
-            ],
-            [
-                'name' => __('DawnstarLang::container.create_title'),
-                'url' => '#'
-            ]
+            ];
+        }
+
+        $breadcrumb[] = [
+            'name' => __('DawnstarLang::container.edit_title'),
+            'url' => '#'
         ];
 
         return view('DawnstarView::pages.container.edit', compact('container', 'languages', 'formBuilder', 'breadcrumb'));
@@ -210,7 +212,7 @@ class ContainerController extends BaseController
         // Admin Action
         addAction($container, 'update');
 
-        if($container->type == 'static') {
+        if ($container->type == 'static') {
             return redirect()->route('dawnstar.container.edit', ['id' => $id])->with('success_message', __('DawnstarLang::container.response_message.update'));
         }
 
