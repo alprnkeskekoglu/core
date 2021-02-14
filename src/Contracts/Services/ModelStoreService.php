@@ -3,6 +3,7 @@
 namespace Dawnstar\Contracts\Services;
 
 use Dawnstar\Contracts\Interfaces\ModelStoreInterface;
+use Dawnstar\Models\Meta;
 use Dawnstar\Models\Page;
 use Dawnstar\Models\PageExtra;
 
@@ -90,9 +91,12 @@ class ModelStoreService implements ModelStoreInterface
 
             if($url) {
                 foreach ($meta as $key => $value) {
-                    $url->metas()->updateOrCreate(
+                    Meta::updateOrCreate(
                         [
+                            'url_id' => $url->id,
                             'key' => $key,
+                        ],
+                        [
                             'value' => $value
                         ]
                     );

@@ -69,7 +69,7 @@ class Meta
             if(in_array($key, ['title', 'og:title'])) {
                 return dawnstar()->relation->name;
             } elseif(in_array($key, ['description', 'og:description'])) {
-                return strip_tags(dawnstar()->relation->detail);
+                return \Str::limit(strip_tags(dawnstar()->relation->detail), 150);
             }
         }
     }
