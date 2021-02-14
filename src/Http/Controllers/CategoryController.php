@@ -73,7 +73,8 @@ class CategoryController extends BaseController
 
         $details = $data['details'] ?? [];
         $medias = $data['medias'] ?? [];
-        unset($data['details'], $data['medias']);
+        $metas = $data['metas'] ?? [];
+        unset($data['details'], $data['medias'], $data['metas']);
 
         $data['container_id'] = $containerId;
 
@@ -82,6 +83,8 @@ class CategoryController extends BaseController
         $storeService->storeDetails($category, $details);
 
         $storeService->storeMedias($category, $medias);
+
+        $storeService->storeMetas($category, $metas);
 
         // Admin Action
         addAction($category, 'store');
@@ -122,13 +125,16 @@ class CategoryController extends BaseController
 
         $details = $data['details'] ?? [];
         $medias = $data['medias'] ?? [];
-        unset($data['details'], $data['medias']);
+        $metas = $data['metas'] ?? [];
+        unset($data['details'], $data['medias'], $data['metas']);
 
         $storeService->update($category, $data);
 
         $storeService->storeDetails($category, $details);
 
         $storeService->storeMedias($category, $medias);
+
+        $storeService->storeMetas($category, $metas);
 
         // Admin Action
         addAction($category, 'update');
