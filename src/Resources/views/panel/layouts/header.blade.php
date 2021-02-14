@@ -1,5 +1,5 @@
 <header id="page-header">
-    <div class="content-header">
+    <div class="content-header justify-content-end">
         <div>
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
