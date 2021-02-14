@@ -99,8 +99,5 @@
                 </li>
             </ul>
         </div>
-        <!-- END Side Navigation -->
     </div>
-    <!-- END Sidebar Scrolling -->
 </nav>
-<!-- END Sidebar -->

@@ -32,6 +32,8 @@ class ModelStoreService implements ModelStoreInterface
             $medias = $detail['medias'] ?? [];
             unset($detail['extras'], $detail['medias']);
 
+            $detail['slug'] = rtrim($detail['slug'], '/');
+
             $pageDetail = $model->details()->updateOrCreate(
                 [
                     'language_id' => $languageId

@@ -9,6 +9,7 @@ use Dawnstar\Http\Requests\ContainerRequest;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\ContainerDetail;
 use Dawnstar\Models\Language;
+use Dawnstar\Models\Meta;
 use Dawnstar\Models\Url;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
@@ -69,13 +70,14 @@ class ContainerController extends BaseController
 
             $detail['slug'] = rtrim($detail['slug'], '/');
 
-            ContainerDetail::firstOrCreate([
+            $containerDetail = ContainerDetail::firstOrCreate([
                 'container_id' => $container->id,
                 'language_id' => $languageId,
                 'status' => $detail['status'],
                 'name' => $detail['name'],
                 'slug' => $detail['slug'],
             ]);
+
         }
 
         $kit = new ContainerFileKit($container);

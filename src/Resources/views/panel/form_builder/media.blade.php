@@ -71,6 +71,7 @@
             $('.mediaSlick').slick({
                 slidesToShow: 5,
                 infinite: false,
+                variableWidth: true
             });
 
             function handleFileManager(medias){
@@ -92,6 +93,7 @@
                 $('.mediaSlick').slick({
                     slidesToShow: 5,
                     infinite: false,
+                    variableWidth: true
                 });
             }
         </script>

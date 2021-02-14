@@ -15,11 +15,12 @@ class Meta
 
         $html = '';
 
-
         $html .= $this->getRobots() . "\n\t";
 
-        foreach ($metas as $meta) {
-            $html .= $this->getMetaHtml($meta) . "\n\t";
+        if($metas->isNotEmpty()) {
+            $html .= $this->getMetaHtml($metas);
+        } else {
+            $html .= $this->getDefaultMetaHtml();
         }
 
         $html .= $this->getCanonical();
@@ -27,18 +28,42 @@ class Meta
         return $html;
     }
 
-    private function getMetaHtml($meta)
+    private function getMetaHtml($metas)
     {
-        $key = $meta->key;
-        $value = $this->getMetaValue($meta, $key);
-        $template = $this->getMetaTemplate($key);
+        $html = '';
+        foreach ($metas as $meta) {
+            $key = $meta->key;
+            $value = $this->getMetaValue($key, $meta);
+            $template = $this->getMetaTemplate($key);
 
-        return str_replace(['{0}', '{1}'], [$key, $value], $template);
+            if($value) {
+                $html .= str_replace(['{0}', '{1}'], [$key, $value], $template) . "\n\t";
+            }
+        }
+
+        return $html;
     }
 
-    private function getMetaValue($meta, $key)
+    private function getDefaultMetaHtml()
     {
-        if($meta->value) {
+        $keys = ['title', 'description', 'og:title', 'og:description'];
+
+        $html = '';
+        foreach ($keys as $key) {
+            $value = $this->getMetaValue($key);
+            $template = $this->getMetaTemplate($key);
+
+            if($value) {
+                $html .= str_replace(['{0}', '{1}'], [$key, $value], $template) . "\n\t";
+            }
+        }
+
+        return $html;
+    }
+
+    private function getMetaValue($key, $meta = null)
+    {
+        if($meta && $meta->value) {
             return $meta->value;
         } else {
             if(in_array($key, ['title', 'og:title'])) {
