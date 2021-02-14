@@ -58,7 +58,7 @@ class PageController extends BaseController
 
     public function store(Request $request, int $containerId)
     {
-        Container::findOrFail($containerId);
+        $container = Container::findOrFail($containerId);
 
         if($container->type == 'static') {
             return redirect()->route('dawnstar.container.edit', ['id' => $containerId]);

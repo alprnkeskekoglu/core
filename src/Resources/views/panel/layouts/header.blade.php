@@ -1,14 +1,6 @@
 <header id="page-header">
     <div class="content-header">
         <div>
-            <!-- Toggle Sidebar -->
-            <!-- END Toggle Sidebar -->
-        </div>
-        <!-- END Left Section -->
-
-        <!-- Right Section -->
-        <div>
-            <!-- User Dropdown -->
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-fw fa-user d-sm-none"></i>
@@ -25,11 +17,9 @@
                         </a>
                         <div role="separator" class="dropdown-divider"></div>
 
-                        <!-- Toggle Side Overlay -->
                         <a class="dropdown-item" href="{{ route('dawnstar.tool.index') }}" data-toggle="layout" data-action="side_overlay_toggle">
                             <i class="far fa-fw fa-building mr-1"></i> {{ __('DawnstarLang::tool.index_title') }}
                         </a>
-                        <!-- END Side Overlay -->
 
                         <div role="separator" class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('dawnstar.auth.logout') }}">
@@ -38,7 +28,6 @@
                     </div>
                 </div>
             </div>
-            <!-- END User Dropdown -->
 
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn btn-dual" id="language-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,11 +48,8 @@
                 </div>
             </div>
         </div>
-        <!-- END Right Section -->
     </div>
-    <!-- END Header Content -->
 
-    <!-- Header Loader -->
     <div id="page-header-loader" class="overlay-header bg-primary-darker">
         <div class="content-header">
             <div class="w-100 text-center">
@@ -71,5 +57,4 @@
             </div>
         </div>
     </div>
-    <!-- END Header Loader -->
 </header>
