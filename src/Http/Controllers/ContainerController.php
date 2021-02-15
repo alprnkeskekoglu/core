@@ -68,9 +68,9 @@ class ContainerController extends BaseController
                 continue;
             }
 
-            $detail['slug'] = rtrim($detail['slug'], '/');
+            $detail['slug'] = $detail['slug'] != '/' ? rtrim($detail['slug'], '/') : $detail['slug'];
 
-            $containerDetail = ContainerDetail::firstOrCreate([
+            ContainerDetail::firstOrCreate([
                 'container_id' => $container->id,
                 'language_id' => $languageId,
                 'status' => $detail['status'],
@@ -129,6 +129,7 @@ class ContainerController extends BaseController
             if (!isset($detail['name'])) {
                 continue;
             }
+            $detail['slug'] = $detail['slug'] != '/' ? rtrim($detail['slug'], '/') : $detail['slug'];
             ContainerDetail::updateOrCreate(
                 [
                     'container_id' => $container->id,

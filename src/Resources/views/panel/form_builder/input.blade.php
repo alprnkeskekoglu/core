@@ -26,11 +26,12 @@
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text">
-                        {{ '/' . $tabLanguage->code . ($containerDetail ? $containerDetail->slug : '') }}
+                        {{ '/' . $tabLanguage->code . ($type != 'container' && $containerDetail ? $containerDetail->slug : '') }}
                     </span>
                 </div>
                 <input {!! $inputAttributes !!}
                        {!! $tabLanguage ? 'data-language="'.$tabLanguage->id.'"' : '' !!}
+                       {!! $container->key == 'homepage' ? 'readonly' : '' !!}
                        id="{{ $id }}"
                        name="{{ $name }}"
                        value="{{ old($name, $value) }}">
