@@ -141,6 +141,7 @@
                                                                    data-language="{{$language->id}}"
                                                                    id="details{{$language->id}}_slug"
                                                                    autocomplete="off"
+                                                                   {!! $container->key == 'homepage' ? 'readonly' : '' !!}
                                                                    name="details[{{$language->id}}][slug]"
                                                                    value="{{ old('details.'.$language->id.'.slug',  $detail ? $detail->slug : '') }}">
                                                         </div>
@@ -164,56 +165,57 @@
         var typingTimer;
         var doneTypingInterval = 500;
         var typedInput;
-        var typedInput;
 
-        $('body').delegate('.containerName', 'keyup', function () {
-            clearTimeout(typingTimer);
-            typedInput = $(this);
-            var languageId = typedInput.attr('data-language');
+        @if($container->key != 'homepage')
+            $('body').delegate('.containerName', 'keyup', function () {
+                clearTimeout(typingTimer);
+                typedInput = $(this);
+                var languageId = typedInput.attr('data-language');
 
-            if(typedInput.val().length) {
-                $('#details'+languageId+'_status_active').prop('checked', true)
-                typingTimer = setTimeout(slugify, doneTypingInterval);
-            } else {
-                $('#details'+languageId+'_status_passive').prop('checked', true)
-                $('.containerSlug[data-language="' + languageId + '"]').val('');
-            }
-        });
-
-        $('body').delegate('.containerName', 'keydown', function () {
-            clearTimeout(typingTimer);
-        });
-
-
-        slugify = function () {
-            var text = typedInput.val();
-            var map = {
-                'çÇ': 'c',
-                'ğĞ': 'g',
-                'şŞ': 's',
-                'üÜ': 'u',
-                'ıİ': 'i',
-                'öÖ': 'o'
-            };
-            for (var key in map) {
-                text = text.replace(new RegExp('[' + key + ']', 'g'), map[key]);
-            }
-            var slug = '/' + text.replace(/[^-a-zA-Z0-9\s]+/ig, '')
-                .replace(/\s/gi, "-")
-                .replace(/[-]+/gi, "-")
-                .toLowerCase();
-
-            var languageId = typedInput.attr('data-language');
-            var name = typedInput.val();
-
-            $.ajax({
-                'url': '{{ route('dawnstar.container.getUrl') }}',
-                'data': {'language_id': languageId, 'url': slug, 'name': name},
-                'method': 'GET',
-                success: function (response) {
-                    $('.containerSlug[data-language="' + languageId + '"]').val(response);
-                },
+                if(typedInput.val().length) {
+                    $('#details'+languageId+'_status_active').prop('checked', true)
+                    typingTimer = setTimeout(slugify, doneTypingInterval);
+                } else {
+                    $('#details'+languageId+'_status_passive').prop('checked', true)
+                    $('.containerSlug[data-language="' + languageId + '"]').val('');
+                }
             });
-        }
+
+            $('body').delegate('.containerName', 'keydown', function () {
+                clearTimeout(typingTimer);
+            });
+
+
+            slugify = function () {
+                var text = typedInput.val();
+                var map = {
+                    'çÇ': 'c',
+                    'ğĞ': 'g',
+                    'şŞ': 's',
+                    'üÜ': 'u',
+                    'ıİ': 'i',
+                    'öÖ': 'o'
+                };
+                for (var key in map) {
+                    text = text.replace(new RegExp('[' + key + ']', 'g'), map[key]);
+                }
+                var slug = '/' + text.replace(/[^-a-zA-Z0-9\s]+/ig, '')
+                    .replace(/\s/gi, "-")
+                    .replace(/[-]+/gi, "-")
+                    .toLowerCase();
+
+                var languageId = typedInput.attr('data-language');
+                var name = typedInput.val();
+
+                $.ajax({
+                    'url': '{{ route('dawnstar.container.getUrl') }}',
+                    'data': {'language_id': languageId, 'url': slug, 'name': name},
+                    'method': 'GET',
+                    success: function (response) {
+                        $('.containerSlug[data-language="' + languageId + '"]').val(response);
+                    },
+                });
+            }
+        @endif
     </script>
 @endpush

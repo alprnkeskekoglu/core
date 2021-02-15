@@ -178,6 +178,7 @@
                                                                    data-language="{{$language->id}}"
                                                                    id="details{{$language->id}}_slug"
                                                                    autocomplete="off"
+
                                                                    name="details[{{$language->id}}][slug]"
                                                                    value="{{ old('details.'.$language->id.'.slug') }}">
                                                         </div>
@@ -208,7 +209,7 @@
 
             var languageId = typedInput.attr('data-language');
 
-            if(typedInput.val().length) {
+            if(typedInput.val().length && $('#feature').val() != 1) {
                 $('#details'+languageId+'_status_active').prop('checked', true)
                 typingTimer = setTimeout(slugify, doneTypingInterval);
             } else {
@@ -231,17 +232,22 @@
                 $('#type_multiple, #has_category, #is_searchable').attr('disabled', true);
                 $('#type_multiple').attr('checked', false);
                 $('#type_single, #has_detail').attr('checked', true);
+
+                $('.containerSlug').attr('readonly', true);
+                $('.containerSlug').val('/');
             } else if(value == 2) {
                 $('#key').val('search');
                 $('#key').attr('readonly', true);
                 $('#type_multiple, #has_category, #is_searchable').attr('disabled', true);
                 $('#type_multiple').attr('checked', false);
                 $('#type_single, #has_detail').attr('checked', true);
+                $('.containerSlug').attr('readonly', false)
             } else {
                 $('#key').val('');
                 $('#key').attr('readonly', false);
                 $('#type_multiple, #has_category, #is_searchable').attr('disabled', false);
                 $('#type_single, #has_detail').attr('checked', false);
+                $('.containerSlug').attr('readonly', false)
             }
 
             $('#key').closest('.form-group').removeClass('d-none');
