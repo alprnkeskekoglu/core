@@ -74,54 +74,55 @@
         var typingTimer;
         var doneTypingInterval = 500;
         var typedInput;
-        var typedInput;
 
-        $('body').delegate('[id$="_name"]', 'keyup', function () {
-            clearTimeout(typingTimer);
-            typedInput = $(this);
-            var languageId = typedInput.attr('data-language');
+        @if($container->key != 'homepage')
+            $('body').delegate('[id$="_name"]', 'keyup', function () {
+                clearTimeout(typingTimer);
+                typedInput = $(this);
+                var languageId = typedInput.attr('data-language');
 
-            if(typedInput.val().length) {
-                typingTimer = setTimeout(slugify, doneTypingInterval);
-            } else {
-                $('[id$="_slug"][data-language="' + languageId + '"]').val('');
-            }
-        });
-
-        $('body').delegate('[id$="_name"]', 'keydown', function () {
-            clearTimeout(typingTimer);
-        });
-
-
-        slugify = function () {
-            var text = typedInput.val();
-            var map = {
-                'çÇ': 'c',
-                'ğĞ': 'g',
-                'şŞ': 's',
-                'üÜ': 'u',
-                'ıİ': 'i',
-                'öÖ': 'o'
-            };
-            for (var key in map) {
-                text = text.replace(new RegExp('[' + key + ']', 'g'), map[key]);
-            }
-            var slug = '/' + text.replace(/[^-a-zA-Z0-9\s]+/ig, '')
-                .replace(/\s/gi, "-")
-                .replace(/[-]+/gi, "-")
-                .toLowerCase();
-
-            var languageId = typedInput.attr('data-language');
-            var name = typedInput.val();
-
-            $.ajax({
-                'url': '{{ route('dawnstar.container.getUrl') }}',
-                'data': {'language_id': languageId, 'url': slug, 'name': name},
-                'method': 'GET',
-                success: function (response) {
-                    $('[id$="_slug"][data-language="' + languageId + '"]').val(response);
-                },
+                if(typedInput.val().length) {
+                    typingTimer = setTimeout(slugify, doneTypingInterval);
+                } else {
+                    $('[id$="_slug"][data-language="' + languageId + '"]').val('');
+                }
             });
-        }
+
+            $('body').delegate('[id$="_name"]', 'keydown', function () {
+                clearTimeout(typingTimer);
+            });
+
+
+            slugify = function () {
+                var text = typedInput.val();
+                var map = {
+                    'çÇ': 'c',
+                    'ğĞ': 'g',
+                    'şŞ': 's',
+                    'üÜ': 'u',
+                    'ıİ': 'i',
+                    'öÖ': 'o'
+                };
+                for (var key in map) {
+                    text = text.replace(new RegExp('[' + key + ']', 'g'), map[key]);
+                }
+                var slug = '/' + text.replace(/[^-a-zA-Z0-9\s]+/ig, '')
+                    .replace(/\s/gi, "-")
+                    .replace(/[-]+/gi, "-")
+                    .toLowerCase();
+
+                var languageId = typedInput.attr('data-language');
+                var name = typedInput.val();
+
+                $.ajax({
+                    'url': '{{ route('dawnstar.container.getUrl') }}',
+                    'data': {'language_id': languageId, 'url': slug, 'name': name},
+                    'method': 'GET',
+                    success: function (response) {
+                        $('[id$="_slug"][data-language="' + languageId + '"]').val(response);
+                    },
+                });
+            }
+        @endif
     </script>
 @endpush

@@ -29,6 +29,17 @@ class Dawnstar
         view()->share("dawnstar", $this);
     }
 
+    public function website()
+    {
+        $fullUrl = request()->fullUrl();
+        $parsedUrl = parse_url($fullUrl);
+
+        $domain = $parsedUrl["host"] = str_replace("www.", "", $parsedUrl["host"]);
+        $domainArray = [$domain, "www.".$domain];
+
+        return Website::whereIn('slug', $domainArray)->first();
+    }
+
     public function defaultLanguage()
     {
         $this->website->defaultLanguage();
@@ -75,5 +86,21 @@ class Dawnstar
         $metaFound = new Meta();
 
         return $metaFound->getHtml();
+    }
+
+
+    public function __get($name)
+    {
+        if (isset($this->$name)) {
+            return $this->$name;
+        }
+        if (method_exists(self::class, $name)) {
+            $this->$name = $this->$name();
+        }
+
+        if (isset($this->$name)) {
+            return $this->$name;
+        }
+        return null;
     }
 }

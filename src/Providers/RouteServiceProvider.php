@@ -46,7 +46,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapPanelRoutes()
+    protected function mapWebRoutes()
     {
         Route::group([
             'middleware' => 'web',
@@ -56,7 +56,7 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
-    protected function mapWebRoutes()
+    protected function mapPanelRoutes()
     {
         Route::group([
             'middleware' => 'web',

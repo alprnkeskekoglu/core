@@ -114,6 +114,7 @@ class FormBuilder
             'dawnstarLanguageCode' => $this->languageCode,
             'value' => $value,
             'container' => $this->container,
+            'type' => $this->type
         ])->render();
     }
 
