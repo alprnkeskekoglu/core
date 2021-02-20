@@ -19,14 +19,17 @@
         <textarea {!! $inputAttributes !!} data-editor="ckeditor" id="{{ $id }}" name="{{ $name }}">{{ old($name, $value) }}</textarea>
     </div>
 </div>
-
 @once
     @push('scripts')
         <script src="{{ dawnstarAsset('plugins/ckeditor/build/ckeditor.js') }}"></script>
+        <script src="{{ dawnstarAsset('plugins/ckeditor/build/translations/' . $dawnstarLanguageCode . '.js') }}"></script>
         <script>
             var editors = document.querySelectorAll('[data-editor="ckeditor"]');
             for (var i = 0; i < editors.length; ++i) {
-                ClassicEditor.create(editors[i]);
+                ClassicEditor.create(editors[i], {
+                    language: '{{ $dawnstarLanguageCode }}',
+                    removePlugins: ['ImageUpload']
+                });
             }
         </script>
     @endpush

@@ -16,6 +16,7 @@ return [
     'content' => 'İçerikler',
     'pages' => 'Sayfalar',
     'meta_tags' => 'Meta Etiketleri',
+    
 
     'yes' => 'Evet',
     'no' => 'Hayır',
