@@ -18,21 +18,21 @@
 
                     <div class="row items-push justify-content-end text-right">
                         <div class="mr-2">
-                            <a href="{{ route('dawnstar.container.edit', ['id' => $container->id]) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
+                            <a href="{{ route('dawnstar.containers.edit', ['id' => $container->id]) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
                                 <i class="fa fa-fw fa-fingerprint mr-1"></i>
                                 {{ __('DawnstarLang::page.container') }}
                             </a>
                         </div>
                         @if($container->has_category == 1)
                             <div class="mr-2">
-                                <a href="{{ route('dawnstar.category.index', ['containerId' => $container->id]) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
+                                <a href="{{ route('dawnstar.containers.categories.index', ['containerId' => $container->id]) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
                                     <i class="fa fa-fw fa-grip-horizontal mr-1"></i>
                                     {{ __('DawnstarLang::page.category') }}
                                 </a>
                             </div>
                         @endif
                         <div class="mr-2">
-                            <a href="{{ route('dawnstar.page.create', ['containerId' => $container->id]) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
+                            <a href="{{ route('dawnstar.containers.pages.create', ['containerId' => $container->id]) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
                                 <i class="fa fa-fw fa-plus mr-1"></i>
                                 {{ __('DawnstarLang::general.add_new') }}
                             </a>
@@ -119,13 +119,13 @@
                 {
                     targets: 4,
                     'createdCell':  function (td, cellData, rowData, row, col) {
-                        $(td).find('.edit').first().attr('href', "/dawnstar/Container/" + rowData.container_id + "/Pages/edit/" + rowData.id);
-                        $(td).find('.delete').first().attr('data-url', "/dawnstar/Container/" + rowData.container_id + "/Pages/delete/" + rowData.id);
+                        $(td).find('.edit').first().attr('href', "/dawnstar/containers/" + rowData.container_id + "/pages/" + rowData.id + "/edit");
+                        $(td).find('.delete').first().attr('data-url', "/dawnstar/containers/" + rowData.container_id + "/pages/" + rowData.id);
                     }
                 },
             ],
             ajax: {
-                url: "{!! route("dawnstar.page.getPageList", ['containerId' => $container->id]) !!}",
+                url: "{!! route("dawnstar.containers.pages.getPageList", ['containerId' => $container->id]) !!}",
                 method: "GET",
                 "dataSrc": function (response) { //ajax success
                     $('#dataTable-count').html(response.recordsTotal);
@@ -161,7 +161,7 @@
                 if (result.value) {
                     $.ajax({
                         'url': url,
-                        'method': 'POST',
+                        'method': 'DELETE',
                         'data': {'_token': '{{ csrf_token() }}'},
                         success: function (response) {
                             swal.fire('{{ __('DawnstarLang::general.swal.success.title') }}', '{{ __('DawnstarLang::general.swal.success.subtitle') }}', 'success');

@@ -45,7 +45,7 @@ class PageController extends BaseController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::page.index_title'),
-                'url' => route('dawnstar.page.index', ['containerId' => $containerId])
+                'url' => route('dawnstar.containers.pages.index', ['containerId' => $containerId])
             ],
             [
                 'name' => __('DawnstarLang::page.create_title'),
@@ -92,7 +92,7 @@ class PageController extends BaseController
         // Admin Action
         addAction($page, 'store');
 
-        return redirect()->route('dawnstar.page.index', ['containerId' => $containerId])->with('success_message', __('DawnstarLang::page.response_message.store'));
+        return redirect()->route('dawnstar.containers.pages.index', ['containerId' => $containerId])->with('success_message', __('DawnstarLang::page.response_message.store'));
     }
 
     public function edit(int $containerId, int $id)
@@ -107,7 +107,7 @@ class PageController extends BaseController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::page.index_title'),
-                'url' => route('dawnstar.page.index', ['containerId' => $containerId])
+                'url' => route('dawnstar.containers.pages.index', ['containerId' => $containerId])
             ],
             [
                 'name' => __('DawnstarLang::page.edit_title'),
@@ -120,7 +120,6 @@ class PageController extends BaseController
 
     public function update(Request $request, int $containerId, int $id)
     {
-        $container = Container::findOrFail($containerId);
         $page = Page::findOrFail($id);
 
         $storeService = new ModelStoreService();
@@ -149,10 +148,10 @@ class PageController extends BaseController
         // Admin Action
         addAction($page, 'update');
 
-        return redirect()->route('dawnstar.page.edit', ['containerId' => $containerId, 'id' => $id])->with('success_message', __('DawnstarLang::page.response_message.update'));
+        return redirect()->route('dawnstar.containers.pages.edit', ['containerId' => $containerId, 'id' => $id])->with('success_message', __('DawnstarLang::page.response_message.update'));
     }
 
-    public function delete(int $containerId, int $id)
+    public function destroy(int $containerId, int $id)
     {
         $container = Container::find($containerId);
         if (is_null($container)) {

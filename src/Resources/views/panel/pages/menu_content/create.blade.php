@@ -11,12 +11,12 @@
         </div>
         <div class="content">
             @include('DawnstarView::layouts.alerts')
-            <form action="{{ route('dawnstar.menu.content.store', ['menuId' => $menu->id]) }}" method="POST">
+            <form action="{{ route('dawnstar.menus.contents.store', ['menuId' => $menu->id]) }}" method="POST">
                 @csrf
                 <div class="block block-rounded">
                     <div class="block-header block-header-default block-header-rtl">
                         <div class="block-options">
-                            <a href="{{ route('dawnstar.menu.index') }}" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ route('dawnstar.menus.index') }}" class="btn btn-sm btn-outline-secondary">
                                 <i class="fa fa-arrow-left"></i>
                                 {{ __('DawnstarLang::general.go_back') }}
                             </a>
@@ -163,7 +163,7 @@
             var languageId = $(this).attr('data-language');
 
             $.ajax({
-                url: '{{ route('dawnstar.menu.content.saveOrder', ['menuId' => $menu->id]) }}',
+                url: '{{ route('dawnstar.menus.contents.saveOrder', ['menuId' => $menu->id]) }}',
                 data: {
                     'language_id': languageId,
                     'data': $('.menu-list[data-language="' + languageId + '"]').nestable('serialize')
@@ -203,7 +203,7 @@
             $('#url_id' + languageId).select2({
                 language: '{{ session('dawnstar.language.code') ?: 'en' }}',
                 ajax: {
-                    url: '{{ route('dawnstar.menu.getUrls') }}',
+                    url: '{{ route('dawnstar.menus.getUrls') }}',
                     data: function (params) {
                         var query = {
                             search: params.term,
@@ -241,7 +241,7 @@
                 if (result.value) {
                     $.ajax({
                         'url': url,
-                        'method': 'POST',
+                        'method': 'DELETE',
                         'data': {'_token': '{{ csrf_token() }}'},
                         success: function (response) {
                             swal.fire('{{ __('DawnstarLang::general.swal.success.title') }}', '{{ __('DawnstarLang::general.swal.success.subtitle') }}', 'success');

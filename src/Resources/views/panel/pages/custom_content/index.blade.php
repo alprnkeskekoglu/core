@@ -36,7 +36,7 @@
 @push('scripts')
     <script>
         var typingTimer;
-        var doneTypingInterval = 1000;
+        var doneTypingInterval = 350;
         var typedInput;
 
         $('body').delegate('.languageInput', 'keyup', function () {
@@ -55,7 +55,7 @@
             var value = typedInput.val();
 
             $.ajax({
-                'url': '{{ route('dawnstar.custom_content.update') }}',
+                'url': '{{ route('dawnstar.custom_contents.update') }}',
                 'data': {'key': key, 'language_id': languageId, 'value': value},
                 'method': 'GET',
                 success: function (response) {
@@ -80,7 +80,7 @@
             var value = $(this).val();
 
             $.ajax({
-                'url': '{{ route('dawnstar.custom_content.search') }}',
+                'url': '{{ route('dawnstar.custom_contents.search') }}',
                 'data': {'search': value},
                 'method': 'GET',
                 success: function (response) {

@@ -18,7 +18,7 @@
 
                     <div class="row items-push justify-content-end text-right">
                         <div class="mr-2">
-                            <a href="{{ route('dawnstar.admin.create') }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
+                            <a href="{{ route('dawnstar.admins.create') }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
                                 <i class="fa fa-fw fa-plus mr-1"></i>
                                 {{ __('DawnstarLang::general.add_new') }}
                             </a>
@@ -58,11 +58,11 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <a href="{{ route('dawnstar.admin.edit', ['id' => $admin->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">
+                                        <a href="{{ route('dawnstar.admins.edit', ['id' => $admin->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
 
-                                        <button type="button" class="btn btn-sm {{ auth('admin')->id() != $admin->id ? 'btn-danger deleteBtn' : 'btn-secondary' }}" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('dawnstar.admin.delete', ['id' => $admin->id]) }}" title="{{ __('DawnstarLang::general.delete') }}">
+                                        <button type="button" class="btn btn-sm {{ auth('admin')->id() != $admin->id ? 'btn-danger deleteBtn' : 'btn-secondary' }}" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('dawnstar.admins.destroy', ['id' => $admin->id]) }}" title="{{ __('DawnstarLang::general.delete') }}">
                                             <i class="fa fa-times"></i>
                                         </button>
                                     </div>
@@ -109,7 +109,7 @@
                 if (result.value) {
                     $.ajax({
                         'url': url,
-                        'method': 'POST',
+                        'method': 'DELETE',
                         'data': {'_token': '{{ csrf_token() }}'},
                         success: function (response) {
                             swal.fire('{{ __('DawnstarLang::general.swal.success.title') }}', '{{ __('DawnstarLang::general.swal.success.subtitle') }}', 'success');

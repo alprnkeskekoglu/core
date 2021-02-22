@@ -18,7 +18,7 @@
 
                     <div class="row items-push justify-content-end text-right">
                         <div class="mr-2">
-                            <a href="{{ route('dawnstar.form.create') }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
+                            <a href="{{ route('dawnstar.forms.create') }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
                                 <i class="fa fa-fw fa-plus mr-1"></i>
                                 {{ __('DawnstarLang::general.add_new') }}
                             </a>
@@ -61,16 +61,16 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <a href="{{ route('dawnstar.form.edit', ['id' => $form->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">
+                                        <a href="{{ route('dawnstar.forms.edit', ['id' => $form->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
 
-                                        <button type="button" class="js-swal-confirm btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('dawnstar.form.delete', ['id' => $form->id]) }}" title="{{ __('DawnstarLang::general.delete') }}">
+                                        <button type="button" class="js-swal-confirm btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('dawnstar.forms.destroy', ['id' => $form->id]) }}" title="{{ __('DawnstarLang::general.delete') }}">
                                             <i class="fa fa-times"></i>
                                         </button>
 
                                         @if($form->results->isNotEmpty())
-                                            <a href="{{ route('dawnstar.form.result.index', ['formId' => $form->id]) }}" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::form.result_title') }}">
+                                            <a href="{{ route('dawnstar.forms.results.index', ['formId' => $form->id]) }}" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::form.result_title') }}">
                                                 <i class="fa fa-comments"></i>
                                             </a>
                                         @endif
@@ -118,7 +118,7 @@
                 if (result.value) {
                     $.ajax({
                         'url': url,
-                        'method': 'POST',
+                        'method': 'DELETE',
                         'data': {'_token': '{{ csrf_token() }}'},
                         success: function (response) {
                             swal.fire('{{ __('DawnstarLang::general.swal.success.title') }}', '{{ __('DawnstarLang::general.swal.success.subtitle') }}', 'success');

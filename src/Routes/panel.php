@@ -1,134 +1,100 @@
 <?php
 
+use Dawnstar\Http\Controllers\AuthController;
+
+use Dawnstar\Http\Controllers\DashboardController;
+
+use Dawnstar\Http\Controllers\WebsiteController;
+use Dawnstar\Http\Controllers\AdminController;
+use Dawnstar\Http\Controllers\ProfileController;
+
+use Dawnstar\Http\Controllers\ContainerStructureController;
+use Dawnstar\Http\Controllers\ContainerController;
+use Dawnstar\Http\Controllers\PageController;
+use Dawnstar\Http\Controllers\CategoryController;
+
+use Dawnstar\Http\Controllers\MenuController;
+use Dawnstar\Http\Controllers\MenuContentController;
+
+use Dawnstar\Http\Controllers\FormController;
+use Dawnstar\Http\Controllers\FormResultController;
+
+use Dawnstar\Http\Controllers\CustomContentController;
+use Dawnstar\Http\Controllers\ToolController;
+
+use Dawnstar\Http\Controllers\PanelController;
+
+
 Route::middleware(['dawnstar.guest'])->group(function () {
-    Route::get('/login', 'AuthController@index')->name('auth.index');
-    Route::post('/login', 'AuthController@login')->name('auth.login');
+    Route::get('/login', [AuthController::class, 'index'])->name('auth.index');
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 });
-Route::get('/logout', 'AuthController@logout')->name('auth.logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 Route::middleware(['dawnstar.auth'])->group(function () {
 
-    Route::get('/', 'DashboardController@index')->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::prefix('Website')->as('website.')->group(function () {
-        Route::get('/', 'WebsiteController@index')->name('index');
-        Route::get('/create', 'WebsiteController@create')->name('create');
-        Route::post('/store', 'WebsiteController@store')->name('store');
-        Route::get('/edit/{id}', 'WebsiteController@edit')->name('edit');
-        Route::post('/update/{id}', 'WebsiteController@update')->name('update');
-        Route::post('/delete/{id}', 'WebsiteController@delete')->name('delete');
+    Route::resource('websites', WebsiteController::class)->parameters(['websites' => 'id'])->except(['show']);
+    Route::resource('admins', AdminController::class)->parameters(['admins' => 'id'])->except(['show']);
+
+    # Profile
+    Route::prefix('profiles')->as('profiles.')->group(function () {
+        Route::get('/', [ProfileController::class, 'index'])->name('index');
+        Route::put('/update', [ProfileController::class, 'update'])->name('update');
     });
 
-    Route::prefix('Admin')->as('admin.')->group(function () {
-        Route::get('/', 'AdminController@index')->name('index');
-        Route::get('/create', 'AdminController@create')->name('create');
-        Route::post('/store', 'AdminController@store')->name('store');
-        Route::get('/edit/{id}', 'AdminController@edit')->name('edit');
-        Route::post('/update/{id}', 'AdminController@update')->name('update');
-        Route::post('/delete/{id}', 'AdminController@delete')->name('delete');
-    });
 
-    Route::prefix('Profile')->as('profile.')->group(function () {
-        Route::get('/', 'ProfileController@index')->name('index');
-        Route::post('/update', 'ProfileController@update')->name('update');
-    });
+    # Container Structure, Containers, Pages and Categories
+    Route::resource('containers/structures', ContainerStructureController::class, ['as' => 'containers'])->parameters(['structures' => 'id'])->except(['show']);
+    Route::resource('containers', ContainerController::class)->parameters(['containers' => 'id'])->only(['edit', 'update']);
+    Route::resource('containers.pages', PageController::class)->parameters(['containers' => 'containerId','pages' => 'id'])->except(['show']);
+    Route::resource('containers.categories', CategoryController::class)->parameters(['containers' => 'containerId','categories' => 'id'])->except(['show']);
 
-    Route::prefix('Container')->group(function () {
+    Route::prefix('containers')->as('containers.')->group(function () {
 
-        Route::as('container.')->group(function () {
-            Route::prefix('Structure')->as('structure.')->group(function () {
-                Route::get('/', 'ContainerController@structureIndex')->name('index');
-                Route::get('/create', 'ContainerController@structureCreate')->name('create');
-                Route::post('/store', 'ContainerController@structureStore')->name('store');
-                Route::get('/edit/{id}', 'ContainerController@structureEdit')->name('edit');
-                Route::post('/update/{id}', 'ContainerController@structureUpdate')->name('update');
-                Route::post('/delete/{id}', 'ContainerController@structureDelete')->name('delete');
-            });
+        Route::get('/getUrl', [ContainerController::class, 'getUrl'])->name('getUrl');
 
-            Route::get('/edit/{id}', 'ContainerController@edit')->name('edit');
-            Route::post('/update/{id}', 'ContainerController@update')->name('update');
-            Route::get('/getUrl', 'ContainerController@getUrl')->name('getUrl');
-        });
-
-
-        Route::prefix('{containerId}/Pages')->as('page.')->group(function () {
-            Route::get('/', 'PageController@index')->name('index');
-            Route::get('/create', 'PageController@create')->name('create');
-            Route::post('/store', 'PageController@store')->name('store');
-            Route::get('/edit/{id}', 'PageController@edit')->name('edit');
-            Route::post('/update/{id}', 'PageController@update')->name('update');
-            Route::post('/delete/{id}', 'PageController@delete')->name('delete');
-
-            Route::get('/getPageList', 'PageController@getPageList')->name('getPageList');
-        });
-
-        Route::prefix('{containerId}/Categories')->as('category.')->group(function () {
-            Route::get('/', 'CategoryController@index')->name('index');
-            Route::get('/create', 'CategoryController@create')->name('create');
-            Route::post('/store', 'CategoryController@store')->name('store');
-            Route::get('/edit/{id}', 'CategoryController@edit')->name('edit');
-            Route::post('/update/{id}', 'CategoryController@update')->name('update');
-            Route::post('/delete/{id}', 'CategoryController@delete')->name('delete');
-
-            Route::get('/saveOrder', 'CategoryController@saveOrder')->name('saveOrder');
-        });
-
-    });
-
-    Route::prefix('Menu')->as('menu.')->group(function () {
-        Route::get('/', 'MenuController@index')->name('index');
-        Route::get('/create', 'MenuController@create')->name('create');
-        Route::post('/store', 'MenuController@store')->name('store');
-        Route::get('/edit/{id}', 'MenuController@edit')->name('edit');
-        Route::post('/update/{id}', 'MenuController@update')->name('update');
-        Route::post('/delete/{id}', 'MenuController@delete')->name('delete');
-
-
-        Route::prefix('{menuId}/Contents')->as('content.')->group(function () {
-            Route::get('/create', 'MenuContentController@create')->name('create');
-            Route::post('/store', 'MenuContentController@store')->name('store');
-            Route::get('/edit/{id}', 'MenuContentController@edit')->name('edit');
-            Route::post('/update/{id}', 'MenuContentController@update')->name('update');
-            Route::post('/delete/{id}', 'MenuContentController@delete')->name('delete');
-
-            Route::get('/saveOrder', 'MenuContentController@saveOrder')->name('saveOrder');
-        });
-
-        Route::get('/getUrls', 'MenuContentController@getUrls')->name('getUrls');
-    });
-
-    Route::prefix('Form')->as('form.')->group(function () {
-        Route::get('/', 'FormController@index')->name('index');
-        Route::get('/create', 'FormController@create')->name('create');
-        Route::post('/store', 'FormController@store')->name('store');
-        Route::get('/edit/{id}', 'FormController@edit')->name('edit');
-        Route::post('/update/{id}', 'FormController@update')->name('update');
-        Route::post('/delete/{id}', 'FormController@delete')->name('delete');
-
-
-
-        Route::prefix('{formId}/Results')->as('result.')->group(function () {
-            Route::get('/', 'FormResultController@index')->name('index');
-            Route::get('/updateReadStatus', 'FormResultController@updateReadStatus')->name('updateReadStatus');
+        Route::prefix('/{containerId}')->group(function () {
+            Route::get('/pages/getPageList', [PageController::class, 'getPageList'])->name('pages.getPageList');
+            Route::get('/categories/saveOrder', [CategoryController::class, 'saveOrder'])->name('categories.saveOrder');
         });
     });
 
-    Route::prefix('CustomContent')->as('custom_content.')->group(function () {
-        Route::get('/', 'CustomContentController@index')->name('index');
-        Route::get('/update', 'CustomContentController@update')->name('update');
-        Route::get('/search', 'CustomContentController@search')->name('search');
+
+    # Menu and Menu Contents
+    Route::resource('menus', MenuController::class)->parameters(['menus' => 'id'])->except(['show']);
+    Route::get('/menus/getUrls', [MenuContentController::class, 'getUrls'])->name('menus.getUrls');
+
+    Route::resource('menus.contents', MenuContentController::class)->parameters(['menus' => 'menuId', 'contents' => 'id'])->except(['index', 'show']);
+    Route::get('/menus/{menuId}/contents/saveOrder', [MenuContentController::class, 'saveOrder'])->name('menus.contents.saveOrder');
+
+
+    # Form and Form Results
+    Route::resource('forms', FormController::class)->parameters(['forms' => 'id'])->except(['show']);
+    Route::prefix('forms/{formId}/results')->as('forms.results.')->group(function () {
+        Route::get('/', [FormResultController::class, 'index'])->name('index');
+        Route::get('/updateReadStatus', [FormResultController::class, 'updateReadStatus'])->name('updateReadStatus');
     });
 
-    Route::prefix('Tool')->as('tool.')->group(function () {
-        Route::get('/', 'ToolController@index')->name('index');
-
-        Route::get('/env', 'ToolController@env')->name('env');
-        Route::post('/env/update', 'ToolController@envUpdate')->name('env.update');
-
-        Route::post('/init', 'ToolController@init')->name('init');
+    # Custom Contents
+    Route::prefix('custom-contents')->as('custom_contents.')->group(function () {
+        Route::get('/', [CustomContentController::class, 'index'])->name('index');
+        Route::get('/update', [CustomContentController::class, 'update'])->name('update');
+        Route::get('/search', [CustomContentController::class, 'search'])->name('search');
     });
 
+    # Tools
+    Route::prefix('tools')->as('tools.')->group(function () {
+        Route::get('/', [ToolController::class, 'index'])->name('index');
+        Route::get('/env', [ToolController::class, 'env'])->name('env');
+        Route::put('/env/update', [ToolController::class, 'envUpdate'])->name('env.update');
+        Route::post('/init', [ToolController::class, 'init'])->name('init');
+    });
+
+    # Panel
     Route::prefix('Panel')->as('panel.')->group(function () {
-        Route::get('/changeLanguage/{code}', 'PanelController@changeLanguage')->name('changeLanguage');
+        Route::get('/changeLanguage/{code}', [PanelController::class, 'changeLanguage'])->name('changeLanguage');
+        Route::get('/changeWebsite/{id}', [PanelController::class, 'changeWebsite'])->name('changeWebsite');
     });
 });

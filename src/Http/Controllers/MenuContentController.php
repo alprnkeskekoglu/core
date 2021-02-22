@@ -34,7 +34,7 @@ class MenuContentController extends BaseController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::menu.index_title'),
-                'url' => route('dawnstar.menu.index')
+                'url' => route('dawnstar.menus.index')
             ],
             [
                 'name' => __('DawnstarLang::menu_content.create_title'),
@@ -75,7 +75,7 @@ class MenuContentController extends BaseController
         }
 
 
-        return redirect()->route('dawnstar.menu.content.create', ['menuId' => $menuId])->with('success_message', __('DawnstarLang::menu_content.response_message.store'));
+        return redirect()->route('dawnstar.menus.contents.create', ['menuId' => $menuId])->with('success_message', __('DawnstarLang::menu_content.response_message.store'));
     }
 
     public function edit(int $menuId, int $id)
@@ -99,7 +99,7 @@ class MenuContentController extends BaseController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::menu.index_title'),
-                'url' => route('dawnstar.menu.index')
+                'url' => route('dawnstar.menus.index')
             ],
             [
                 'name' => __('DawnstarLang::menu_content.create_title'),
@@ -128,10 +128,10 @@ class MenuContentController extends BaseController
         // Admin Action
         addAction($menuContent, 'update');
 
-        return redirect()->route('dawnstar.menu.content.create', ['menuId' => $menuId])->with('success_message', __('DawnstarLang::menu.response_message.update'));
+        return redirect()->route('dawnstar.menus.contents.create', ['menuId' => $menuId])->with('success_message', __('DawnstarLang::menu.response_message.update'));
     }
 
-    public function delete(int $menuId, int $id)
+    public function destroy(int $menuId, int $id)
     {
         $menuContent = MenuContent::find($id);
 
@@ -140,7 +140,7 @@ class MenuContentController extends BaseController
         }
 
         if($menuContent->children->isNotEmpty()) {
-            $menuContent->children->update(['parent_id' => $menuContent->parent_id]);
+            $menuContent->children()->update(['parent_id' => $menuContent->parent_id]);
         }
 
         $menuContent->delete();

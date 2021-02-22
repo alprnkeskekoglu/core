@@ -26,7 +26,7 @@ class MenuController extends BaseController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::menu.index_title'),
-                'url' => route('dawnstar.menu.index')
+                'url' => route('dawnstar.menus.index')
             ],
             [
                 'name' => __('DawnstarLang::menu.create_title'),
@@ -54,7 +54,7 @@ class MenuController extends BaseController
         // Admin Action
         addAction($menu, 'store');
 
-        return redirect()->route('dawnstar.menu.index')->with('success_message', __('DawnstarLang::menu.response_message.store'));
+        return redirect()->route('dawnstar.menus.index')->with('success_message', __('DawnstarLang::menu.response_message.store'));
     }
 
     public function edit(int $id)
@@ -64,7 +64,7 @@ class MenuController extends BaseController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::menu.index_title'),
-                'url' => route('dawnstar.menu.index')
+                'url' => route('dawnstar.menus.index')
             ],
             [
                 'name' => __('DawnstarLang::menu.edit_title'),
@@ -87,10 +87,10 @@ class MenuController extends BaseController
         // Admin Action
         addAction($menu, 'update');
 
-        return redirect()->route('dawnstar.menu.index')->with('success_message', __('DawnstarLang::menu.response_message.update'));
+        return redirect()->route('dawnstar.menus.index')->with('success_message', __('DawnstarLang::menu.response_message.update'));
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $menu = Menu::findOrFail($id);
 

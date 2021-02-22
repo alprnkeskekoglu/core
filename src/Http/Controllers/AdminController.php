@@ -29,7 +29,7 @@ class AdminController extends BaseController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::admin.index_title'),
-                'url' => route('dawnstar.admin.index')
+                'url' => route('dawnstar.admins.index')
             ],
             [
                 'name' => __('DawnstarLang::admin.create_title'),
@@ -57,7 +57,7 @@ class AdminController extends BaseController
         // Admin Action
         addAction($admin, 'store');
 
-        return redirect()->route('dawnstar.admin.index')->with('success_message', __('DawnstarLang::admin.response_message.store'));
+        return redirect()->route('dawnstar.admins.index')->with('success_message', __('DawnstarLang::admin.response_message.store'));
     }
 
     public function edit(int $id)
@@ -65,13 +65,13 @@ class AdminController extends BaseController
         $admin = Admin::find($id);
 
         if (is_null($admin)) {
-            return redirect()->route('dawnstar.admin.index')->withErrors(__('DawnstarLang::admin.response_message.id_error', ['id' => $id]))->withInput();
+            return redirect()->route('dawnstar.admins.index')->withErrors(__('DawnstarLang::admin.response_message.id_error', ['id' => $id]))->withInput();
         }
 
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::admin.index_title'),
-                'url' => route('dawnstar.admin.index')
+                'url' => route('dawnstar.admins.index')
             ],
             [
                 'name' => __('DawnstarLang::admin.edit_title'),
@@ -87,7 +87,7 @@ class AdminController extends BaseController
         $admin = Admin::find($id);
 
         if (is_null($admin)) {
-            return redirect()->route('dawnstar.admin.index')->withErrors(__('DawnstarLang::admin.response_message.id_error', ['id' => $id]))->withInput();
+            return redirect()->route('dawnstar.admins.index')->withErrors(__('DawnstarLang::admin.response_message.id_error', ['id' => $id]))->withInput();
         }
 
         $data = $request->except('_token', 'image');
@@ -106,14 +106,14 @@ class AdminController extends BaseController
         // Admin Action
         addAction($admin, 'update');
 
-        return redirect()->route('dawnstar.admin.index')->with('success_message', __('DawnstarLang::admin.response_message.update'));
+        return redirect()->route('dawnstar.admins.index')->with('success_message', __('DawnstarLang::admin.response_message.update'));
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $admin = Admin::find($id);
 
-        if (!is_null($admin) || auth('admin')->id() == $id) {
+        if (is_null($admin) || auth('admin')->id() == $id) {
             return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
         }
 

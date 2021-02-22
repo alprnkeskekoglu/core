@@ -16,7 +16,7 @@ return [
     'content' => 'İçerikler',
     'pages' => 'Sayfalar',
     'meta_tags' => 'Meta Etiketleri',
-    
+
 
     'yes' => 'Evet',
     'no' => 'Hayır',
@@ -41,7 +41,7 @@ return [
         'cancel_btn' => 'Hayır, silme.',
         'success' => [
             'title' => 'Silindi!',
-            'subtitle' => 'İçerik başarıyla silinmiştir.'
+            'subtitle' => 'İçerik başarıyla silindi.'
         ],
         'error' => [
             'title' => 'Silinemedi!',
