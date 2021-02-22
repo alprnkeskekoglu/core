@@ -50,10 +50,17 @@ class WebController extends BaseController
         }
 
         $detail = $url->model;
+        $parent = $detail->parent;
 
         $dawnstar->url = $url;
         $dawnstar->language = Language::find($detail->language_id);
         $dawnstar->relation = $detail;
+        $dawnstar->parent = $parent;
+
+        # Passive and Draft Models
+        if($detail->status == 3 || $parent->status == 3 || ($parent->status == 2 && $request->get('preview') != 1)) {
+            abort(404);
+        }
 
         $function = null;
 

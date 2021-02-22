@@ -46,7 +46,6 @@ class FormBuilder
 
     public function render($tabLanguage = null)
     {
-        $contents = [];
         if (!file_exists($this->builderFile)) {
             throw new FileNotFoundException($this->builderFile . ' does not exist!!');
         }
@@ -64,7 +63,6 @@ class FormBuilder
 
     public function metas($tabLanguage)
     {
-        $contents = [];
         if (!file_exists($this->builderFile)) {
             throw new FileNotFoundException($this->builderFile . ' does not exist!!');
         }

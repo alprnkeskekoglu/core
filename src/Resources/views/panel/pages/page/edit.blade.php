@@ -39,6 +39,7 @@
                                         @foreach($languages as $language)
                                             <li class="nav-item">
                                                 <a class="nav-link {{ $loop->first ? 'active' : '' }}" href="#{{$language->code}}">
+                                                    <img src="//www.countryflags.io/{{ $language->code }}/shiny/32.png" alt="{{ $language->code }}">
                                                     {{ $language->native_name . ' (' . strtoupper($language->code) . ')' }}
                                                 </a>
                                             </li>
@@ -116,7 +117,7 @@
             var name = typedInput.val();
 
             $.ajax({
-                'url': '{{ route('dawnstar.container.getUrl') }}',
+                'url': '{{ route('dawnstar.containers.getUrl') }}',
                 'data': {'language_id': languageId, 'url': slug, 'name': name},
                 'method': 'GET',
                 success: function (response) {
