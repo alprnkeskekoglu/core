@@ -11,18 +11,14 @@ class FormResultController extends BaseController
 {
     public function index(int $formId)
     {
-        $form = Form::find($formId);
-
-        if (is_null($form)) {
-            return redirect()->route('dawnstar.form.index')->withErrors(__('DawnstarLang::form.response_message.id_error', ['id' => $formId]))->withInput();
-        }
+        $form = Form::findOrFail($formId);
 
         $results = $form->results()->paginate(20);
 
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::form.index_title'),
-                'url' => route('dawnstar.form.index')
+                'url' => route('dawnstar.forms.index')
             ],
             [
                 'name' => __('DawnstarLang::form.result_title'),
@@ -35,27 +31,10 @@ class FormResultController extends BaseController
 
     public function updateReadStatus(Request $request)
     {
-        $id = $request->get('id');
-
-        $formResult = FormResult::find($id);
+        $formResult = FormResult::find($request->get('id'));
 
         if($formResult) {
             $formResult->update(['read' => 1]);
         }
-    }
-
-
-    private function getBreadcrumb(array $parameters)
-    {
-        $breadcrumb = [];
-
-        foreach ($parameters as $param) {
-            $breadcrumb[] = [
-                'name' => __('DawnstarLang::form.' . $param[0] . '_title'),
-                'url' => route('dawnstar.form.' . $param[1] ?? '', $param[2] ?? [])
-            ];
-        }
-
-        return $breadcrumb;
     }
 }

@@ -60,7 +60,6 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::group([
             'middleware' => 'web',
-            'namespace' => $this->namespace,
             'prefix' => 'dawnstar',
             'as' => 'dawnstar.'
         ], function ($router) {

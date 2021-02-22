@@ -12,12 +12,13 @@
 
         <div class="content">
             @include('DawnstarView::layouts.alerts')
-            <form action="{{ route('dawnstar.container.structure.update', ['id' => $container->id]) }}" method="POST">
+            <form action="{{ route('dawnstar.containers.structures.update', ['id' => $container->id]) }}" method="POST">
+                <input type="hidden" name="_method" value="PUT">
                 @csrf
                 <div class="block block-rounded">
                     <div class="block-header block-header-default block-header-rtl">
                         <div class="block-options">
-                            <a href="{{ route('dawnstar.container.structure.index') }}" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ route('dawnstar.containers.structures.index') }}" class="btn btn-sm btn-outline-secondary">
                                 <i class="fa fa-arrow-left"></i>
                                 {{ __('DawnstarLang::general.go_back') }}
                             </a>
@@ -208,7 +209,7 @@
                 var name = typedInput.val();
 
                 $.ajax({
-                    'url': '{{ route('dawnstar.container.getUrl') }}',
+                    'url': '{{ route('dawnstar.containers.getUrl') }}',
                     'data': {'language_id': languageId, 'url': slug, 'name': name},
                     'method': 'GET',
                     success: function (response) {

@@ -109,9 +109,9 @@ function dawnstarMenu()
         $containers = \Dawnstar\Models\Container::all();
         foreach ($containers as $container) {
             if ($container->type == 'static') {
-                $url = route('dawnstar.container.edit', ['id' => $container->id]);
+                $url = route('dawnstar.containers.edit', ['id' => $container->id]);
             } else {
-                $url = route('dawnstar.page.index', ['containerId' => $container->id]);
+                $url = route('dawnstar.containers.pages.index', ['containerId' => $container->id]);
             }
 
             $menu[] = [

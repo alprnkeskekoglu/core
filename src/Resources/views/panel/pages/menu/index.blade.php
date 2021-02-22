@@ -18,7 +18,7 @@
 
                     <div class="row items-push justify-content-end text-right">
                         <div class="mr-2">
-                            <a href="{{ route('dawnstar.menu.create') }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
+                            <a href="{{ route('dawnstar.menus.create') }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
                                 <i class="fa fa-fw fa-plus mr-1"></i>
                                 {{ __('DawnstarLang::general.add_new') }}
                             </a>
@@ -54,15 +54,15 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <a href="{{ route('dawnstar.menu.edit', ['id' => $menu->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">
+                                        <a href="{{ route('dawnstar.menus.edit', ['id' => $menu->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
 
-                                        <button type="button" class="deleteBtn btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('dawnstar.menu.delete', ['id' => $menu->id]) }}" title="{{ __('DawnstarLang::general.delete') }}">
+                                        <button type="button" class="deleteBtn btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('dawnstar.menus.destroy', ['id' => $menu->id]) }}" title="{{ __('DawnstarLang::general.delete') }}">
                                             <i class="fa fa-times"></i>
                                         </button>
 
-                                        <a href="{{ route('dawnstar.menu.content.create', ['menuId' => $menu->id]) }}" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::menu.content_title') }}">
+                                        <a href="{{ route('dawnstar.menus.contents.create', ['menuId' => $menu->id]) }}" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::menu.content_title') }}">
                                             <i class="fa fa-bars"></i>
                                         </a>
                                     </div>
@@ -109,7 +109,7 @@
                 if (result.value) {
                     $.ajax({
                         'url': url,
-                        'method': 'POST',
+                        'method': 'DELETE',
                         'data': {'_token': '{{ csrf_token() }}'},
                         success: function (response) {
                             swal.fire('{{ __('DawnstarLang::general.swal.success.title') }}', '{{ __('DawnstarLang::general.swal.success.subtitle') }}', 'success');

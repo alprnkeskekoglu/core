@@ -26,7 +26,7 @@ class FormController extends BaseController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::form.index_title'),
-                'url' => route('dawnstar.form.index')
+                'url' => route('dawnstar.forms.index')
             ],
             [
                 'name' => __('DawnstarLang::form.create_title'),
@@ -55,7 +55,7 @@ class FormController extends BaseController
         // Admin Action
         addAction($form, 'store');
 
-        return redirect()->route('dawnstar.form.index')->with('success_message', __('DawnstarLang::form.response_message.store'));
+        return redirect()->route('dawnstar.forms.index')->with('success_message', __('DawnstarLang::form.response_message.store'));
     }
 
     public function edit(int $id)
@@ -65,7 +65,7 @@ class FormController extends BaseController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::form.index_title'),
-                'url' => route('dawnstar.form.index')
+                'url' => route('dawnstar.forms.index')
             ],
             [
                 'name' => __('DawnstarLang::form.edit_title'),
@@ -94,10 +94,10 @@ class FormController extends BaseController
         // Admin Action
         addAction($form, 'update');
 
-        return redirect()->route('dawnstar.form.index')->with('success_message', __('DawnstarLang::form.response_message.update'));
+        return redirect()->route('dawnstar.forms.index')->with('success_message', __('DawnstarLang::form.response_message.update'));
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $form = Form::find($id);
 

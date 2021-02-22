@@ -13,12 +13,13 @@
 
         <div class="content">
             @include('DawnstarView::layouts.alerts')
-            <form action="{{ route('dawnstar.menu.content.update', ['menuId' => $menu->id, 'id' => $selectedMenuContent->id]) }}" method="POST">
+            <form action="{{ route('dawnstar.menus.contents.update', ['menuId' => $menu->id, 'id' => $selectedMenuContent->id]) }}" method="POST">
+                <input type="hidden" name="_method" value="PUT">
                 @csrf
                 <div class="block block-rounded">
                     <div class="block-header block-header-default block-header-rtl">
                         <div class="block-options">
-                            <a href="{{ route('dawnstar.menu.content.create', ['menuId' => $menu->id]) }}" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ route('dawnstar.menus.contents.create', ['menuId' => $menu->id]) }}" class="btn btn-sm btn-outline-secondary">
                                 <i class="fa fa-arrow-left"></i>
                                 {{ __('DawnstarLang::general.go_back') }}
                             </a>
@@ -168,7 +169,7 @@
             var languageId = $(this).attr('data-language');
 
             $.ajax({
-                url: '{{ route('dawnstar.menu.content.saveOrder', ['menuId' => $menu->id]) }}',
+                url: '{{ route('dawnstar.menus.contents.saveOrder', ['menuId' => $menu->id]) }}',
                 data: {
                     'language_id': languageId,
                     'data': $('.menu-list[data-language="' + languageId + '"]').nestable('serialize')
@@ -209,7 +210,7 @@
             $('#url_id').select2({
                 language: '{{ session('dawnstar.language.code') ?: 'en' }}',
                 ajax: {
-                    url: '{{ route('dawnstar.menu.getUrls') }}',
+                    url: '{{ route('dawnstar.menus.getUrls') }}',
                     data: function (params) {
                         var query = {
                             search: params.term,
@@ -221,6 +222,47 @@
                 }
             });
         }
+
+        jQuery('.deleteBtn').on('click', e => {
+            var url = e.currentTarget.getAttribute('data-url');
+            swal.fire({
+                title: '{{ __('DawnstarLang::general.swal.title') }}',
+                text: '{{ __('DawnstarLang::general.swal.subtitle') }}',
+                icon: 'warning',
+                showCancelButton: true,
+                customClass: {
+                    confirmButton: 'btn btn-danger m-1',
+                    cancelButton: 'btn btn-secondary m-1'
+                },
+                confirmButtonText: '{{ __('DawnstarLang::general.swal.confirm_btn') }}',
+                cancelButtonText: '{{ __('DawnstarLang::general.swal.cancel_btn') }}',
+                html: false,
+                preConfirm: e => {
+                    return new Promise(resolve => {
+                        setTimeout(() => {
+                            resolve();
+                        }, 50);
+                    });
+                }
+            }).then(result => {
+                if (result.value) {
+                    $.ajax({
+                        'url': url,
+                        'method': 'DELETE',
+                        'data': {'_token': '{{ csrf_token() }}'},
+                        success: function (response) {
+                            swal.fire('{{ __('DawnstarLang::general.swal.success.title') }}', '{{ __('DawnstarLang::general.swal.success.subtitle') }}', 'success');
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+                        },
+                        error: function (response) {
+                            swal.fire('{{ __('DawnstarLang::general.swal.error.title') }}', '{{ __('DawnstarLang::general.swal.error.subtitle') }}', 'error');
+                        }
+                    })
+                }
+            });
+        });
     </script>
 
     <script>

@@ -44,7 +44,7 @@
                         </a>
                     </div>
                     <div class="col-6 col-md-4 col-xl-2">
-                        <a href="{{ route('dawnstar.tool.env') }}" class="block block-rounded block-link-pop text-center d-flex align-items-center bg-gd-sublime">
+                        <a href="{{ route('dawnstar.tools.env') }}" class="block block-rounded block-link-pop text-center d-flex align-items-center bg-gd-sublime">
                             <div class="block-content">
                                 <p class="mb-2 d-none d-sm-block text-white">
                                     <i class="fa fa-edit opacity-75 fa-2x"></i>
@@ -71,7 +71,7 @@
             Dashmix.layout('header_loader_on');
             $.ajax({
                 'method': 'POST',
-                'url': '{{ route('dawnstar.tool.init') }}',
+                'url': '{{ route('dawnstar.tools.init') }}',
                 'data': {'function': type, '_token': '{{csrf_token()}}'},
                 success: function (response) {
                     swal.fire(response.title, response.subtitle, 'success');

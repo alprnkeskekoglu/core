@@ -47,6 +47,6 @@ class ProfileController extends BaseController
         // Admin Action
         addAction($admin, 'update');
 
-        return redirect()->route('dawnstar.profile.index')->with('success_message', __('DawnstarLang::admin.response_message.update'));
+        return redirect()->route('dawnstar.profiles.index')->with('success_message', __('DawnstarLang::admin.response_message.update'));
     }
 }

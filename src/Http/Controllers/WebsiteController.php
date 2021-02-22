@@ -28,7 +28,7 @@ class WebsiteController extends BaseController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::website.index_title'),
-                'url' => route('dawnstar.website.index')
+                'url' => route('dawnstar.websites.index')
             ],
             [
                 'name' => __('DawnstarLang::website.create_title'),
@@ -43,7 +43,7 @@ class WebsiteController extends BaseController
     {
         $data = $request->except('_token');
 
-        $request->validated();
+        $data['admin_id'] = auth()->id();
 
         $languages = [];
         foreach ($data['languages'] as $lang) {
@@ -63,7 +63,7 @@ class WebsiteController extends BaseController
         // Admin Action
         addAction($website, 'store');
 
-        return redirect()->route('dawnstar.website.index')->with('success_message', __('DawnstarLang::website.response_message.store'));
+        return redirect()->route('dawnstar.websites.index')->with('success_message', __('DawnstarLang::website.response_message.store'));
     }
 
     public function edit(int $id)
@@ -75,7 +75,7 @@ class WebsiteController extends BaseController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::website.index_title'),
-                'url' => route('dawnstar.website.index')
+                'url' => route('dawnstar.websites.index')
             ],
             [
                 'name' => __('DawnstarLang::website.edit_title'),
@@ -111,10 +111,10 @@ class WebsiteController extends BaseController
         // Admin Action
         addAction($website, 'update');
 
-        return redirect()->route('dawnstar.website.index')->with('success_message', __('DawnstarLang::website.response_message.update'));
+        return redirect()->route('dawnstar.websites.index')->with('success_message', __('DawnstarLang::website.response_message.update'));
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $website = Website::find($id);
 

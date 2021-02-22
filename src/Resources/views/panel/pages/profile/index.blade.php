@@ -13,7 +13,8 @@
 
         <div class="content">
             @include('DawnstarView::layouts.alerts')
-            <form action="{{ route('dawnstar.profile.update') }}" method="POST">
+            <form action="{{ route('dawnstar.profiles.update') }}" method="POST">
+                <input type="hidden" name="_method" value="PUT">
                 @csrf
                 <div class="block block-rounded">
                     <div class="block-header block-header-default block-header-rtl">

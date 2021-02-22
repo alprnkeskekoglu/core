@@ -12,7 +12,8 @@
 
         <div class="content w-75">
             @include('DawnstarView::layouts.alerts')
-            <form action="{{ route('dawnstar.tool.env.update') }}" method="POST">
+            <form action="{{ route('dawnstar.tools.env.update') }}" method="POST">
+                <input type="hidden" name="_method" value="PUT">
                 @csrf
                 <div class="block block-rounded">
                     <div class="block-header block-header-default block-header-rtl">

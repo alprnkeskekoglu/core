@@ -31,7 +31,7 @@ class CategoryController extends BaseController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::category.index_title'),
-                'url' => route('dawnstar.page.index', ['containerId' => $containerId])
+                'url' => route('dawnstar.containers.pages.index', ['containerId' => $containerId])
             ],
             [
                 'name' => __('DawnstarLang::category.create_title'),
@@ -52,7 +52,7 @@ class CategoryController extends BaseController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::category.index_title'),
-                'url' => route('dawnstar.category.index', ['containerId' => $containerId])
+                'url' => route('dawnstar.containers.categories.index', ['containerId' => $containerId])
             ],
             [
                 'name' => __('DawnstarLang::category.create_title'),
@@ -65,7 +65,7 @@ class CategoryController extends BaseController
 
     public function store(Request $request, int $containerId)
     {
-        $container = Container::findOrFail($containerId);
+        Container::findOrFail($containerId);
 
         $storeService = new ModelStoreService();
 
@@ -89,7 +89,7 @@ class CategoryController extends BaseController
         // Admin Action
         addAction($category, 'store');
 
-        return redirect()->route('dawnstar.category.index', ['containerId' => $containerId])->with('success_message', __('DawnstarLang::page.response_message.store'));
+        return redirect()->route('dawnstar.containers.categories.index', ['containerId' => $containerId])->with('success_message', __('DawnstarLang::page.response_message.store'));
     }
 
     public function edit(int $containerId, int $id)
@@ -98,12 +98,12 @@ class CategoryController extends BaseController
         $category = Category::findOrFail($id);
 
         $languages = $container->languages();
-        $formBuilder = new FormBuilder('category', $containerId, $id);
+        $formBuilder = new FormBuilder('category', $container->id, $id);
 
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::category.index_title'),
-                'url' => route('dawnstar.category.index', ['containerId' => $containerId])
+                'url' => route('dawnstar.containers.categories.index', ['containerId' => $container->id])
             ],
             [
                 'name' => __('DawnstarLang::category.edit_title'),
@@ -116,7 +116,6 @@ class CategoryController extends BaseController
 
     public function update(Request $request, int $containerId, int $id)
     {
-        $container = Container::findOrFail($containerId);
         $category = Category::findOrFail($id);
 
         $storeService = new ModelStoreService();
@@ -139,10 +138,10 @@ class CategoryController extends BaseController
         // Admin Action
         addAction($category, 'update');
 
-        return redirect()->route('dawnstar.category.edit', ['containerId' => $containerId, 'id' => $id])->with('success_message', __('DawnstarLang::page.response_message.update'));
+        return redirect()->route('dawnstar.containers.categories.edit', ['containerId' => $containerId, 'id' => $id])->with('success_message', __('DawnstarLang::page.response_message.update'));
     }
 
-    public function delete(int $containerId, int $id)
+    public function destroy(int $containerId, int $id)
     {
         $container = Container::find($containerId);
         if (is_null($container)) {
@@ -150,6 +149,7 @@ class CategoryController extends BaseController
         }
 
         $category = Category::find($id);
+
         if (is_null($category)) {
             return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
         }
@@ -164,7 +164,7 @@ class CategoryController extends BaseController
 
     public function saveOrder(Request $request, int $containerId)
     {
-        $container = Container::findOrFail($containerId);
+        Container::findOrFail($containerId);
 
         $data = $request->get('data');
 

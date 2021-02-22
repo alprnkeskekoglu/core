@@ -25,42 +25,42 @@
         <div class="content-side">
             <ul class="nav-main">
                 <li class="nav-main-item">
-                    <a class="nav-main-link active" href="gs_backend.html">
+                    <a class="nav-main-link active" href="{{ route('dawnstar.dashboard') }}">
                         <i class="nav-main-link-icon fa fa-rocket"></i>
-                        <span class="nav-main-link-name">Dashboard</span>
+                        <span class="nav-main-link-name">{{ __('DawnstarLang::dashboard.index_title') }}</span>
                         <span class="nav-main-link-badge badge badge-pill badge-success">3</span>
                     </a>
                 </li>
                 <li class="nav-main-heading">Base</li>
 
                 <li class="nav-main-item">
-                    <a class="nav-main-link" href="{{ route('dawnstar.website.index') }}">
+                    <a class="nav-main-link" href="{{ route('dawnstar.websites.index') }}">
                         <i class="nav-main-link-icon fa fa-desktop"></i>
                         <span class="nav-main-link-name">{{ __('DawnstarLang::website.index_title') }}</span>
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link" href="{{ route('dawnstar.container.structure.index') }}">
+                    <a class="nav-main-link" href="{{ route('dawnstar.containers.structures.index') }}">
                         <i class="nav-main-link-icon fa fa-cogs"></i>
                         <span class="nav-main-link-name">{{ __('DawnstarLang::container.index_title') }}</span>
                     </a>
                 </li>
 
                 <li class="nav-main-item">
-                    <a class="nav-main-link" href="{{ route('dawnstar.admin.index') }}">
+                    <a class="nav-main-link" href="{{ route('dawnstar.admins.index') }}">
                         <i class="nav-main-link-icon fa fa-user-lock"></i>
                         <span class="nav-main-link-name">{{ __('DawnstarLang::admin.index_title') }}</span>
                     </a>
                 </li>
 
                 <li class="nav-main-item">
-                    <a class="nav-main-link" href="{{ route('dawnstar.menu.index') }}">
+                    <a class="nav-main-link" href="{{ route('dawnstar.menus.index') }}">
                         <i class="nav-main-link-icon fa fa-stream"></i>
                         <span class="nav-main-link-name">{{ __('DawnstarLang::menu.index_title') }}</span>
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link" href="{{ route('dawnstar.form.index') }}">
+                    <a class="nav-main-link" href="{{ route('dawnstar.forms.index') }}">
                         <i class="nav-main-link-icon fa fa-envelope-open-text"></i>
                         <span class="nav-main-link-name">{{ __('DawnstarLang::form.index_title') }}</span>
                     </a>
@@ -73,7 +73,7 @@
                 </li>
 
                 <li class="nav-main-item">
-                    <a class="nav-main-link" href="{{ route('dawnstar.custom_content.index') }}">
+                    <a class="nav-main-link" href="{{ route('dawnstar.custom_contents.index') }}">
                         <i class="nav-main-link-icon fa fa-language"></i>
                         <span class="nav-main-link-name">{{ __('DawnstarLang::custom_content.index_title') }}</span>
                     </a>
