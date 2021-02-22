@@ -6,6 +6,7 @@ use Dawnstar\Models\Category;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\Page;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Support\Facades\Cache;
 
 class FormBuilder
 {
@@ -46,7 +47,6 @@ class FormBuilder
 
     public function render($tabLanguage = null)
     {
-        $contents = [];
         if (!file_exists($this->builderFile)) {
             throw new FileNotFoundException($this->builderFile . ' does not exist!!');
         }
@@ -64,7 +64,6 @@ class FormBuilder
 
     public function metas($tabLanguage)
     {
-        $contents = [];
         if (!file_exists($this->builderFile)) {
             throw new FileNotFoundException($this->builderFile . ' does not exist!!');
         }
@@ -84,13 +83,13 @@ class FormBuilder
     # region Get Inputs
     private function getHtml(array $inputs)
     {
-        $html = '';
+        return Cache::rememberForever('formBuilder' . is_null($this->tabLanguage) . $this->type . $this->container->id . $this->languageCode, function () use($inputs){
+            $html = '';
 
-        foreach ($inputs as $input) {
-            $html .= $this->getInputHtml($input);
-        }
-
-        return $html;
+            foreach ($inputs as $input) {
+                $html .= $this->getInputHtml($input);
+            }
+        });
     }
 
     private function getInputHtml(array $input)
