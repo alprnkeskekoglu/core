@@ -6,7 +6,6 @@ use Dawnstar\Models\Category;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\Page;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Support\Facades\Cache;
 
 class FormBuilder
 {
@@ -83,13 +82,13 @@ class FormBuilder
     # region Get Inputs
     private function getHtml(array $inputs)
     {
-        return Cache::rememberForever('formBuilder' . is_null($this->tabLanguage) . $this->type . $this->container->id . $this->languageCode, function () use($inputs){
-            $html = '';
+        $html = '';
 
-            foreach ($inputs as $input) {
-                $html .= $this->getInputHtml($input);
-            }
-        });
+        foreach ($inputs as $input) {
+            $html .= $this->getInputHtml($input);
+        }
+
+        return $html;
     }
 
     private function getInputHtml(array $input)
