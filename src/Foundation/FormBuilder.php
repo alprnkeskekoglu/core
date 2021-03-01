@@ -232,7 +232,7 @@ class FormBuilder
         } else if ($isCategory) {
             return $this->model->categories->pluck('id')->toArray();
         } else if ($isMedia) {
-            return $this->model->medias()->wherePivot('media_key', $name)->pluck('id')->toArray();
+            return $this->model->medias()->wherePivot('media_key', $name)->orderBy('model_medias.order')->pluck('id')->toArray();
         }
         return $this->model->{$name};
     }
@@ -249,7 +249,7 @@ class FormBuilder
             return $this->modelDetail->{$name};
         } else if ($isMedia) {
             $name = str_replace(['detail.', '[]'], '', $name);
-            return $this->modelDetail->medias()->wherePivot('media_key', $name)->pluck('id')->toArray();
+            return $this->modelDetail->medias()->wherePivot('media_key', $name)->orderBy('model_medias.order')->pluck('id')->toArray();
         }
         $name = str_replace('detail.', '', $name);
         return $this->modelDetail->{$name};

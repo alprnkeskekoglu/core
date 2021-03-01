@@ -30,37 +30,38 @@
     </div>
     <hr>
     <div class="block">
-        <div class="mediaSlick" id="slick{{ $id }}">
+        <ul class="medias d-flex list-unstyled" id="main_{{ $id }}">
             @foreach($value as $mediaId)
                 @php($mediaArray = getMediaArray(media($mediaId)->model))
-                <div class="px-1">
+                <li class="px-3 ui-state-default">
                     {!! $mediaArray['html'] !!}
                     <div class="font-size-sm text-muted">{{ $mediaArray['fullname'] }}</div>
-                </div>
+                    <input type="hidden" name="{{ $name }}[]" value="{{ $mediaId }}">
+                </li>
             @endforeach
-        </div>
+        </ul>
     </div>
 
-    <input type="hidden" name="{{ $name }}" id="{{ $id }}" value="{{ implode(',', $value) }}">
 </div>
 
 @once
-
-    @push('styles')
-        <link rel="stylesheet" href="{{ dawnstarAsset('plugins/slick-carousel/slick.css') }}">
-        <link rel="stylesheet" href="{{ dawnstarAsset('plugins/slick-carousel/slick-theme.css') }}">
-    @endpush
     @push('scripts')
-        <script src="{{ dawnstarAsset('plugins/slick-carousel/slick.min.js') }}"></script>
-        <script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+        <script>
             var currentMediaInputId;
             $('.openFileManagerBtn').on('click', function () {
                 currentMediaInputId = $(this).attr('data-id');
                 var _mediaType = $(this).attr('data-mediatype');
                 var _selectableType = $(this).attr('data-selectabletype');
                 var _maxMediaCount = $(this).attr('data-maxmediacount');
-                var _selectedMediaIds = $('#' + currentMediaInputId).val();
+
+                var _selectedMediaIds = '';
+                $('input[name="medias['+currentMediaInputId+'][]"]').each(function() {
+                    _selectedMediaIds += $(this).val() + ',';
+                });
+                _selectedMediaIds = _selectedMediaIds.replace(/,\s*$/, "");
+
                 window.open(
                     '{{ route('dawnstar.filemanager.index') }}' + '/' + _mediaType + '?selectableType=' + _selectableType + '&maxMediaCount=' + _maxMediaCount + '&selectedMediaIds=' + _selectedMediaIds,
                     'Dawnstar File Manager', 'width=1520,height=740,left=200,top=100'
@@ -68,33 +69,23 @@
             });
 
 
-            $('.mediaSlick').slick({
-                slidesToShow: 5,
-                infinite: false,
-                variableWidth: true
+            $('.medias').sortable({
+                revert: true
             });
+            $(".medias").disableSelection();
 
-            function handleFileManager(medias){
-                var ids = '';
+            function handleFileManager(medias) {
                 var mediaHtml = '';
-
-                $.each(medias, function (id, data) {
-                    ids += id + ',';
-                    mediaHtml += '<div class="px-1">' + data.html + '<div class="font-size-sm text-muted">'+ data.fullname +'</div></div>';
+                $.each(medias, function (index, data) {
+                    mediaHtml += '<div class="px-3">' + data.html + '<div class="font-size-sm text-muted">' + data.fullname + '</div><input type="hidden" name="medias['+currentMediaInputId+'][]" value="'+data.id+'"></div>';
                 });
 
-                ids = ids.replace(/,\s*$/, "")
+                $('#main_' + currentMediaInputId).html(mediaHtml);
 
-                $('.mediaSlick').slick('unslick');
-
-                $('#' + currentMediaInputId).val(ids);
-                $('#slick' + currentMediaInputId).html(mediaHtml);
-
-                $('.mediaSlick').slick({
-                    slidesToShow: 5,
-                    infinite: false,
-                    variableWidth: true
+                $('.medias').sortable({
+                    revert: true
                 });
+                $(".medias").disableSelection();
             }
         </script>
     @endpush
