@@ -67,14 +67,14 @@ class PageDetail extends BaseModel
             if($mediaKey) {
                 $medias->wherePivot('media_key', $mediaKey);
             }
-            return $medias->first();
+            return $medias->orderBy('model_medias.order')->first();
         } elseif(\Str::startsWith($key, 'mc_')) {
             $mediaKey = mb_substr($key, 3);
             $medias = $this->medias();
             if($mediaKey) {
                 $medias->wherePivot('media_key', $mediaKey);
             }
-            return $medias->get();
+            return $medias->orderBy('model_medias.order')->get();
         }
 
         return $attribute;

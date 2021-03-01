@@ -18,6 +18,7 @@ class CreateModelMediasTable extends Migration
             $table->integer('model_id');
             $table->string('media_key');
             $table->integer('media_id');
+            $table->integer('order');
         });
     }
 

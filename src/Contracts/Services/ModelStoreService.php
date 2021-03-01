@@ -65,17 +65,18 @@ class ModelStoreService implements ModelStoreInterface
 
             if (is_null($mediaIds)) {
                 $mediaIds = [];
-            } else {
-                $mediaIds = explode(',', $mediaIds);
             }
 
             $temp = [];
+
+            $order = 0;
             foreach ($mediaIds as $mediaId) {
                 $temp[$mediaId] = [
                     'model_type' => $model::class,
                     'model_id' => $model->id,
                     'media_key' => $key,
-                    'media_id' => $mediaId
+                    'media_id' => $mediaId,
+                    'order' => ++$order
                 ];
             }
 
