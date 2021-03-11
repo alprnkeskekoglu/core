@@ -46,7 +46,7 @@ trait HasDetail{
 
             $languages = $dawnstar->website->languages->pluck('id')->toArray();
 
-            $defaultLanguageId = $dawnstar->relation->language_id;
+            $defaultLanguageId = $dawnstar->language->id;
 
             if($defaultLanguageId) {
                 $return[] = $defaultLanguageId;
