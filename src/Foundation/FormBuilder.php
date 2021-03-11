@@ -165,7 +165,7 @@ class FormBuilder
             $input['name'] = 'medias[' . $input['name'] . ']';
             $input['id'] = $name;
         } else {
-            $input['name'] = $name;
+            $input['name'] = $name . ($isMultiple ? '[]' : '');
             $input['id'] = $name;
         }
 
