@@ -24,7 +24,7 @@ class ContainerRequest extends Request
     public function rules()
     {
         return [
-            'key' => "filled|unique:containers,key,{$this->id},id,deleted_at,NULL",
+            'key' => "filled|unique:containers,key,{$this->id},id,deleted_at,NULL,website_id," . session('dawnstar.website.id'),
             'status' => 'required',
             'type' => 'filled',
             'details.*.name' => 'required_if:details.*.status, 1',

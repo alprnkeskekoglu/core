@@ -218,7 +218,7 @@ class ContainerFileKit
             }
         }
 
-        $formBuilderFolder = resource_path('views/vendor/dawnstar/form_builder/' . strtolower($this->key));
+        $formBuilderFolder = resource_path('views/vendor/dawnstar/form_builder/website' . $this->websiteId . '/' . strtolower($this->key));
 
         if (!file_exists($formBuilderFolder)) {
             $oldmask = umask(0);

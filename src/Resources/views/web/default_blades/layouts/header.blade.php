@@ -14,6 +14,7 @@
             </ul>
             @php
                 $search = \Dawnstar\Models\Container::where('key', 'search')
+                    ->where('website_id', dawnstar()->website->id)
                     ->first();
             @endphp
             @if($search)

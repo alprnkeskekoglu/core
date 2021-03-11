@@ -58,7 +58,14 @@ class AuthController extends BaseController
 
     private function createWebsiteSession()
     {
-        $website = Website::where('is_default', 1)->first();
+        $parsedUrl = parse_url(request()->fullUrl());
+        $domain = $parsedUrl["host"] = str_replace("www.", "", $parsedUrl["host"]);
+        $domainArray = [$domain, "www.".$domain];
+
+        $website = Website::whereIn('slug', $domainArray)->first();
+        if(is_null($website)) {
+            $website = Website::where('is_default', 1)->first();
+        }
 
         session(['dawnstar.website' => $website]);
     }

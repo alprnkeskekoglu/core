@@ -20,7 +20,7 @@ class PageDetailObserver
                 [
                     'website_id' => $detail->page->container->website_id,
                     'type' => 'original',
-                    'url' =>  $urlText
+                    'url' =>  rtrim($urlText, '/')
                 ]
             );
         }
@@ -37,7 +37,7 @@ class PageDetailObserver
             $urlText = $containerDetail->url->url . $detail->slug;
 
             $url->update([
-                'url' =>  $urlText
+                'url' =>  rtrim($urlText, '/')
             ]);
         }
     }

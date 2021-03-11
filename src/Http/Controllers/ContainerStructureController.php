@@ -166,37 +166,4 @@ class ContainerStructureController extends BaseController
 
         return response()->json(['title' => __('DawnstarLang::general.swal.success.title'), 'subtitle' => __('DawnstarLang::general.swal.success.subtitle')]);
     }
-
-    public function getUrl(Request $request)
-    {
-        $languageId = $request->get('language_id');
-        $containerSlug = $request->get('url');
-        $containerName = $request->get('name');
-
-        $language = Language::find($languageId);
-
-        $urlText = '/' . $language->code . $containerSlug;
-
-        $url = Url::where('url', $urlText)->first();
-
-        if ($url) {
-            if ($containerName == $url->model->name) {
-                return $containerSlug;
-            }
-            return $this->getNewSlug($language->code, $containerSlug, 1);
-        }
-        return $containerSlug;
-    }
-
-    private function getNewSlug($languageCode, $containerSlug, $counter)
-    {
-        $url = '/' . $languageCode . $containerSlug . '-' . $counter;
-
-        $urlExist = Url::where('url', $url)->exists();
-
-        if ($urlExist) {
-            return $this->getNewSlug($languageCode, $containerSlug, ++$counter);
-        }
-        return $containerSlug . '-' . $counter;
-    }
 }
