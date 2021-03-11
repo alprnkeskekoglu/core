@@ -19,7 +19,7 @@ class ContainerDetailObserver
             [
                 'website_id' => $detail->container->website_id,
                 'type' => 'original',
-                'url' =>  $urlText
+                'url' =>  rtrim($urlText, '/')
             ]
         );
     }
@@ -34,7 +34,7 @@ class ContainerDetailObserver
         $oldUrl = $url->url;
 
         $url->update([
-            'url' =>  $urlText
+            'url' =>  rtrim($urlText, '/')
         ]);
 
         Url::whereHasMorph('model', [PageDetail::class, CategoryDetail::class], function ($query) use($detail) {

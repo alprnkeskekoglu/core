@@ -221,6 +221,7 @@ class MenuContentController extends BaseController
         $search = $request->get('search');
 
         $urls = Url::with('model')
+            ->where('website_id', session('dawnstar.website.id'))
             ->where('type', 'original')
             ->whereHas('model', function ($q) use($languageId, $search) {
                 $q = $q->where('language_id', $languageId);

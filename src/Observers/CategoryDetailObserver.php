@@ -19,7 +19,7 @@ class CategoryDetailObserver
                 [
                     'website_id' => $detail->category->container->website_id,
                     'type' => 'original',
-                    'url' =>  $urlText
+                    'url' =>  rtrim($urlText, '/')
                 ]
             );
         }
@@ -36,7 +36,7 @@ class CategoryDetailObserver
             $urlText = $containerDetail->url->url . $detail->slug;
 
             $url->update([
-                'url' =>  $urlText
+                'url' =>  rtrim($urlText, '/')
             ]);
         }
     }

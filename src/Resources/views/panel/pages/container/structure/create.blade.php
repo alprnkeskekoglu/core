@@ -125,7 +125,7 @@
                                         @foreach($languages as $language)
                                             <li class="nav-item">
                                                 <a class="nav-link {{ $loop->first ? 'active' : '' }}" href="#{{$language->code}}">
-                                                    <img src="//www.countryflags.io/{{ $language->code }}/shiny/32.png" alt="{{ $language->code }}">
+                                                    <img src="//www.countryflags.io/{{ $language->code == 'en' ? 'gb' : $language->code }}/shiny/32.png" alt="{{ $language->code }}">
                                                     {{ $language->native_name . ' (' . strtoupper($language->code) . ')' }}
                                                 </a>
                                             </li>
@@ -210,9 +210,11 @@
 
             var languageId = typedInput.attr('data-language');
 
-            if(typedInput.val().length && $('#feature').val() != 1) {
+            if(typedInput.val().length) {
                 $('#details'+languageId+'_status_active').prop('checked', true)
-                typingTimer = setTimeout(slugify, doneTypingInterval);
+                if($('#feature').val() != 1) {
+                    typingTimer = setTimeout(slugify, doneTypingInterval);
+                }
             } else {
                 $('#details'+languageId+'_status_passive').prop('checked', true)
                 $('.containerSlug[data-language="' + languageId + '"]').val('');
@@ -258,9 +260,9 @@
 
             var value = $(this).val();
             if(value == 'dynamic') {
-                $('#has_category, #is_searchable').attr('disabled', false);
+                $('#has_category').attr('disabled', false);
             } else if(value == 'static') {
-                $('#has_category, #is_searchable').attr('disabled', true);
+                $('#has_category').attr('disabled', true);
             }
         });
 

@@ -18,10 +18,12 @@
                 <div class="block block-rounded">
                     <div class="block-header block-header-default block-header-rtl">
                         <div class="block-options">
-                            <a href="{{ route('dawnstar.containers.pages.index', ['containerId' => $container->id]) }}" class="btn btn-sm btn-outline-secondary">
-                                <i class="fa fa-arrow-left"></i>
-                                {{ __('DawnstarLang::general.go_back') }}
-                            </a>
+                            @if($container->type == 'dynamic')
+                                <a href="{{ route('dawnstar.containers.pages.index', ['containerId' => $container->id]) }}" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fa fa-arrow-left"></i>
+                                    {{ __('DawnstarLang::general.go_back') }}
+                                </a>
+                            @endif
                             <button type="submit" class="btn btn-sm btn-outline-primary">
                                 <i class="fa fa-check"></i>
                                 {{ __('DawnstarLang::general.submit') }}
@@ -39,7 +41,7 @@
                                         @foreach($languages as $language)
                                             <li class="nav-item">
                                                 <a class="nav-link {{ $loop->first ? 'active' : '' }}" href="#{{$language->code}}">
-                                                    <img src="//www.countryflags.io/{{ $language->code }}/shiny/32.png" alt="{{ $language->code }}">
+                                                    <img src="//www.countryflags.io/{{ $language->code == 'en' ? 'gb' : $language->code }}/shiny/32.png" alt="{{ $language->code }}">
                                                     {{ $language->native_name . ' (' . strtoupper($language->code) . ')' }}
                                                 </a>
                                             </li>

@@ -102,11 +102,11 @@ function getStatusColorClass($status)
 
 function dawnstarMenu()
 {
-    return \Illuminate\Support\Facades\Cache::rememberForever('dawnstarMenu', function() {
+    return \Illuminate\Support\Facades\Cache::rememberForever('dawnstarMenu' . session('dawnstar.website.id'), function() {
 
         $menu = [];
 
-        $containers = \Dawnstar\Models\Container::all();
+        $containers = \Dawnstar\Models\Container::where('website_id', session('dawnstar.website.id'))->get();
         foreach ($containers as $container) {
             if ($container->type == 'static') {
                 $url = route('dawnstar.containers.edit', ['id' => $container->id]);

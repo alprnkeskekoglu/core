@@ -82,7 +82,7 @@ class ContainerController extends BaseController
 
         $urlText = '/' . $language->code . $containerSlug;
 
-        $url = Url::where('url', $urlText)->first();
+        $url = Url::where('website_id', session('dawnstar.website.id'))->where('url', $urlText)->first();
 
         if ($url) {
             if ($containerName == $url->model->name) {
