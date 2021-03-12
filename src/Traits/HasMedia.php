@@ -9,6 +9,6 @@ trait HasMedia{
 
     public function medias()
     {
-        return $this->morphToMany(Media::class, 'model', 'model_medias');
+        return $this->morphToMany(Media::class, 'model', 'model_medias')->withPivot(['media_key']);
     }
 }
