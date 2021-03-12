@@ -119,7 +119,7 @@
             var name = typedInput.val();
 
             $.ajax({
-                'url': '{{ route('dawnstar.container.getUrl') }}',
+                'url': '{{ route('dawnstar.containers.getUrl') }}',
                 'data': {'language_id': languageId, 'url': slug, 'name': name},
                 'method': 'GET',
                 success: function (response) {

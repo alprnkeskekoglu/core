@@ -46,16 +46,16 @@ return [
         ],
         [
             'type' => 'media',
-            'name' => 'file',
+            'name' => 'image',
             'parent_class' => 'col-md-12',
             'label' => [
                 'text' => [
-                    'tr' => 'Dosya',
-                    'en' => 'Order',
+                    'tr' => 'Görsel',
+                    'en' => 'Image',
                 ],
             ],
             'max_media_count' => 1,
-            'media_type' => 'file'
+            'media_type' => 'image'
         ],
     ],
     'languages' => [
