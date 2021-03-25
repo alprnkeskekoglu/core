@@ -9,6 +9,7 @@ use Dawnstar\Models\MenuContent;
 use Dawnstar\Models\Url;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Cache;
 
 class MenuContentController extends BaseController
 {
@@ -74,6 +75,7 @@ class MenuContentController extends BaseController
             addAction($menuContent, 'store');
         }
 
+        Cache::flush();
 
         return redirect()->route('dawnstar.menus.contents.create', ['menuId' => $menuId])->with('success_message', __('DawnstarLang::menu_content.response_message.store'));
     }
@@ -125,6 +127,8 @@ class MenuContentController extends BaseController
         $storeService = new ModelStoreService();
         $storeService->storeMedias($menuContent, ['image' => $image]);
 
+        Cache::flush();
+
         // Admin Action
         addAction($menuContent, 'update');
 
@@ -144,6 +148,8 @@ class MenuContentController extends BaseController
         }
 
         $menuContent->delete();
+
+        Cache::flush();
 
         // Admin Action
         addAction($menuContent, 'delete');
@@ -167,6 +173,8 @@ class MenuContentController extends BaseController
                 $menuContent->update($ordered);
             }
         }
+
+        Cache::flush();
 
         // Admin Action
         addAction($menu, 'saveOrder');
