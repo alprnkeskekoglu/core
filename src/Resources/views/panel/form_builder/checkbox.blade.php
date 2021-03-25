@@ -4,7 +4,7 @@
     $name = $input['name'];
 
     $parentClass = $input['parent_class'] ?? 'col-md-6';
-    $labelText = $input['label']['text'][$dawnstarLanguageCode] ?? array_shift($input['label']['text']);
+    $labelText = formBuilderLabel($input, $dawnstarLanguageCode);
 
     $inputAttributes = '';
     if(isset($input['input']['attributes'])) {

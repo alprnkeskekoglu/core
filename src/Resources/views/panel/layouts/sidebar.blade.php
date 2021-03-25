@@ -3,10 +3,10 @@
         <div class="content-header bg-white-10">
             <a class="font-w600 text-white tracking-wide" href="">
                 <span class="smini-visible">
-                    D<span class="opacity-75">x</span>
+                    D<span class="opacity-75">S</span>
                 </span>
                 <span class="smini-hidden">
-                    Dash<span class="opacity-75">mix</span>
+                    Dawn<span class="opacity-75">star</span>
                 </span>
             </a>
 

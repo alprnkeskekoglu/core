@@ -3,6 +3,7 @@
 function dawnstar() {
     return app('Dawnstar');
 }
+
 function menu(string $key) {
     $dawnstar = dawnstar();
 
@@ -108,6 +109,10 @@ function getStatusColorClass($status)
         case 3:
             return 'danger';
     }
+}
+
+function formBuilderLabel($input, $languageCode) {
+    return $input['label']['text'][$languageCode] ?? array_shift($input['label']['text']);
 }
 
 function dawnstarMenu()

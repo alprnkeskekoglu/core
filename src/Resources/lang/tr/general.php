@@ -2,6 +2,7 @@
 
 return [
     'add_new' => 'Yeni Ekle',
+    'form_builder' => 'Form Builder',
     'go_back' => 'Liste Ekranına Dön',
     'submit' => 'Gönder',
     'refresh' => 'Yenile',

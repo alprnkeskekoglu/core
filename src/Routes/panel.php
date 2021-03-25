@@ -22,6 +22,7 @@ use Dawnstar\Http\Controllers\FormResultController;
 use Dawnstar\Http\Controllers\CustomContentController;
 use Dawnstar\Http\Controllers\ToolController;
 
+use Dawnstar\Http\Controllers\FormBuilderController;
 use Dawnstar\Http\Controllers\PanelController;
 
 
@@ -43,7 +44,6 @@ Route::middleware(['dawnstar.auth'])->group(function () {
         Route::get('/', [ProfileController::class, 'index'])->name('index');
         Route::put('/update', [ProfileController::class, 'update'])->name('update');
     });
-
 
     # Container Structure, Containers, Pages and Categories
     Route::resource('containers/structures', ContainerStructureController::class, ['as' => 'containers'])->parameters(['structures' => 'id'])->except(['show']);
@@ -92,8 +92,14 @@ Route::middleware(['dawnstar.auth'])->group(function () {
         Route::post('/init', [ToolController::class, 'init'])->name('init');
     });
 
+    Route::prefix('form-builder')->as('form_builders.')->group(function () {
+        Route::get('/', [FormBuilderController::class, 'index'])->name('index');
+        Route::get('/edit/{id}/{type}', [FormBuilderController::class, 'edit'])->name('edit');
+        Route::get('/showModal', [FormBuilderController::class, 'showModal'])->name('showModal');
+    });
+
     # Panel
-    Route::prefix('Panel')->as('panel.')->group(function () {
+    Route::prefix('panel')->as('panel.')->group(function () {
         Route::get('/changeLanguage/{code}', [PanelController::class, 'changeLanguage'])->name('changeLanguage');
         Route::get('/changeWebsite/{id}', [PanelController::class, 'changeWebsite'])->name('changeWebsite');
     });

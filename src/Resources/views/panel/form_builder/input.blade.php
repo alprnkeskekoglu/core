@@ -3,7 +3,7 @@
     $name = $input['name'];
 
     $parentClass = $input['parent_class'] ?? 'col-md-12';
-    $labelText = $input['label']['text'][$dawnstarLanguageCode] ?? array_shift($input['label']['text']);
+    $labelText = formBuilderLabel($input, $dawnstarLanguageCode);
 
     $input['input']['attributes']['type'] = $input['input']['attributes']['type'] ?? 'text';
 
