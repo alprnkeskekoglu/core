@@ -3,6 +3,16 @@
 function dawnstar() {
     return app('Dawnstar');
 }
+function menu(string $key) {
+    $dawnstar = dawnstar();
+
+    $websiteId = $dawnstar->website->id;
+    $languageId = $dawnstar->language->id;
+
+    return \Illuminate\Support\Facades\Cache::rememberForever('menu' . $key . $websiteId . $languageId, function () use($key) {
+        return (new \Dawnstar\Foundation\Menu($key))->init();
+    });
+}
 
 function custom(string $key, string $value = null, int $languageId = null) {
 

@@ -11,6 +11,23 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                @foreach(menu('header-menu') as $menu)
+                    <li class="nav-item {{ count($menu['children']) > 0 ? 'dropdown' : '' }}">
+                        @if(count($menu['children']) > 0)
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ $menu['id'] }}" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {!! $menu['name'] !!}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown{{ $menu['id'] }}">
+                                @foreach($menu['children'] as $child)
+                                    <a class="dropdown-item" href="{!! $child['url'] !!}">{!! $child['name'] !!}</a>
+                                @endforeach
+                            </div>
+                        @else
+                            <a class="nav-link" href="{!! $menu['url'] !!}">{!! $menu['name'] !!} </a>
+                        @endif
+                    </li>
+                @endforeach
             </ul>
             @php
                 $search = \Dawnstar\Models\Container::where('key', 'search')

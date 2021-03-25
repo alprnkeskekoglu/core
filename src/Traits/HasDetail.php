@@ -9,7 +9,7 @@ trait HasDetail{
     public function detail()
     {
         $model = $this;
-        $detailClass = $model::class . 'Detail';
+        $detailClass = get_class($model) . 'Detail';
         $detailClassTable = (new $detailClass)->getTable();
 
         $languages = $this->getLanguageArray();
