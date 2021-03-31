@@ -33,17 +33,26 @@ class FormBuilderController extends BaseController
 
         $data = $formBuilder->data[$key];
 
-        $foundKey = array_search($name, array_column($data, 'name'));
+        if($key == 'metas') {
+            $element = $data;
+            return view('DawnstarView::form_builder.modals.metas' , compact('element'))->render();
+        }
 
+        $foundKey = array_search($name, array_column($data, 'name'));
         $element = $data[$foundKey];
 
-        switch ($element['type']) {
-            case 'radio':
-                $view = view('DawnstarView::form_builder.modals.radio', compact('element'))->render();
-                break;
-            default:
-                $view = view('DawnstarView::form_builder.modals.default', compact('element'))->render();
+        $whiteList = [
+            'input', 'radio', 'checkbox', 'select', 'textarea', 'ckeditor', 'date', 'category', 'media'
+        ];
+
+        if(in_array($element['type'], $whiteList)) {
+
+            $view = $element['type'];
+            if($view == 'ckeditor') $view = 'textarea';
+
+            return view('DawnstarView::form_builder.modals.' . $view, compact('element'))->render();
         }
+
 
 
         return $view;

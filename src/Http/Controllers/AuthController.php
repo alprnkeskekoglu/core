@@ -35,6 +35,7 @@ class AuthController extends BaseController
             'email' => 'The provided credentials do not match our records.', //TODO: trans
         ]);
     }
+    
     public function logout(Request $request)
     {
         Auth::guard('admin')->logout();

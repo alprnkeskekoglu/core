@@ -149,8 +149,8 @@ class FormBuilder
             $input['name'] = $name . '[]';
             $input['id'] = $name;
 
-            if (isset($input['sitemap_id'])) {
-                $container = Container::findOrFail($input['sitemap_id']);
+            if (isset($input['container_id'])) {
+                $container = Container::findOrFail($input['container_id']);
             } else {
                 $container = $this->container;
             }
