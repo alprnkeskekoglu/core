@@ -4,7 +4,7 @@
     $name = $input['name'];
 
     $parentClass = $input['parent_class'] ?? 'col-md-6';
-    $labelText = $input['label']['text'][$dawnstarLanguageCode] ?? array_shift($input['label']['text']);
+    $labelText = formBuilderLabel($input, $dawnstarLanguageCode);
 
     $inputAttributes = '';
     if(isset($input['input']['attributes'])) {
@@ -17,7 +17,7 @@
 <div class="{{ $parentClass }}">
     <label class="d-block">{{ $labelText }}</label>
     <div class="form-group">
-        <select {!! $inputAttributes !!} } {{ $isMultiple ? 'multiple' : '' }} id="{{ $id }}" name="{{ $name }}">
+        <select {!! $inputAttributes !!} } {{ $isMultiple ? 'multiple' : '' }} data-type="select2"  id="{{ $id }}" name="{{ $name }}">
             @if(!$isMultiple)
                 <option value="">{{ __('DawnstarLang::general.select') }}</option>
             @endif
@@ -41,7 +41,7 @@
     @push('scripts')
         <script src="{{ dawnstarAsset('plugins/select2/js/select2.full.min.js') }}"></script>
         <script>
-            $('.select2').select2({
+            $('select[data-type="select2"]').select2({
                 language: '{{ $dawnstarLanguageCode }}',
                 placeholder: '{{ __('DawnstarLang::general.select') }}',
                 matcher: select2Search

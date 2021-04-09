@@ -45,6 +45,11 @@ class Container extends BaseModel
         return $this->belongsTo(Admin::class);
     }
 
+    public function formBuilders()
+    {
+        return $this->hasMany(FormBuilder::class);
+    }
+
     public function __get($key)
     {
         $attribute = $this->getAttribute($key);

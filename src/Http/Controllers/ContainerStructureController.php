@@ -3,7 +3,7 @@
 namespace Dawnstar\Http\Controllers;
 
 use Dawnstar\Contracts\Services\ModelStoreService;
-use Dawnstar\Foundation\ContainerFileKit;
+use Dawnstar\Foundation\ContainerKit;
 use Dawnstar\Foundation\FormBuilder;
 use Dawnstar\Http\Requests\ContainerRequest;
 use Dawnstar\Models\Container;
@@ -80,8 +80,9 @@ class ContainerStructureController extends BaseController
 
         }
 
-        $kit = new ContainerFileKit($container);
+        $kit = new ContainerKit($container);
         $kit->createFiles();
+        $kit->createBuilders();
 
         Cache::flush();
 

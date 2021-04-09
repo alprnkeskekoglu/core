@@ -3,7 +3,7 @@
     $name = $input['name'];
 
     $parentClass = $input['parent_class'] ?? 'col-md-6';
-    $labelText = $input['label']['text'][$dawnstarLanguageCode] ?? array_shift($input['label']['text']);
+    $labelText = formBuilderLabel($input, $dawnstarLanguageCode);
 
     $inputAttributes = '';
     if(isset($input['input']['attributes'])) {
@@ -19,6 +19,7 @@
         <input type="text"
                {!! $inputAttributes !!}
                id="{{ $id }}"
+               data-type="date"
                name="{{ $name }}"
                value="{{ old($name, $value) }}">
     </div>
@@ -31,7 +32,7 @@
     @push('scripts')
         <script src="{{ dawnstarAsset('plugins/flatpickr/flatpickr.min.js') }}"></script>
         <script>
-            $(".date").flatpickr();
+            $("[data-type='date']").flatpickr();
         </script>
     @endpush
 @endonce

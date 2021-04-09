@@ -5,7 +5,7 @@ namespace Dawnstar\Foundation;
 use Dawnstar\Models\Container;
 use Illuminate\Support\Facades\Artisan;
 
-class ContainerFileKit
+class ContainerKit
 {
     protected Container $container;
     protected int $websiteId;
@@ -28,7 +28,31 @@ class ContainerFileKit
     {
         $this->createController();
         $this->createBlades();
-        $this->createFormBuilders();
+    }
+
+    public function createBuilders()
+    {
+        $types[] = 'container';
+        if ($this->containerType != 'static') {
+            $types[] = 'page';
+
+            if ($this->hasCategory) {
+                $types[] = 'category';
+            }
+        }
+
+        foreach ($types as $type) {
+
+            $content = include __DIR__ . '/../DefaultFiles/form_builders/' . $type . '.php';
+
+            \Dawnstar\Models\FormBuilder::firstOrCreate(
+                [
+                    'container_id' => $this->container->id,
+                    'type' => $type,
+                    'data' => json_encode($content)
+                ]
+            );
+        }
     }
 
     #region CreateController
@@ -203,39 +227,6 @@ class ContainerFileKit
             $replaced = "@extends('layouts.app')\n\n@section('content')\n\t@include('DawnstarWebView::default_blades." . $defaultView . "')\n@endsection";
             file_put_contents($view, $replaced);
         }
-    }
-    #endregion
-
-    #region createFormBuilders
-    private function createFormBuilders()
-    {
-        $types[] = 'container';
-        if ($this->containerType != 'static') {
-            $types[] = 'page';
-
-            if ($this->hasCategory) {
-                $types[] = 'category';
-            }
-        }
-
-        $formBuilderFolder = resource_path('views/vendor/dawnstar/form_builder/website' . $this->websiteId . '/' . strtolower($this->key));
-
-        if (!file_exists($formBuilderFolder)) {
-            $oldmask = umask(0);
-            mkdir($formBuilderFolder, 0777, true);
-            umask($oldmask);
-        }
-
-        foreach ($types as $type) {
-
-            $formBuilderFile = $formBuilderFolder . '/' . $type . '.php';
-
-            if (!file_exists($formBuilderFile)) {
-                $content = file_get_contents(__DIR__ . '/../DefaultFiles/form_builders/' . $type . '.php');
-                file_put_contents($formBuilderFile, $content);
-            }
-        }
-
     }
     #endregion
 }

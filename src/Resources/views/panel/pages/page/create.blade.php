@@ -15,7 +15,13 @@
             <form action="{{ route('dawnstar.containers.pages.store', ['containerId' => $container->id]) }}" method="POST">
                 @csrf
                 <div class="block block-rounded">
-                    <div class="block-header block-header-default block-header-rtl">
+                    <div class="block-header block-header-default">
+                        <div>
+                            <a href="{{ route('dawnstar.form_builders.edit', ['id' => $container->id, 'type' => 'page']) }}" class="btn btn-sm btn-outline-secondary">
+                                <i class="fa fa-sliders-h"></i>
+                                {{ __('DawnstarLang::general.form_builder') }}
+                            </a>
+                        </div>
                         <div class="block-options">
                             <a href="{{ route('dawnstar.containers.pages.index', ['containerId' => $container->id]) }}" class="btn btn-sm btn-outline-secondary">
                                 <i class="fa fa-arrow-left"></i>

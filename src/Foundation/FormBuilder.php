@@ -5,6 +5,7 @@ namespace Dawnstar\Foundation;
 use Dawnstar\Models\Category;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\Page;
+use Facade\FlareClient\Http\Exceptions\NotFound;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class FormBuilder
@@ -31,7 +32,7 @@ class FormBuilder
     {
         $this->type = $type;
         $this->container = Container::find($containerId);
-        $this->builderFile = resource_path('views/vendor/dawnstar/form_builder/website' . $this->container->website_id . '/' . strtolower($this->container->key) . '/' . $type . '.php');
+        $this->builder = $this->container->formBuilders()->where('type', $type)->first();
 
         $this->languageCode = session('dawnstar.language.code');
 
@@ -46,13 +47,13 @@ class FormBuilder
 
     public function render($tabLanguage = null)
     {
-        if (!file_exists($this->builderFile)) {
-            throw new FileNotFoundException($this->builderFile . ' does not exist!!');
+        if (is_null($this->builder)) {
+            throw new NotFound('Builder data does not exist!!');
         }
 
         $this->tabLanguage = $tabLanguage;
 
-        $contents = include $this->builderFile;
+        $contents = $this->builder->data;
 
         if ($tabLanguage) {
             $this->modelDetail = $this->model ? $this->model->details()->where('language_id', $tabLanguage->id)->first() : null;
@@ -63,13 +64,13 @@ class FormBuilder
 
     public function metas($tabLanguage)
     {
-        if (!file_exists($this->builderFile)) {
-            throw new FileNotFoundException($this->builderFile . ' does not exist!!');
+        if (is_null($this->builder)) {
+            throw new NotFound('Builder data does not exist!!');
         }
 
         $this->tabLanguage = $tabLanguage;
 
-        $contents = include $this->builderFile;
+        $contents = $this->builder->data;
         $this->modelDetail = $this->model ? $this->model->details()->where('language_id', $tabLanguage->id)->first() : null;
         return $this->getMetaHtml($contents['metas'] ?? []);
     }
@@ -148,8 +149,8 @@ class FormBuilder
             $input['name'] = $name . '[]';
             $input['id'] = $name;
 
-            if (isset($input['sitemap_id'])) {
-                $container = Container::findOrFail($input['sitemap_id']);
+            if (isset($input['container_id'])) {
+                $container = Container::findOrFail($input['container_id']);
             } else {
                 $container = $this->container;
             }
