@@ -16,4 +16,9 @@ class FormBuilder extends BaseModel
     {
         return $this->belongsTo(Container::class);
     }
+
+    public function getDiscountAmountAttribute()
+    {
+        return $this->discount->sum('amount');
+    }
 }

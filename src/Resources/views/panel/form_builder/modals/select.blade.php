@@ -7,7 +7,11 @@
             </button>
         </div>
         <div class="modal-body pb-1">
-            <form action="">
+            <form action="{{ route('dawnstar.form_builders.saveElement') }}" id="elementForm" method="POST">
+                @csrf
+                <input type="hidden" name="formBuilder" value="{{ $formBuilder->id }}">
+                <input type="hidden" name="key" value="{{ $key }}">
+                <input type="hidden" name="type" value="{{ $element['type'] }}">
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="parent_class">Parent Class</label>
                     <div class="col-sm-10">
@@ -83,7 +87,7 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Save</button>
+            <button type="submit" form="elementForm" class="btn btn-sm btn-primary">Save</button>
         </div>
     </div>
 </div>
@@ -91,12 +95,15 @@
 <script>
     $('#copyOptionBtn').on('click', function (e) {
         e.preventDefault();
-        var element = $('.optionDiv').last().clone()
 
-        element.find('input').val('');
-        element.attr('data-count', parseInt(element.attr('data-count')) + 1);
+        if($('.optionDiv').length > 1) {
+            var element = $('.optionDiv').last().clone()
 
-        $('.options').append(element);
+            element.find('input').val('');
+            element.attr('data-count', parseInt(element.attr('data-count')) + 1);
+
+            $('.options').append(element);
+        }
     })
 
     function removeOption(el) {

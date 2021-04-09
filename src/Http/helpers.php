@@ -112,7 +112,7 @@ function getStatusColorClass($status)
 }
 
 function formBuilderLabel($input, $languageCode) {
-    return $input['label']['text'][$languageCode] ?? array_shift($input['label']['text']);
+    return $input['label']['text'][$languageCode] ?? (isset($input['label']['text']) ? array_shift($input['label']['text']) : '');
 }
 
 function dawnstarMenu()

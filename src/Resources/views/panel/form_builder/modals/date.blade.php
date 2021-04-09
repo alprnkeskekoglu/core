@@ -7,7 +7,23 @@
             </button>
         </div>
         <div class="modal-body pb-1">
-            <form action="">
+            <form action="{{ route('dawnstar.form_builders.saveElement') }}" id="elementForm" method="POST">
+                @csrf
+                <input type="hidden" name="formBuilder" value="{{ $formBuilder->id }}">
+                <input type="hidden" name="type" value="{{ $element['type'] }}">
+                @isset($isNew)
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="key">Key</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="key" name="key">
+                                <option value="general">Genel</option>
+                                <option value="languages">Dile Bağlı</option>
+                            </select>
+                        </div>
+                    </div>
+                @else
+                    <input type="hidden" name="key" value="{{ $key }}">
+                @endisset
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="parent_class">Parent Class</label>
                     <div class="col-sm-10">
@@ -45,7 +61,7 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Save</button>
+            <button type="submit" form="elementForm" class="btn btn-sm btn-primary">Save</button>
         </div>
     </div>
 </div>

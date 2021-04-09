@@ -12,6 +12,7 @@ class FormBuilderController extends BaseController
         $formBuilders = FormBuilder::all();
 
         return view('DawnstarView::pages.form_builders.index', compact('formBuilders'));
+
     }
 
     public function edit(int $id, string $type)
@@ -20,7 +21,7 @@ class FormBuilderController extends BaseController
             ->where('type', $type)
             ->first();
 
-        $formBuilderTypes = ['input', 'date', 'radio', 'checkbox', 'select', 'textarea', 'ckeditor', 'media', 'category', 'meta'];
+        $formBuilderTypes = ['input', 'date', 'radio', 'checkbox', 'select', 'textarea', 'ckeditor', 'media', 'category', 'metas'];
 
         return view('DawnstarView::pages.form_builders.edit', compact('formBuilder', 'formBuilderTypes'));
     }
@@ -50,11 +51,81 @@ class FormBuilderController extends BaseController
             $view = $element['type'];
             if($view == 'ckeditor') $view = 'textarea';
 
-            return view('DawnstarView::form_builder.modals.' . $view, compact('element'))->render();
+            return view('DawnstarView::form_builder.modals.' . $view, compact('element', 'formBuilder', 'key'))->render();
         }
 
+        abort(404);
+    }
+
+    public function showNewModal(Request $request)
+    {
+        $formBuilder = FormBuilder::find($request->get('id'));
+        $inputType = $request->get('inputType');
 
 
-        return $view;
+        if($inputType == 'metas') {
+            $element = $data;
+            return view('DawnstarView::form_builder.modals.metas' , compact('element'))->render();
+        }
+
+        $whiteList = [
+            'input', 'radio', 'checkbox', 'select', 'textarea', 'ckeditor', 'date', 'category', 'media'
+        ];
+
+        if(in_array($inputType, $whiteList)) {
+
+            $view = $inputType;
+            if($view == 'ckeditor') $view = 'textarea';
+            $element = ['type' => $inputType];
+            $isNew = true;
+            return view('DawnstarView::form_builder.modals.' . $view, compact('element', 'formBuilder', 'isNew'))->render();
+        }
+
+        abort(404);
+    }
+
+    public function saveElement(Request $request)
+    {
+        $data = $request->except('_token', 'formBuilder', 'key');
+        $formBuilder = FormBuilder::find($request->get('formBuilder'));
+        $key = $request->get('key');
+        $formBuilderData = $formBuilder->data;
+
+        $element = $this->getElementByName($data['name'], $formBuilderData[$key]);
+        if($element) {
+            $formBuilderData[$key][$element[0]] = $data;
+        } else {
+            $formBuilderData[$key][] = $data;
+        }
+
+        $formBuilder->update(['data' => $formBuilderData]);
+
+        return back();
+    }
+
+    public function saveOrder(Request $request)
+    {
+        $order = $request->get('data');
+        $formBuilder = FormBuilder::find($request->get('id'));
+        $data = $formBuilder->data;
+
+        $newData = [];
+
+        foreach ($order as $key => $orderArr) {
+            foreach ($orderArr as $id => $ord) {
+                $newData[$key][$id] = $this->getElementByName($ord, $data[$key])[1];
+            }
+        }
+
+        $formBuilder->update(['data' => $newData]);
+    }
+
+    private function getElementByName($key, $data)
+    {
+        foreach ($data as $k => $d) {
+            if($d['name'] == $key) {
+                return [$k, $d];
+            }
+        }
     }
 }

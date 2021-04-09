@@ -7,7 +7,11 @@
             </button>
         </div>
         <div class="modal-body pb-1">
-            <form action="">
+            <form action="{{ route('dawnstar.form_builders.saveElement') }}" id="elementForm" method="POST">
+                @csrf
+                <input type="hidden" name="formBuilder" value="{{ $formBuilder->id }}">
+                <input type="hidden" name="key" value="{{ $key }}">
+                <input type="hidden" name="type" value="{{ $element['type'] }}">
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="parent_class">Parent Class</label>
                     <div class="col-sm-10">
@@ -53,17 +57,17 @@
                     <label class="col-sm-2 col-form-label" for="media_type">Media Type</label>
                     <div class="col-sm-10">
                         <select class="form-control" id="media_type" name="media_type">
-                            <option value="image" {{ $element['media_type'] ??= 'image' ? 'selected' : '' }}>Image</option>
-                            <option value="file" {{ $element['media_type'] ??= 'file' ? 'selected' : '' }}>File</option>
-                            <option value="audio" {{ $element['media_type'] ??= 'audio' ? 'selected' : '' }}>Audio</option>
-                            <option value="video" {{ $element['media_type'] ??= 'video' ? 'selected' : '' }}>Video</option>
+                            <option value="image" {{ $element['media_type'] == 'image' ? 'selected' : '' }}>Image</option>
+                            <option value="file" {{ $element['media_type'] == 'file' ? 'selected' : '' }}>File</option>
+                            <option value="audio" {{ $element['media_type'] == 'audio' ? 'selected' : '' }}>Audio</option>
+                            <option value="video" {{ $element['media_type'] == 'video' ? 'selected' : '' }}>Video</option>
                         </select>
                     </div>
                 </div>
             </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Save</button>
+            <button type="submit" form="elementForm" class="btn btn-sm btn-primary">Save</button>
         </div>
     </div>
 </div>

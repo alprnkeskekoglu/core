@@ -8,7 +8,23 @@
             </button>
         </div>
         <div class="modal-body pb-1">
-            <form action="">
+            <form action="{{ route('dawnstar.form_builders.saveElement') }}" id="elementForm" method="POST">
+                @csrf
+                <input type="hidden" name="formBuilder" value="{{ $formBuilder->id }}">
+                <input type="hidden" name="type" value="{{ $element['type'] }}">
+                @isset($isNew)
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="key">Key</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="key" name="key">
+                                <option value="general">Genel</option>
+                                <option value="languages">Dile Bağlı</option>
+                            </select>
+                        </div>
+                    </div>
+                @else
+                    <input type="hidden" name="key" value="{{ $key }}">
+                @endisset
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="parent_class">Parent Class</label>
                     <div class="col-sm-10">
@@ -39,7 +55,7 @@
                 </div>
                 <h2 class="content-heading">Options <button class="btn bg-black-10" id="copyOptionBtn"><i class="fa fa-plus"></i></button></h2>
                 <div class="options">
-                    @foreach($element['options'] as $key => $option)
+                    @foreach($element['options'] ?? [] as $key => $option)
                         <div class="optionDiv" data-count="{{$key}}">
                             <button class="btn btn-sm btn-danger" onclick="removeOption(this)"><i class="fa fa-trash"></i></button>
                             <div class="row">
@@ -90,7 +106,7 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Save</button>
+            <button type="submit" form="elementForm" class="btn btn-sm btn-primary">Save</button>
         </div>
     </div>
 </div>
@@ -98,12 +114,14 @@
 <script>
     $('#copyOptionBtn').on('click', function (e) {
         e.preventDefault();
-        var element = $('.optionDiv').last().clone()
+        if($('.optionDiv').length > 1) {
+            var element = $('.optionDiv').last().clone()
 
-        element.find('input, select').val('');
-        element.attr('data-count', parseInt(element.attr('data-count')) + 1);
+            element.find('input').val('');
+            element.attr('data-count', parseInt(element.attr('data-count')) + 1);
 
-        $('.options').append(element);
+            $('.options').append(element);
+        }
     })
 
     function removeOption(el) {

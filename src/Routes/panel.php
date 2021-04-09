@@ -92,10 +92,13 @@ Route::middleware(['dawnstar.auth'])->group(function () {
         Route::post('/init', [ToolController::class, 'init'])->name('init');
     });
 
-    Route::prefix('form-builder')->as('form_builders.')->group(function () {
+    Route::prefix('form-builders')->as('form_builders.')->group(function () {
         Route::get('/', [FormBuilderController::class, 'index'])->name('index');
         Route::get('/edit/{id}/{type}', [FormBuilderController::class, 'edit'])->name('edit');
         Route::get('/showModal', [FormBuilderController::class, 'showModal'])->name('showModal');
+        Route::get('/showNewModal', [FormBuilderController::class, 'showNewModal'])->name('showNewModal');
+        Route::post('/saveElement', [FormBuilderController::class, 'saveElement'])->name('saveElement');
+        Route::post('/saveOrder', [FormBuilderController::class, 'saveOrder'])->name('saveOrder');
     });
 
     # Panel
