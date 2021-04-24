@@ -1,165 +1,33 @@
-{
-"metas": [
-{
-"type": "title"
-},
-{
-"type": "description"
-}
-],
-"general": [
-{
-"name": "status",
-"type": "checkbox",
-"multiple": "1",
-"input": {
-"attributes": {
-"class": "custom-control-input"
-}
-},
-"label": {
-"text": {
-"en": "Status",
-"tr": "Durum"
-}
-},
-"options": [
-{
-"text": {
-"en": "Active",
-"tr": "Aktif"
-},
-"color": "success",
-"value": 1
-},
-{
-"text": {
-"en": "Draft",
-"tr": "Taslak"
-},
-"color": "light",
-"value": 2
-},
-{
-"text": {
-"en": "Passive",
-"tr": "Pasif"
-},
-"color": "danger",
-"value": 3
-}
-],
-"multiple": "1",
-"parent_class": "col-md-6"
-},
-{
-"name": "order",
-"type": "input",
-"input": {
-"attributes": {
-"type": "number",
-"class": "form-control"
-}
-},
-"label": {
-"text": {
-"en": "Order",
-"tr": "Sıralama"
-}
-},
-"parent_class": "col-md-6"
-},
-{
-"name": "image",
-"type": "media",
-"label": {
-"text": {
-"en": "Page Image",
-"tr": "Sayfa Görseli"
-}
-},
-"media_type": "image",
-"parent_class": "col-md-12 mt-3",
-"max_media_count": 1
-}
-],
-"languages": [
-{
-"name": "detail.status",
-"type": "radio",
-"input": {
-"attributes": {
-"class": "custom-control-input"
-}
-},
-"label": {
-"text": {
-"en": "Status",
-"tr": "Durum"
-}
-},
-"options": [
-{
-"text": {
-"en": "Active",
-"tr": "Aktif"
-},
-"color": "success",
-"value": 1
-},
-{
-"text": {
-"en": "Passive",
-"tr": "Pasif"
-},
-"color": "danger",
-"value": 3
-}
-],
-"parent_class": "col-md-12"
-},
-{
-"name": "detail.name",
-"type": "input",
-"input": {
-"attributes": {
-"class": "form-control"
-}
-},
-"label": {
-"text": {
-"en": "Page Name",
-"tr": "Sayfa Adı"
-}
-},
-"parent_class": "col-md-6"
-},
-{
-"name": "detail.slug",
-"type": "input",
-"input": {
-"attributes": {
-"class": "form-control"
-}
-},
-"label": {
-"text": {
-"en": "Page Slug",
-"tr": "Sayfa Slug"
-}
-},
-"parent_class": "col-md-6"
-},
-{
-"name": "detail.detail",
-"type": "ckeditor",
-"label": {
-"text": {
-"en": "Page Detail",
-"tr": "Sayfa Detayı"
-}
-},
-"parent_class": "col-md-12"
-}
-]
-}
+@php
+    $id = $input['id'];
+    $isMultiple = isset($input['multiple']) && $input['multiple'];
+    $name = $input['name'];
+
+    $parentClass = $input['parent_class'] ?? 'col-md-6';
+    $labelText = formBuilderLabel($input, $dawnstarLanguageCode);
+
+    $inputAttributes = '';
+    if(isset($input['input']['attributes'])) {
+        foreach ($input['input']['attributes'] as $tag => $attr) {
+            $inputAttributes .= $tag.'="'.$attr.'" ';
+        }
+    }
+@endphp
+
+<div class="{{ $parentClass }}">
+    <label class="d-block">{{ $labelText }}</label>
+    <div class="form-group row">
+        @foreach($input['options'] as $option)
+            <div class="col-md-3">
+                <div class="custom-control custom-checkbox custom-control-lg custom-control-inline">
+                    @if($isMultiple)
+                        <input type="checkbox" {!! $inputAttributes !!} id="{{ $id . '_' . $option['value'] }}" name="{{ $name }}" value="{{ $option['value'] }}" {{ in_array($option['value'], old($input['name'], $value ?: [])) ? 'checked' : '' }}>
+                    @else
+                        <input type="checkbox" {!! $inputAttributes !!} id="{{ $id . '_' . $option['value'] }}" name="{{ $name }}" value="{{ $option['value'] }}" {{ old($input['name'], $value) == $option['value'] ? 'checked' : '' }}>
+                    @endif
+                    <label class="custom-control-label" for="{{ $id . '_' . $option['value'] }}">{{ $option['text'][$dawnstarLanguageCode] ?? array_shift($option['text']) }}</label>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</div>
