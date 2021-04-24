@@ -5,8 +5,6 @@ return [
     'create_title' => 'Sayfa Yapısı Oluştur',
     'edit_title' => 'Sayfa Yapısı Düzenle',
 
-    'status' => "Durum",
-    'name' => 'Sayfa Yapısı Adı',
     'properties' => 'Yapısal Özellikler',
 
     'labels' => [

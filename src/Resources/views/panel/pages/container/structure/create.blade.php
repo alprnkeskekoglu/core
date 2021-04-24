@@ -238,6 +238,7 @@
 
                 $('.containerSlug').attr('readonly', true);
                 $('.containerSlug').val('/');
+                $('#status_active').attr('checked', true);
             } else if(value == 2) {
                 $('#key').val('search');
                 $('#key').attr('readonly', true);

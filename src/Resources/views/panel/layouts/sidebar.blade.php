@@ -1,3 +1,4 @@
+@php($menus = dawnstarMenu())
 <nav id="sidebar" aria-label="Main Navigation">
     <div class="bg-header-dark">
         <div class="content-header bg-white-10">
@@ -80,23 +81,24 @@
                 </li>
 
 
-                <li class="nav-main-heading">{{ __('DawnstarLang::general.content') }}</li>
-
-                <li class="nav-main-item">
-                    <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                        <i class="nav-main-link-icon fa fa-puzzle-piece"></i>
-                        <span class="nav-main-link-name">{{ __('DawnstarLang::general.pages') }}</span>
-                    </a>
-                    <ul class="nav-main-submenu">
-                        @foreach(dawnstarMenu() as $menu)
-                            <li class="nav-main-item">
-                                <a class="nav-main-link" href="{{ $menu['url'] }}">
-                                    <span class="nav-main-link-name">{{ $menu['name'] }}</span>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </li>
+                @if($menus)
+                    <li class="nav-main-heading">{{ __('DawnstarLang::general.content') }}</li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                            <i class="nav-main-link-icon fa fa-puzzle-piece"></i>
+                            <span class="nav-main-link-name">{{ __('DawnstarLang::general.pages') }}</span>
+                        </a>
+                        <ul class="nav-main-submenu">
+                            @foreach($menus as $menu)
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link" href="{{ $menu['url'] }}">
+                                        <span class="nav-main-link-name">{{ $menu['name'] }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>

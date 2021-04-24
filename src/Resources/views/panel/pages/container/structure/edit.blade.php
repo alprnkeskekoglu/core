@@ -36,15 +36,18 @@
                                         <div class="form-group">
                                             <label class="d-block">{{ __('DawnstarLang::container.labels.status') }}</label>
                                             <div class="custom-control custom-radio custom-control-inline custom-control-success custom-control-lg">
-                                                <input type="radio" class="custom-control-input" id="status_active" name="status" value="1" {{ old('status', $container->status) == 1 ? 'checked' : '' }}>
+                                                <input type="radio" class="custom-control-input" id="status_active" name="status"
+                                                       value="1" {{ old('status', $container->status) == 1 ? 'checked' : '' }}>
                                                 <label class="custom-control-label" for="status_active">{{ __('DawnstarLang::general.status_title.active') }}</label>
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline custom-control-light custom-control-lg">
-                                                <input type="radio" class="custom-control-input" id="status_draft" name="status" value="2" {{ old('status', $container->status) == 2 ? 'checked' : '' }}>
+                                                <input type="radio" class="custom-control-input" id="status_draft" name="status"
+                                                       value="2" {{ old('status', $container->status) == 2 ? 'checked' : '' }}>
                                                 <label class="custom-control-label" for="status_draft">{{ __('DawnstarLang::general.status_title.draft') }}</label>
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline custom-control-danger custom-control-lg">
-                                                <input type="radio" class="custom-control-input" id="status_passive" name="status" value="3" {{ old('status', $container->status) == 3 ? 'checked' : '' }}>
+                                                <input type="radio" class="custom-control-input" id="status_passive" name="status"
+                                                       value="3" {{ old('status', $container->status) == 3 ? 'checked' : '' }}>
                                                 <label class="custom-control-label" for="status_passive">{{ __('DawnstarLang::general.status_title.passive') }}</label>
                                             </div>
                                         </div>
@@ -59,19 +62,24 @@
                                         <div class="form-group row">
                                             <div class="col-md-3">
                                                 <div class="custom-control custom-checkbox custom-control-lg custom-control-inline">
-                                                    <input type="checkbox" class="custom-control-input" id="has_detail" name="has_detail" value="1" {{ old('has_detail', $container->has_detail) == 1 ? 'checked' : '' }}>
+                                                    <input type="checkbox" class="custom-control-input" id="has_detail" name="has_detail"
+                                                           value="1" {{ old('has_detail', $container->has_detail) == 1 ? 'checked' : '' }}>
                                                     <label class="custom-control-label" for="has_detail">{{ __('DawnstarLang::container.labels.has_detail') }}</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="custom-control custom-checkbox custom-control-lg custom-control-inline">
-                                                    <input type="checkbox" class="custom-control-input" id="has_category" name="has_category" value="1" {{ old('has_category', $container->has_category) == 1 ? 'checked' : '' }}>
+                                                    <input type="checkbox" class="custom-control-input" id="has_category" name="has_category"
+                                                           {{ $container->type == 'static' ? 'disabled' : '' }}
+                                                           value="1" {{ old('has_category', $container->has_category) == 1 ? 'checked' : '' }}>
                                                     <label class="custom-control-label" for="has_category">{{ __('DawnstarLang::container.labels.has_category') }}</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="custom-control custom-checkbox custom-control-lg custom-control-inline">
-                                                    <input type="checkbox" class="custom-control-input" id="is_searchable" name="is_searchable" value="1" {{ old('is_searchable', $container->is_searchable) == 1 ? 'checked' : '' }}>
+                                                    <input type="checkbox" class="custom-control-input" id="is_searchable" name="is_searchable"
+                                                           {{ $container->key == 'homepage' ? 'disabled' : '' }}
+                                                           value="1" {{ old('is_searchable', $container->is_searchable) == 1 ? 'checked' : '' }}>
                                                     <label class="custom-control-label" for="is_searchable">{{ __('DawnstarLang::container.labels.is_searchable') }}</label>
                                                 </div>
                                             </div>
@@ -174,11 +182,11 @@
                 typedInput = $(this);
                 var languageId = typedInput.attr('data-language');
 
-                if(typedInput.val().length) {
-                    $('#details'+languageId+'_status_active').prop('checked', true)
+                if (typedInput.val().length) {
+                    $('#details' + languageId + '_status_active').prop('checked', true)
                     typingTimer = setTimeout(slugify, doneTypingInterval);
                 } else {
-                    $('#details'+languageId+'_status_passive').prop('checked', true)
+                    $('#details' + languageId + '_status_passive').prop('checked', true)
                     $('.containerSlug[data-language="' + languageId + '"]').val('');
                 }
             });
