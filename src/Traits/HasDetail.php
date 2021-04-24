@@ -30,7 +30,7 @@ trait HasDetail{
         $request = request();
         $pathInfo = $request->getPathInfo();
 
-        if(strpos($pathInfo, '/dawnstar/') > -1) {
+        if(strpos($pathInfo, '/dawnstar') > -1) {
             $languages = $this->details()->pluck('language_id')->toArray();
 
             $defaultLanguage = session('dawnstar.language');
