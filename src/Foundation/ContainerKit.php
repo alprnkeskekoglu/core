@@ -45,11 +45,12 @@ class ContainerKit
 
             $content = include __DIR__ . '/../DefaultFiles/form_builders/' . $type . '.php';
 
+
             \Dawnstar\Models\FormBuilder::firstOrCreate(
                 [
                     'container_id' => $this->container->id,
                     'type' => $type,
-                    'data' => json_encode($content)
+                    'data' => $content
                 ]
             );
         }

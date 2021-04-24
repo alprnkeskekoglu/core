@@ -1,6 +1,7 @@
 <?php
 
 namespace Dawnstar\Http\Controllers;
+
 use Dawnstar\Models\FormBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
@@ -21,7 +22,7 @@ class FormBuilderController extends BaseController
             ->where('type', $type)
             ->first();
 
-        $formBuilderTypes = ['input', 'date', 'radio', 'checkbox', 'select', 'textarea', 'ckeditor', 'media', 'category', 'metas'];
+        $formBuilderTypes = ['input', 'date', 'radio', 'checkbox', 'select', 'textarea', 'ckeditor', 'media', 'category'];
 
         return view('DawnstarView::pages.form_builders.edit', compact('formBuilder', 'formBuilderTypes'));
     }
@@ -34,9 +35,9 @@ class FormBuilderController extends BaseController
 
         $data = $formBuilder->data[$key];
 
-        if($key == 'metas') {
+        if ($key == 'metas') {
             $element = $data;
-            return view('DawnstarView::form_builder.modals.metas' , compact('element'))->render();
+            return view('DawnstarView::form_builder.modals.metas', compact('element'))->render();
         }
 
         $foundKey = array_search($name, array_column($data, 'name'));
@@ -46,10 +47,10 @@ class FormBuilderController extends BaseController
             'input', 'radio', 'checkbox', 'select', 'textarea', 'ckeditor', 'date', 'category', 'media'
         ];
 
-        if(in_array($element['type'], $whiteList)) {
+        if (in_array($element['type'], $whiteList)) {
 
             $view = $element['type'];
-            if($view == 'ckeditor') $view = 'textarea';
+            if ($view == 'ckeditor') $view = 'textarea';
 
             return view('DawnstarView::form_builder.modals.' . $view, compact('element', 'formBuilder', 'key'))->render();
         }
@@ -62,20 +63,26 @@ class FormBuilderController extends BaseController
         $formBuilder = FormBuilder::find($request->get('id'));
         $inputType = $request->get('inputType');
 
-
-        if($inputType == 'metas') {
-            $element = $data;
-            return view('DawnstarView::form_builder.modals.metas' , compact('element'))->render();
+        if ($inputType == 'metas') {
+            $element = [
+                [
+                    'type' => 'title',
+                ],
+                [
+                    'type' => 'description',
+                ],
+            ];
+            return view('DawnstarView::form_builder.modals.metas', compact('element'))->render();
         }
 
         $whiteList = [
             'input', 'radio', 'checkbox', 'select', 'textarea', 'ckeditor', 'date', 'category', 'media'
         ];
 
-        if(in_array($inputType, $whiteList)) {
+        if (in_array($inputType, $whiteList)) {
 
             $view = $inputType;
-            if($view == 'ckeditor') $view = 'textarea';
+            if ($view == 'ckeditor') $view = 'textarea';
             $element = ['type' => $inputType];
             $isNew = true;
             return view('DawnstarView::form_builder.modals.' . $view, compact('element', 'formBuilder', 'isNew'))->render();
@@ -92,7 +99,7 @@ class FormBuilderController extends BaseController
         $formBuilderData = $formBuilder->data;
 
         $element = $this->getElementByName($data['name'], $formBuilderData[$key]);
-        if($element) {
+        if ($element) {
             $formBuilderData[$key][$element[0]] = $data;
         } else {
             $formBuilderData[$key][] = $data;
@@ -123,7 +130,7 @@ class FormBuilderController extends BaseController
     private function getElementByName($key, $data)
     {
         foreach ($data as $k => $d) {
-            if($d['name'] == $key) {
+            if ($d['name'] == $key) {
                 return [$k, $d];
             }
         }
