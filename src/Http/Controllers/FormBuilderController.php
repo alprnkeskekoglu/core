@@ -84,6 +84,14 @@ class FormBuilderController extends BaseController
             $view = $inputType;
             if ($view == 'ckeditor') $view = 'textarea';
             $element = ['type' => $inputType];
+
+            if(in_array($inputType, ['radio', 'checkbox'])) {
+                $element['options'] = [
+                    []
+                ];
+            }
+
+
             $isNew = true;
             return view('DawnstarView::form_builder.modals.' . $view, compact('element', 'formBuilder', 'isNew'))->render();
         }
@@ -97,6 +105,16 @@ class FormBuilderController extends BaseController
         $formBuilder = FormBuilder::find($request->get('formBuilder'));
         $key = $request->get('key');
         $formBuilderData = $formBuilder->data;
+
+        $oldKey = $key == 'general' ? 'languages' : 'general';
+        $element = $this->getElementByName($data['name'], $formBuilderData[$oldKey]);
+        if ($element) {
+            unset($formBuilderData[$oldKey][$element[0]]);
+        }
+
+        if(!isset($formBuilderData[$key])) {
+            $formBuilderData[$key] = [];
+        }
 
         $element = $this->getElementByName($data['name'], $formBuilderData[$key]);
         if ($element) {
@@ -125,6 +143,21 @@ class FormBuilderController extends BaseController
         }
 
         $formBuilder->update(['data' => $newData]);
+    }
+
+    public function deleteElement(Request $request)
+    {
+        $formBuilder = FormBuilder::find($request->get('id'));
+        $key = $request->get('key');
+        $name = $request->get('name');
+
+        $formBuilderData = $formBuilder->data;
+        $element = $this->getElementByName($name, $formBuilderData[$key]);
+        if ($element) {
+            unset($formBuilderData[$key][$element[0]]);
+        }
+
+        $formBuilder->update(['data' => $formBuilderData]);
     }
 
     private function getElementByName($key, $data)

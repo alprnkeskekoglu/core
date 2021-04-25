@@ -68,9 +68,10 @@ class Dawnstar
                 continue;
             }
             $return[] = [
-                'language_id' => $detail->language_id,
-                'language_code' => $detail->language->code,
-                'url' => url($detail->url->url)
+                'id' => $detail->language_id,
+                'code' => $detail->language->code,
+                'url' => url($detail->url->url),
+                'active' => $activeLanguage->id == $detail->language_id
             ];
         }
         return $return;

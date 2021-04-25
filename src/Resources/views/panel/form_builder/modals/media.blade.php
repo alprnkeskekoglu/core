@@ -1,3 +1,7 @@
+@php
+    $element['media_type'] = $element['media_type'] ?? 'image';
+@endphp
+
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
@@ -10,8 +14,20 @@
             <form action="{{ route('dawnstar.form_builders.saveElement') }}" id="elementForm" method="POST">
                 @csrf
                 <input type="hidden" name="formBuilder" value="{{ $formBuilder->id }}">
-                <input type="hidden" name="key" value="{{ $key }}">
                 <input type="hidden" name="type" value="{{ $element['type'] }}">
+                @isset($isNew)
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="key">Key</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="key" name="key">
+                                <option value="general">Genel</option>
+                                <option value="languages">Dile Bağlı</option>
+                            </select>
+                        </div>
+                    </div>
+                @else
+                    <input type="hidden" name="key" value="{{ $key }}">
+                @endisset
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="parent_class">Parent Class</label>
                     <div class="col-sm-10">
@@ -50,7 +66,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="max_media_count">Max Media</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="max_media_count" name="max_media_count" value="{{ $element['max_media_count'] ?? 'form-control' }}">
+                        <input type="text" class="form-control" id="max_media_count" name="max_media_count" value="{{ $element['max_media_count'] ?? '1' }}">
                     </div>
                 </div>
                 <div class="form-group row">

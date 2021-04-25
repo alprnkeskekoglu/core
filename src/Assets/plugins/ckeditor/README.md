@@ -1,70 +1,39 @@
-CKEditor 5 classic editor build
-========================================
+CKEditor 4
+==========
 
-[![npm version](https://badge.fury.io/js/%40ckeditor%2Fckeditor5-build-classic.svg)](https://www.npmjs.com/package/@ckeditor/ckeditor5-build-classic)
-[![Dependency Status](https://david-dm.org/ckeditor/ckeditor5-build-classic/status.svg)](https://david-dm.org/ckeditor/ckeditor5-build-classic)
-[![devDependency Status](https://david-dm.org/ckeditor/ckeditor5-build-classic/dev-status.svg)](https://david-dm.org/ckeditor/ckeditor5-build-classic?type=dev)
+Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+https://ckeditor.com - See LICENSE.md for license information.
 
-The classic editor build for CKEditor 5. Read more about the [classic editor build](https://ckeditor.com/docs/ckeditor5/latest/builds/guides/overview.html#classic-editor) and see the [demo](https://ckeditor.com/docs/ckeditor5/latest/examples/builds/classic-editor.html).
-
-![CKEditor 5 classic editor build screenshot](https://c.cksource.com/a/1/img/npm/ckeditor5-build-classic.png)
+CKEditor 4 is a text editor to be used inside web pages. It's not a replacement
+for desktop text editors like Word or OpenOffice, but a component to be used as
+part of web applications and websites.
 
 ## Documentation
 
-See:
+The full editor documentation is available online at the following address:
+https://ckeditor.com/docs/
 
-* [Installation](https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/installation.html) for how to install this package and what it contains.
-* [Basic API](https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/basic-api.html) for how to create an editor and interact with it.
-* [Configuration](https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/configuration.html) for how to configure the editor.
-* [Creating custom builds](https://ckeditor.com/docs/ckeditor5/latest/builds/guides/development/custom-builds.html) for how to customize the build (configure and rebuild the editor bundle).
+## Installation
 
-## Quick start
+Installing CKEditor is an easy task. Just follow these simple steps:
 
-First, install the build from npm:
+ 1. **Download** the latest version from the CKEditor website:
+    https://ckeditor.com. You should have already completed this step, but be
+    sure you have the very latest version.
+ 2. **Extract** (decompress) the downloaded file into the root of your website.
 
-```bash
-npm install --save @ckeditor/ckeditor5-build-classic
-```
+**Note:** CKEditor is by default installed in the `ckeditor` folder. You can
+place the files in whichever you want though.
 
-And use it in your website:
+## Checking Your Installation
 
-```html
-<div id="editor">
-	<p>This is the editor content.</p>
-</div>
-<script src="./node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
-<script>
-	ClassicEditor
-		.create( document.querySelector( '#editor' ) )
-		.then( editor => {
-			window.editor = editor;
-		} )
-		.catch( error => {
-			console.error( 'There was a problem initializing the editor.', error );
-		} );
-</script>
-```
+The editor comes with a few sample pages that can be used to verify that
+installation proceeded properly. Take a look at the `samples` directory.
 
-Or in your JavaScript application:
+To test your installation, just call the following page at your website:
 
-```js
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+	http://<your site>/<CKEditor installation path>/samples/index.html
 
-// Or using the CommonJS version:
-// const ClassicEditor = require( '@ckeditor/ckeditor5-build-classic' );
+For example:
 
-ClassicEditor
-	.create( document.querySelector( '#editor' ) )
-	.then( editor => {
-		window.editor = editor;
-	} )
-	.catch( error => {
-		console.error( 'There was a problem initializing the editor.', error );
-	} );
-```
-
-**Note:** If you are planning to integrate CKEditor 5 deep into your application, it is actually more convenient and recommended to install and import the source modules directly (like it happens in `ckeditor.js`). Read more in the [Advanced setup guide](https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/advanced-setup.html).
-
-## License
-
-Licensed under the terms of [GNU General Public License Version 2 or later](http://www.gnu.org/licenses/gpl.html). For full details about the license, please check the `LICENSE.md` file or [https://ckeditor.com/legal/ckeditor-oss-license](https://ckeditor.com/legal/ckeditor-oss-license).
+	http://www.example.com/ckeditor/samples/index.html

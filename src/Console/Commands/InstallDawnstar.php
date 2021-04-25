@@ -80,7 +80,7 @@ class InstallDawnstar extends Command
 
     private function cleanWebRoute()
     {
-        file_put_contents(base_path('routes/web.php'), '');
+        file_put_contents(base_path('routes/web.php'), '<?php');
     }
 
     private function createSymbolicLink()
