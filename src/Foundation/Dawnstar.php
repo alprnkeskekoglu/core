@@ -35,21 +35,21 @@ class Dawnstar
         $parsedUrl = parse_url($fullUrl);
 
         $domain = $parsedUrl["host"] = str_replace("www.", "", $parsedUrl["host"]);
-        $domainArray = [$domain, "www.".$domain];
+        $domainArray = [$domain, "www." . $domain];
 
         return Website::whereIn('slug', $domainArray)->first();
     }
 
     public function defaultLanguage()
     {
-        $this->website->defaultLanguage();
+        return $this->website->defaultLanguage();
     }
 
     public function homePageUrl()
     {
         $container = Container::where('key', 'homepage')->first();
 
-        if($container) {
+        if ($container) {
             return $container->detail->url;
         }
         return '/';
@@ -64,13 +64,14 @@ class Dawnstar
 
         $return = [];
         foreach ($details as $detail) {
-            if($removeActiveLanguage && $activeLanguage->id == $detail->language_id) {
+            if ($removeActiveLanguage && $activeLanguage->id == $detail->language_id) {
                 continue;
             }
             $return[] = [
-                'language_id' => $detail->language_id,
-                'language_code' => $detail->language->code,
-                'url' => url($detail->url->url)
+                'id' => $detail->language_id,
+                'code' => $detail->language->code,
+                'url' => url($detail->url->url),
+                'active' => $activeLanguage->id == $detail->language_id
             ];
         }
         return $return;

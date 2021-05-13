@@ -21,16 +21,16 @@
 </div>
 @once
     @push('scripts')
-        <script src="{{ dawnstarAsset('plugins/ckeditor/build/ckeditor.js') }}"></script>
-        <script src="{{ dawnstarAsset('plugins/ckeditor/build/translations/' . $dawnstarLanguageCode . '.js') }}"></script>
+        <script src="{{ dawnstarAsset('plugins/ckeditor/ckeditor.js') }}"></script>
+        <script src="{{ dawnstarAsset('plugins/ckeditor/lang/' . $dawnstarLanguageCode . '.js') }}"></script>
         <script>
             var editors = document.querySelectorAll('[data-editor="ckeditor"]');
             for (var i = 0; i < editors.length; ++i) {
-                ClassicEditor.create(editors[i], {
+                CKEDITOR.replace(editors[i], {
                     language: '{{ $dawnstarLanguageCode }}',
-                    removePlugins: ['ImageUpload']
                 });
             }
+
         </script>
     @endpush
 @endonce

@@ -26,4 +26,6 @@ return [
         'update' => 'Form başarıyla güncellenmiştir.',
         'id_error' => "Verilen id'ye (:id) ait form bulunamadı!"
     ],
+
+    'recaptcha' => 'Lütfen robot olmadığınızı kanıtlayınız!',
 ];

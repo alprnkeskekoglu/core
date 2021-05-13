@@ -58,7 +58,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Label TR</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="option_label_tr" name="options[{{$key}}][text][tr]" placeholder="tr..." value="{{ $option['text']['tr'] ?? array_shift($option['text']) }}">
+                                            <input type="text" class="form-control" id="option_label_tr" name="options[{{$key}}][text][tr]" placeholder="tr..." value="{{ $option['text']['tr'] ?? '' }}">
                                         </div>
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Label EN</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="option_label_en" name="label[text][en]" placeholder="en..." value="{{ $option['text']['en'] ?? array_shift($option['text']) }}">
+                                            <input type="text" class="form-control" id="option_label_en" name="label[text][en]" placeholder="en..." value="{{ $option['text']['en'] ?? '' }}">
                                         </div>
                                     </div>
                                 </div>
@@ -76,7 +76,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Value</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="option_value" name="options[{{$key}}][value]" value="{{ $option['value'] }}">
+                                            <input type="text" class="form-control" id="option_value" name="options[{{$key}}][value]" value="{{ $option['value'] ?? '' }}">
                                         </div>
                                     </div>
                                 </div>
@@ -109,11 +109,16 @@
 <script>
     $('#copyOptionBtn').on('click', function (e) {
         e.preventDefault();
-        if($('.optionDiv').length > 1) {
+        if($('.optionDiv').length > 0) {
             var element = $('.optionDiv').last().clone()
+            var key = parseInt(element.attr('data-count'));
 
-            element.find('input').val('');
-            element.attr('data-count', parseInt(element.attr('data-count')) + 1);
+            element.find('input, select').val('');
+            element.attr('data-count', key + 1);
+
+            element.find('input, select').map(function (k, el) {
+                el.setAttribute('name', el.getAttribute('name').replace('[' + key + ']', '[' + (key + 1) + ']'))
+            });
 
             $('.options').append(element);
         }

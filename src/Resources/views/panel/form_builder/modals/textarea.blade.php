@@ -51,8 +51,8 @@
                     <label class="col-sm-2 col-form-label" for="type">Type</label>
                     <div class="col-sm-10">
                         <select class="form-control" id="type" name="type">
-                            <option value="textarea" {{ $element['type'] ??= 'textarea' ? 'selected' : '' }}>Simple Textarea</option>
-                            <option value="ckeditor" {{ $element['type'] ??= 'ckeditor' ? 'selected' : '' }}>CKEditor</option>
+                            <option value="textarea" {{ $element['type'] == 'textarea' ? 'selected' : '' }}>Simple Textarea</option>
+                            <option value="ckeditor" {{ $element['type'] == 'ckeditor' ? 'selected' : '' }}>CKEditor</option>
                         </select>
                     </div>
                 </div>

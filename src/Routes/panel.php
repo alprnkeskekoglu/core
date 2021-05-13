@@ -97,6 +97,7 @@ Route::middleware(['dawnstar.auth'])->group(function () {
         Route::get('/edit/{id}/{type}', [FormBuilderController::class, 'edit'])->name('edit');
         Route::get('/showModal', [FormBuilderController::class, 'showModal'])->name('showModal');
         Route::get('/showNewModal', [FormBuilderController::class, 'showNewModal'])->name('showNewModal');
+        Route::post('/deleteElement', [FormBuilderController::class, 'deleteElement'])->name('deleteElement');
         Route::post('/saveElement', [FormBuilderController::class, 'saveElement'])->name('saveElement');
         Route::post('/saveOrder', [FormBuilderController::class, 'saveOrder'])->name('saveOrder');
     });

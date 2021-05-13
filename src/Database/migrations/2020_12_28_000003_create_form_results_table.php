@@ -17,7 +17,7 @@ class CreateFormResultsTable extends Migration
             $table->increments('id');
             $table->integer('form_id');
             $table->string('email')->nullable();
-            $table->tinyInteger('read');
+            $table->tinyInteger('read')->default(2);
             $table->string('ip');
             $table->text('user_agent');
             $table->text('data');

@@ -40,7 +40,7 @@
                                             <tbody>
                                                 @foreach($result->data as $label => $value)
                                                     <tr>
-                                                        <th class="font-w600">{!! $label !!}</th>
+                                                        <th class="font-w600">{!! custom($form->key . '.' . $label, null, session('dawnstar.language.id')) !!}</th>
                                                         <td>
                                                             {!! $value !!}
                                                         </td>
@@ -87,7 +87,7 @@
 
             if(readStatus) {
                 $.ajax({
-                    'url': '{{ route('dawnstar.form.result.updateReadStatus', ['formId' => $form->id]) }}',
+                    'url': '{{ route('dawnstar.forms.results.updateReadStatus', ['formId' => $form->id]) }}',
                     'method': 'GET',
                     'data': {id: id},
                     success: function () {

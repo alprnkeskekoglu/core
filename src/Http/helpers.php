@@ -15,13 +15,19 @@ function menu(string $key) {
     });
 }
 
+function form(string $key) {
+    $form = Dawnstar\Models\Form::where('key', $key)->where('website_id', dawnstar()->website->id)->where('status', 1)->first();
+
+    return new \Dawnstar\Foundation\FormKit($form);
+}
+
 function custom(string $key, string $value = null, int $languageId = null) {
 
     $dawnstar = dawnstar();
 
     $websiteId = $dawnstar->website->id;
     if(is_null($languageId)) {
-        $languageId = $dawnstar->language->id;
+        $languageId = optional($dawnstar->language)->id ?: 40;
     }
 
     return \Illuminate\Support\Facades\Cache::rememberForever('customContent' . $websiteId . $languageId . $key, function () use($dawnstar, $languageId, $websiteId, $key, $value) {

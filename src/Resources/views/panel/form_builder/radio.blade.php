@@ -1,6 +1,7 @@
 @php
     $id = $input['id'];
     $name = $input['name'];
+    $value = $value ?: 3;
 
     $parentClass = $input['parent_class'] ?? 'col-md-6';
     $labelText = formBuilderLabel($input, $dawnstarLanguageCode);

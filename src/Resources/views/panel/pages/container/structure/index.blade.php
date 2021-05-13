@@ -28,9 +28,10 @@
                         <thead>
                         <tr>
                             <th class="text-center" style="width: 50px;">#</th>
-                            <th class="text-center">{{ __('DawnstarLang::container.status') }}</th>
-                            <th>{{ __('DawnstarLang::container.name') }}</th>
-                            <th>{{ __('DawnstarLang::container.labels.type') }}</th>
+                            <th class="text-center">{{ __('DawnstarLang::container.labels.status') }}</th>
+                            <th>{{ __('DawnstarLang::container.labels.name') }}</th>
+                            <th>{{ __('DawnstarLang::container.labels.key') }}</th>
+                            <th class="text-center">{{ __('DawnstarLang::container.labels.type') }}</th>
                             <th class="text-center" style="width: 100px;">{{ __('DawnstarLang::general.actions') }}</th>
                         </tr>
                         </thead>
@@ -45,10 +46,13 @@
                                         {{ getStatusText($container->status) }}
                                     </span>
                                 </td>
-                                <td class="font-w600 fa-1x">
-                                    {{ $container->detail->name . ' - ' . $container->key }}
+                                <td>
+                                    {{ $container->detail->name }}
                                 </td>
                                 <td>
+                                    <strong>{{ $container->key }}</strong>
+                                </td>
+                                <td class="text-center">
                                     {{ $container->type }}
                                 </td>
                                 <td class="text-center">
