@@ -32,6 +32,9 @@
                                 </div>
                             </div>
                         @endforeach
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-sm btn-danger float-right deleteBtn" data-key="{{ $key }}" title="{{ __('DawnstarLang::general.delete') }}"><i class="fa fa-trash"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>

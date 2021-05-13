@@ -81,6 +81,7 @@ Route::middleware(['dawnstar.auth'])->group(function () {
     Route::prefix('custom-contents')->as('custom_contents.')->group(function () {
         Route::get('/', [CustomContentController::class, 'index'])->name('index');
         Route::get('/update', [CustomContentController::class, 'update'])->name('update');
+        Route::post('/delete', [CustomContentController::class, 'delete'])->name('delete');
         Route::get('/search', [CustomContentController::class, 'search'])->name('search');
     });
 

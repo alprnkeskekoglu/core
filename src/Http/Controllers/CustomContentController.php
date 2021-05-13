@@ -49,6 +49,13 @@ class CustomContentController extends BaseController
         addAction($customContent, 'update');
     }
 
+    public function delete(Request $request)
+    {
+        $key = $request->get('key');
+
+        $customContent = CustomContent::where('key', $key)->delete();
+    }
+
     private function getCustomContents(string $search = null)
     {
         $customContents = CustomContent::where('website_id', session('dawnstar.website.id'));
@@ -63,9 +70,8 @@ class CustomContentController extends BaseController
         $customContents = $customContents->get()->groupBy('key');
 
         $return = [];
-        $defaultLanguageId = 760;
         foreach ($customContents as $key => $content) {
-            $default = $content->where('langauge_id', $defaultLanguageId)->first();
+            $default = $content->where('language_id', session('dawnstar.language.id'))->first();
 
             $return[$key]['default_value'] = $default ? $default->value : $content->first()->value;
 
