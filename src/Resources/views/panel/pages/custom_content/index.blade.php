@@ -33,7 +33,12 @@
     </main>
 @endsection
 
+@push('styles')
+    <link rel="stylesheet" href="{{ dawnstarAsset('plugins/sweetalert2/sweetalert2.min.css') }}">
+@endpush
+
 @push('scripts')
+    <script src="{{ dawnstarAsset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script>
         var typingTimer;
         var doneTypingInterval = 350;
@@ -72,9 +77,7 @@
                 }
             })
         }
-    </script>
 
-    <script>
         $('input[name="search"]').on('keyup', function () {
 
             var value = $(this).val();
@@ -88,5 +91,46 @@
                 }
             })
         });
+
+        $('button.deleteBtn').on('click', function () {
+            var key = $(this).attr('data-key');
+            var self = $(this);
+
+            swal.fire({
+                title: '{{ __('DawnstarLang::general.swal.title') }}',
+                text: '{{ __('DawnstarLang::general.swal.subtitle') }}',
+                icon: 'warning',
+                showCancelButton: true,
+                customClass: {
+                    confirmButton: 'btn btn-danger m-1',
+                    cancelButton: 'btn btn-secondary m-1'
+                },
+                confirmButtonText: '{{ __('DawnstarLang::general.swal.confirm_btn') }}',
+                cancelButtonText: '{{ __('DawnstarLang::general.swal.cancel_btn') }}',
+                html: false,
+                preConfirm: e => {
+                    return new Promise(resolve => {
+                        setTimeout(() => {
+                            resolve();
+                        }, 50);
+                    });
+                }
+            }).then(result => {
+                if (result.value) {
+                    $.ajax({
+                        'url': '{{ route('dawnstar.custom_contents.delete') }}',
+                        'data': {key, '_token':'{{ csrf_token() }}'},
+                        'method': 'POST',
+                        success: function (response) {
+                            swal.fire('{{ __('DawnstarLang::general.swal.success.title') }}', '{{ __('DawnstarLang::general.swal.success.subtitle') }}', 'success');
+                            self.closest('.block').remove();
+                        },
+                        error: function (response) {
+                            swal.fire('{{ __('DawnstarLang::general.swal.error.title') }}', '{{ __('DawnstarLang::general.swal.error.subtitle') }}', 'error');
+                        }
+                    })
+                }
+            });
+        })
     </script>
 @endpush
