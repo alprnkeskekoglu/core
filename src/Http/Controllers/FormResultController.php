@@ -2,6 +2,8 @@
 
 namespace Dawnstar\Http\Controllers;
 
+use Dawnstar\Foundation\FormKit;
+use Dawnstar\Http\Requests\WebFormRequest;
 use Dawnstar\Models\Form;
 use Dawnstar\Models\FormResult;
 use Illuminate\Http\Request;
@@ -27,6 +29,12 @@ class FormResultController extends BaseController
         ];
 
         return view('DawnstarView::pages.form_results.index', compact('form', 'results', 'breadcrumb'));
+    }
+
+    public function store(Form $form, WebFormRequest $request)
+    {
+        $formKit = new FormKit($form);
+        return $formKit->store($request);
     }
 
     public function updateReadStatus(Request $request)
