@@ -33,15 +33,14 @@ class FormBuilderController extends BaseController
         $key = $request->get('key');
         $name = $request->get('name');
 
-        $data = $formBuilder->data[$key];
 
         if ($key == 'metas') {
-            $element = $data;
-            return view('DawnstarView::form_builder.modals.metas', compact('element'))->render();
+            $element = $formBuilder->data[$key] ?? [['type' => 'title'], ['type' => 'description']];
+            return view('DawnstarView::form_builder.modals.metas', compact('element', 'formBuilder', 'key'))->render();
         }
 
-        $foundKey = array_search($name, array_column($data, 'name'));
-        $element = $data[$foundKey];
+        $data = $formBuilder->data[$key];
+        $element = $this->getElementByName($name, $data)[1];
 
         $whiteList = [
             'input', 'radio', 'checkbox', 'select', 'textarea', 'ckeditor', 'date', 'category', 'media'
@@ -105,6 +104,13 @@ class FormBuilderController extends BaseController
         $formBuilder = FormBuilder::find($request->get('formBuilder'));
         $key = $request->get('key');
         $formBuilderData = $formBuilder->data;
+
+        if($key == 'metas') {
+            $formBuilderData['metas'] = $data['metas'];
+            $formBuilder->update(['data' => $formBuilderData]);
+
+            return back();
+        }
 
         $oldKey = $key == 'general' ? 'languages' : 'general';
         $element = $this->getElementByName($data['name'], $formBuilderData[$oldKey]);

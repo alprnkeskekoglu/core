@@ -47,7 +47,7 @@
                                         @foreach($languages as $language)
                                             <li class="nav-item">
                                                 <a class="nav-link {{ $loop->first ? 'active' : '' }}" href="#{{$language->code}}">
-                                                    <img src="//www.countryflags.io/{{ $language->code == 'en' ? 'gb' : $language->code }}/shiny/32.png" alt="{{ $language->code }}">
+                                                    <img src="//flagcdn.com/24x18/{{ $language->code == 'en' ? 'gb' : $language->code }}.png" alt="{{ $language->code }}">
                                                     {{ $language->native_name . ' (' . strtoupper($language->code) . ')' }}
                                                 </a>
                                             </li>
