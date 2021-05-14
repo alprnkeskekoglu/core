@@ -52,8 +52,7 @@ class CustomContentController extends BaseController
     public function delete(Request $request)
     {
         $key = $request->get('key');
-
-        $customContent = CustomContent::where('key', $key)->delete();
+        CustomContent::where('key', $key)->delete();
     }
 
     private function getCustomContents(string $search = null)

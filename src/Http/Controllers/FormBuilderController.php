@@ -51,6 +51,10 @@ class FormBuilderController extends BaseController
             $view = $element['type'];
             if ($view == 'ckeditor') $view = 'textarea';
 
+            if(in_array($element['type'], ['radio', 'checkbox', 'select']) && !isset($element['options'])) {
+                $element['options'] = [[]];
+            }
+
             return view('DawnstarView::form_builder.modals.' . $view, compact('element', 'formBuilder', 'key'))->render();
         }
 
@@ -84,10 +88,8 @@ class FormBuilderController extends BaseController
             if ($view == 'ckeditor') $view = 'textarea';
             $element = ['type' => $inputType];
 
-            if(in_array($inputType, ['radio', 'checkbox'])) {
-                $element['options'] = [
-                    []
-                ];
+            if(in_array($inputType, ['radio', 'checkbox', 'select'])) {
+                $element['options'] = [[]];
             }
 
 
@@ -120,6 +122,16 @@ class FormBuilderController extends BaseController
 
         if(!isset($formBuilderData[$key])) {
             $formBuilderData[$key] = [];
+        }
+
+
+        if($data['type'] == 'select') {
+            if($data['option_type'] != 'custom') {
+                unset($data['options']);
+            }
+            if($data['option_type'] != 'model') {
+                unset($data['model_option']);
+            }
         }
 
         $element = $this->getElementByName($data['name'], $formBuilderData[$key]);
