@@ -13,21 +13,34 @@
         }
     }
 
-    if($input['option_type'] == 'country') {
-        // TODO
-    } elseif($input['option_type'] == 'city') {
-        // TODO
-    } elseif($input['option_type'] == 'model') {
-        $model = $input['model_option']['model'] == 'page' ? \Dawnstar\Models\Page::orderBy('order') : \Dawnstar\Models\Category::orderBy('lft');
-        $models = $model->where('status', 1)->get();
+    $options = \Illuminate\Support\Facades\Cache::rememberForever($container->id . $type . $input['name'] . $dawnstarLanguageCode, function () use($input, $dawnstarLanguageCode) {
         $options = [];
-        foreach ($models as $mod) {
-            $options[] = ['value' => $mod->id,'text' => [$mod->detail->language->code => $mod->detail->name]];
+        if($input['option_type'] == 'country') {
+            $countries = \Dawnstar\Models\Country::all()->pluck('name_' . $dawnstarLanguageCode, 'id');
+            foreach ($countries as $id => $country) {
+                $options[] = ['value' => $id,'text' => [$dawnstarLanguageCode => $country]];
+            }
+        } elseif($input['option_type'] == 'city') {
+            $cities = \Dawnstar\Models\City::query();
+            if(isset($input['city_option']['country_id'])) {
+                $cities = $cities->where('country_id', $input['city_option']['country_id']);
+            }
+            $cities = $cities->pluck('name', 'id');
+            foreach ($cities as $id => $city) {
+                $options[] = ['value' => $id,'text' => [$dawnstarLanguageCode => $city]];
+            }
+        } elseif($input['option_type'] == 'model') {
+            $model = $input['model_option']['model'] == 'page' ? \Dawnstar\Models\Page::orderBy('order') : \Dawnstar\Models\Category::orderBy('lft');
+            $models = $model->where('status', 1)->get();
+            foreach ($models as $mod) {
+                $options[] = ['value' => $mod->id,'text' => [$mod->detail->language->code => $mod->detail->name]];
+            }
+        } else {
+            $options = $input['options'];
         }
-    } else {
-        $options = $input['options'];
-    }
 
+        return $options;
+    })
 @endphp
 
 <div class="{{ $parentClass }}">

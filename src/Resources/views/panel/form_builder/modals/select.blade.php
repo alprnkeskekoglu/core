@@ -69,13 +69,22 @@
                 </div>
 
 
+                <div id="cityOption" class="d-none">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Ülke</label>
+                        <div class="col-sm-10">
+                            <select id="city_option" name="city_option[country_id]" class="form-control optionInput">
+                                <option value="">Seçiniz</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
                 <div id="modelOption" class="d-none">
-
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Model Type & ID</label>
                         <div class="col-sm-7">
-                            <select id="option_type" name="model_option[model]" class="form-control optionInput">
+                            <select name="model_option[model]" class="form-control optionInput">
                                 <option value="">Seçiniz</option>
                                 <option value="page" {{ isset($element['option']['model']) && $element['option']['model'] == 'page' ? 'selected' : '' }}>Page</option>
                                 <option value="category" {{ isset($element['option']['model']) && $element['option']['model'] == 'category' ? 'selected' : '' }}>Category</option>
@@ -87,7 +96,9 @@
                     </div>
                 </div>
                 <div id="customOption" class="d-none">
-                    <h2 class="content-heading">Options <button class="btn bg-black-10" id="copyOptionBtn"><i class="fa fa-plus"></i></button></h2>
+                    <h2 class="content-heading">Options
+                        <button class="btn bg-black-10" id="copyOptionBtn"><i class="fa fa-plus"></i></button>
+                    </h2>
                     <div class="options">
                         @foreach($element['options'] as $key => $option)
                             <div class="optionDiv" data-count="{{$key}}">
@@ -97,7 +108,8 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Label TR</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control optionInput" id="option_label_tr" name="options[{{$key}}][text][tr]" placeholder="tr..." value="{{ $option['text']['tr'] ?? '' }}">
+                                                <input type="text" class="form-control optionInput" id="option_label_tr" name="options[{{$key}}][text][tr]" placeholder="tr..."
+                                                       value="{{ $option['text']['tr'] ?? '' }}">
                                             </div>
                                         </div>
                                     </div>
@@ -105,7 +117,8 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Label EN</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control optionInput" id="option_label_en" name="options[{{$key}}][text][en]" placeholder="en..." value="{{ $option['text']['en'] ?? '' }}">
+                                                <input type="text" class="form-control optionInput" id="option_label_en" name="options[{{$key}}][text][en]" placeholder="en..."
+                                                       value="{{ $option['text']['en'] ?? '' }}">
                                             </div>
                                         </div>
                                     </div>
@@ -137,7 +150,7 @@
     $('#copyOptionBtn').on('click', function (e) {
         e.preventDefault();
 
-        if($('.optionDiv').length > 1) {
+        if ($('.optionDiv').length > 1) {
             var element = $('.optionDiv').last().clone()
 
             element.find('input').val('');
@@ -151,16 +164,39 @@
         el.closest('.optionDiv').remove()
     }
 
+    $(document).ready(function () {
+        showOptionType('{{ $element['option_type'] ?? '' }}')
+    })
     $('#option_type').on('change', function () {
-        var value = $(this).val();
-
-        $('.optionInput').val('');
-        if(value == 'custom') {
-            $('#customOption').removeClass('d-none');
-        } else if(value == 'model') {
-            $('#modelOption').removeClass('d-none');
-        } else {
-            $('#customOption, #modelOption').addClass('d-none');
-        }
+        showOptionType($(this).val())
     });
+
+    function showOptionType(value) {
+        $('.optionInput').val('');
+        if (value == 'custom') {
+            $('#customOption').removeClass('d-none');
+        } else if (value == 'model') {
+            $('#modelOption').removeClass('d-none');
+        } else if (value == 'city') {
+            getCountries();
+            $('#cityOption').removeClass('d-none');
+        } else {
+            $('#customOption, #modelOption, #cityOption').addClass('d-none');
+        }
+    }
+
+    function getCountries() {
+        $.ajax({
+            url: '{{ route('dawnstar.form_builders.getCountries') }}',
+            method: 'GET',
+            success: function (response) {
+                var content = '<option value="">Seçiniz</option>';
+                $.each(response, function (k, v) {
+                    content += '<option value="' + k + '"' + ('{{ $element['city_option']['country_id'] ?? '' }}' == k ? " selected" : "") + '>' + v + '</option>';
+                })
+
+                $('#city_option').html(content)
+            }
+        })
+    }
 </script>

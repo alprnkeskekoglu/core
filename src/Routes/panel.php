@@ -101,6 +101,9 @@ Route::middleware(['dawnstar.auth'])->group(function () {
         Route::post('/deleteElement', [FormBuilderController::class, 'deleteElement'])->name('deleteElement');
         Route::post('/saveElement', [FormBuilderController::class, 'saveElement'])->name('saveElement');
         Route::post('/saveOrder', [FormBuilderController::class, 'saveOrder'])->name('saveOrder');
+
+
+        Route::get('/getCountries', [FormBuilderController::class, 'getCountries'])->name('getCountries');
     });
 
     # Panel

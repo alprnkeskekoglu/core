@@ -2,6 +2,7 @@
 
 namespace Dawnstar\Http\Controllers;
 
+use Dawnstar\Models\Country;
 use Dawnstar\Models\FormBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
@@ -32,7 +33,6 @@ class FormBuilderController extends BaseController
         $formBuilder = FormBuilder::find($request->get('id'));
         $key = $request->get('key');
         $name = $request->get('name');
-
 
         if ($key == 'metas') {
             $element = $formBuilder->data[$key] ?? [['type' => 'title'], ['type' => 'description']];
@@ -132,6 +132,9 @@ class FormBuilderController extends BaseController
             if($data['option_type'] != 'model') {
                 unset($data['model_option']);
             }
+            if($data['option_type'] != 'city') {
+                unset($data['city_option']);
+            }
         }
 
         $element = $this->getElementByName($data['name'], $formBuilderData[$key]);
@@ -177,6 +180,13 @@ class FormBuilderController extends BaseController
 
         $formBuilder->update(['data' => $formBuilderData]);
     }
+
+    public function getCountries()
+    {
+        return Country::all()->pluck('name_' . session('dawnstar.language.code'), 'id');
+    }
+
+
 
     private function getElementByName($key, $data)
     {

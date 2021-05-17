@@ -67,7 +67,7 @@
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link" href="{{ route('dawnstar.filemanager.index') }}">
+                    <a class="nav-main-link" href="{{ route('dawnstar.filemanager.index') }}" target="_blank">
                         <i class="nav-main-link-icon fa fa-file-upload"></i>
                         <span class="nav-main-link-name">{{ __('DawnstarLang::general.filemanager') }}</span>
                     </a>
