@@ -13,6 +13,13 @@ class ConfigServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        $this->app['config']
+            ->set("database.connections.locale_sqlite",
+                [
+                    'driver' => 'sqlite',
+                    'database' => __DIR__ . '/../Database/locale.db',
+                    'prefix' => ''
+                ]);
 
         $files = $this->app['files']->files(__DIR__ . '/../Config');
         foreach ($files as $file) {

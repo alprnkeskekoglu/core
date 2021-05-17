@@ -2,6 +2,7 @@
 
 namespace Dawnstar\Http\Controllers;
 
+use Dawnstar\Models\Country;
 use Dawnstar\Models\FormBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
@@ -33,7 +34,6 @@ class FormBuilderController extends BaseController
         $key = $request->get('key');
         $name = $request->get('name');
 
-
         if ($key == 'metas') {
             $element = $formBuilder->data[$key] ?? [['type' => 'title'], ['type' => 'description']];
             return view('DawnstarView::form_builder.modals.metas', compact('element', 'formBuilder', 'key'))->render();
@@ -50,6 +50,10 @@ class FormBuilderController extends BaseController
 
             $view = $element['type'];
             if ($view == 'ckeditor') $view = 'textarea';
+
+            if(in_array($element['type'], ['radio', 'checkbox', 'select']) && !isset($element['options'])) {
+                $element['options'] = [[]];
+            }
 
             return view('DawnstarView::form_builder.modals.' . $view, compact('element', 'formBuilder', 'key'))->render();
         }
@@ -84,10 +88,8 @@ class FormBuilderController extends BaseController
             if ($view == 'ckeditor') $view = 'textarea';
             $element = ['type' => $inputType];
 
-            if(in_array($inputType, ['radio', 'checkbox'])) {
-                $element['options'] = [
-                    []
-                ];
+            if(in_array($inputType, ['radio', 'checkbox', 'select'])) {
+                $element['options'] = [[]];
             }
 
 
@@ -120,6 +122,19 @@ class FormBuilderController extends BaseController
 
         if(!isset($formBuilderData[$key])) {
             $formBuilderData[$key] = [];
+        }
+
+
+        if($data['type'] == 'select') {
+            if($data['option_type'] != 'custom') {
+                unset($data['options']);
+            }
+            if($data['option_type'] != 'model') {
+                unset($data['model_option']);
+            }
+            if($data['option_type'] != 'city') {
+                unset($data['city_option']);
+            }
         }
 
         $element = $this->getElementByName($data['name'], $formBuilderData[$key]);
@@ -165,6 +180,13 @@ class FormBuilderController extends BaseController
 
         $formBuilder->update(['data' => $formBuilderData]);
     }
+
+    public function getCountries()
+    {
+        return Country::all()->pluck('name_' . session('dawnstar.language.code'), 'id');
+    }
+
+
 
     private function getElementByName($key, $data)
     {

@@ -33,7 +33,7 @@
                                                     <div class="my-1">
                                                         <div class="btn bg-black-10 w-100">
                                                             {{ formBuilderLabel($element, session('dawnstar.language.code')). ' - ' . $element['type'] }}
-                                                            <span class="float-right badge badge-danger mt-1" onclick="deleteElement('{{ $formBuilder->id }}', '{{ $key }}', '{{ $element['name'] }}')">x</span>
+                                                            <span class="float-right badge badge-danger mt-1" onclick="deleteElement('{{ $formBuilder->id }}', '{{ $key }}', '{{ $element['name'] }}')"><i class="fa fa-times"></i></span>
                                                             <span class="float-right badge badge-success mt-1 mr-1" onclick="showModal('{{ $formBuilder->id }}', '{{ $key }}', '{{ $element['name'] }}')"><i class="fa fa-edit"></i></span>
                                                         </div>
                                                     </div>
@@ -48,7 +48,10 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <button class="btn bg-black-10 w-100 my-1" onclick="showModal('{{ $formBuilder->id }}', 'metas', '')">Meta Tags</button>
+                                            <div class="btn bg-black-10 w-100">
+                                                Meta Tags
+                                                <span class="float-right badge badge-success mt-1 mr-1" onclick="showModal('{{ $formBuilder->id }}', 'metas', '')"><i class="fa fa-edit"></i></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -125,7 +128,7 @@
                     'method': 'POST',
                     'data': {id, key, name, '_token': '{{ csrf_token() }}'},
                     success: function (response) {
-                        location.reload();
+                       // location.reload();
                     }
                 })
             }
