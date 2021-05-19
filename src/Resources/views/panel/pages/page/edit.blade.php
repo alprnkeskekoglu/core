@@ -1,5 +1,7 @@
 @extends('DawnstarView::layouts.app')
-
+@php
+    $activeLanguageIds = $page->details->pluck('language_id')->toArray();
+@endphp
 @section('content')
     <main id="main-container">
 
@@ -44,9 +46,11 @@
                                     <ul class="nav nav-tabs nav-tabs-alt w-100" data-toggle="tabs" role="tablist">
                                         @foreach($languages as $language)
                                             <li class="nav-item">
-                                                <a class="nav-link {{ $loop->first ? 'active' : '' }}" href="#{{$language->code}}">
+                                                <a class="nav-link {{ $loop->first ? 'active' : '' }} {{ in_array($language->id, $activeLanguageIds) ? '' : 'disabled' }}" href="#{{$language->code}}">
                                                     <img src="//flagcdn.com/24x18/{{ $language->code == 'en' ? 'gb' : $language->code }}.png" alt="{{ $language->code }}">
                                                     {{ $language->native_name . ' (' . strtoupper($language->code) . ')' }}
+                                                    <i class="fa {{ in_array($language->id, $activeLanguageIds) ? 'fa-times text-danger' : 'fa-plus text-success' }} ml-3 detailStatusBtn" data-languageId="{{ $language->id }}" data-languageCode="{{ $language->code }}"
+                                                       data-target="{{ in_array($language->id, $activeLanguageIds) ? 3 : 1 }}"></i>
                                                 </a>
                                             </li>
                                         @endforeach
@@ -76,6 +80,14 @@
         </div>
     </main>
 @endsection
+@push('styles')
+    <style>
+        .nav-link.disabled > i {
+            pointer-events: all;
+            cursor: pointer;
+        }
+    </style>
+@endpush
 
 @push('scripts')
     <script>
@@ -131,5 +143,29 @@
                 },
             });
         }
+
+        $('body').delegate('.detailStatusBtn', 'click', function (e) {
+            var languageId = $(this).attr('data-languageId');
+            var languageCode = $(this).attr('data-languageCode');
+            var target = $(this).attr('data-target');
+            var element = $(this).closest('a.nav-link');
+            var isActive = element.hasClass('active');
+
+            $('#details_' + languageId + '_status').val(target);
+
+            if (target == 3) {
+                element.addClass('disabled');
+                $(this).attr('data-target', 1).toggleClass('text-danger').toggleClass('fa-times').toggleClass('text-success').toggleClass('fa-plus');
+
+                $('a.nav-link:not(.disabled):first').tab('show');
+            } else if (target == 1) {
+                element.removeClass('disabled');
+                $(this).attr('data-target', 3).toggleClass('text-danger').toggleClass('fa-times').toggleClass('text-success').toggleClass('fa-plus');
+
+                element.tab('show');
+            }
+
+            $('.detailStatusBtn').unbind('click');
+        })
     </script>
 @endpush

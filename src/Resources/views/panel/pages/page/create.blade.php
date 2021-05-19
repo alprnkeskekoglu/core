@@ -50,6 +50,9 @@
                                                 <a class="nav-link {{ $loop->first ? 'active' : '' }}" href="#{{$language->code}}">
                                                     <img src="//flagcdn.com/24x18/{{ $language->code == 'en' ? 'gb' : $language->code }}.png" alt="{{ $language->code }}">
                                                     {{ $language->native_name . ' (' . strtoupper($language->code) . ')' }}
+
+                                                    <i class="fa fa-times text-danger ml-3 detailStatusBtn" data-languageId="{{ $language->id }}" data-languageCode="{{ $language->code }}"
+                                                       data-target="3"></i>
                                                 </a>
                                             </li>
                                         @endforeach
@@ -57,6 +60,7 @@
                                     <div class="block-content tab-content">
                                         @foreach($languages as $language)
                                             <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="{{$language->code}}" role="tabpanel">
+                                                <input type="hidden" name="details[{{ $language->id }}][status]" id="details_{{ $language->id }}_status" value="1">
                                                 <div class="row mb-5">
                                                     {!! $formBuilder->render($language) !!}
                                                 </div>
@@ -80,6 +84,7 @@
     </main>
 @endsection
 
+
 @push('scripts')
     <script>
         var typingTimer;
@@ -91,7 +96,7 @@
             typedInput = $(this);
             var languageId = typedInput.attr('data-language');
 
-            if(typedInput.val().length) {
+            if (typedInput.val().length) {
                 typingTimer = setTimeout(slugify, doneTypingInterval);
             } else {
                 $('[id$="_slug"][data-language="' + languageId + '"]').val('');
@@ -133,5 +138,29 @@
                 },
             });
         }
+
+        $('body').delegate('.detailStatusBtn', 'click', function (e) {
+            var languageId = $(this).attr('data-languageId');
+            var languageCode = $(this).attr('data-languageCode');
+            var target = $(this).attr('data-target');
+            var element = $(this).closest('a.nav-link');
+            var isActive = element.hasClass('active');
+
+            $('#details_' + languageId + '_status').val(target);
+
+            if (target == 3) {
+                element.addClass('disabled');
+                $(this).attr('data-target', 1).toggleClass('text-danger').toggleClass('fa-times').toggleClass('text-success').toggleClass('fa-plus');
+
+                $('a.nav-link:not(.disabled):first').tab('show');
+            } else if (target == 1) {
+                element.removeClass('disabled');
+                $(this).attr('data-target', 3).toggleClass('text-danger').toggleClass('fa-times').toggleClass('text-success').toggleClass('fa-plus');
+
+                element.tab('show');
+            }
+
+            $('.detailStatusBtn').unbind('click');
+        })
     </script>
 @endpush

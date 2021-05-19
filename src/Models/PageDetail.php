@@ -33,7 +33,7 @@ class PageDetail extends BaseModel
 
     public function url()
     {
-        return $this->morphOne(Url::class, 'model', 'model_type', 'model_id')->withDefault(['url' => '/']);
+        return $this->morphOne(Url::class, 'model', 'model_type', 'model_id');
     }
 
     public function language()
