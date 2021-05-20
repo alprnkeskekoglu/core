@@ -13,7 +13,6 @@ trait HasDetail{
         $detailClassTable = (new $detailClass)->getTable();
 
         $languages = $this->getLanguageArray();
-
         $orderStr = "case";
         $counter=0;
         foreach($languages as $language){

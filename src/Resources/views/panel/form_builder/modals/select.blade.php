@@ -52,7 +52,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="attr_class">Class</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="attr_class" name="input[attributes][class]" value="{{ $element['attributes']['class'] ?? 'form-control' }}">
+                        <input type="text" class="form-control" id="attr_class" name="input[attributes][class]" value="{{ $element['attributes']['class'] ?? 'form-control w-100' }}">
                     </div>
                 </div>
                 <div class="form-group row">

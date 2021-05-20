@@ -5,7 +5,6 @@
 
     $parentClass = $input['parent_class'] ?? 'col-md-6';
     $labelText = formBuilderLabel($input, $dawnstarLanguageCode);
-
     $inputAttributes = '';
     if(isset($input['input']['attributes'])) {
         foreach ($input['input']['attributes'] as $tag => $attr) {

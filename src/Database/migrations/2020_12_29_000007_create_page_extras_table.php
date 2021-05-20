@@ -17,7 +17,7 @@ class CreatePageExtrasTable extends Migration
             $table->increments('id');
             $table->integer('page_id');
             $table->string('key');
-            $table->string('value');
+            $table->string('value')->nullable();
             $table->timestamps();
         });
     }

@@ -29,12 +29,14 @@
                                     <div class="block-content">
                                         <div class="row sortable">
                                             @foreach($data[$key] as $element)
-                                                <div class="{{ $element['parent_class'] ?? 'col-md-12' }}"  id="{{ $element['name'] }}">
+                                                <div class="{{ $element['parent_class'] ?? 'col-md-12' }}" id="{{ $element['name'] }}">
                                                     <div class="my-1">
                                                         <div class="btn bg-black-10 w-100">
                                                             {{ formBuilderLabel($element, session('dawnstar.language.code')). ' - ' . $element['type'] }}
-                                                            <span class="float-right badge badge-danger mt-1" onclick="deleteElement('{{ $formBuilder->id }}', '{{ $key }}', '{{ $element['name'] }}')"><i class="fa fa-times"></i></span>
-                                                            <span class="float-right badge badge-success mt-1 mr-1" onclick="showModal('{{ $formBuilder->id }}', '{{ $key }}', '{{ $element['name'] }}')"><i class="fa fa-edit"></i></span>
+                                                            <span class="float-right badge badge-danger mt-1" onclick="deleteElement('{{ $formBuilder->id }}', '{{ $key }}', '{{ $element['name'] }}')"><i
+                                                                    class="fa fa-times"></i></span>
+                                                            <span class="float-right badge badge-success mt-1 mr-1"
+                                                                  onclick="showModal('{{ $formBuilder->id }}', '{{ $key }}', '{{ $element['name'] }}')"><i class="fa fa-edit"></i></span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -84,8 +86,8 @@
         function orderSave() {
             var data = {};
             var keys = {0: 'general', 1: 'languages'};
-            $.each($(".sortable"), function (k,v) {
-                data[keys[k]] = $(v).sortable('toArray', { attribute: 'id' })
+            $.each($(".sortable"), function (k, v) {
+                data[keys[k]] = $(v).sortable('toArray', {attribute: 'id'})
             })
 
             $.ajax({
@@ -122,13 +124,13 @@
         }
 
         function deleteElement(id, key, name) {
-            if(confirm('Are you sure?')) {
+            if (confirm('Are you sure?')) {
                 $.ajax({
                     'url': '{{ route('dawnstar.form_builders.deleteElement') }}',
                     'method': 'POST',
                     'data': {id, key, name, '_token': '{{ csrf_token() }}'},
                     success: function (response) {
-                       // location.reload();
+                        location.reload();
                     }
                 })
             }

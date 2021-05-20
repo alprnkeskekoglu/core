@@ -33,7 +33,9 @@ class ModelStoreService implements ModelStoreInterface
             $medias = $detail['medias'] ?? [];
             unset($detail['extras'], $detail['medias']);
 
-            $detail['slug'] = $detail['slug'] != '/' ? rtrim($detail['slug'], '/') : $detail['slug'];
+            if(isset($detail['slug'])) {
+                $detail['slug'] = $detail['slug'] != '/' ? rtrim($detail['slug'], '/') : $detail['slug'];
+            }
 
             $pageDetail = $model->details()->updateOrCreate(
                 [

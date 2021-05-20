@@ -202,8 +202,8 @@ class PageController extends BaseController
                 'container_id' => $page->container_id,
                 'status' => $page->status,
                 'order' => $page->order,
-                'name' => $page->detail->name,
-                'slug' => $page->detail->url->url
+                'name' => optional($page->detail)->name,
+                'slug' => $page->detail ? $page->detail->url : null,
             ];
         }
 

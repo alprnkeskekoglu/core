@@ -279,7 +279,7 @@ class FormBuilder
 
             $input['name'] = 'metas[' . $this->tabLanguage->id . '][' . $key . ']';
             $input['id'] = 'metas_' . $this->tabLanguage->id . '_' . $key;
-            $meta = $this->modelDetail ? $this->modelDetail->url->getMeta($key) : '';
+            $meta = $this->modelDetail && $this->modelDetail->url ? $this->modelDetail->url->getMeta($key) : '';
 
             $html .= view('DawnstarView::form_builder.meta', [
                 'input' => $input,
