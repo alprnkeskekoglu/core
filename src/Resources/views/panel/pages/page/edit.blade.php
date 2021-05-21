@@ -20,7 +20,7 @@
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
                         <div>
-                            <a href="{{ route('dawnstar.form_builders.edit', ['id' => $container->id, 'type' => 'page']) }}" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ route('dawnstar.form_builders.edit', ['id' => $container->id, 'type' => 'page']) }}" target="_blank" class="btn btn-sm btn-outline-secondary">
                                 <i class="fa fa-sliders-h"></i>
                                 {{ __('DawnstarLang::general.form_builder') }}
                             </a>
@@ -46,7 +46,7 @@
                                     <ul class="nav nav-tabs nav-tabs-alt w-100" data-toggle="tabs" role="tablist">
                                         @foreach($languages as $language)
                                             <li class="nav-item">
-                                                <a class="nav-link {{ $loop->first ? 'active' : '' }} {{ in_array($language->id, $activeLanguageIds) ? '' : 'disabled' }}" href="#{{$language->code}}">
+                                                <a class="nav-link {{ in_array($language->id, $activeLanguageIds) ? '' : 'disabled' }}" href="#{{$language->code}}">
                                                     <img src="//flagcdn.com/24x18/{{ $language->code == 'en' ? 'gb' : $language->code }}.png" alt="{{ $language->code }}">
                                                     {{ $language->native_name . ' (' . strtoupper($language->code) . ')' }}
                                                     <i class="fa {{ in_array($language->id, $activeLanguageIds) ? 'fa-times text-danger' : 'fa-plus text-success' }} ml-3 detailStatusBtn" data-languageId="{{ $language->id }}" data-languageCode="{{ $language->code }}"
@@ -58,6 +58,7 @@
                                     <div class="block-content tab-content">
                                         @foreach($languages as $language)
                                             <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="{{$language->code}}" role="tabpanel">
+                                                <input type="hidden" name="details[{{ $language->id }}][status]" id="details_{{ $language->id }}_status" value="{{ in_array($language->id, $activeLanguageIds) ? '1' : '2' }}">
                                                 <div class="row mb-5">
                                                     {!! $formBuilder->render($language) !!}
                                                 </div>
@@ -144,6 +145,7 @@
             });
         }
 
+        $('a.nav-link:not(.disabled):first').tab('show');
         $('body').delegate('.detailStatusBtn', 'click', function (e) {
             var languageId = $(this).attr('data-languageId');
             var languageCode = $(this).attr('data-languageCode');

@@ -17,7 +17,7 @@
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
                         <div>
-                            <a href="{{ route('dawnstar.form_builders.edit', ['id' => $container->id, 'type' => 'page']) }}" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ route('dawnstar.form_builders.edit', ['id' => $container->id, 'type' => 'page']) }}" target="_blank"  class="btn btn-sm btn-outline-secondary">
                                 <i class="fa fa-sliders-h"></i>
                                 {{ __('DawnstarLang::general.form_builder') }}
                             </a>

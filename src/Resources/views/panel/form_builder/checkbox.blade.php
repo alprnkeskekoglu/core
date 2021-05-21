@@ -15,11 +15,14 @@
 @endphp
 
 <div class="{{ $parentClass }}">
+    @if($labelText)
     <label class="d-block">{{ $labelText }}</label>
+    @endif
     <div class="form-group row">
         @foreach($input['options'] as $option)
             <div class="col-md-3">
                 <div class="custom-control custom-checkbox custom-control-lg custom-control-inline">
+                    <input type="hidden" name="{{ $name }}" value="">
                     @if($isMultiple)
                         <input type="checkbox" {!! $inputAttributes !!} id="{{ $id . '_' . $option['value'] }}" name="{{ $name }}" value="{{ $option['value'] }}" {{ in_array($option['value'], old($input['name'], $value ?: [])) ? 'checked' : '' }}>
                     @else

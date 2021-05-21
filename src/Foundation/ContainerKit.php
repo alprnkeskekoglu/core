@@ -109,7 +109,7 @@ class ContainerKit
         $content = 'public function containerPage(Dawnstar $dawnstar) {';
 
         if($this->key == 'search') {
-            $content .= "\n\t\t" . '$search = new Dawnstar\Foundation\Search();';
+            $content .= "\n\t\t" . '$search = new \Dawnstar\Foundation\Search();';
             $content .= "\n\t\t" . '$results = $search->getResults();';
             $content .= "\n\t\treturn view('pages." . strtolower($this->key) . ".container', compact('results'));";
         } else {

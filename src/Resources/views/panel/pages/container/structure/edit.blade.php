@@ -62,6 +62,7 @@
                                         <div class="form-group row">
                                             <div class="col-md-3">
                                                 <div class="custom-control custom-checkbox custom-control-lg custom-control-inline">
+                                                    <input type="hidden" name="has_detail" value="2">
                                                     <input type="checkbox" class="custom-control-input" id="has_detail" name="has_detail"
                                                            value="1" {{ old('has_detail', $container->has_detail) == 1 ? 'checked' : '' }}>
                                                     <label class="custom-control-label" for="has_detail">{{ __('DawnstarLang::container.labels.has_detail') }}</label>
@@ -69,6 +70,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="custom-control custom-checkbox custom-control-lg custom-control-inline">
+                                                    <input type="hidden" name="has_category" value="2">
                                                     <input type="checkbox" class="custom-control-input" id="has_category" name="has_category"
                                                            {{ $container->type == 'static' ? 'disabled' : '' }}
                                                            value="1" {{ old('has_category', $container->has_category) == 1 ? 'checked' : '' }}>
@@ -77,6 +79,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="custom-control custom-checkbox custom-control-lg custom-control-inline">
+                                                    <input type="hidden" name="is_searchable" value="2">
                                                     <input type="checkbox" class="custom-control-input" id="is_searchable" name="is_searchable"
                                                            {{ $container->key == 'homepage' ? 'disabled' : '' }}
                                                            value="1" {{ old('is_searchable', $container->is_searchable) == 1 ? 'checked' : '' }}>

@@ -17,12 +17,14 @@
                     @include('DawnstarView::layouts.alerts')
 
                     <div class="row items-push justify-content-end text-right">
-                        <div class="mr-2">
-                            <a href="{{ route('dawnstar.containers.edit', ['id' => $container->id]) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
-                                <i class="fa fa-fw fa-fingerprint mr-1"></i>
-                                {{ __('DawnstarLang::page.container') }}
-                            </a>
-                        </div>
+                        @if($container->has_detail == 1)
+                            <div class="mr-2">
+                                <a href="{{ route('dawnstar.containers.edit', ['id' => $container->id]) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
+                                    <i class="fa fa-fw fa-fingerprint mr-1"></i>
+                                    {{ __('DawnstarLang::page.container') }}
+                                </a>
+                            </div>
+                        @endif
                         @if($container->has_category == 1)
                             <div class="mr-2">
                                 <a href="{{ route('dawnstar.containers.categories.index', ['containerId' => $container->id]) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">

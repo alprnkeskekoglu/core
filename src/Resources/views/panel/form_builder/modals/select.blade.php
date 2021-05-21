@@ -45,7 +45,7 @@
                     <label class="col-sm-2 col-form-label" for="multiple">Multiple</label>
                     <div class="col-sm-2 ">
                         <input type="hidden" name="multiple" value="0">
-                        <input type="checkbox" class="form-control form-control-sm" id="multiple" name="multiple" value="1" {{ $element['multiple'] ?? 0 == 1 ? 'checked' : '' }}>
+                        <input type="checkbox" class="form-control form-control-sm" id="multiple" name="multiple" value="1" {{ ($element['multiple'] ?? 0) == 1 ? 'checked' : '' }}>
                     </div>
                 </div>
                 <h2 class="content-heading">Input</h2>

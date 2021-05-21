@@ -1,4 +1,3 @@
-@php($colors = ['primary', 'success', 'info', 'warning', 'danger', 'light', 'dark'])
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
@@ -11,8 +10,16 @@
             <form action="{{ route('dawnstar.form_builders.saveElement') }}" id="elementForm" method="POST">
                 @csrf
                 <input type="hidden" name="formBuilder" value="{{ $formBuilder->id }}">
-                <input type="hidden" name="key" value="{{ $key }}">
                 <input type="hidden" name="type" value="{{ $element['type'] }}">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="key">Key</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="key" name="key">
+                            <option value="general" {{ isset($key) && $key == 'general' ? 'selected' : '' }}>Genel</option>
+                            <option value="languages" {{ isset($key) && $key == 'languages' ? 'selected' : '' }}>Dile Bağlı</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="parent_class">Parent Class</label>
                     <div class="col-sm-10">
@@ -38,14 +45,14 @@
                     <label class="col-sm-2 col-form-label" for="multiple">Multiple</label>
                     <div class="col-sm-2 ">
                         <input type="hidden" name="multiple" value="0">
-                        <input type="checkbox" class="form-control form-control-sm" id="multiple" name="multiple" value="1" {{ $element['multiple'] == 1 ? 'checked' : '' }}>
+                        <input type="checkbox" class="form-control form-control-sm" id="multiple" name="multiple" value="1" {{ ($element['multiple'] ?? 0) == 1 ? 'checked' : '' }}>
                     </div>
                 </div>
                 <h2 class="content-heading">Input</h2>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="attr_class">Class</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="attr_class" name="input[attributes][class]" value="{{ $element['attributes']['class'] ?? 'form-control' }}">
+                        <input type="text" class="form-control" id="attr_class" name="input[attributes][class]" value="{{ $element['attributes']['class'] ?? 'custom-control-input' }}">
                     </div>
                 </div>
                 <h2 class="content-heading">Options <button class="btn bg-black-10" id="copyOptionBtn"><i class="fa fa-plus"></i></button></h2>
@@ -77,19 +84,6 @@
                                         <label class="col-sm-3 col-form-label">Value</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="option_value" name="options[{{$key}}][value]" value="{{ $option['value'] ?? '' }}">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Color</label>
-                                        <div class="col-sm-9">
-                                            <select class="form-control" id="example-select" name="options[{{$key}}][color]">
-                                                <option value="primary">Please select</option>
-                                                @foreach($colors as $color)
-                                                    <option value="{{ $color }}" {{ $option['color'] == $color ? 'selected' : '' }}>{{ ucwords($color) }}</option>
-                                                @endforeach
-                                            </select>
                                         </div>
                                     </div>
                                 </div>
