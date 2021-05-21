@@ -60,40 +60,6 @@ return [
     ],
     'languages' => [
         [
-            'type' => 'radio',
-            'name' => 'detail.status',
-            'parent_class' => 'col-md-12',
-            'label' => [
-                'text' => [
-                    'tr' => 'Durum',
-                    'en' => 'Status',
-                ],
-            ],
-            'input' => [
-                'attributes' => [
-                    'class' => 'custom-control-input'
-                ],
-            ],
-            'options' => [
-                [
-                    'value' => 1,
-                    'text' => [
-                        'tr' => 'Aktif',
-                        'en' => 'Active',
-                    ],
-                    'color' => 'success',
-                ],
-                [
-                    'value' => 3,
-                    'text' => [
-                        'tr' => 'Pasif',
-                        'en' => 'Passive',
-                    ],
-                    'color' => 'danger',
-                ]
-            ]
-        ],
-        [
             'type' => 'input',
             'name' => 'detail.name',
             'parent_class' => 'col-md-6',

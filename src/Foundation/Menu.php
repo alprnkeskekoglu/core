@@ -30,7 +30,7 @@ class Menu
     {
         $menuStructure = $this->getMenuStructure();
         $currentMenu = $this->getCurrentMenu($menuStructure);
-        $activeMenuIds = $this->getActiveMenuIds($currentMenu);
+        $activeMenuIds = $currentMenu ? $this->getActiveMenuIds($currentMenu) : [];
         $menus = $this->getMenus($menuStructure);
 
         return $this->getMenuArray($menus, $activeMenuIds);
@@ -41,7 +41,7 @@ class Menu
      * @param array $activeMenuIds
      * @return array
      */
-    private function getMenuArray($menus, array $activeMenuIds): array
+    private function getMenuArray($menus, array $activeMenuIds = []): array
     {
         $hold = [];
 

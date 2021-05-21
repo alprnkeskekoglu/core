@@ -38,9 +38,14 @@ class Page extends BaseModel
         return $this->hasMany(PageExtra::class);
     }
 
+    public function category()
+    {
+        return $this->categories()->first();
+    }
+
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_pages', 'category_id', 'page_id');
+        return $this->belongsToMany(Category::class, 'category_pages');
     }
 
     public function admin()

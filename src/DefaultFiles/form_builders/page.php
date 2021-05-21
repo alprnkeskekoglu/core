@@ -64,7 +64,7 @@ return [
         [
             'type' => 'media',
             'name' => 'image',
-            'parent_class' => 'col-md-12 mt-3',
+            'parent_class' => 'col-md-12',
             'label' => [
                 'text' => [
                     'tr' => 'Sayfa Görseli',

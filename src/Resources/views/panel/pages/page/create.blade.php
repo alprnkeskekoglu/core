@@ -84,6 +84,14 @@
     </main>
 @endsection
 
+@push('styles')
+    <style>
+        .nav-link.disabled > i {
+            pointer-events: all;
+            cursor: pointer;
+        }
+    </style>
+@endpush
 
 @push('scripts')
     <script>
