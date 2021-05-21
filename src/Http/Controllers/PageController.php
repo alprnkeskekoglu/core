@@ -203,7 +203,7 @@ class PageController extends BaseController
                 'status' => $page->status,
                 'order' => $page->order,
                 'name' => optional($page->detail)->name,
-                'slug' => $page->detail ? $page->detail->url : null,
+                'slug' => $page->detail && $page->detail->url ? url($page->detail->url->url) : null,
             ];
         }
 

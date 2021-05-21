@@ -12,7 +12,7 @@
 @endphp
 
 
-<div class="{{ $parentClass }}">
+<div class="{{ $parentClass }} mt-3">
     <div class="form-group row">
         <div class="col-md-4">
             <label for="{{ $id }}">{{ $labelText }}</label>

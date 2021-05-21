@@ -7,6 +7,7 @@
 
     $inputAttributes = '';
     if(isset($input['input']['attributes'])) {
+        $input['input']['attributes']['class'] = ($input['input']['attributes']['class'] ?? '') . ' select2';
         foreach ($input['input']['attributes'] as $tag => $attr) {
             $inputAttributes .= $tag.'="'.$attr.'" ';
         }
@@ -16,7 +17,7 @@
 <div class="{{ $parentClass }}">
     <label class="d-block">{{ $labelText }}</label>
     <div class="form-group">
-        <select {!! $inputAttributes !!} } multiple id="{{ $id }}" name="{{ $name }}">
+        <select {!! $inputAttributes !!} multiple id="{{ $id }}" name="{{ $name }}">
             @foreach($input['categories'] as $id => $categoryName)
                 <option {{ in_array($id, old($name, $value ?: [])) ? 'selected' : '' }} value="{{ $id }}">{{ $categoryName }}</option>
             @endforeach
