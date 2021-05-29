@@ -8,6 +8,7 @@ use Dawnstar\Models\Admin;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends BaseController
 {
@@ -37,12 +38,14 @@ class AdminController extends BaseController
             ]
         ];
 
-        return view('DawnstarView::pages.admin.create', compact('breadcrumb'));
+        $roles = Role::all();
+
+        return view('DawnstarView::pages.admin.create', compact('breadcrumb', 'roles'));
     }
 
     public function store(AdminRequest $request)
     {
-        $data = $request->except('_token');
+        $data = $request->except('_token', 'role_id');
 
         $data['password'] = Hash::make($data['password']);
 
@@ -50,6 +53,9 @@ class AdminController extends BaseController
         unset($data['image']);
 
         $admin = Admin::firstOrCreate($data);
+
+        $role = Role::findById($request->get('role_id'));
+        $admin->assignRole($role->name);
 
         $storeDevice = new ModelStoreService();
         $storeDevice->storeMedias($admin, ['image' => $image]);
@@ -79,7 +85,9 @@ class AdminController extends BaseController
             ]
         ];
 
-        return view('DawnstarView::pages.admin.edit', compact('admin', 'breadcrumb'));
+        $roles = Role::all();
+
+        return view('DawnstarView::pages.admin.edit', compact('admin', 'roles', 'breadcrumb'));
     }
 
     public function update(AdminRequest $request, $id)
@@ -90,7 +98,7 @@ class AdminController extends BaseController
             return redirect()->route('dawnstar.admins.index')->withErrors(__('DawnstarLang::admin.response_message.id_error', ['id' => $id]))->withInput();
         }
 
-        $data = $request->except('_token', 'image');
+        $data = $request->except('_token', 'image', 'role_id');
 
         if(is_null($data['password'])) {
             unset($data['password']);
@@ -99,6 +107,9 @@ class AdminController extends BaseController
         }
 
         $admin->update($data);
+
+        $role = Role::findById($request->get('role_id'));
+        $admin->assignRole($role->name);
 
         $storeDevice = new ModelStoreService();
         $storeDevice->storeMedias($admin, ['image' => $request->get('image')]);

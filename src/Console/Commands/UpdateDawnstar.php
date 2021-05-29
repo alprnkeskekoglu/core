@@ -14,9 +14,6 @@ class UpdateDawnstar extends Command
 
     public function handle()
     {
-        Artisan::call('migrate', ['--force' => true]);
-        $this->info(Artisan::output());
-
         if(is_dir(public_path('vendor'))) {
             $this->delTree(public_path('vendor'));
             $this->info(public_path('vendor') . " Deleted !!" . PHP_EOL);
@@ -26,6 +23,8 @@ class UpdateDawnstar extends Command
         Artisan::call('vendor:publish', ['--all' => true]);
         $this->info(Artisan::output());
 
+        Artisan::call('migrate', ['--force' => true]);
+        $this->info(Artisan::output());
 
         Artisan::call('ds:search');
         $this->info("Search View Updated !!". PHP_EOL);

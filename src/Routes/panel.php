@@ -22,6 +22,9 @@ use Dawnstar\Http\Controllers\FormResultController;
 use Dawnstar\Http\Controllers\CustomContentController;
 use Dawnstar\Http\Controllers\ToolController;
 
+use Dawnstar\Http\Controllers\RoleController;
+use Dawnstar\Http\Controllers\PermissionController;
+
 use Dawnstar\Http\Controllers\FormBuilderController;
 use Dawnstar\Http\Controllers\PanelController;
 
@@ -48,11 +51,9 @@ Route::middleware(['dawnstar.auth'])->group(function () {
     # Container Structure, Containers, Pages and Categories
     Route::resource('containers/structures', ContainerStructureController::class, ['as' => 'containers'])->parameters(['structures' => 'id'])->except(['show']);
     Route::resource('containers', ContainerController::class)->parameters(['containers' => 'id'])->only(['edit', 'update']);
-    Route::resource('containers.pages', PageController::class)->parameters(['containers' => 'containerId','pages' => 'id'])->except(['show']);
-    Route::resource('containers.categories', CategoryController::class)->parameters(['containers' => 'containerId','categories' => 'id'])->except(['show']);
-
+    Route::resource('containers.pages', PageController::class)->parameters(['containers' => 'containerId', 'pages' => 'id'])->except(['show']);
+    Route::resource('containers.categories', CategoryController::class)->parameters(['containers' => 'containerId', 'categories' => 'id'])->except(['show']);
     Route::prefix('containers')->as('containers.')->group(function () {
-
         Route::get('/getUrl', [ContainerController::class, 'getUrl'])->name('getUrl');
 
         Route::prefix('/{containerId}')->group(function () {
@@ -65,7 +66,6 @@ Route::middleware(['dawnstar.auth'])->group(function () {
     # Menu and Menu Contents
     Route::resource('menus', MenuController::class)->parameters(['menus' => 'id'])->except(['show']);
     Route::get('/menus/getUrls', [MenuContentController::class, 'getUrls'])->name('menus.getUrls');
-
     Route::resource('menus.contents', MenuContentController::class)->parameters(['menus' => 'menuId', 'contents' => 'id'])->except(['index', 'show']);
     Route::get('/menus/{menuId}/contents/saveOrder', [MenuContentController::class, 'saveOrder'])->name('menus.contents.saveOrder');
 
@@ -93,6 +93,7 @@ Route::middleware(['dawnstar.auth'])->group(function () {
         Route::post('/init', [ToolController::class, 'init'])->name('init');
     });
 
+    # Form Builders
     Route::prefix('form-builders')->as('form_builders.')->group(function () {
         Route::get('/', [FormBuilderController::class, 'index'])->name('index');
         Route::get('/edit/{id}/{type}', [FormBuilderController::class, 'edit'])->name('edit');
@@ -105,6 +106,10 @@ Route::middleware(['dawnstar.auth'])->group(function () {
 
         Route::get('/getCountries', [FormBuilderController::class, 'getCountries'])->name('getCountries');
     });
+
+    # Roles
+    Route::resource('roles', RoleController::class)->except(['show']);
+    Route::resource('roles.permissions', PermissionController::class)->only(['index', 'store']);
 
     # Panel
     Route::prefix('panel')->as('panel.')->group(function () {

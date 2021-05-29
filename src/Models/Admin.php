@@ -5,10 +5,11 @@ namespace Dawnstar\Models;
 use Dawnstar\Traits\HasMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class Admin extends Authenticatable
 {
-    use SoftDeletes, HasMedia;
+    use SoftDeletes, HasMedia, HasRoles;
 
     protected $table = 'admins';
 
@@ -17,6 +18,11 @@ class Admin extends Authenticatable
     protected $hidden = [
         'password'
     ];
+
+    public function guardName()
+    {
+        return 'admin';
+    }
 
     public function __get($key)
     {

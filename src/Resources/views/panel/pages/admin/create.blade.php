@@ -71,7 +71,9 @@
 
                                             <select class="form-control" id="role_id" name="role_id">
                                                 <option value="">{{ __('DawnstarLang::general.select') }}</option>
-                                                <option value="1" {{ old('role_id') == 1 ? 'selected' : '' }}>Super Admin</option>
+                                                @foreach($roles as $role)
+                                                    <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>{!! $role->name !!}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
