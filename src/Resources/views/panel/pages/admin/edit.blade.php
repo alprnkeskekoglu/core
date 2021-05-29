@@ -55,30 +55,34 @@
                                 </div>
                             </div>
                             <div class="col-sm-10 col-md-8">
-                                <div class="form-group">
-                                    <label class="d-block">{{ __('DawnstarLang::admin.labels.status') }}</label>
-                                    <div class="custom-control custom-radio custom-control-inline custom-control-success custom-control-lg">
-                                        <input type="radio" class="custom-control-input" id="status_active" name="status" value="1" {{ old('status', $admin->status) == 1 ? 'checked' : '' }}>
-                                        <label class="custom-control-label" for="status_active">{{ __('DawnstarLang::general.status_title.active') }}</label>
-                                    </div>
-                                    <div class="custom-control custom-radio custom-control-inline custom-control-danger custom-control-lg">
-                                        <input type="radio" class="custom-control-input" id="status_passive" name="status" value="3" {{ old('status', $admin->status) == 3 ? 'checked' : '' }}>
-                                        <label class="custom-control-label" for="status_passive">{{ __('DawnstarLang::general.status_title.passive') }}</label>
-                                    </div>
-                                </div>
-
                                 <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="d-block">{{ __('DawnstarLang::admin.labels.status') }}</label>
+                                            <div class="custom-control custom-radio custom-control-inline custom-control-success custom-control-lg">
+                                                <input type="radio" class="custom-control-input" id="status_active" name="status" value="1" {{ old('status', $admin->status) == 1 ? 'checked' : '' }}>
+                                                <label class="custom-control-label" for="status_active">{{ __('DawnstarLang::general.status_title.active') }}</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline custom-control-danger custom-control-lg">
+                                                <input type="radio" class="custom-control-input" id="status_passive" name="status" value="3" {{ old('status', $admin->status) == 3 ? 'checked' : '' }}>
+                                                <label class="custom-control-label" for="status_passive">{{ __('DawnstarLang::general.status_title.passive') }}</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="name">{{ __('DawnstarLang::admin.labels.role_id') }}</label>
 
                                             <select class="form-control" id="role_id" name="role_id">
                                                 <option value="">{{ __('DawnstarLang::general.select') }}</option>
-                                                <option value="1" {{ old('role_id', $admin->role_id) == 1 ? 'selected' : '' }}>Super Admin</option>
+                                                @foreach($roles as $role)
+                                                    <option value="{{ $role->id }}" {{ $admin->hasRole($role->name) ? 'selected' : '' }}>{!! $role->name !!}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">

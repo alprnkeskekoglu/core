@@ -1,5 +1,9 @@
 <?php
 return [
+    'defaults' => [
+        'guard' => 'admin',
+    ],
+
     'guards' => [
         'admin' => [
             'driver' => 'session',
