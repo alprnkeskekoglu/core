@@ -20,8 +20,9 @@ return [
     ],
 
     'response_message' => [
-        'store' => 'Website başarıyla oluşturulmuştur.',
-        'update' => 'Website başarıyla güncellenmiştir.',
+        'store' => 'Website başarıyla oluşturuldu.',
+        'update' => 'Website başarıyla güncellendi.',
+        'destroy' => 'Website başarıyla silindi.',
         'id_error' => "Verilen id'ye (:id) ait website bulunamadı!"
     ],
 ];

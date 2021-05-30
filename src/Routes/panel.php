@@ -39,12 +39,12 @@ Route::middleware(['dawnstar.auth'])->group(function () {
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('websites', WebsiteController::class)->parameters(['websites' => 'id'])->except(['show']);
+    Route::resource('websites', WebsiteController::class)->except(['show']);
     Route::resource('admins', AdminController::class)->except(['show']);
 
     # Profile
     Route::prefix('profiles')->as('profiles.')->group(function () {
-        Route::get('/', [ProfileController::class, 'index'])->name('index');
+        Route::get('/', [ProfileController::class, 'edit'])->name('edit');
         Route::put('/update', [ProfileController::class, 'update'])->name('update');
     });
 
@@ -64,15 +64,16 @@ Route::middleware(['dawnstar.auth'])->group(function () {
 
 
     # Menu and Menu Contents
-    Route::resource('menus', MenuController::class)->parameters(['menus' => 'id'])->except(['show']);
+    Route::resource('menus', MenuController::class)->except(['show']);
+    Route::post('/menus/{menu}/saveOrder', [MenuController::class, 'saveOrder'])->name('menus.saveOrder');
+
     Route::get('/menus/getUrls', [MenuContentController::class, 'getUrls'])->name('menus.getUrls');
-    Route::resource('menus.contents', MenuContentController::class)->parameters(['menus' => 'menuId', 'contents' => 'id'])->except(['index', 'show']);
-    Route::get('/menus/{menuId}/contents/saveOrder', [MenuContentController::class, 'saveOrder'])->name('menus.contents.saveOrder');
+    Route::resource('menus.contents', MenuContentController::class)->parameters(['contents' => 'menuContent'])->except(['index', 'show']);
 
 
     # Form and Form Results
-    Route::resource('forms', FormController::class)->parameters(['forms' => 'id'])->except(['show']);
-    Route::prefix('forms/{formId}/results')->as('forms.results.')->group(function () {
+    Route::resource('forms', FormController::class)->except(['show']);
+    Route::prefix('forms/{form}/results')->as('forms.results.')->group(function () {
         Route::get('/', [FormResultController::class, 'index'])->name('index');
         Route::get('/updateReadStatus', [FormResultController::class, 'updateReadStatus'])->name('updateReadStatus');
     });

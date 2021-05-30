@@ -55,8 +55,6 @@ class FormController extends BaseController
     {
         $data = $request->except('_token');
 
-        $request->validated();
-
         $data['receivers'] = explode(',', $data['receivers']);
         $data['website_id'] = session('dawnstar.website.id');
 
@@ -72,10 +70,8 @@ class FormController extends BaseController
         return redirect()->route('dawnstar.forms.index')->with('success_message', __('DawnstarLang::form.response_message.store'));
     }
 
-    public function edit(int $id)
+    public function edit(Form $form)
     {
-        $form = Form::findOrFail($id);
-
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::form.index_title'),
@@ -90,17 +86,12 @@ class FormController extends BaseController
         return view('DawnstarView::pages.form.edit', compact('form', 'breadcrumb'));
     }
 
-    public function update(FormRequest $request, $id)
+    public function update(FormRequest $request, Form $form)
     {
-        $form = Form::findOrFail($id);
-
         $data = $request->except('_token');
 
         $data['recaptcha_site_key'] = $data['recaptcha_status'] == 1 ? $data['recaptcha_site_key'] : null;
         $data['recaptcha_secret_key'] = $data['recaptcha_status'] == 1 ? $data['recaptcha_secret_key'] : null;
-
-        $request->validated();
-
         $data['receivers'] = explode(',', $data['receivers']);
 
         $form->update($data);
@@ -111,19 +102,13 @@ class FormController extends BaseController
         return redirect()->route('dawnstar.forms.index')->with('success_message', __('DawnstarLang::form.response_message.update'));
     }
 
-    public function destroy($id)
+    public function destroy(Form $form)
     {
-        $form = Form::find($id);
-
-        if (is_null($form)) {
-            return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
-        }
-
         $form->delete();
 
         // Admin Action
         addAction($form, 'delete');
 
-        return response()->json(['title' => __('DawnstarLang::general.swal.success.title'), 'subtitle' => __('DawnstarLang::general.swal.success.subtitle')]);
+        return redirect()->route('dawnstar.forms.index')->with('success_message', __('DawnstarLang::form.response_message.destroy'));
     }
 }

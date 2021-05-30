@@ -54,13 +54,17 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <a href="{{ route('dawnstar.websites.edit', ['id' => $website->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">
+                                        <a href="{{ route('dawnstar.websites.edit', $website) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
 
-                                        <button type="button" class="js-swal-confirm btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('dawnstar.websites.destroy', ['id' => $website->id]) }}" title="{{ __('DawnstarLang::general.delete') }}">
-                                            <i class="fa fa-times"></i>
-                                        </button>
+                                        <form action="{{ route('dawnstar.websites.destroy', $website) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-sm btn-danger deleteBtn" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.delete') }}">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
@@ -80,8 +84,8 @@
 @push('scripts')
     <script src="{{ dawnstarAsset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script>
-        jQuery('.js-swal-confirm').on('click', e => {
-            var url = e.currentTarget.getAttribute('data-url');
+        $('.deleteBtn').on('click', function() {
+            var self = $(this);
             swal.fire({
                 title: '{{ __('DawnstarLang::general.swal.title') }}',
                 text: '{{ __('DawnstarLang::general.swal.subtitle') }}',
@@ -103,22 +107,9 @@
                 }
             }).then(result => {
                 if (result.value) {
-                    $.ajax({
-                        'url': url,
-                        'method': 'DELETE',
-                        'data': {'_token': '{{ csrf_token() }}'},
-                        success: function (response) {
-                            swal.fire('{{ __('DawnstarLang::general.swal.success.title') }}', '{{ __('DawnstarLang::general.swal.success.subtitle') }}', 'success');
-                            setTimeout(function () {
-                                location.reload();
-                            }, 1000);
-                        },
-                        error: function (response) {
-                            swal.fire('{{ __('DawnstarLang::general.swal.error.title') }}', '{{ __('DawnstarLang::general.swal.error.subtitle') }}', 'error');
-                        }
-                    })
+                    self.closest('form').submit();
                 }
             });
-        });
+        })
     </script>
 @endpush

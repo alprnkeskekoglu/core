@@ -22,10 +22,8 @@ class FormResultController extends BaseController
         return view('DawnstarView::pages.permission.error');
     }
 
-    public function index(int $formId)
+    public function index(Form $form)
     {
-        $form = Form::findOrFail($formId);
-
         $results = $form->results()->paginate(20);
 
         $breadcrumb = [
@@ -48,7 +46,7 @@ class FormResultController extends BaseController
         return $formKit->store($request);
     }
 
-    public function updateReadStatus(Request $request)
+    public function updateReadStatus(Request $request, Form $form)
     {
         $formResult = FormResult::find($request->get('id'));
 
