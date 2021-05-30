@@ -4,10 +4,24 @@ namespace Dawnstar\Http\Controllers;
 
 use Dawnstar\Models\CustomContent;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 
 class CustomContentController extends BaseController
 {
+    public function callAction($method, $parameters)
+    {
+        $websiteId = session('dawnstar.website.id');
+        $temp = ['search' => 'index', 'update' => 'edit'];
+
+        $permissionType = $temp[$method] ?? $method;
+        $key = "website.{$websiteId}.custom_content.{$permissionType}";
+
+        if(auth()->user()->can($key)) {
+            return parent::callAction($method, $parameters);
+        }
+
+        return view('DawnstarView::pages.permission.error');
+    }
+
     public function index()
     {
         $customContents = $this->getCustomContents();
@@ -49,7 +63,7 @@ class CustomContentController extends BaseController
         addAction($customContent, 'update');
     }
 
-    public function delete(Request $request)
+    public function destroy(Request $request)
     {
         $key = $request->get('key');
         CustomContent::where('key', $key)->delete();

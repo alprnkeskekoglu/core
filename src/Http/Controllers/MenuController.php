@@ -4,10 +4,24 @@ namespace Dawnstar\Http\Controllers;
 
 use Dawnstar\Http\Requests\MenuRequest;
 use Dawnstar\Models\Menu;
-use Illuminate\Routing\Controller as BaseController;
 
 class MenuController extends BaseController
 {
+    public function callAction($method, $parameters)
+    {
+        $websiteId = session('dawnstar.website.id');
+        $temp = ['store' => 'create', 'update' => 'edit'];
+
+        $permissionType = $temp[$method] ?? $method;
+        $key = "website.{$websiteId}.menu.{$permissionType}";
+
+        if(auth()->user()->can($key)) {
+            return parent::callAction($method, $parameters);
+        }
+
+        return view('DawnstarView::pages.permission.error');
+    }
+
     public function index()
     {
         $menus = Menu::where('website_id', session('dawnstar.website.id'))->get();

@@ -5,7 +5,6 @@ namespace Dawnstar\Http\Controllers;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\Url;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Artisan;
 
 class SitemapXmlController extends BaseController

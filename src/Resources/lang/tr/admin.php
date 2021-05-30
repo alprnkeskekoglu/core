@@ -19,8 +19,8 @@ return [
     'password_regex' => 'Şifre harf, sayı ve özel karakter (@$!%*#?.&) içermelidir.',
 
     'response_message' => [
-        'store' => 'Admin başarıyla oluşturulmuştur.',
-        'update' => 'Admin başarıyla güncellenmiştir.',
-        'id_error' => "Verilen id'ye (:id) ait admin bulunamadı!"
+        'store' => 'Admin başarıyla oluşturuldu.',
+        'update' => 'Admin başarıyla güncellendi.',
+        'destory' => "Admin başarıyla silindi."
     ],
 ];

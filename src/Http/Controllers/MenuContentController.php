@@ -8,11 +8,25 @@ use Dawnstar\Models\Menu;
 use Dawnstar\Models\MenuContent;
 use Dawnstar\Models\Url;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Cache;
 
 class MenuContentController extends BaseController
 {
+    public function callAction($method, $parameters)
+    {
+        $websiteId = session('dawnstar.website.id');
+        $temp = ['store' => 'create', 'update' => 'edit', 'saveOrder' => 'edit', 'getURls' => 'edit'];
+
+        $permissionType = $temp[$method] ?? $method;
+        $key = "website.{$websiteId}.menu.{$permissionType}";
+
+        if(auth()->user()->can($key)) {
+            return parent::callAction($method, $parameters);
+        }
+
+        return view('DawnstarView::pages.permission.error');
+    }
+
     public function create(int $menuId)
     {
         $menu = Menu::findOrFail($menuId);
@@ -180,49 +194,6 @@ class MenuContentController extends BaseController
         addAction($menu, 'saveOrder');
     }
 
-    public function buildTree(array $elements, $parentId = 0, $max = 0)
-    {
-        $branch = array();
-        foreach ($elements as $element)
-        {
-            $element['lft'] = $max = $max + 1;
-            $element['rgt'] = $max + 1;
-            $element['parent_id'] = $parentId;
-
-            if (isset($element['children']))
-            {
-                $children = $this->buildTree($element['children'], $element['id'], $max);
-                if ($children)
-                {
-
-                    $element['rgt'] = $max = (isset(end($children)['rgt']) ? end($children)['rgt'] : 1) + 1;
-                    $element['children'] = $children;
-                } else
-                {
-                    $element['rgt'] = $max = $max + 1;
-                }
-            }
-
-            $branch[] = $element;
-        }
-
-        return $this->unBuildTree($branch);
-    }
-
-    public function unBuildTree($elements, $branch = [])
-    {
-        foreach ($elements as $element)
-        {
-            if (isset($element['children']))
-            {
-                $branch = $this->unBuildTree($element['children'], $branch);
-                unset($element['children']);
-            }
-            $branch[] = $element;
-        }
-        return $branch;
-    }
-
     public function getUrls(Request $request)
     {
         $languageId = $request->get('language_id');
@@ -251,5 +222,48 @@ class MenuContentController extends BaseController
             ];
         }
         return $return;
+    }
+
+    private function buildTree(array $elements, $parentId = 0, $max = 0)
+    {
+        $branch = array();
+        foreach ($elements as $element)
+        {
+            $element['lft'] = $max = $max + 1;
+            $element['rgt'] = $max + 1;
+            $element['parent_id'] = $parentId;
+
+            if (isset($element['children']))
+            {
+                $children = $this->buildTree($element['children'], $element['id'], $max);
+                if ($children)
+                {
+
+                    $element['rgt'] = $max = (isset(end($children)['rgt']) ? end($children)['rgt'] : 1) + 1;
+                    $element['children'] = $children;
+                } else
+                {
+                    $element['rgt'] = $max = $max + 1;
+                }
+            }
+
+            $branch[] = $element;
+        }
+
+        return $this->unBuildTree($branch);
+    }
+
+    private function unBuildTree($elements, $branch = [])
+    {
+        foreach ($elements as $element)
+        {
+            if (isset($element['children']))
+            {
+                $branch = $this->unBuildTree($element['children'], $branch);
+                unset($element['children']);
+            }
+            $branch[] = $element;
+        }
+        return $branch;
     }
 }

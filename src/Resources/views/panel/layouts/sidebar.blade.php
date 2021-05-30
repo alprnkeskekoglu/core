@@ -48,6 +48,13 @@
                 </li>
 
                 <li class="nav-main-item">
+                    <a class="nav-main-link" href="{{ route('dawnstar.roles.index') }}">
+                        <i class="nav-main-link-icon fa fa-user-lock"></i>
+                        <span class="nav-main-link-name">{{ __('DawnstarLang::role.index_title') }}</span>
+                    </a>
+                </li>
+
+                <li class="nav-main-item">
                     <a class="nav-main-link" href="{{ route('dawnstar.admins.index') }}">
                         <i class="nav-main-link-icon fa fa-user-lock"></i>
                         <span class="nav-main-link-name">{{ __('DawnstarLang::admin.index_title') }}</span>

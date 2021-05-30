@@ -5,7 +5,6 @@ namespace Dawnstar\Http\Controllers;
 use Dawnstar\Http\Requests\WebsiteRequest;
 use Dawnstar\Models\Language;
 use Dawnstar\Models\Website;
-use Illuminate\Routing\Controller as BaseController;
 
 class WebsiteController extends BaseController
 {

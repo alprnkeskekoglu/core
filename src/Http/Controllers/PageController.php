@@ -8,10 +8,26 @@ use Dawnstar\Foundation\FormBuilder;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\Page;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 
 class PageController extends BaseController
 {
+    public function callAction($method, $parameters)
+    {
+        $websiteId = session('dawnstar.website.id');
+        $temp = ['store' => 'create', 'update' => 'edit', 'getPageList' => 'index'];
+
+        $permissionType = $temp[$method] ?? $method;
+        $containerId = $parameters['containerId'] ?? '';
+
+        $key = "website.{$websiteId}.container.{$containerId}.{$permissionType}";
+
+        if(auth()->user()->can($key)) {
+            return parent::callAction($method, $parameters);
+        }
+
+        return view('DawnstarView::pages.permission.error');
+    }
+
     public function index(int $containerId)
     {
         $container = Container::findOrFail($containerId);

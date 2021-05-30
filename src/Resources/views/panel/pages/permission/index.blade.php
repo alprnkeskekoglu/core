@@ -59,8 +59,8 @@
                                                         <div class="block-content">
                                                             @include('DawnstarView::pages.permission.partials.permission_types', [
                                                                     'key' => "website.{$website->id}.container_structure",
-                                                                    'types' => ['index', 'edit', 'delete'],
-                                                                    'icons' => ['index' => 'bars', 'edit' => 'edit', 'delete' => 'trash-alt']
+                                                                    'types' => ['index', 'edit', 'destroy'],
+                                                                    'icons' => ['index' => 'bars', 'edit' => 'edit', 'destroy' => 'trash-alt']
                                                                     ])
                                                         </div>
                                                     </div>
@@ -93,8 +93,8 @@
                                                         <div class="block-content">
                                                             @include('DawnstarView::pages.permission.partials.permission_types', [
                                                                     'key' => "website.{$website->id}.form",
-                                                                    'types' => ['index', 'create', 'edit', 'delete', 'results'],
-                                                                    'icons' => ['index' => 'bars', 'create' => 'plus', 'edit' => 'edit', 'delete' => 'trash-alt', 'results' => 'comments']
+                                                                    'types' => ['index', 'create', 'edit', 'destroy', 'results'],
+                                                                    'icons' => ['index' => 'bars', 'create' => 'plus', 'edit' => 'edit', 'destroy' => 'trash-alt', 'results' => 'comments']
                                                                     ])
                                                         </div>
                                                     </div>
@@ -113,7 +113,7 @@
                                                         <div class="block-content">
                                                             @include('DawnstarView::pages.permission.partials.permission_types', [
                                                                     'key' => "website.{$website->id}.custom_content",
-                                                                    'types' => ['index', 'edit', 'delete'],
+                                                                    'types' => ['index', 'edit', 'destroy'],
                                                                     ])
                                                         </div>
                                                     </div>

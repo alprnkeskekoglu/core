@@ -12,11 +12,25 @@ use Dawnstar\Models\Language;
 use Dawnstar\Models\Meta;
 use Dawnstar\Models\Url;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Cache;
 
 class ContainerStructureController extends BaseController
 {
+    public function callAction($method, $parameters)
+    {
+        $websiteId = session('dawnstar.website.id');
+        $temp = ['update' => 'edit'];
+
+        $permissionType = $temp[$method] ?? $method;
+        $key = "website.{$websiteId}.container_structure.{$permissionType}";
+
+        if(auth()->user()->can($key)) {
+            return parent::callAction($method, $parameters);
+        }
+
+        return view('DawnstarView::pages.permission.error');
+    }
+
     public function index()
     {
         $containers = Container::where('website_id', session('dawnstar.website.id'))->get();

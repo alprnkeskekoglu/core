@@ -123,7 +123,7 @@ function formBuilderLabel($input, $languageCode) {
 
 function dawnstarMenu()
 {
-    return \Illuminate\Support\Facades\Cache::rememberForever('dawnstarMenu' . session('dawnstar.website.id'), function() {
+    return \Illuminate\Support\Facades\Cache::rememberForever('dawnstarMenu' . session('dawnstar.website.id') . session('dawnstar.language.id'), function() {
 
         $menu = [];
 

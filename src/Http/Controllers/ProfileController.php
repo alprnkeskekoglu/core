@@ -6,7 +6,6 @@ use Dawnstar\Contracts\Services\ModelStoreService;
 use Dawnstar\Http\Requests\AdminRequest;
 use Dawnstar\Models\Admin;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 

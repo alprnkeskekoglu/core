@@ -22,6 +22,7 @@ use Dawnstar\Console\Kernel;
 use Dawnstar\Providers\ConfigServiceProvider;
 use Dawnstar\Providers\RouteServiceProvider;
 use Dawnstar\Providers\SeedServiceProvider;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class DawnstarServiceProvider extends ServiceProvider
@@ -63,6 +64,10 @@ class DawnstarServiceProvider extends ServiceProvider
         $router = $this->app->make(Router::class);
         $router->aliasMiddleware('dawnstar.auth', DawnstarAuthenticate::class);
         $router->aliasMiddleware('dawnstar.guest', DawnstarRedirectIfAuthenticated::class);
+
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('Super Admin') ? true : null;
+        });
 
 
         Container::observe(ContainerObserver::class);

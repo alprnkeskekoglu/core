@@ -40,7 +40,7 @@ Route::middleware(['dawnstar.auth'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('websites', WebsiteController::class)->parameters(['websites' => 'id'])->except(['show']);
-    Route::resource('admins', AdminController::class)->parameters(['admins' => 'id'])->except(['show']);
+    Route::resource('admins', AdminController::class)->except(['show']);
 
     # Profile
     Route::prefix('profiles')->as('profiles.')->group(function () {
@@ -80,8 +80,8 @@ Route::middleware(['dawnstar.auth'])->group(function () {
     # Custom Contents
     Route::prefix('custom-contents')->as('custom_contents.')->group(function () {
         Route::get('/', [CustomContentController::class, 'index'])->name('index');
-        Route::get('/update', [CustomContentController::class, 'update'])->name('update');
-        Route::post('/delete', [CustomContentController::class, 'delete'])->name('delete');
+        Route::put('/update', [CustomContentController::class, 'update'])->name('update');
+        Route::delete('/destory', [CustomContentController::class, 'delete'])->name('delete');
         Route::get('/search', [CustomContentController::class, 'search'])->name('search');
     });
 

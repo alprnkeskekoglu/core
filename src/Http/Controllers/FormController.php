@@ -4,10 +4,24 @@ namespace Dawnstar\Http\Controllers;
 
 use Dawnstar\Http\Requests\FormRequest;
 use Dawnstar\Models\Form;
-use Illuminate\Routing\Controller as BaseController;
 
 class FormController extends BaseController
 {
+    public function callAction($method, $parameters)
+    {
+        $websiteId = session('dawnstar.website.id');
+        $temp = ['store' => 'create', 'update' => 'edit'];
+
+        $permissionType = $temp[$method] ?? $method;
+        $key = "website.{$websiteId}.form.{$permissionType}";
+
+        if(auth()->user()->can($key)) {
+            return parent::callAction($method, $parameters);
+        }
+
+        return view('DawnstarView::pages.permission.error');
+    }
+
     public function index()
     {
         $forms = Form::where('website_id', session('dawnstar.website.id'))->get();

@@ -10,7 +10,13 @@ return [
         'index' => 'Görüntüleme',
         'create' => 'Oluşturma',
         'edit' => 'Güncelleme',
-        'delete' => 'Silme',
+        'destroy' => 'Silme',
         'results' => 'Form Sonuçlar',
+    ],
+
+    'error' => [
+        'title' => 'Bu sayfaya erişim yetkiniz bulunmamaktadır!',
+        'desc' => 'Lütfen site yöneticisi ile iletişime geçiniz.',
+        'back_dashboard' => 'Anasayfa\'ya Dön',
     ]
 ];

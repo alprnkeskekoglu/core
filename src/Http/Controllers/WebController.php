@@ -10,7 +10,6 @@ use Dawnstar\Models\PageDetail;
 use Dawnstar\Models\Url;
 use Dawnstar\Models\Website;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 
 class WebController extends BaseController
 {

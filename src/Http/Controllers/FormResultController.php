@@ -7,10 +7,21 @@ use Dawnstar\Http\Requests\WebFormRequest;
 use Dawnstar\Models\Form;
 use Dawnstar\Models\FormResult;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 
 class FormResultController extends BaseController
 {
+    public function callAction($method, $parameters)
+    {
+        $websiteId = session('dawnstar.website.id');
+        $key = "website.{$websiteId}.form.results";
+
+        if(auth()->user()->can($key)) {
+            return parent::callAction($method, $parameters);
+        }
+
+        return view('DawnstarView::pages.permission.error');
+    }
+
     public function index(int $formId)
     {
         $form = Form::findOrFail($formId);

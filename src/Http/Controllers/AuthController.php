@@ -7,7 +7,6 @@ use Dawnstar\Models\Language;
 use Dawnstar\Models\Website;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Routing\Controller as BaseController;
 
 class AuthController extends BaseController
 {
@@ -35,7 +34,7 @@ class AuthController extends BaseController
             'email' => 'The provided credentials do not match our records.', //TODO: trans
         ]);
     }
-    
+
     public function logout(Request $request)
     {
         Auth::guard('admin')->logout();

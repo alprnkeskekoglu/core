@@ -5,13 +5,26 @@ namespace Dawnstar\Http\Controllers;
 use Dawnstar\Contracts\Services\ModelStoreService;
 use Dawnstar\Http\Requests\AdminRequest;
 use Dawnstar\Models\Admin;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class AdminController extends BaseController
 {
+    public function callAction($method, $parameters)
+    {
+        $temp = ['store' => 'create', 'update' => 'edit'];
+
+        $permissionType = $temp[$method] ?? $method;
+        $key = "admin.{$permissionType}";
+
+        if(auth()->user()->can($key)) {
+            return parent::callAction($method, $parameters);
+        }
+
+        return view('DawnstarView::pages.permission.error');
+    }
+
     public function index()
     {
         $admins = Admin::all();
@@ -66,14 +79,8 @@ class AdminController extends BaseController
         return redirect()->route('dawnstar.admins.index')->with('success_message', __('DawnstarLang::admin.response_message.store'));
     }
 
-    public function edit(int $id)
+    public function edit(Admin $admin)
     {
-        $admin = Admin::find($id);
-
-        if (is_null($admin)) {
-            return redirect()->route('dawnstar.admins.index')->withErrors(__('DawnstarLang::admin.response_message.id_error', ['id' => $id]))->withInput();
-        }
-
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::admin.index_title'),
@@ -90,14 +97,8 @@ class AdminController extends BaseController
         return view('DawnstarView::pages.admin.edit', compact('admin', 'roles', 'breadcrumb'));
     }
 
-    public function update(AdminRequest $request, $id)
+    public function update(AdminRequest $request, Admin $admin)
     {
-        $admin = Admin::find($id);
-
-        if (is_null($admin)) {
-            return redirect()->route('dawnstar.admins.index')->withErrors(__('DawnstarLang::admin.response_message.id_error', ['id' => $id]))->withInput();
-        }
-
         $data = $request->except('_token', 'image', 'role_id');
 
         if(is_null($data['password'])) {
@@ -120,12 +121,10 @@ class AdminController extends BaseController
         return redirect()->route('dawnstar.admins.index')->with('success_message', __('DawnstarLang::admin.response_message.update'));
     }
 
-    public function destroy($id)
+    public function destroy(Admin $admin)
     {
-        $admin = Admin::find($id);
-
-        if (is_null($admin) || auth('admin')->id() == $id) {
-            return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
+        if (auth('admin')->id() == $admin->id) {
+            return back()->withErrors(__('DawnstarLang::general.swal.error.title'));
         }
 
         $admin->delete();
@@ -133,6 +132,6 @@ class AdminController extends BaseController
         // Admin Action
         addAction($admin, 'delete');
 
-        return response()->json(['title' => __('DawnstarLang::general.swal.success.title'), 'subtitle' => __('DawnstarLang::general.swal.success.subtitle')]);
+        return redirect()->route('dawnstar.admins.index')->with('success_message', __('DawnstarLang::admin.response_message.delete'));
     }
 }

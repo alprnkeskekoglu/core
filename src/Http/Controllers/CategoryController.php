@@ -7,7 +7,6 @@ use Dawnstar\Foundation\FormBuilder;
 use Dawnstar\Models\Category;
 use Dawnstar\Models\Container;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 
 class CategoryController extends BaseController
 {

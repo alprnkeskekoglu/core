@@ -3,7 +3,6 @@
 namespace Dawnstar\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Artisan;
 
 class ToolController extends BaseController
