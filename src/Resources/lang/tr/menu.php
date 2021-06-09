@@ -13,8 +13,8 @@ return [
     ],
 
     'response_message' => [
-        'store' => 'Menü başarıyla oluşturulmuştur.',
-        'update' => 'Menü başarıyla güncellenmiştir.',
-        'id_error' => "Verilen id'ye (:id) ait menü bulunamadı!"
+        'store' => 'Menü başarıyla oluşturuldu.',
+        'update' => 'Menü başarıyla güncellendi.',
+        'destroy' => 'Menü başarıyla silindi.'
     ],
 ];

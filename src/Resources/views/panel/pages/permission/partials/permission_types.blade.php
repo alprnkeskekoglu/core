@@ -1,6 +1,6 @@
 @php
-    $types = $types ?? ['index', 'create', 'edit', 'delete'];
-    $icons = $icons ?? ['index' => 'bars', 'create' => 'plus', 'edit' => 'edit', 'delete' => 'trash-alt']
+    $types = $types ?? ['index', 'create', 'edit', 'destroy'];
+    $icons = $icons ?? ['index' => 'bars', 'create' => 'plus', 'edit' => 'edit', 'destroy' => 'trash-alt']
 @endphp
 @foreach($types as $type)
     <div class="form-group row">

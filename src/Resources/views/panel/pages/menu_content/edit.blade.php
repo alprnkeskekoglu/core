@@ -1,6 +1,6 @@
 @extends('DawnstarView::layouts.app')
 
-@php($image = $selectedMenuContent->mf_image ? getMediaArray($selectedMenuContent->mf_image) : null)
+@php($image = $menuContent->mf_image ? getMediaArray($menuContent->mf_image) : null)
 @section('content')
     <main id="main-container">
 
@@ -13,13 +13,13 @@
 
         <div class="content">
             @include('DawnstarView::layouts.alerts')
-            <form action="{{ route('dawnstar.menus.contents.update', ['menuId' => $menu->id, 'id' => $selectedMenuContent->id]) }}" method="POST">
-                <input type="hidden" name="_method" value="PUT">
+            <form action="{{ route('dawnstar.menus.contents.update', [$menu, $menuContent]) }}" method="POST">
+                @method('PUT')
                 @csrf
                 <div class="block block-rounded">
                     <div class="block-header block-header-default block-header-rtl">
                         <div class="block-options">
-                            <a href="{{ route('dawnstar.menus.contents.create', ['menuId' => $menu->id]) }}" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ route('dawnstar.menus.contents.create', $menu) }}" class="btn btn-sm btn-outline-secondary">
                                 <i class="fa fa-arrow-left"></i>
                                 {{ __('DawnstarLang::general.go_back') }}
                             </a>
@@ -34,10 +34,10 @@
                             <div class="col-md-4">
                                 <div class="row mb-5">
                                     <div class="col-md-6">
-                                        <button type="button" class="btn btn-alt-warning orderSaveBtn" data-language="{{ $selectedMenuContent->language_id }}">{{ __('DawnstarLang::menu_content.order_save') }}</button>
+                                        <button type="button" class="btn btn-alt-warning orderSaveBtn" data-language="{{ $menuContent->language_id }}">{{ __('DawnstarLang::menu_content.order_save') }}</button>
                                     </div>
                                 </div>
-                                <div class="menu-list dd" data-language="{{ $selectedMenuContent->language_id }}">
+                                <div class="menu-list dd" data-language="{{ $menuContent->language_id }}">
                                     @include('DawnstarView::pages.menu_content.list')
                                 </div>
                             </div>
@@ -73,7 +73,7 @@
                                                        id="status_active"
                                                        name="status"
                                                        value="1"
-                                                    {{ old('status', $selectedMenuContent->status) == 1 ? 'checked' : '' }}>
+                                                    {{ old('status', $menuContent->status) == 1 ? 'checked' : '' }}>
                                                 <label class="custom-control-label" for="status_active">{{ __('DawnstarLang::general.status_title.active') }}</label>
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline custom-control-danger custom-control-lg">
@@ -81,7 +81,7 @@
                                                        id="status_passive"
                                                        name="status"
                                                        value="3"
-                                                    {{ old('status', $selectedMenuContent->status) == 3 ? 'checked' : '' }}>
+                                                    {{ old('status', $menuContent->status) == 3 ? 'checked' : '' }}>
                                                 <label class="custom-control-label" for="status_passive">{{ __('DawnstarLang::general.status_title.passive') }}</label>
                                             </div>
                                         </div>
@@ -90,7 +90,7 @@
                                         <label class="col-sm-3 col-form-label" for="name">{{ __('DawnstarLang::menu_content.labels.name') }}</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="name" name="name"
-                                                   value="{{ old('name', $selectedMenuContent->name) }}">
+                                                   value="{{ old('name', $menuContent->name) }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -98,45 +98,45 @@
                                         <div class="col-sm-9">
                                             <select class="form-control" id="type" name="type">
                                                 <option value="">{{ __('DawnstarLang::general.select') }}</option>
-                                                <option value="1" {{ old('type', $selectedMenuContent->type) == 1 ? 'selected' : '' }}>
+                                                <option value="1" {{ old('type', $menuContent->type) == 1 ? 'selected' : '' }}>
                                                     {{ __('DawnstarLang::menu_content.type.internal_link') }}
                                                 </option>
-                                                <option value="2" {{ old('type', $selectedMenuContent->type) == 2 ? 'selected' : '' }}>
+                                                <option value="2" {{ old('type', $menuContent->type) == 2 ? 'selected' : '' }}>
                                                     {{ __('DawnstarLang::menu_content.type.out_link') }}
                                                 </option>
-                                                <option value="3" {{ old('type', $selectedMenuContent->type) == 3 ? 'selected' : '' }}>
+                                                <option value="3" {{ old('type', $menuContent->type) == 3 ? 'selected' : '' }}>
                                                     {{ __('DawnstarLang::menu_content.type.blank_link') }}
                                                 </option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group row {{ old('type', $selectedMenuContent->type) == 1 ? '' : 'd-none' }}">
+                                    <div class="form-group row {{ old('type', $menuContent->type) == 1 ? '' : 'd-none' }}">
                                         <label class="col-sm-3 col-form-label" for="url_id">{{ __('DawnstarLang::menu_content.labels.url_id') }}</label>
                                         <div class="col-sm-9">
                                             <select class="form-control" id="url_id" name="url_id">
                                                 <option value="">{{ __('DawnstarLang::general.select') }}</option>
-                                                @if($selectedMenuContent->url_id)
-                                                    <option value="{{ $selectedMenuContent->url_id }}" selected>{{ $selectedMenuContent->url->model->name }}</option>
+                                                @if($menuContent->url_id)
+                                                    <option value="{{ $menuContent->url_id }}" selected>{{ $menuContent->url->model->name }}</option>
                                                 @endif
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group row {{ old('type', $selectedMenuContent->type) == 2 ? '' : 'd-none' }}">
+                                    <div class="form-group row {{ old('type', $menuContent->type) == 2 ? '' : 'd-none' }}">
                                         <label class="col-sm-3 col-form-label" for="out_link">{{ __('DawnstarLang::menu_content.labels.out_link') }}</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="out_link" name="out_link"
-                                                   value="{{ old('out_link', $selectedMenuContent->out_link) }}">
+                                                   value="{{ old('out_link', $menuContent->out_link) }}">
                                         </div>
                                     </div>
-                                    <div class="form-group row {{ old('type', $selectedMenuContent->type) == 3 ? 'd-none' : '' }}">
+                                    <div class="form-group row {{ old('type', $menuContent->type) == 3 ? 'd-none' : '' }}">
                                         <label class="col-sm-3 col-form-label" for="target">{{ __('DawnstarLang::menu_content.labels.target') }}</label>
                                         <div class="col-sm-9">
                                             <select class="form-control" id="target" name="target">
                                                 <option value="">{{ __('DawnstarLang::general.select') }}</option>
-                                                <option value="_blank" {{ old('target', $selectedMenuContent->target) == '_blank' ? 'selected' : '' }}>
+                                                <option value="_blank" {{ old('target', $menuContent->target) == '_blank' ? 'selected' : '' }}>
                                                     {{ __('DawnstarLang::menu_content.target.blank') }}
                                                 </option>
-                                                <option value="_self" {{ old('target', $selectedMenuContent->target) == '_self' ? 'selected' : '' }}>
+                                                <option value="_self" {{ old('target', $menuContent->target) == '_self' ? 'selected' : '' }}>
                                                     {{ __('DawnstarLang::menu_content.target.self') }}
                                                 </option>
                                             </select>
@@ -169,10 +169,12 @@
             var languageId = $(this).attr('data-language');
 
             $.ajax({
-                url: '{{ route('dawnstar.menus.contents.saveOrder', ['menuId' => $menu->id]) }}',
+                url: '{{ route('dawnstar.menus.saveOrder', $menu) }}',
+                method: 'post',
                 data: {
                     'language_id': languageId,
-                    'data': $('.menu-list[data-language="' + languageId + '"]').nestable('serialize')
+                    'data': $('.menu-list[data-language="' + languageId + '"]').nestable('serialize'),
+                    '_token': '{{ csrf_token() }}'
                 },
                 success: function (response) {
                     swal.fire('{{ __('DawnstarLang::menu_content.swal.success.title') }}', '{{ __('DawnstarLang::menu_content.swal.success.subtitle') }}', 'success');
@@ -183,7 +185,7 @@
             })
         });
 
-        var languageId = '{{ $selectedMenuContent->language_id }}';
+        var languageId = '{{ $menuContent->language_id }}';
         getUrls(languageId);
 
         $('[id^="type"]').on('change', function () {

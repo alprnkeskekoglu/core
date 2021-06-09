@@ -87,7 +87,7 @@
 
             if(readStatus) {
                 $.ajax({
-                    'url': '{{ route('dawnstar.forms.results.updateReadStatus', ['formId' => $form->id]) }}',
+                    'url': '{{ route('dawnstar.forms.results.updateReadStatus', $form) }}',
                     'method': 'GET',
                     'data': {id: id},
                     success: function () {

@@ -12,13 +12,14 @@ use Dawnstar\Models\Language;
 use Dawnstar\Models\Meta;
 use Dawnstar\Models\Url;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Cache;
 
 class ContainerStructureController extends BaseController
 {
     public function index()
     {
+        canUser("container_structure.index");
+
         $containers = Container::where('website_id', session('dawnstar.website.id'))->get();
 
         $breadcrumb = [
@@ -33,6 +34,10 @@ class ContainerStructureController extends BaseController
 
     public function create()
     {
+        if(env('APP_ENV') != 'local') {
+            return redirect()->route('dawnstar.dashboard');
+        }
+
         $website = session('dawnstar.website');
         $languages = $website->languages;
 
@@ -52,6 +57,10 @@ class ContainerStructureController extends BaseController
 
     public function store(ContainerRequest $request)
     {
+        if(env('APP_ENV') != 'local') {
+            return redirect()->route('dawnstar.dashboard');
+        }
+
         $data = $request->except('_token', 'feature');
 
         $data['admin_id'] = $data['admin_id'] ?? auth('admin')->id();
@@ -94,6 +103,8 @@ class ContainerStructureController extends BaseController
 
     public function edit(int $id)
     {
+        canUser("container_structure.edit");
+
         $container = Container::findOrFail($id);
 
         $website = session('dawnstar.website');
@@ -115,6 +126,8 @@ class ContainerStructureController extends BaseController
 
     public function update(ContainerRequest $request, $id)
     {
+        canUser("container_structure.edit");
+
         $container = Container::findOrFail($id);
 
         $request->validated();
@@ -154,6 +167,8 @@ class ContainerStructureController extends BaseController
 
     public function destroy($id)
     {
+        canUser("container_structure.destroy");
+
         $container = Container::find($id);
 
         if (is_null($container)) {

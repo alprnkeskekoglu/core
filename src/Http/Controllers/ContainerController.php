@@ -11,13 +11,14 @@ use Dawnstar\Models\Language;
 use Dawnstar\Models\Meta;
 use Dawnstar\Models\Url;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Cache;
 
 class ContainerController extends BaseController
 {
     public function edit(int $id)
     {
+        canUser("container.{$id}.edit");
+
         $container = Container::findOrFail($id);
 
         $languages = $container->languages();
@@ -42,6 +43,8 @@ class ContainerController extends BaseController
 
     public function update(Request $request, int $id)
     {
+        canUser("container.{$id}.edit");
+
         $container = Container::findOrFail($id);
 
         $storeService = new ModelStoreService();

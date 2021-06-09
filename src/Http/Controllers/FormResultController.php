@@ -7,13 +7,13 @@ use Dawnstar\Http\Requests\WebFormRequest;
 use Dawnstar\Models\Form;
 use Dawnstar\Models\FormResult;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 
 class FormResultController extends BaseController
 {
-    public function index(int $formId)
+
+    public function index(Form $form)
     {
-        $form = Form::findOrFail($formId);
+        canUser("form.results");
 
         $results = $form->results()->paginate(20);
 
@@ -37,11 +37,13 @@ class FormResultController extends BaseController
         return $formKit->store($request);
     }
 
-    public function updateReadStatus(Request $request)
+    public function updateReadStatus(Request $request, Form $form)
     {
+        canUser("form.results");
+
         $formResult = FormResult::find($request->get('id'));
 
-        if($formResult) {
+        if ($formResult) {
             $formResult->update(['read' => 1]);
         }
     }

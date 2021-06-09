@@ -56,7 +56,7 @@
                                         <div class="form-group">
                                             <label class="d-block">{{ __('DawnstarLang::admin.labels.status') }}</label>
                                             <div class="custom-control custom-radio custom-control-inline custom-control-success custom-control-lg">
-                                                <input type="radio" class="custom-control-input" id="status_active" name="status" value="1" {{ old('status') == 1 ? 'checked' : '' }}>
+                                                <input type="radio" class="custom-control-input" id="status_active" name="status" value="1" {{ old('status', 1) == 1 ? 'checked' : '' }}>
                                                 <label class="custom-control-label" for="status_active">{{ __('DawnstarLang::general.status_title.active') }}</label>
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline custom-control-danger custom-control-lg">

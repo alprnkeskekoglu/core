@@ -61,8 +61,8 @@
 
             $.ajax({
                 'url': '{{ route('dawnstar.custom_contents.update') }}',
-                'data': {'key': key, 'language_id': languageId, 'value': value},
-                'method': 'GET',
+                'data': {'key': key, 'language_id': languageId, 'value': value, '_token': '{{ csrf_token() }}'},
+                'method': 'PUT',
                 success: function (response) {
                     typedInput.addClass('border-success');
                     setTimeout(function () {
@@ -120,7 +120,7 @@
                     $.ajax({
                         'url': '{{ route('dawnstar.custom_contents.delete') }}',
                         'data': {key, '_token':'{{ csrf_token() }}'},
-                        'method': 'POST',
+                        'method': 'DELETE',
                         success: function (response) {
                             swal.fire('{{ __('DawnstarLang::general.swal.success.title') }}', '{{ __('DawnstarLang::general.swal.success.subtitle') }}', 'success');
                             self.closest('.block').remove();

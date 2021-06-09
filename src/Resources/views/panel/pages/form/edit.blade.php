@@ -12,8 +12,8 @@
 
         <div class="content">
             @include('DawnstarView::layouts.alerts')
-            <form action="{{ route('dawnstar.forms.update', ['id' => $form->id]) }}" method="POST">
-                <input type="hidden" name="_method" value="PUT">
+            <form action="{{ route('dawnstar.forms.update', $form) }}" method="POST">
+                @method('PUT')
                 @csrf
                 <div class="block block-rounded">
                     <div class="block-header block-header-default block-header-rtl">

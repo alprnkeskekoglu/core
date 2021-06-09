@@ -34,7 +34,7 @@
 
                 <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="page-header-user-dropdown">
                     <div class="p-2">
-                        <a class="dropdown-item" href="{{ route('dawnstar.profiles.index') }}">
+                        <a class="dropdown-item" href="{{ route('dawnstar.profiles.edit') }}">
                             <i class="far fa-fw fa-user mr-1"></i> {{ __('DawnstarLang::profile.index_title') }}
                         </a>
                         <div role="separator" class="dropdown-divider"></div>

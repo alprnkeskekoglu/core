@@ -3,7 +3,6 @@
 namespace Dawnstar\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends BaseController
@@ -52,6 +51,10 @@ class RoleController extends BaseController
 
     public function edit(Role $role)
     {
+        if ($role->id == 1) {
+            return redirect()->route('dawnstar.roles.index');
+        }
+
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::role.index_title'),

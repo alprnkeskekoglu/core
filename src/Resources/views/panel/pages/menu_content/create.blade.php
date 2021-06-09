@@ -11,7 +11,7 @@
         </div>
         <div class="content">
             @include('DawnstarView::layouts.alerts')
-            <form action="{{ route('dawnstar.menus.contents.store', ['menuId' => $menu->id]) }}" method="POST">
+            <form action="{{ route('dawnstar.menus.contents.store', $menu) }}" method="POST">
                 @csrf
                 <div class="block block-rounded">
                     <div class="block-header block-header-default block-header-rtl">
@@ -164,10 +164,12 @@
             var languageId = $(this).attr('data-language');
 
             $.ajax({
-                url: '{{ route('dawnstar.menus.contents.saveOrder', ['menuId' => $menu->id]) }}',
+                url: '{{ route('dawnstar.menus.saveOrder', $menu) }}',
+                method: 'post',
                 data: {
                     'language_id': languageId,
-                    'data': $('.menu-list[data-language="' + languageId + '"]').nestable('serialize')
+                    'data': $('.menu-list[data-language="' + languageId + '"]').nestable('serialize'),
+                    '_token': '{{ csrf_token() }}'
                 },
                 success: function (response) {
                     swal.fire('{{ __('DawnstarLang::menu_content.swal.success.title') }}', '{{ __('DawnstarLang::menu_content.swal.success.subtitle') }}', 'success');

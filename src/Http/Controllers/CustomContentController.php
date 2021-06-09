@@ -4,12 +4,13 @@ namespace Dawnstar\Http\Controllers;
 
 use Dawnstar\Models\CustomContent;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 
 class CustomContentController extends BaseController
 {
     public function index()
     {
+        canUser("custom_content.index");
+
         $customContents = $this->getCustomContents();
 
         $breadcrumb = [
@@ -24,6 +25,8 @@ class CustomContentController extends BaseController
 
     public function search(Request $request)
     {
+        canUser("custom_content.index");
+
         $search = $request->get('search');
 
         $customContents = $this->getCustomContents($search);
@@ -33,6 +36,8 @@ class CustomContentController extends BaseController
 
     public function update(Request $request)
     {
+        canUser("custom_content.edit");
+
         $languageId = $request->get('language_id');
         $key = $request->get('key');
         $value = $request->get('value');
@@ -49,8 +54,10 @@ class CustomContentController extends BaseController
         addAction($customContent, 'update');
     }
 
-    public function delete(Request $request)
+    public function destroy(Request $request)
     {
+        canUser("custom_content.destroy");
+
         $key = $request->get('key');
         CustomContent::where('key', $key)->delete();
     }

@@ -44,16 +44,22 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <a href="{{ route('dawnstar.roles.edit', $role) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">
-                                            <i class="fa fa-pencil-alt"></i>
-                                        </a>
-                                        <a href="{{ route('dawnstar.roles.permissions.index', $role) }}" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::role.permission') }}">
-                                            <i class="fa fa-pencil-alt"></i>
-                                        </a>
+                                        @if($role->id != 1)
+                                            <a href="{{ route('dawnstar.roles.edit', $role) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom"
+                                               title="{{ __('DawnstarLang::general.edit') }}">
+                                                <i class="fa fa-pencil-alt"></i>
+                                            </a>
 
-                                        <button type="button" class="btn btn-sm {{ $role->id != 1 ? 'btn-danger deleteBtn' :'btn-secondary' }}" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('dawnstar.roles.destroy', $role) }}" title="{{ __('DawnstarLang::general.delete') }}">
-                                            <i class="fa fa-times"></i>
-                                        </button>
+                                            <a href="{{ route('dawnstar.roles.permissions.index', $role) }}" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom"
+                                               title="{{ __('DawnstarLang::permission.index_title') }}">
+                                                <i class="fa fa-pencil-alt"></i>
+                                            </a>
+
+                                            <button type="button" class="btn btn-sm btn-danger deleteBtn" data-toggle="tooltip" data-placement="bottom"
+                                                    data-url="{{ route('dawnstar.roles.destroy', $role) }}" title="{{ __('DawnstarLang::general.delete') }}">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

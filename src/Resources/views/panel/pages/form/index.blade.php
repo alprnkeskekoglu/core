@@ -61,16 +61,20 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <a href="{{ route('dawnstar.forms.edit', ['id' => $form->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">
+                                        <a href="{{ route('dawnstar.forms.edit', $form) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.edit') }}">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
 
-                                        <button type="button" class="js-swal-confirm btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" data-url="{{ route('dawnstar.forms.destroy', ['id' => $form->id]) }}" title="{{ __('DawnstarLang::general.delete') }}">
-                                            <i class="fa fa-times"></i>
-                                        </button>
+                                        <form action="{{ route('dawnstar.forms.destroy', $form) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-sm btn-danger deleteBtn" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::general.delete') }}">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </form>
 
                                         @if($form->results->isNotEmpty())
-                                            <a href="{{ route('dawnstar.forms.results.index', ['formId' => $form->id]) }}" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::form.result_title') }}">
+                                            <a href="{{ route('dawnstar.forms.results.index', $form) }}" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="bottom" title="{{ __('DawnstarLang::form.result_title') }}">
                                                 <i class="fa fa-comments"></i>
                                             </a>
                                         @endif
@@ -93,8 +97,8 @@
 @push('scripts')
     <script src="{{ dawnstarAsset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script>
-        jQuery('.js-swal-confirm').on('click', e => {
-            var url = e.currentTarget.getAttribute('data-url');
+        $('.deleteBtn').on('click', function() {
+            var self = $(this);
             swal.fire({
                 title: '{{ __('DawnstarLang::general.swal.title') }}',
                 text: '{{ __('DawnstarLang::general.swal.subtitle') }}',
@@ -116,22 +120,9 @@
                 }
             }).then(result => {
                 if (result.value) {
-                    $.ajax({
-                        'url': url,
-                        'method': 'DELETE',
-                        'data': {'_token': '{{ csrf_token() }}'},
-                        success: function (response) {
-                            swal.fire('{{ __('DawnstarLang::general.swal.success.title') }}', '{{ __('DawnstarLang::general.swal.success.subtitle') }}', 'success');
-                            setTimeout(function () {
-                                location.reload();
-                            }, 1000);
-                        },
-                        error: function (response) {
-                            swal.fire('{{ __('DawnstarLang::general.swal.error.title') }}', '{{ __('DawnstarLang::general.swal.error.subtitle') }}', 'error');
-                        }
-                    })
+                    self.closest('form').submit();
                 }
             });
-        });
+        })
     </script>
 @endpush

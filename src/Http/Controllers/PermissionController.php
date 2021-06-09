@@ -5,7 +5,6 @@ namespace Dawnstar\Http\Controllers;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\Website;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 

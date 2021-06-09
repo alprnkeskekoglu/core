@@ -5,7 +5,6 @@ namespace Dawnstar\Http\Controllers;
 use Dawnstar\Models\Country;
 use Dawnstar\Models\FormBuilder;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 
 class FormBuilderController extends BaseController
 {

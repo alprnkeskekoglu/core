@@ -5,7 +5,6 @@ namespace Dawnstar\Http\Controllers;
 use Dawnstar\Http\Requests\WebsiteRequest;
 use Dawnstar\Models\Language;
 use Dawnstar\Models\Website;
-use Illuminate\Routing\Controller as BaseController;
 
 class WebsiteController extends BaseController
 {
@@ -66,10 +65,8 @@ class WebsiteController extends BaseController
         return redirect()->route('dawnstar.websites.index')->with('success_message', __('DawnstarLang::website.response_message.store'));
     }
 
-    public function edit(int $id)
+    public function edit(Website $website)
     {
-        $website = Website::findOrFail($id);
-
         $languages = Language::all();
 
         $breadcrumb = [
@@ -86,10 +83,8 @@ class WebsiteController extends BaseController
         return view('DawnstarView::pages.website.edit', compact('website', 'languages', 'breadcrumb'));
     }
 
-    public function update(WebsiteRequest $request, $id)
+    public function update(WebsiteRequest $request, Website $website)
     {
-        $website = Website::findOrFail($id);
-
         $data = $request->except('_token');
 
         $request->validated();
@@ -114,20 +109,14 @@ class WebsiteController extends BaseController
         return redirect()->route('dawnstar.websites.index')->with('success_message', __('DawnstarLang::website.response_message.update'));
     }
 
-    public function destroy($id)
+    public function destroy(Website $website)
     {
-        $website = Website::find($id);
-
-        if (is_null($website)) {
-            return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
-        }
-
         $website->delete();
-        // TODO delete everything
+        //TODO: delete everything
 
         // Admin Action
         addAction($website, 'delete');
 
-        return response()->json(['title' => __('DawnstarLang::general.swal.success.title'), 'subtitle' => __('DawnstarLang::general.swal.success.subtitle')]);
+        return redirect()->route('dawnstar.websites.index')->with('success_message', __('DawnstarLang::website.response_message.destroy'));
     }
 }
