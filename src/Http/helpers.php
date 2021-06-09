@@ -1,39 +1,43 @@
 <?php
 
-function dawnstar() {
+function dawnstar()
+{
     return app('Dawnstar');
 }
 
-function menu(string $key) {
+function menu(string $key)
+{
     $dawnstar = dawnstar();
 
     $websiteId = $dawnstar->website->id;
     $languageId = $dawnstar->language->id;
 
-    return \Illuminate\Support\Facades\Cache::rememberForever('menu' . $key . $websiteId . $languageId, function () use($key) {
+    return \Illuminate\Support\Facades\Cache::rememberForever('menu' . $key . $websiteId . $languageId, function () use ($key) {
         return (new \Dawnstar\Foundation\Menu($key))->init();
     });
 }
 
-function form(string $key) {
+function form(string $key)
+{
     $form = Dawnstar\Models\Form::where('key', $key)->where('website_id', dawnstar()->website->id)->where('status', 1)->first();
 
     return new \Dawnstar\Foundation\FormKit($form);
 }
 
-function custom(string $key, string $value = null, int $languageId = null) {
+function custom(string $key, string $value = null, int $languageId = null)
+{
 
     $dawnstar = dawnstar();
 
     $websiteId = $dawnstar->website->id;
-    if(is_null($languageId)) {
+    if (is_null($languageId)) {
         $languageId = optional($dawnstar->language)->id ?: 40;
     }
 
-    return \Illuminate\Support\Facades\Cache::rememberForever('customContent' . $websiteId . $languageId . $key, function () use($dawnstar, $languageId, $websiteId, $key, $value) {
+    return \Illuminate\Support\Facades\Cache::rememberForever('customContent' . $websiteId . $languageId . $key, function () use ($dawnstar, $languageId, $websiteId, $key, $value) {
 
         foreach ($dawnstar->website->languages as $language) {
-            if($languageId == $language->id) {
+            if ($languageId == $language->id) {
                 continue;
             }
 
@@ -117,13 +121,14 @@ function getStatusColorClass($status)
     }
 }
 
-function formBuilderLabel($input, $languageCode) {
+function formBuilderLabel($input, $languageCode)
+{
     return $input['label']['text'][$languageCode] ?? (isset($input['label']['text']) ? array_shift($input['label']['text']) : '');
 }
 
 function dawnstarMenu()
 {
-    return \Illuminate\Support\Facades\Cache::rememberForever('dawnstarMenu' . session('dawnstar.website.id') . session('dawnstar.language.id'), function() {
+    return \Illuminate\Support\Facades\Cache::rememberForever('dawnstarMenu' . session('dawnstar.website.id') . session('dawnstar.language.id'), function () {
 
         $menu = [];
 
@@ -142,4 +147,16 @@ function dawnstarMenu()
         }
         return $menu;
     });
+}
+
+function canUser(string $key, bool $hasWebsite = true)
+{
+    if ($hasWebsite) {
+        $websiteId = session('dawnstar.website.id');
+        $key = 'website.' . $websiteId . '.' . $key;
+    }
+
+    if (!auth()->user()->can($key)) {
+        throw new \Dawnstar\Exception\PermissionException();
+    }
 }

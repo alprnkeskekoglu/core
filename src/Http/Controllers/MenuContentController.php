@@ -12,23 +12,11 @@ use Illuminate\Support\Facades\Cache;
 
 class MenuContentController extends BaseController
 {
-    public function callAction($method, $parameters)
-    {
-        $websiteId = session('dawnstar.website.id');
-        $temp = ['store' => 'create', 'update' => 'edit', 'saveOrder' => 'edit', 'getURls' => 'edit'];
-
-        $permissionType = $temp[$method] ?? $method;
-        $key = "website.{$websiteId}.menu.{$permissionType}";
-
-        if(auth()->user()->can($key)) {
-            return parent::callAction($method, $parameters);
-        }
-
-        return view('DawnstarView::pages.permission.error');
-    }
 
     public function create(Menu $menu)
     {
+        canUser("menu.create");
+
         $website = session('dawnstar.website');
         $languages = $website->languages;
 
@@ -60,6 +48,8 @@ class MenuContentController extends BaseController
 
     public function store(MenuContentRequest $request, Menu $menu)
     {
+        canUser("menu.create");
+
         $data = $request->except('_token');
 
         foreach ($data['contents'] as $languageId => $values) {
@@ -94,6 +84,8 @@ class MenuContentController extends BaseController
 
     public function edit(Menu $menu, MenuContent $menuContent)
     {
+        canUser("menu.edit");
+
         $menuContents = $menu->contents()
             ->where('language_id', $menuContent->language_id)
             ->where('parent_id', 0)
@@ -123,6 +115,8 @@ class MenuContentController extends BaseController
 
     public function update(MenuContentRequest $request, Menu $menu, MenuContent $menuContent)
     {
+        canUser("menu.edit");
+
         $data = $request->except('_token');
 
         $image = $data['image'] ?? null;
@@ -143,6 +137,8 @@ class MenuContentController extends BaseController
 
     public function destroy(Menu $menu, MenuContent $menuContent)
     {
+        canUser("menu.destroy");
+
         if($menuContent->children->isNotEmpty()) {
             $menuContent->children()->update(['parent_id' => $menuContent->parent_id]);
         }

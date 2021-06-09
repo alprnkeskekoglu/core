@@ -7,23 +7,11 @@ use Dawnstar\Models\Form;
 
 class FormController extends BaseController
 {
-    public function callAction($method, $parameters)
-    {
-        $websiteId = session('dawnstar.website.id');
-        $temp = ['store' => 'create', 'update' => 'edit'];
-
-        $permissionType = $temp[$method] ?? $method;
-        $key = "website.{$websiteId}.form.{$permissionType}";
-
-        if(auth()->user()->can($key)) {
-            return parent::callAction($method, $parameters);
-        }
-
-        return view('DawnstarView::pages.permission.error');
-    }
 
     public function index()
     {
+        canUser("form.index");
+
         $forms = Form::where('website_id', session('dawnstar.website.id'))->get();
         $breadcrumb = [
             [
@@ -37,6 +25,8 @@ class FormController extends BaseController
 
     public function create()
     {
+        canUser("form.create");
+
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::form.index_title'),
@@ -53,6 +43,8 @@ class FormController extends BaseController
 
     public function store(FormRequest $request)
     {
+        canUser("form.create");
+
         $data = $request->except('_token');
 
         $data['receivers'] = explode(',', $data['receivers']);
@@ -72,6 +64,8 @@ class FormController extends BaseController
 
     public function edit(Form $form)
     {
+        canUser("form.edit");
+
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::form.index_title'),
@@ -88,6 +82,8 @@ class FormController extends BaseController
 
     public function update(FormRequest $request, Form $form)
     {
+        canUser("form.edit");
+
         $data = $request->except('_token');
 
         $data['recaptcha_site_key'] = $data['recaptcha_status'] == 1 ? $data['recaptcha_site_key'] : null;
@@ -104,6 +100,8 @@ class FormController extends BaseController
 
     public function destroy(Form $form)
     {
+        canUser("form.destroy");
+
         $form->delete();
 
         // Admin Action

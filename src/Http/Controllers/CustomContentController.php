@@ -7,23 +7,10 @@ use Illuminate\Http\Request;
 
 class CustomContentController extends BaseController
 {
-    public function callAction($method, $parameters)
-    {
-        $websiteId = session('dawnstar.website.id');
-        $temp = ['search' => 'index', 'update' => 'edit'];
-
-        $permissionType = $temp[$method] ?? $method;
-        $key = "website.{$websiteId}.custom_content.{$permissionType}";
-
-        if(auth()->user()->can($key)) {
-            return parent::callAction($method, $parameters);
-        }
-
-        return view('DawnstarView::pages.permission.error');
-    }
-
     public function index()
     {
+        canUser("custom_content.index");
+
         $customContents = $this->getCustomContents();
 
         $breadcrumb = [
@@ -38,6 +25,8 @@ class CustomContentController extends BaseController
 
     public function search(Request $request)
     {
+        canUser("custom_content.index");
+
         $search = $request->get('search');
 
         $customContents = $this->getCustomContents($search);
@@ -47,6 +36,8 @@ class CustomContentController extends BaseController
 
     public function update(Request $request)
     {
+        canUser("custom_content.edit");
+
         $languageId = $request->get('language_id');
         $key = $request->get('key');
         $value = $request->get('value');
@@ -65,6 +56,8 @@ class CustomContentController extends BaseController
 
     public function destroy(Request $request)
     {
+        canUser("custom_content.destroy");
+
         $key = $request->get('key');
         CustomContent::where('key', $key)->delete();
     }

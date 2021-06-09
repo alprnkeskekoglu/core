@@ -11,25 +11,10 @@ use Illuminate\Http\Request;
 
 class PageController extends BaseController
 {
-    public function callAction($method, $parameters)
-    {
-        $websiteId = session('dawnstar.website.id');
-        $temp = ['store' => 'create', 'update' => 'edit', 'getPageList' => 'index'];
-
-        $permissionType = $temp[$method] ?? $method;
-        $containerId = $parameters['containerId'] ?? '';
-
-        $key = "website.{$websiteId}.container.{$containerId}.{$permissionType}";
-
-        if(auth()->user()->can($key)) {
-            return parent::callAction($method, $parameters);
-        }
-
-        return view('DawnstarView::pages.permission.error');
-    }
-
     public function index(int $containerId)
     {
+        canUser("container.{$containerId}.index");
+
         $container = Container::findOrFail($containerId);
 
         if($container->type == 'static') {
@@ -48,6 +33,8 @@ class PageController extends BaseController
 
     public function create(int $containerId)
     {
+        canUser("container.{$containerId}.create");
+
         $container = Container::findOrFail($containerId);
 
         if($container->type == 'static') {
@@ -74,6 +61,8 @@ class PageController extends BaseController
 
     public function store(Request $request, int $containerId)
     {
+        canUser("container.{$containerId}.create");
+
         $container = Container::findOrFail($containerId);
 
         if($container->type == 'static') {
@@ -113,6 +102,8 @@ class PageController extends BaseController
 
     public function edit(int $containerId, int $id)
     {
+        canUser("container.{$containerId}.edit");
+
         $container = Container::findOrFail($containerId);
         $page = Page::findOrFail($id);
 
@@ -136,6 +127,8 @@ class PageController extends BaseController
 
     public function update(Request $request, int $containerId, int $id)
     {
+        canUser("container.{$containerId}.update");
+
         $page = Page::findOrFail($id);
 
         $storeService = new ModelStoreService();
@@ -169,6 +162,8 @@ class PageController extends BaseController
 
     public function destroy(int $containerId, int $id)
     {
+        canUser("container.{$containerId}.destroy");
+
         $container = Container::find($containerId);
         if (is_null($container)) {
             return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);

@@ -17,6 +17,8 @@ class ContainerController extends BaseController
 {
     public function edit(int $id)
     {
+        canUser("container.{$id}.edit");
+
         $container = Container::findOrFail($id);
 
         $languages = $container->languages();
@@ -41,6 +43,8 @@ class ContainerController extends BaseController
 
     public function update(Request $request, int $id)
     {
+        canUser("container.{$id}.edit");
+
         $container = Container::findOrFail($id);
 
         $storeService = new ModelStoreService();

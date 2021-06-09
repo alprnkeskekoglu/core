@@ -10,23 +10,11 @@ use Illuminate\Support\Facades\Cache;
 
 class MenuController extends BaseController
 {
-    public function callAction($method, $parameters)
-    {
-        $websiteId = session('dawnstar.website.id');
-        $temp = ['store' => 'create', 'update' => 'edit'];
-
-        $permissionType = $temp[$method] ?? $method;
-        $key = "website.{$websiteId}.menu.{$permissionType}";
-
-        if(auth()->user()->can($key)) {
-            return parent::callAction($method, $parameters);
-        }
-
-        return view('DawnstarView::pages.permission.error');
-    }
 
     public function index()
     {
+        canUser("menu.index");
+
         $menus = Menu::where('website_id', session('dawnstar.website.id'))->get();
         $breadcrumb = [
             [
@@ -40,6 +28,8 @@ class MenuController extends BaseController
 
     public function create()
     {
+        canUser("menu.create");
+
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::menu.index_title'),
@@ -56,6 +46,8 @@ class MenuController extends BaseController
 
     public function store(MenuRequest $request)
     {
+        canUser("menu.create");
+
         $data = $request->except('_token');
 
         $request->validated();
@@ -76,6 +68,8 @@ class MenuController extends BaseController
 
     public function edit(Menu $menu)
     {
+        canUser("menu.edit");
+
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::menu.index_title'),
@@ -92,6 +86,8 @@ class MenuController extends BaseController
 
     public function update(MenuRequest $request, Menu $menu)
     {
+        canUser("menu.edit");
+
         $data = $request->except('_token');
 
         $menu->update($data);
@@ -104,6 +100,8 @@ class MenuController extends BaseController
 
     public function destroy(Menu $menu)
     {
+        canUser("menu.destroy");
+
         $menu->delete();
 
         // Admin Action
@@ -114,6 +112,8 @@ class MenuController extends BaseController
 
     public function saveOrder(Request $request, Menu $menu)
     {
+        canUser("menu.edit");
+
         $data = $request->get('data');
 
         $orderedData = $this->buildTree($data);

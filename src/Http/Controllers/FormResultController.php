@@ -10,20 +10,11 @@ use Illuminate\Http\Request;
 
 class FormResultController extends BaseController
 {
-    public function callAction($method, $parameters)
-    {
-        $websiteId = session('dawnstar.website.id');
-        $key = "website.{$websiteId}.form.results";
-
-        if(auth()->user()->can($key)) {
-            return parent::callAction($method, $parameters);
-        }
-
-        return view('DawnstarView::pages.permission.error');
-    }
 
     public function index(Form $form)
     {
+        canUser("form.results");
+
         $results = $form->results()->paginate(20);
 
         $breadcrumb = [
@@ -48,9 +39,11 @@ class FormResultController extends BaseController
 
     public function updateReadStatus(Request $request, Form $form)
     {
+        canUser("form.results");
+
         $formResult = FormResult::find($request->get('id'));
 
-        if($formResult) {
+        if ($formResult) {
             $formResult->update(['read' => 1]);
         }
     }

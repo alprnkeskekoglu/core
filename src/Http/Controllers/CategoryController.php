@@ -12,6 +12,8 @@ class CategoryController extends BaseController
 {
     public function index(int $containerId)
     {
+        canUser("container.{$containerId}.index");
+
         $container = Container::findOrFail($containerId);
 
         $languages = $container->languages();
@@ -43,6 +45,8 @@ class CategoryController extends BaseController
 
     public function create(int $containerId)
     {
+        canUser("container.{$containerId}.create");
+
         $container = Container::findOrFail($containerId);
 
         $languages = $container->languages();
@@ -64,6 +68,8 @@ class CategoryController extends BaseController
 
     public function store(Request $request, int $containerId)
     {
+        canUser("container.{$containerId}.create");
+
         Container::findOrFail($containerId);
 
         $storeService = new ModelStoreService();
@@ -93,6 +99,8 @@ class CategoryController extends BaseController
 
     public function edit(int $containerId, int $id)
     {
+        canUser("container.{$containerId}.edit");
+
         $container = Container::findOrFail($containerId);
         $category = Category::findOrFail($id);
 
@@ -115,6 +123,8 @@ class CategoryController extends BaseController
 
     public function update(Request $request, int $containerId, int $id)
     {
+        canUser("container.{$containerId}.edit");
+
         $category = Category::findOrFail($id);
 
         $storeService = new ModelStoreService();
@@ -142,6 +152,8 @@ class CategoryController extends BaseController
 
     public function destroy(int $containerId, int $id)
     {
+        canUser("container.{$containerId}.destroy");
+
         $container = Container::find($containerId);
         if (is_null($container)) {
             return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
@@ -163,6 +175,8 @@ class CategoryController extends BaseController
 
     public function saveOrder(Request $request, int $containerId)
     {
+        canUser("container.{$containerId}.edit");
+
         Container::findOrFail($containerId);
 
         $data = $request->get('data');

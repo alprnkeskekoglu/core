@@ -16,23 +16,10 @@ use Illuminate\Support\Facades\Cache;
 
 class ContainerStructureController extends BaseController
 {
-    public function callAction($method, $parameters)
-    {
-        $websiteId = session('dawnstar.website.id');
-        $temp = ['update' => 'edit'];
-
-        $permissionType = $temp[$method] ?? $method;
-        $key = "website.{$websiteId}.container_structure.{$permissionType}";
-
-        if(auth()->user()->can($key)) {
-            return parent::callAction($method, $parameters);
-        }
-
-        return view('DawnstarView::pages.permission.error');
-    }
-
     public function index()
     {
+        canUser("container_structure.index");
+
         $containers = Container::where('website_id', session('dawnstar.website.id'))->get();
 
         $breadcrumb = [
@@ -47,6 +34,10 @@ class ContainerStructureController extends BaseController
 
     public function create()
     {
+        if(env('APP_ENV') != 'local') {
+            return redirect()->route('dawnstar.dashboard');
+        }
+
         $website = session('dawnstar.website');
         $languages = $website->languages;
 
@@ -66,6 +57,10 @@ class ContainerStructureController extends BaseController
 
     public function store(ContainerRequest $request)
     {
+        if(env('APP_ENV') != 'local') {
+            return redirect()->route('dawnstar.dashboard');
+        }
+
         $data = $request->except('_token', 'feature');
 
         $data['admin_id'] = $data['admin_id'] ?? auth('admin')->id();
@@ -108,6 +103,8 @@ class ContainerStructureController extends BaseController
 
     public function edit(int $id)
     {
+        canUser("container_structure.edit");
+
         $container = Container::findOrFail($id);
 
         $website = session('dawnstar.website');
@@ -129,6 +126,8 @@ class ContainerStructureController extends BaseController
 
     public function update(ContainerRequest $request, $id)
     {
+        canUser("container_structure.edit");
+
         $container = Container::findOrFail($id);
 
         $request->validated();
@@ -168,6 +167,8 @@ class ContainerStructureController extends BaseController
 
     public function destroy($id)
     {
+        canUser("container_structure.destroy");
+
         $container = Container::find($id);
 
         if (is_null($container)) {

@@ -40,12 +40,14 @@
                         <span class="nav-main-link-name">{{ __('DawnstarLang::website.index_title') }}</span>
                     </a>
                 </li>
-                <li class="nav-main-item">
-                    <a class="nav-main-link" href="{{ route('dawnstar.containers.structures.index') }}">
-                        <i class="nav-main-link-icon fa fa-cogs"></i>
-                        <span class="nav-main-link-name">{{ __('DawnstarLang::container.index_title') }}</span>
-                    </a>
-                </li>
+                @if(env('APP_ENV') == 'local')
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{ route('dawnstar.containers.structures.index') }}">
+                            <i class="nav-main-link-icon fa fa-cogs"></i>
+                            <span class="nav-main-link-name">{{ __('DawnstarLang::container.index_title') }}</span>
+                        </a>
+                    </li>
+                @endif
 
                 <li class="nav-main-item">
                     <a class="nav-main-link" href="{{ route('dawnstar.roles.index') }}">

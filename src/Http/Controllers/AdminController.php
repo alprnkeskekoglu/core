@@ -11,22 +11,10 @@ use Spatie\Permission\Models\Role;
 
 class AdminController extends BaseController
 {
-    public function callAction($method, $parameters)
-    {
-        $temp = ['store' => 'create', 'update' => 'edit'];
-
-        $permissionType = $temp[$method] ?? $method;
-        $key = "admin.{$permissionType}";
-
-        if(auth()->user()->can($key)) {
-            return parent::callAction($method, $parameters);
-        }
-
-        return view('DawnstarView::pages.permission.error');
-    }
-
     public function index()
     {
+        canUser("admin.index", false);
+
         $admins = Admin::all();
         $breadcrumb = [
             [
@@ -40,6 +28,8 @@ class AdminController extends BaseController
 
     public function create()
     {
+        canUser("admin.create", false);
+
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::admin.index_title'),
@@ -58,6 +48,8 @@ class AdminController extends BaseController
 
     public function store(AdminRequest $request)
     {
+        canUser("admin.create", false);
+
         $data = $request->except('_token', 'role_id');
 
         $data['password'] = Hash::make($data['password']);
@@ -81,6 +73,8 @@ class AdminController extends BaseController
 
     public function edit(Admin $admin)
     {
+        canUser("admin.edit", false);
+
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::admin.index_title'),
@@ -99,6 +93,8 @@ class AdminController extends BaseController
 
     public function update(AdminRequest $request, Admin $admin)
     {
+        canUser("admin.update", false);
+
         $data = $request->except('_token', 'image', 'role_id');
 
         if(is_null($data['password'])) {
@@ -123,6 +119,8 @@ class AdminController extends BaseController
 
     public function destroy(Admin $admin)
     {
+        canUser("admin.destroy", false);
+
         if (auth('admin')->id() == $admin->id) {
             return back()->withErrors(__('DawnstarLang::general.swal.error.title'));
         }
