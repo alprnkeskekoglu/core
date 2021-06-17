@@ -38,6 +38,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::middleware(['dawnstar.auth'])->group(function () {
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/getOnlineCount', [DashboardController::class, 'getOnlineCount'])->name('dashboard.getOnlineCount');
 
     Route::resource('websites', WebsiteController::class)->except(['show']);
     Route::resource('admins', AdminController::class)->except(['show']);

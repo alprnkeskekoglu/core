@@ -9,6 +9,7 @@ use Dawnstar\Models\Language;
 use Dawnstar\Models\PageDetail;
 use Dawnstar\Models\Url;
 use Dawnstar\Models\Website;
+use Dawnstar\Tracker\Foundation\Tracker;
 use Illuminate\Http\Request;
 
 class WebController extends BaseController
@@ -97,6 +98,8 @@ class WebController extends BaseController
             abort(404);
         }
 
+        $tracker = new Tracker();
+        $tracker->init();
 
         return $function;
     }

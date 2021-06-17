@@ -32,5 +32,6 @@
 <script src="{{ asset('vendor/dawnstar/assets/js/dashmix.core.min.js') }}"></script>
 <script src="{{ asset('vendor/dawnstar/assets/js/dashmix.app.min.js') }}"></script>
 @stack('scripts')
+@stack('after_scripts')
 </body>
 </html>
