@@ -7,6 +7,8 @@ return [
 
     'container' => 'Sayfa Yapısı',
 
+    'order_save' => 'Sıralamayı Kaydet',
+
     'response_message' => [
         'store' => 'Kategori başarıyla oluşturulmuştur.',
         'update' => 'Kategori başarıyla güncellenmiştir.',

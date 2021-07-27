@@ -29,7 +29,7 @@ class ContainerController extends BaseController
         if ($container->type == 'dynamic') {
             $breadcrumb[] = [
                 'name' => __('DawnstarLang::container.index_title'),
-                'url' => route('dawnstar.containers.pages.index', ['containerId' => $id])
+                'url' => route('dawnstar.containers.pages.index', $container)
             ];
         }
 
@@ -68,10 +68,10 @@ class ContainerController extends BaseController
         addAction($container, 'update');
 
         if ($container->type == 'static') {
-            return redirect()->route('dawnstar.containers.edit', ['id' => $id])->with('success_message', __('DawnstarLang::container.response_message.update'));
+            return redirect()->route('dawnstar.containers.edit', $container)->with('success_message', __('DawnstarLang::container.response_message.update'));
         }
 
-        return redirect()->route('dawnstar.containers.pages.index', ['containerId' => $id])->with('success_message', __('DawnstarLang::container.response_message.update'));
+        return redirect()->route('dawnstar.containers.pages.index', $container)->with('success_message', __('DawnstarLang::container.response_message.update'));
     }
 
     public function getUrl(Request $request)

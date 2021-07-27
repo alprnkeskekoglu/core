@@ -12,20 +12,20 @@
 
         <div class="content">
             @include('DawnstarView::layouts.alerts')
-            <form action="{{ route('dawnstar.containers.update', ['id' => $container->id]) }}" method="POST">
+            <form action="{{ route('dawnstar.containers.update', $container) }}" method="POST">
                 <input type="hidden" name="_method" value="PUT">
                 @csrf
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
                         <div>
-                            <a href="{{ route('dawnstar.form_builders.edit', ['id' => $container->id, 'type' => 'container']) }}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ route('dawnstar.form_builders.edit', [$container, 'type' => 'container']) }}" target="_blank" class="btn btn-sm btn-outline-secondary">
                                 <i class="fa fa-sliders-h"></i>
                                 {{ __('DawnstarLang::general.form_builder') }}
                             </a>
                         </div>
                         <div class="block-options">
                             @if($container->type == 'dynamic')
-                                <a href="{{ route('dawnstar.containers.pages.index', ['containerId' => $container->id]) }}" class="btn btn-sm btn-outline-secondary">
+                                <a href="{{ route('dawnstar.containers.pages.index', $container) }}" class="btn btn-sm btn-outline-secondary">
                                     <i class="fa fa-arrow-left"></i>
                                     {{ __('DawnstarLang::general.go_back') }}
                                 </a>

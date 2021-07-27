@@ -139,6 +139,7 @@ class MenuContentController extends BaseController
         if ($request->get('child_delete') == 1) {
             MenuContent::where("lft", ">", $menuContent->lft)
                 ->where("rgt", "<", $menuContent->rgt)
+                ->where('parent_id', $menuContent->id)
                 ->delete();
         } else {
             $menuContent->children()->update(['parent_id' => $menuContent->parent_id]);

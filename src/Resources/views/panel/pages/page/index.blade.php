@@ -19,7 +19,7 @@
                     <div class="row items-push justify-content-end text-right">
                         @if($container->has_detail == 1)
                             <div class="mr-2">
-                                <a href="{{ route('dawnstar.containers.edit', ['id' => $container->id]) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
+                                <a href="{{ route('dawnstar.containers.edit', $container) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
                                     <i class="fa fa-fw fa-fingerprint mr-1"></i>
                                     {{ __('DawnstarLang::page.container') }}
                                 </a>
@@ -27,14 +27,14 @@
                         @endif
                         @if($container->has_category == 1)
                             <div class="mr-2">
-                                <a href="{{ route('dawnstar.containers.categories.index', ['containerId' => $container->id]) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
+                                <a href="{{ route('dawnstar.containers.categories.index', $container) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
                                     <i class="fa fa-fw fa-grip-horizontal mr-1"></i>
                                     {{ __('DawnstarLang::page.category') }}
                                 </a>
                             </div>
                         @endif
                         <div class="mr-2">
-                            <a href="{{ route('dawnstar.containers.pages.create', ['containerId' => $container->id]) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
+                            <a href="{{ route('dawnstar.containers.pages.create', $container) }}" class="btn btn-sm btn-primary" data-toggle="click-ripple">
                                 <i class="fa fa-fw fa-plus mr-1"></i>
                                 {{ __('DawnstarLang::general.add_new') }}
                             </a>
@@ -127,7 +127,7 @@
                 },
             ],
             ajax: {
-                url: "{!! route("dawnstar.containers.pages.getPageList", ['containerId' => $container->id]) !!}",
+                url: "{!! route("dawnstar.containers.pages.getPageList", $container) !!}",
                 method: "GET",
                 "dataSrc": function (response) { //ajax success
                     $('#dataTable-count').html(response.recordsTotal);

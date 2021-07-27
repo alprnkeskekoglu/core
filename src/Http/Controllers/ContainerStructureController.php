@@ -101,11 +101,9 @@ class ContainerStructureController extends BaseController
         return redirect()->route('dawnstar.containers.structures.index')->with('success_message', __('DawnstarLang::container.response_message.store'));
     }
 
-    public function edit(int $id)
+    public function edit(Container $container)
     {
         canUser("container_structure.edit");
-
-        $container = Container::findOrFail($id);
 
         $website = session('dawnstar.website');
         $languages = $website->languages;
@@ -124,13 +122,9 @@ class ContainerStructureController extends BaseController
         return view('DawnstarView::pages.container.structure.edit', compact('container', 'languages', 'breadcrumb'));
     }
 
-    public function update(ContainerRequest $request, $id)
+    public function update(ContainerRequest $request, Container $container)
     {
         canUser("container_structure.edit");
-
-        $container = Container::findOrFail($id);
-
-        $request->validated();
 
         $data = $request->except('_token');
 
@@ -165,21 +159,15 @@ class ContainerStructureController extends BaseController
         return redirect()->route('dawnstar.containers.structures.index')->with('success_message', __('DawnstarLang::container.response_message.update'));
     }
 
-    public function destroy($id)
+    public function destroy(Container $container)
     {
         canUser("container_structure.destroy");
-
-        $container = Container::find($id);
-
-        if (is_null($container)) {
-            return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
-        }
 
         $container->delete();
 
         // Admin Action
         addAction($container, 'delete');
 
-        return response()->json(['title' => __('DawnstarLang::general.swal.success.title'), 'subtitle' => __('DawnstarLang::general.swal.success.subtitle')]);
+        return redirect()->route('dawnstar.containers.structures.index')->with('success_message', __('DawnstarLang::container.response_message.destroy'));
     }
 }

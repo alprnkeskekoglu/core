@@ -10,11 +10,9 @@ use Illuminate\Http\Request;
 
 class CategoryController extends BaseController
 {
-    public function index(int $containerId)
+    public function index(Container $container)
     {
-        canUser("container.{$containerId}.index");
-
-        $container = Container::findOrFail($containerId);
+        canUser("container.{$container->id}.index");
 
         $languages = $container->languages();
 
@@ -32,7 +30,7 @@ class CategoryController extends BaseController
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::category.index_title'),
-                'url' => route('dawnstar.containers.pages.index', ['containerId' => $containerId])
+                'url' => route('dawnstar.containers.pages.index', $container)
             ],
             [
                 'name' => __('DawnstarLang::category.create_title'),
@@ -43,19 +41,18 @@ class CategoryController extends BaseController
         return view('DawnstarView::pages.category.index', compact('container', 'categories', 'languages', 'breadcrumb'));
     }
 
-    public function create(int $containerId)
+    public function create(Container $container)
     {
-        canUser("container.{$containerId}.create");
+        canUser("container.{$container->id}.create");
 
-        $container = Container::findOrFail($containerId);
 
         $languages = $container->languages();
-        $formBuilder = new FormBuilder('category', $containerId);
+        $formBuilder = new FormBuilder('category', $container->id);
 
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::category.index_title'),
-                'url' => route('dawnstar.containers.categories.index', ['containerId' => $containerId])
+                'url' => route('dawnstar.containers.categories.index', $container)
             ],
             [
                 'name' => __('DawnstarLang::category.create_title'),
@@ -66,11 +63,9 @@ class CategoryController extends BaseController
         return view('DawnstarView::pages.category.create', compact('container', 'formBuilder', 'languages', 'breadcrumb'));
     }
 
-    public function store(Request $request, int $containerId)
+    public function store(Request $request, Container $container)
     {
-        canUser("container.{$containerId}.create");
-
-        Container::findOrFail($containerId);
+        canUser("container.{$container->id}.create");
 
         $storeService = new ModelStoreService();
 
@@ -81,7 +76,7 @@ class CategoryController extends BaseController
         $metas = $data['metas'] ?? [];
         unset($data['details'], $data['medias'], $data['metas']);
 
-        $data['container_id'] = $containerId;
+        $data['container_id'] = $container->id;
 
         $category = $storeService->store(Category::class, $data);
 
@@ -94,23 +89,20 @@ class CategoryController extends BaseController
         // Admin Action
         addAction($category, 'store');
 
-        return redirect()->route('dawnstar.containers.categories.index', ['containerId' => $containerId])->with('success_message', __('DawnstarLang::page.response_message.store'));
+        return redirect()->route('dawnstar.containers.categories.index', $container)->with('success_message', __('DawnstarLang::page.response_message.store'));
     }
 
-    public function edit(int $containerId, int $id)
+    public function edit(Container $container, Category $category)
     {
-        canUser("container.{$containerId}.edit");
-
-        $container = Container::findOrFail($containerId);
-        $category = Category::findOrFail($id);
+        canUser("container.{$container->id}.edit");
 
         $languages = $container->languages();
-        $formBuilder = new FormBuilder('category', $container->id, $id);
+        $formBuilder = new FormBuilder('category', $container->id, $category->id);
 
         $breadcrumb = [
             [
                 'name' => __('DawnstarLang::category.index_title'),
-                'url' => route('dawnstar.containers.categories.index', ['containerId' => $container->id])
+                'url' => route('dawnstar.containers.categories.index', $container)
             ],
             [
                 'name' => __('DawnstarLang::category.edit_title'),
@@ -121,11 +113,9 @@ class CategoryController extends BaseController
         return view('DawnstarView::pages.category.edit', compact('container', 'category', 'formBuilder', 'languages', 'breadcrumb'));
     }
 
-    public function update(Request $request, int $containerId, int $id)
+    public function update(Request $request, Container $container, Category $category)
     {
-        canUser("container.{$containerId}.edit");
-
-        $category = Category::findOrFail($id);
+        canUser("container.{$container->id}.edit");
 
         $storeService = new ModelStoreService();
 
@@ -147,22 +137,21 @@ class CategoryController extends BaseController
         // Admin Action
         addAction($category, 'update');
 
-        return redirect()->route('dawnstar.containers.categories.edit', ['containerId' => $containerId, 'id' => $id])->with('success_message', __('DawnstarLang::page.response_message.update'));
+        return redirect()->route('dawnstar.containers.categories.edit', [$container, $category])->with('success_message', __('DawnstarLang::page.response_message.update'));
     }
 
-    public function destroy(int $containerId, int $id)
+    public function destroy(Request $request, Container $container, Category $category)
     {
-        canUser("container.{$containerId}.destroy");
+        canUser("container.{$container->id}.destroy");
 
-        $container = Container::find($containerId);
-        if (is_null($container)) {
-            return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
-        }
 
-        $category = Category::find($id);
-
-        if (is_null($category)) {
-            return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
+        if ($request->get('child_delete') == 1) {
+            Category::where("lft", ">", $category->lft)
+                ->where("rgt", "<", $category->rgt)
+                ->where('parent_id', $category->id)
+                ->delete();
+        } else {
+            $category->children()->update(['parent_id' => $category->parent_id]);
         }
 
         $category->delete();
@@ -170,14 +159,13 @@ class CategoryController extends BaseController
         // Admin Action
         addAction($category, 'delete');
 
-        return response()->json(['title' => __('DawnstarLang::general.swal.success.title'), 'subtitle' => __('DawnstarLang::general.swal.success.subtitle')]);
+        return redirect()->route('dawnstar.containers.categories.index', $container)->with('success_message', __('DawnstarLang::page.response_message.update'));
     }
 
-    public function saveOrder(Request $request, int $containerId)
+    public function saveOrder(Request $request, Container $container)
     {
-        canUser("container.{$containerId}.edit");
+        canUser("container.{$container->id}.edit");
 
-        Container::findOrFail($containerId);
 
         $data = $request->get('data');
 

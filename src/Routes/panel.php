@@ -50,14 +50,14 @@ Route::middleware(['dawnstar.auth'])->group(function () {
     });
 
     # Container Structure, Containers, Pages and Categories
-    Route::resource('containers/structures', ContainerStructureController::class, ['as' => 'containers'])->parameters(['structures' => 'id'])->except(['show']);
-    Route::resource('containers', ContainerController::class)->parameters(['containers' => 'id'])->only(['edit', 'update']);
-    Route::resource('containers.pages', PageController::class)->parameters(['containers' => 'containerId', 'pages' => 'id'])->except(['show']);
-    Route::resource('containers.categories', CategoryController::class)->parameters(['containers' => 'containerId', 'categories' => 'id'])->except(['show']);
+    Route::resource('containers/structures', ContainerStructureController::class, ['as' => 'containers'])->parameters(['structures' => 'container'])->except(['show']);
+    Route::resource('containers', ContainerController::class)->only(['edit', 'update']);
+    Route::resource('containers.pages', PageController::class)->except(['show']);
+    Route::resource('containers.categories', CategoryController::class)->except(['show']);
     Route::prefix('containers')->as('containers.')->group(function () {
         Route::get('/getUrl', [ContainerController::class, 'getUrl'])->name('getUrl');
 
-        Route::prefix('/{containerId}')->group(function () {
+        Route::prefix('/{container}')->group(function () {
             Route::get('/pages/getPageList', [PageController::class, 'getPageList'])->name('pages.getPageList');
             Route::get('/categories/saveOrder', [CategoryController::class, 'saveOrder'])->name('categories.saveOrder');
         });
