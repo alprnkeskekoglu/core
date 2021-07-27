@@ -11,57 +11,55 @@
         </div>
         <div class="content">
             @include('DawnstarView::layouts.alerts')
-            <form action="{{ route('dawnstar.menus.contents.store', $menu) }}" method="POST">
-                @csrf
-                <div class="block block-rounded">
-                    <div class="block-header block-header-default block-header-rtl">
-                        <div class="block-options">
-                            <a href="{{ route('dawnstar.menus.index') }}" class="btn btn-sm btn-outline-secondary">
-                                <i class="fa fa-arrow-left"></i>
-                                {{ __('DawnstarLang::general.go_back') }}
-                            </a>
-                            <button type="submit" class="btn btn-sm btn-outline-primary">
-                                <i class="fa fa-check"></i>
-                                {{ __('DawnstarLang::general.submit') }}
-                            </button>
-                        </div>
+            <div class="block block-rounded">
+                <div class="block-header block-header-default block-header-rtl">
+                    <div class="block-options">
+                        <a href="{{ route('dawnstar.menus.index') }}" class="btn btn-sm btn-outline-secondary">
+                            <i class="fa fa-arrow-left"></i>
+                            {{ __('DawnstarLang::general.go_back') }}
+                        </a>
                     </div>
-                    <div class="block-content tab-content">
+                </div>
+                <div class="block-content tab-content">
 
-                        <ul class="nav nav-tabs nav-tabs-alt" data-toggle="tabs" role="tablist">
-                            @foreach($languages as $language)
-                                <li class="nav-item">
-                                    <a class="nav-link {{ $loop->first ? 'active' : '' }}" href="#{{$language->code}}">
-                                        <img src="//flagcdn.com/24x18/{{ $language->code == 'en' ? 'gb' : $language->code }}.png" alt="{{ $language->code }}">
-                                        {{ $language->native_name . ' (' . strtoupper($language->code) . ')' }}
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-
+                    <ul class="nav nav-tabs nav-tabs-alt" data-toggle="tabs" role="tablist">
                         @foreach($languages as $language)
-                            <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="{{$language->code}}" role="tabpanel">
-                                <div class="row justify-content-center py-sm-3 py-md-5">
-                                    <div class="col-md-4">
-                                        @if($menuContents->get($language->id))
-                                            <div class="row mb-5">
-                                                <div class="col-md-6">
-                                                    <button type="button" class="btn btn-alt-warning orderSaveBtn" data-language="{{ $language->id }}">{{ __('DawnstarLang::menu_content.order_save') }}</button>
-                                                </div>
+                            <li class="nav-item">
+                                <a class="nav-link {{ $loop->first ? 'active' : '' }}" href="#{{$language->code}}">
+                                    <img src="//flagcdn.com/24x18/{{ $language->code == 'en' ? 'gb' : $language->code }}.png" alt="{{ $language->code }}">
+                                    {{ $language->native_name . ' (' . strtoupper($language->code) . ')' }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    @foreach($languages as $language)
+                        <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="{{$language->code}}" role="tabpanel">
+                            <div class="row justify-content-center py-sm-3 py-md-5">
+                                <div class="col-md-4">
+                                    @if($menuContents->get($language->id))
+                                        <div class="row mb-5">
+                                            <div class="col-md-12">
+                                                <button type="button" class="btn btn-alt-warning orderSaveBtn"
+                                                        data-language="{{ $language->id }}">{{ __('DawnstarLang::menu_content.order_save') }}</button>
                                             </div>
-                                            <div class="menu-list dd" data-language="{{ $language->id }}">
-                                                @include('DawnstarView::pages.menu_content.list', ['menuContents' => $menuContents->get($language->id)])
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="col-md-6 offset-md-2">
+                                        </div>
+                                        <div class="menu-list dd" data-language="{{ $language->id }}">
+                                            @include('DawnstarView::pages.menu_content.list', ['menuContents' => $menuContents->get($language->id)])
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="col-md-6 offset-md-2">
+                                    <form action="{{ route('dawnstar.menus.contents.store', $menu) }}" method="POST">
+                                        @csrf
                                         <div class="block-content">
                                             <div class="form-group row">
                                                 <div class="col-md-9">
                                                     <label for="menu_image">{{ __('DawnstarLang::menu_content.labels.image') }}</label>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <button type="button" class="btn btn-sm btn-primary openFileManagerBtn" data-id="menu_image{{$language->id}}" data-mediatype="image" data-selectabletype="image" data-maxmediacount="1">
+                                                    <button type="button" class="btn btn-sm btn-primary openFileManagerBtn" data-id="menu_image{{$language->id}}" data-mediatype="image"
+                                                            data-selectabletype="image" data-maxmediacount="1">
                                                         {{ __('DawnstarLang::general.filemanager') }}
                                                     </button>
                                                 </div>
@@ -135,14 +133,18 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            <button type="submit" class="btn btn-sm btn-outline-primary float-right">
+                                                <i class="fa fa-check"></i>
+                                                {{ __('DawnstarLang::general.submit') }}
+                                            </button>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    @endforeach
                 </div>
-            </form>
+            </div>
         </div>
     </main>
 @endsection
@@ -219,8 +221,8 @@
             });
         }
 
-        jQuery('.deleteBtn').on('click', e => {
-            var url = e.currentTarget.getAttribute('data-url');
+        $('.deleteBtn').on('click', function () {
+            var self = $(this);
             swal.fire({
                 title: '{{ __('DawnstarLang::general.swal.title') }}',
                 text: '{{ __('DawnstarLang::general.swal.subtitle') }}',
@@ -242,20 +244,31 @@
                 }
             }).then(result => {
                 if (result.value) {
-                    $.ajax({
-                        'url': url,
-                        'method': 'DELETE',
-                        'data': {'_token': '{{ csrf_token() }}'},
-                        success: function (response) {
-                            swal.fire('{{ __('DawnstarLang::general.swal.success.title') }}', '{{ __('DawnstarLang::general.swal.success.subtitle') }}', 'success');
-                            setTimeout(function () {
-                                location.reload();
-                            }, 1000);
-                        },
-                        error: function (response) {
-                            swal.fire('{{ __('DawnstarLang::general.swal.error.title') }}', '{{ __('DawnstarLang::general.swal.error.subtitle') }}', 'error');
-                        }
-                    })
+                    if (self.closest('.dd-item').find('.dd-list').length == 0) {
+                        self.closest('form').submit();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            html: '{{ __('DawnstarLang::general.swal.delete_children') }}',
+                            showCloseButton: true,
+                            showCancelButton: true,
+                            customClass: {
+                                confirmButton: 'btn btn-danger m-1',
+                                cancelButton: 'btn btn-secondary m-1'
+                            },
+                            confirmButtonText: '{{ __('DawnstarLang::general.swal.confirm_btn') }}',
+                            cancelButtonText: '{{ __('DawnstarLang::general.swal.cancel_btn') }}',
+                        }).then((result) => {
+                            if (result.value) {
+                                self.closest('form').find('input[name="child_delete"]').val('1')
+                                self.closest('form').submit();
+                            } else if (result.dismiss && result.dismiss == 'cancel') {
+                                self.closest('form').find('input[name="child_delete"]').val('2')
+                                self.closest('form').submit();
+                            }
+                        })
+                    }
+
                 }
             });
         });
@@ -276,13 +289,13 @@
         });
 
 
-        function handleFileManager(medias){
+        function handleFileManager(medias) {
             var ids = '';
             var mediaHtml = '';
 
             $.each(medias, function (id, data) {
                 ids += id + ',';
-                mediaHtml += '<div class="px-1 text-center">' + data.html + '<div class="font-size-sm text-muted">'+ data.fullname +'</div></div>';
+                mediaHtml += '<div class="px-1 text-center">' + data.html + '<div class="font-size-sm text-muted">' + data.fullname + '</div></div>';
             });
 
             ids = ids.replace(/,\s*$/, "")

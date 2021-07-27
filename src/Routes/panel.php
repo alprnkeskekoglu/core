@@ -65,10 +65,9 @@ Route::middleware(['dawnstar.auth'])->group(function () {
 
 
     # Menu and Menu Contents
+    Route::get('/menus/getUrls', [MenuContentController::class, 'getUrls'])->name('menus.getUrls');
     Route::resource('menus', MenuController::class)->except(['show']);
     Route::post('/menus/{menu}/saveOrder', [MenuController::class, 'saveOrder'])->name('menus.saveOrder');
-
-    Route::get('/menus/getUrls', [MenuContentController::class, 'getUrls'])->name('menus.getUrls');
     Route::resource('menus.contents', MenuContentController::class)->parameters(['contents' => 'menuContent'])->except(['index', 'show']);
 
 
