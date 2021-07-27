@@ -53,9 +53,6 @@ class MenuContentController extends BaseController
         $data = $request->except('_token');
 
         foreach ($data['contents'] as $languageId => $values) {
-            if($values['status'] == 3) {
-                continue;
-            }
             $menuContent = MenuContent::firstOrCreate([
                 'admin_id' => auth('admin')->id(),
                 'menu_id' => $menu->id,
@@ -132,14 +129,19 @@ class MenuContentController extends BaseController
         // Admin Action
         addAction($menuContent, 'update');
 
-        return redirect()->route('dawnstar.menus.contents.create', ['menuId' => $menuId])->with('success_message', __('DawnstarLang::menu.response_message.update'));
+        return redirect()->route('dawnstar.menus.contents.create', $menu)->with('success_message', __('DawnstarLang::menu.response_message.update'));
     }
 
-    public function destroy(Menu $menu, MenuContent $menuContent)
+    public function destroy(Request $request, Menu $menu, MenuContent $menuContent)
     {
         canUser("menu.destroy");
 
-        if($menuContent->children->isNotEmpty()) {
+        if ($request->get('child_delete') == 1) {
+            MenuContent::where("lft", ">", $menuContent->lft)
+                ->where("rgt", "<", $menuContent->rgt)
+                ->where('parent_id', $menuContent->id)
+                ->delete();
+        } else {
             $menuContent->children()->update(['parent_id' => $menuContent->parent_id]);
         }
 
@@ -150,7 +152,7 @@ class MenuContentController extends BaseController
         // Admin Action
         addAction($menuContent, 'delete');
 
-        return response()->json(['title' => __('DawnstarLang::general.swal.success.title'), 'subtitle' => __('DawnstarLang::general.swal.success.subtitle')]);
+        return redirect()->route('dawnstar.menus.contents.create', $menu)->with('success_message', __('DawnstarLang::menu.response_message.destroy'));
     }
 
     public function getUrls(Request $request)

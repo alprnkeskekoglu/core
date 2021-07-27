@@ -38,6 +38,7 @@ return [
     'swal' => [
         'title' => 'Emin misiniz?',
         'subtitle' => 'İçerik kalıcı olarak silinecektir!',
+        'delete_children' => 'Alt içerikler silinsin mi?',
         'confirm_btn' => 'Evet, sil!',
         'cancel_btn' => 'Hayır, silme.',
         'success' => [

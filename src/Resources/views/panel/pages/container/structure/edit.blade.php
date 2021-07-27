@@ -12,7 +12,7 @@
 
         <div class="content">
             @include('DawnstarView::layouts.alerts')
-            <form action="{{ route('dawnstar.containers.structures.update', ['id' => $container->id]) }}" method="POST">
+            <form action="{{ route('dawnstar.containers.structures.update', $container) }}" method="POST">
                 <input type="hidden" name="_method" value="PUT">
                 @csrf
                 <div class="block block-rounded">
