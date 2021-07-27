@@ -13,6 +13,7 @@ return [
         'status' => 'Durum',
         'order' => 'Sıra',
         'is_default' => 'Default website yapılsın mı?',
+        'default_language_code' => 'Varsayılan dil kodu kullan?',
         'name' => 'Website Adı',
         'slug' => 'Website Slug',
         'languages' => 'Website Dilleri',

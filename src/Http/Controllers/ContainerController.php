@@ -82,7 +82,7 @@ class ContainerController extends BaseController
 
         $language = Language::find($languageId);
 
-        $urlText = '/' . $language->code . $containerSlug;
+        $urlText = (session('dawnstar.website.default_language_code') == 1 ? '/' . $language->code : '') . $containerSlug;
 
         $url = Url::where('website_id', session('dawnstar.website.id'))->where('url', $urlText)->first();
 
@@ -97,7 +97,7 @@ class ContainerController extends BaseController
 
     private function getNewSlug($languageCode, $containerSlug, $counter)
     {
-        $url = '/' . $languageCode . $containerSlug . '-' . $counter;
+        $url = (session('dawnstar.website.default_language_code') == 1 ? ('/' . $languageCode) : '') . $containerSlug . '-' . $counter;
 
         $urlExist = Url::where('url', $url)->exists();
 

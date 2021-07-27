@@ -19,6 +19,7 @@ class CreateWebsitesTable extends Migration
             $table->tinyInteger('status');
             $table->tinyInteger('order');
             $table->tinyInteger('is_default');
+            $table->tinyInteger('default_language_code')->default(2);
             $table->string('name');
             $table->string('slug');
             $table->timestamps();

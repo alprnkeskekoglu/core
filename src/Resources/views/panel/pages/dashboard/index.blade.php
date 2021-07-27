@@ -6,7 +6,6 @@
 
 @section('content')
     <main id="main-container">
-        @include('DawnstarView::layouts.breadcrumb')
         <div class="content">
             <div class="row">
                 @foreach($charts as $chart)

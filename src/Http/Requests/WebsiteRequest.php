@@ -28,7 +28,7 @@ class WebsiteRequest extends Request
             'order' => 'required',
             'is_default' => 'required',
             'name' => 'required',
-            'slug' => "required|unique:websites,slug,{$this->id}",
+            'slug' => "required|unique:websites,slug,{$this->website->id}",
             'languages' => 'required',
             'default_language' => 'required',
         ];

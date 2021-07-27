@@ -65,7 +65,7 @@
                                                    value="{{ old('order') }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label class="d-block">{{ __('DawnstarLang::website.labels.is_default') }}</label>
                                             <div class="custom-control custom-radio custom-control-inline custom-control-success custom-control-lg">
@@ -79,6 +79,23 @@
                                                        name="is_default" value="2" {{ old('is_default', 2) == 2 ? 'checked' : '' }}>
                                                 <label class="custom-control-label"
                                                        for="is_default_no">{{ __('DawnstarLang::general.no') }}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="d-block">{{ __('DawnstarLang::website.labels.default_language_code') }}</label>
+                                            <div class="custom-control custom-radio custom-control-inline custom-control-success custom-control-lg">
+                                                <input type="radio" class="custom-control-input" id="default_language_code_yes"
+                                                       name="default_language_code" value="1" {{ old('default_language_code', 1) == 1 ? 'checked' : '' }}>
+                                                <label class="custom-control-label"
+                                                       for="default_language_code_yes">{{ __('DawnstarLang::general.yes') }}</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline custom-control-danger custom-control-lg">
+                                                <input type="radio" class="custom-control-input" id="default_language_code_no"
+                                                       name="default_language_code" value="2" {{ old('default_language_code') == 2 ? 'checked' : '' }}>
+                                                <label class="custom-control-label"
+                                                       for="default_language_code_no">{{ __('DawnstarLang::general.no') }}</label>
                                             </div>
                                         </div>
                                     </div>

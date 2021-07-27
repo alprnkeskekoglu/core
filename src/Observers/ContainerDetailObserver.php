@@ -13,7 +13,8 @@ class ContainerDetailObserver
     public function created(ContainerDetail $detail)
     {
         $language = $detail->language;
-        $urlText = '/' . $language->code . $detail->slug;
+
+        $urlText = (session('dawnstar.website.default_language_code') == 1 ? ('/' . $language->code) : '') . $detail->slug;
 
         $detail->url()->create(
             [
@@ -29,7 +30,7 @@ class ContainerDetailObserver
         $language = $detail->language;
 
         $url = $detail->url;
-        $urlText = '/' . $language->code . $detail->slug;
+        $urlText = (session('dawnstar.website.default_language_code') == 1 ? ('/' . $language->code) : '') . $detail->slug;
 
         $oldUrl = $url->url;
 

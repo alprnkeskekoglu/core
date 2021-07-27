@@ -170,11 +170,14 @@
                                                     <div class="col-sm-9">
 
                                                         <div class="input-group">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    {{ '/' . $language->code }}
-                                                                </span>
-                                                            </div>
+
+                                                            @if(session('dawnstar.website.default_language_code') == 1)
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">
+                                                                        {{ '/' . $language->code }}
+                                                                    </span>
+                                                                </div>
+                                                            @endif
                                                             <input type="text" class="form-control containerSlug"
                                                                    data-language="{{$language->id}}"
                                                                    id="details{{$language->id}}_slug"

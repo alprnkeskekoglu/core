@@ -24,11 +24,13 @@
                 $containerDetail = $container->details()->where('language_id', $tabLanguage->id)->first();
             @endphp
             <div class="input-group">
+                @if(session('dawnstar.website.default_language_code') == 1 || $type != 'container')
                 <div class="input-group-prepend">
                     <span class="input-group-text">
-                        {{ '/' . $tabLanguage->code . ($type != 'container' && $containerDetail ? $containerDetail->slug : '') }}
+                        {{ (session('dawnstar.website.default_language_code') == 1 ? '/' . $tabLanguage->code : '') . ($type != 'container' && $containerDetail ? $containerDetail->slug : '') }}
                     </span>
                 </div>
+                @endif
                 <input {!! $inputAttributes !!}
                        {!! $tabLanguage ? 'data-language="'.$tabLanguage->id.'"' : '' !!}
                        {!! $container->key == 'homepage' ? 'readonly' : '' !!}
