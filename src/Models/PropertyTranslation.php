@@ -5,15 +5,15 @@ namespace Dawnstar\Dawnstar\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PageExtra extends BaseModel
+class PropertyTranslation extends BaseModel
 {
     use SoftDeletes;
 
-    protected $table = 'page_extras';
+    protected $table = 'property_translations';
     protected $guarded = ['id'];
 
-    public function page()
+    public function property()
     {
-        return $this->belongsTo(Page::class);
+        return $this->belongsTo(Property::class);
     }
 }

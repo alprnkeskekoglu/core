@@ -1,12 +1,10 @@
 <?php
 
-namespace Dawnstar\Models;
+namespace Dawnstar\Dawnstar\Models;
 
+use Illuminate\Database\Eloquent\Model;
 
 class Language extends BaseModel
 {
     protected $table = 'languages';
-    public $timestamps = false;
-
-    protected $guarded = ['id'];
 }

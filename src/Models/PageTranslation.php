@@ -5,51 +5,26 @@ namespace Dawnstar\Dawnstar\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Page extends BaseModel
+class PageTranslation extends BaseModel
 {
     use SoftDeletes;
 
-    protected $table = 'pages';
+    protected $table = 'page_translations';
     protected $guarded = ['id'];
 
-    public function container()
+    public function page()
     {
-        return $this->belongsTo(Container::class);
-    }
-
-    public function parent()
-    {
-        return $this->belongsTo(Page::class, 'id', 'parent_id');
-    }
-
-    public function children()
-    {
-        return $this->hasMany(Page::class, 'parent_id', 'id');
-    }
-
-    public function translations()
-    {
-        return $this->hasMany(PageTranslation::class);
+        return $this->belongsTo(Page::class);
     }
 
     public function extras()
     {
-        return $this->hasMany(PageExtra::class);
+        return $this->hasMany(PageTranslationExtra::class);
     }
 
-    public function categories()
+    public function url()
     {
-        return $this->belongsToMany(Category::class, 'category_pages');
-    }
-
-    public function category()
-    {
-        return $this->categories()->first();
-    }
-
-    public function propertyOptions()
-    {
-        return $this->belongsToMany(PropertyOption::class, 'page_property_options');
+        return $this->morphOne(Url::class, 'model');
     }
 
     public function __get($key)

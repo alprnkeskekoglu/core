@@ -1,19 +1,19 @@
 <?php
 
-namespace Dawnstar\Models;
+namespace Dawnstar\Dawnstar\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Menu extends BaseModel
 {
     use SoftDeletes;
-    protected $table = 'menus';
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
+    protected $table = 'menus';
     protected $guarded = ['id'];
 
-    public function contents()
+    public function items()
     {
-        return $this->hasMany(MenuContent::class);
+        return $this->hasMany(MenuItem::class);
     }
 }

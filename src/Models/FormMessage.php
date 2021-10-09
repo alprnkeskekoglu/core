@@ -5,15 +5,15 @@ namespace Dawnstar\Dawnstar\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PageExtra extends BaseModel
+class FormMessage extends BaseModel
 {
     use SoftDeletes;
 
-    protected $table = 'page_extras';
+    protected $table = 'form_messages';
     protected $guarded = ['id'];
 
-    public function page()
+    public function form()
     {
-        return $this->belongsTo(Page::class);
+        return $this->belongsTo(Form::class);
     }
 }

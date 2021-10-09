@@ -1,36 +1,17 @@
 <?php
 
-namespace Dawnstar\Models;
+namespace Dawnstar\Dawnstar\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Model;
 
 class Url extends BaseModel
 {
-    use SoftDeletes;
-
     protected $table = 'urls';
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-
     protected $guarded = ['id'];
-
-    public function website()
-    {
-        return $this->belongsTo(Website::class);
-    }
 
     public function model()
     {
-        return $this->morphTo(__FUNCTION__, 'model_type', 'model_id');
-    }
-
-    public function metas()
-    {
-        return $this->hasMany(Meta::class);
-    }
-
-    public function getMeta($key)
-    {
-        return $this->metas->where('key', $key)->first();
+        return $this->morphTo('model');
     }
 
     public function __toString()

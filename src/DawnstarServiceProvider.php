@@ -31,48 +31,10 @@ class DawnstarServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->register(SeedServiceProvider::class);
-        $this->app->register(ConfigServiceProvider::class);
-        $this->app->register(RouteServiceProvider::class);
-
-
-        $this->app->singleton(Dawnstar::class, Dawnstar::class);
-        $this->app->bind("Dawnstar", Dawnstar::class);
     }
 
     public function boot()
     {
-        $this->loadTranslationsFrom(__DIR__ . '/Resources/lang', 'DawnstarLang');
-        $this->loadViewsFrom(__DIR__ . '/Resources/views/panel', 'DawnstarView');
-        $this->loadViewsFrom(__DIR__ . '/Resources/views/web', 'DawnstarWebView');
-
-        $this->publishes([__DIR__ . '/Assets' => public_path('vendor/dawnstar/assets')], 'dawnstar-assets');
-
-        $this->publishes([__DIR__ . '/Publishes' => base_path()], 'dawnstar-publishes');
-
         $this->loadMigrationsFrom(__DIR__ . '/Database/migrations');
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                InstallDawnstar::class,
-                UpdateDawnstar::class,
-                CreateSearchView::class,
-                CreateAdmin::class,
-            ]);
-        }
-
-        $router = $this->app->make(Router::class);
-        $router->aliasMiddleware('dawnstar.auth', DawnstarAuthenticate::class);
-        $router->aliasMiddleware('dawnstar.guest', DawnstarRedirectIfAuthenticated::class);
-
-        Gate::before(function ($user, $ability) {
-            return $user->hasRole('Super Admin') ? true : null;
-        });
-
-
-        Container::observe(ContainerObserver::class);
-        ContainerDetail::observe(ContainerDetailObserver::class);
-        PageDetail::observe(PageDetailObserver::class);
-        CategoryDetail::observe(CategoryDetailObserver::class);
     }
 }
