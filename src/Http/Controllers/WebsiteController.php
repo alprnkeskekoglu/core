@@ -2,121 +2,76 @@
 
 namespace Dawnstar\Http\Controllers;
 
+use Database\Seeders\DatabaseSeeder;
+use Dawnstar\Database\seeds\LanguageSeeder;
 use Dawnstar\Http\Requests\WebsiteRequest;
-use Dawnstar\Models\Language;
 use Dawnstar\Models\Website;
+use Dawnstar\Models\Language;
 
 class WebsiteController extends BaseController
 {
     public function index()
     {
-        $websites = Website::all();
-        $breadcrumb = [
-            [
-                'name' => __('DawnstarLang::website.index_title'),
-                'url' => '#'
-            ]
-        ];
-
-        return view('DawnstarView::pages.website.index', compact('websites', 'breadcrumb'));
+        /*$seeder = new DatabaseSeeder();
+        $seeder->call([
+            LanguageSeeder::class
+        ]);*/
+        $websites = Website::paginate(12);
+        return view('Dawnstar::modules.website.index', compact('websites'));
     }
 
     public function create()
     {
         $languages = Language::all();
-        $breadcrumb = [
-            [
-                'name' => __('DawnstarLang::website.index_title'),
-                'url' => route('dawnstar.websites.index')
-            ],
-            [
-                'name' => __('DawnstarLang::website.create_title'),
-                'url' => '#'
-            ]
-        ];
-
-        return view('DawnstarView::pages.website.create', compact('languages', 'breadcrumb'));
+        return view('Dawnstar::modules.website.create', compact('languages'));
     }
 
     public function store(WebsiteRequest $request)
     {
-        $data = $request->except('_token');
+        $data = $request->only(['status', 'default', 'name', 'domain']);
+        $languages = $request->get('languages');
+        $defaultLanguage = $request->get('default_language');
 
-        $data['admin_id'] = auth()->id();
-
-        $languages = [];
-        foreach ($data['languages'] as $lang) {
-            $languages[$lang] = ['is_default' => 2];
-        }
-        $defaultLangauge = $data['default_language'];
-
-        unset($data['languages'], $data['default_language']);
-        $website = Website::firstOrCreate($data);
-
+        $website = Website::create($data);
         $website->languages()->sync($languages);
-        $website->languages()->updateExistingPivot($defaultLangauge, ['is_default' => 1]);
+        $website->languages()->updateExistingPivot($defaultLanguage, ['is_default' => 1]);
 
+        if($data['default'] == 1) {
+            $defaultWebsites = Website::where('default', 1)->where('id', $website->id)->update(['default' => 0]);
+        }
 
-        session(['dawnstar.website' => $website]);
-
-        // Admin Action
-        addAction($website, 'store');
-
-        return redirect()->route('dawnstar.websites.index')->with('success_message', __('DawnstarLang::website.response_message.store'));
+        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Dawnstar::website.success.store')]);
     }
+
 
     public function edit(Website $website)
     {
+        $selectedLanguages = $website->languages;
         $languages = Language::all();
 
-        $breadcrumb = [
-            [
-                'name' => __('DawnstarLang::website.index_title'),
-                'url' => route('dawnstar.websites.index')
-            ],
-            [
-                'name' => __('DawnstarLang::website.edit_title'),
-                'url' => '#'
-            ]
-        ];
-
-        return view('DawnstarView::pages.website.edit', compact('website', 'languages', 'breadcrumb'));
+        return view('Dawnstar::modules.website.edit', compact('website', 'languages', 'selectedLanguages'));
     }
 
-    public function update(WebsiteRequest $request, Website $website)
+    public function update(Website $website, WebsiteRequest $request)
     {
-        $data = $request->except('_token');
+        $data = $request->only(['status', 'default', 'name', 'domain']);
+        $languages = $request->get('languages');
+        $defaultLanguage = $request->get('default_language');
 
-        $request->validated();
-
-        $languages = [];
-        foreach ($data['languages'] as $lang) {
-            $languages[$lang] = ['is_default' => 2];
-        }
-        $defaultLangauge = $data['default_language'];
-
-        unset($data['languages'], $data['default_language']);
         $website->update($data);
-
         $website->languages()->sync($languages);
-        $website->languages()->updateExistingPivot($defaultLangauge, ['is_default' => 1]);
+        $website->languages()->updateExistingPivot($defaultLanguage, ['is_default' => 1]);
 
-        session(['dawnstar.website' => $website]);
+        if($data['default'] == 1) {
+            $defaultWebsites = Website::where('default', 1)->where('id', '<>', $website->id)->update(['default' => 0]);
+        }
 
-        // Admin Action
-        addAction($website, 'update');
-
-        return redirect()->route('dawnstar.websites.index')->with('success_message', __('DawnstarLang::website.response_message.update'));
+        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Dawnstar::website.success.update')]);
     }
 
     public function destroy(Website $website)
     {
         $website->delete();
-        //TODO: delete everything
-
-        // Admin Action
-        addAction($website, 'delete');
-
-        return redirect()->route('dawnstar.websites.index')->with('success_message', __('DawnstarLang::website.response_message.destroy'));
+        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Dawnstar::website.success.destroy')]);
     }
 }

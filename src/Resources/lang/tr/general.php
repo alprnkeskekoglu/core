@@ -2,52 +2,18 @@
 
 return [
     'add_new' => 'Yeni Ekle',
-    'form_builder' => 'Form Builder',
-    'go_back' => 'Liste Ekranına Dön',
-    'submit' => 'Gönder',
-    'refresh' => 'Yenile',
-
-    'actions' => 'İşlemler',
-    'edit' => 'Düzenle',
-    'delete' => 'Sil',
-
-    'select' => 'Seçiniz',
-
-    'filemanager' => 'Dosya Yöneticisi',
-    'content' => 'İçerikler',
-    'pages' => 'Sayfalar',
-    'meta_tags' => 'Meta Etiketleri',
-
-
+    'save' => 'Kaydet',
+    'back' => 'Geri',
     'yes' => 'Evet',
     'no' => 'Hayır',
+    'select' => 'Seçiniz',
 
-    'status_title' => [
-        'active' => 'Aktif',
-        'draft' => 'Taslak',
-        'passive' => 'Pasif',
+    'actions' => 'İşlemler',
+    'status_options' => [
+        0 => 'Pasif',
+        1 => 'Aktif',
+        2 => 'Taslak'
     ],
-
-    'datatable' => [
-        'lengthMenu' => "_MENU_ kayıt göster",
-        'search' => "Arama:",
-    ],
-
-    'error_occured' => 'Hata oluştu!',
-
-    'swal' => [
-        'title' => 'Emin misiniz?',
-        'subtitle' => 'İçerik kalıcı olarak silinecektir!',
-        'delete_children' => 'Alt içerikler silinsin mi?',
-        'confirm_btn' => 'Evet, sil!',
-        'cancel_btn' => 'Hayır, silme.',
-        'success' => [
-            'title' => 'Silindi!',
-            'subtitle' => 'İçerik başarıyla silindi.'
-        ],
-        'error' => [
-            'title' => 'Silinemedi!',
-            'subtitle' => 'İçerik silinirken hata oluştu.'
-        ],
-    ]
+    
+    'required' => 'Bu alan zorunludur!',
 ];

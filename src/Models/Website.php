@@ -2,22 +2,21 @@
 
 namespace Dawnstar\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Website extends BaseModel
 {
     use SoftDeletes;
-    protected $table = 'websites';
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
+    protected $table = 'websites';
     protected $guarded = ['id'];
 
-
-    public function containers()
+    public function structures()
     {
-        return $this->hasMany(Container::class);
+        return $this->hasMany(Structure::class);
     }
-    
+
     public function languages()
     {
         return $this->belongsToMany(Language::class, 'website_languages');
@@ -26,10 +25,5 @@ class Website extends BaseModel
     public function defaultLanguage()
     {
         return $this->belongsToMany(Language::class, 'website_languages')->wherePivot('is_default', 1)->first();
-    }
-
-    public function admin()
-    {
-        return $this->belongsTo(Admin::class);
     }
 }

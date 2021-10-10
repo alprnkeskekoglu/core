@@ -2,11 +2,10 @@
 
 namespace Dawnstar\Models;
 
+use Illuminate\Database\Eloquent\Model;
 
 class CategoryPage extends BaseModel
 {
     protected $table = 'category_pages';
-    public $timestamps = false;
-
-    public $fillable = ['category_id', 'page_id'];
+    protected $fillable = ['category_id', 'page_id'];
 }

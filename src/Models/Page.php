@@ -2,20 +2,14 @@
 
 namespace Dawnstar\Models;
 
-use Dawnstar\FileManager\Models\Media;
-use Dawnstar\Traits\HasDetail;
-use Dawnstar\Traits\HasMedia;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Page extends BaseModel
 {
     use SoftDeletes;
-    use HasDetail;
-    use HasMedia;
 
     protected $table = 'pages';
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-
     protected $guarded = ['id'];
 
     public function container()
@@ -23,14 +17,19 @@ class Page extends BaseModel
         return $this->belongsTo(Container::class);
     }
 
-    public function page()
+    public function parent()
     {
-        return $this->belongsTo(Page::class);
+        return $this->belongsTo(Page::class, 'id', 'parent_id');
     }
 
-    public function details()
+    public function children()
     {
-        return $this->hasMany(PageDetail::class);
+        return $this->hasMany(Page::class, 'parent_id', 'id');
+    }
+
+    public function translations()
+    {
+        return $this->hasMany(PageTranslation::class);
     }
 
     public function extras()
@@ -38,57 +37,40 @@ class Page extends BaseModel
         return $this->hasMany(PageExtra::class);
     }
 
-    public function category()
-    {
-        return $this->categories()->first();
-    }
-
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_pages');
     }
 
-    public function admin()
+    public function category()
     {
-        return $this->belongsTo(Admin::class);
+        return $this->categories()->first();
+    }
+
+    public function propertyOptions()
+    {
+        return $this->belongsToMany(PropertyOption::class, 'page_property_options');
     }
 
     public function __get($key)
     {
         $attribute = $this->getAttribute($key);
 
+        $return = null;
+
         if ($attribute) {
-            return $attribute;
-        }
-
-        if(method_exists($this, 'extras')) {
+            $return = $attribute;
+        } elseif (method_exists($this, 'extras')) {
             $extras = $this->extras()->where('key', $key)->get();
-
-            if($extras->isNotEmpty()) {
-                if($extras->count() > 1) {
-                    return $extras->pluck("value")->toArray();
+            if ($extras->isNotEmpty()) {
+                if ($extras->count() > 1) {
+                    $return = $extras->pluck("value")->toArray();
                 } else {
-                    return $extras->first()->value;
+                    $return = $extras->first()->value;
                 }
             }
         }
 
-        if(\Str::startsWith($key, 'mf_')) {
-            $mediaKey = mb_substr($key, 3);
-            $medias = $this->medias();
-            if($mediaKey) {
-                $medias->wherePivot('media_key', $mediaKey);
-            }
-            return $medias->orderBy('model_medias.order')->first();
-        } elseif(\Str::startsWith($key, 'mc_')) {
-            $mediaKey = mb_substr($key, 3);
-            $medias = $this->medias();
-            if($mediaKey) {
-                $medias->wherePivot('media_key', $mediaKey);
-            }
-            return $medias->orderBy('model_medias.order')->get();
-        }
-
-        return $attribute;
+        return $return;
     }
 }

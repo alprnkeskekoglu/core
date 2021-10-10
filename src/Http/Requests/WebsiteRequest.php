@@ -2,45 +2,28 @@
 
 namespace Dawnstar\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest as Request;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class WebsiteRequest extends Request
+class WebsiteRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         return [
-            'status' => 'required',
-            'order' => 'required',
-            'is_default' => 'required',
-            'name' => 'required',
-            'slug' => "required|unique:websites,slug,{$this->website->id}",
-            'languages' => 'required',
-            'default_language' => 'required',
+            'status' => ['required', 'boolean'],
+            'default' => ['required', 'boolean'],
+            'name' => ['required'],
+            'domain' => [
+                'required',
+                Rule::unique('websites')->ignore($this->website)
+            ],
+            'languages' => ['required', 'array'],
+            'default_language' => ['required']
         ];
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function attributes()
     {
-        return __('DawnstarLang::website.labels');
+        return __('Dawnstar::website.labels');
     }
 }

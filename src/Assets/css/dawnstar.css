@@ -1,0 +1,26 @@
+.form-check.form-large-check .form-check-input {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.form-check.form-large-check  .form-check-label {
+    margin-top: .25rem;
+    margin-left: .5rem;
+    font-size: medium;
+}
+
+.btn-check:checked+.btn-language {
+    background-color: #e0e0e0;
+}
+
+.btn-language-status {
+    border-radius: 50%;
+    color: white;
+    position: absolute;
+    margin-left: -.75rem;
+    margin-top: -.75rem;
+    padding-left: .18rem;
+    padding-right: .18rem;
+    font-size: smaller;
+    cursor: pointer;
+}
