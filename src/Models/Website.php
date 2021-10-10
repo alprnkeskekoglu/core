@@ -21,4 +21,9 @@ class Website extends BaseModel
     {
         return $this->belongsToMany(Language::class, 'website_languages');
     }
+
+    public function defaultLanguage()
+    {
+        return $this->belongsToMany(Language::class, 'website_languages')->wherePivot('is_default', 1)->first();
+    }
 }
