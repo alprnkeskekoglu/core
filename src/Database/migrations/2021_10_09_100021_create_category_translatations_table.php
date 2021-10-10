@@ -15,7 +15,7 @@ class CreateCategoryTranslationsTable extends Migration
     {
         Schema::create('category_translations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('category_id')->index();
+            $table->unsignedBigInteger('category_id')->index();
             $table->unsignedInteger('language_id')->index();
             $table->string('name');
             $table->string('slug')->nullable();

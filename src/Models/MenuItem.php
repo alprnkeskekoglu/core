@@ -1,11 +1,11 @@
 <?php
 
-namespace Dawnstar\Dawnstar\Models;
+namespace Dawnstar\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Menu extends BaseModel
+class MenuItem extends BaseModel
 {
     use SoftDeletes;
 

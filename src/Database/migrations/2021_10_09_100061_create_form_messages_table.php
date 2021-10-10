@@ -15,7 +15,7 @@ class CreateFormMessagesTable extends Migration
     {
         Schema::create('form_messages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('form_id')->index();
+            $table->unsignedBigInteger('form_id')->index();
             $table->boolean('read')->default(0);
             $table->string('email')->nullable();
             $table->json('data');

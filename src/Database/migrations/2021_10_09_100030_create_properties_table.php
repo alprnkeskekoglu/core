@@ -15,7 +15,7 @@ class CreatePropertiesTable extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('container_id')->index();
+            $table->unsignedBigInteger('container_id')->index();
             $table->tinyInteger('status')->default(2);
             $table->string('cvar_1')->nullable();
             $table->integer('cint_1')->nullable();

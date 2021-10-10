@@ -15,7 +15,7 @@ class CreateCategoryTranslationExstrasTable extends Migration
     {
         Schema::create('category_translation_extras', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('category_translation_id')->index();
+            $table->unsignedBigInteger('category_translation_id')->index();
             $table->unsignedInteger('language_id')->index();
             $table->string('key');
             $table->text('value');

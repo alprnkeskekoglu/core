@@ -15,7 +15,7 @@ class CreatePropertyTranslationsTable extends Migration
     {
         Schema::create('property_translations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('property_id')->index();
+            $table->unsignedBigInteger('property_id')->index();
             $table->unsignedInteger('language_id')->index();
             $table->boolean('status')->default(1);
             $table->string('name');

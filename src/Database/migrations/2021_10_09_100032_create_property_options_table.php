@@ -15,7 +15,7 @@ class CreatePropertyOptionsTable extends Migration
     {
         Schema::create('property_options', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('property_id')->index();
+            $table->unsignedBigInteger('property_id')->index();
             $table->tinyInteger('status')->default(2);
             $table->string('cvar_1')->nullable();
             $table->integer('cint_1')->nullable();

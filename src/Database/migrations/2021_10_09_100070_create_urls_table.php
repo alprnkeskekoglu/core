@@ -15,7 +15,7 @@ class CreateUrlsTable extends Migration
     {
         Schema::create('urls', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('website_id')->index();
+            $table->unsignedBigInteger('website_id')->index();
             $table->unsignedInteger('url_id')->nullable()->index();
             $table->morphs('model');
             $table->string('url')->unique();

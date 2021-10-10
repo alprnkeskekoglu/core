@@ -15,7 +15,7 @@ class CreatePageTranslationExstrasTable extends Migration
     {
         Schema::create('page_translation_extras', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('page_translation_id')->index();
+            $table->unsignedBigInteger('page_translation_id')->index();
             $table->unsignedInteger('language_id')->index();
             $table->string('key');
             $table->text('value');

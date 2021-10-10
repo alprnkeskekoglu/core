@@ -15,7 +15,7 @@ class CreateStructuresTable extends Migration
     {
         Schema::create('structures', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('website_id')->index();
+            $table->unsignedBigInteger('website_id')->index();
             $table->tinyInteger('status')->default(2);
             $table->string('key')->unique();
             $table->string('type');

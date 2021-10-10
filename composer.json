@@ -9,12 +9,6 @@
             "Dawnstar\\": "src"
         }
     },
-    "config": {
-        "sort-packages": true,
-        "classmap-authoritative": true,
-        "apcu-autoloader": true,
-        "optimize-autoloader": true
-    },
     "extra": {
         "laravel": {
             "providers": [

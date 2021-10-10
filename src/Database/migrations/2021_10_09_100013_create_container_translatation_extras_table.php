@@ -15,7 +15,7 @@ class CreateContainerTranslationExstrasTable extends Migration
     {
         Schema::create('container_translation_extras', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('container_translation_id')->index();
+            $table->unsignedBigInteger('container_translation_id')->index();
             $table->unsignedInteger('language_id')->index();
             $table->string('key');
             $table->text('value');

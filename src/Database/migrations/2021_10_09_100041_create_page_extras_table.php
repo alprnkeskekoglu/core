@@ -15,7 +15,7 @@ class CreatePageExstrasTable extends Migration
     {
         Schema::create('page_extras', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('page_id')->index();
+            $table->unsignedBigInteger('page_id')->index();
             $table->string('key');
             $table->text('value');
             $table->timestamps();

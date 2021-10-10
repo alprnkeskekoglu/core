@@ -15,7 +15,7 @@ class CreateMenuItemTranslationsTable extends Migration
     {
         Schema::create('menu_item_translations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('menu_item_id')->index();
+            $table->unsignedBigInteger('menu_item_id')->index();
             $table->unsignedInteger('language_id')->index();
             $table->string('name');
             $table->unsignedInteger('url_id')->nullable()->index();

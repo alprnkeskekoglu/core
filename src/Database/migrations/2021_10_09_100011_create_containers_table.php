@@ -15,7 +15,7 @@ class CreateContainersTable extends Migration
     {
         Schema::create('containers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('structure_id')->index();
+            $table->unsignedBigInteger('structure_id')->index();
             $table->string('cvar_1')->nullable();
             $table->string('cvar_2')->nullable();
             $table->string('cvar_3')->nullable();

@@ -15,7 +15,7 @@ class CreateMetaTagsTable extends Migration
     {
         Schema::create('meta_tags', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('url_id')->index();
+            $table->unsignedBigInteger('url_id')->index();
             $table->string('key');
             $table->string('template')->default('<meta name="{0}" content="{1}">');
             $table->text('value')->nullable();

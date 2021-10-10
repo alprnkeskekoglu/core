@@ -15,7 +15,7 @@ class CreateMenusTable extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('website_id')->index();
+            $table->unsignedBigInteger('website_id')->index();
             $table->tinyInteger('status')->default(2);
             $table->string('name');
             $table->string('key')->unique();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Dawnstar\Dawnstar\Models;
+namespace Dawnstar\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
