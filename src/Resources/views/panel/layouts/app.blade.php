@@ -9,6 +9,7 @@
     <link href="{{ asset('vendor/dawnstar/assets/css/app-modern.min.css') }}" rel="stylesheet" id="light-style"/>
     <link href="{{ asset('vendor/dawnstar/assets/css/app-modern-dark.min.css') }}" rel="stylesheet" id="dark-style"/>
     <link href="{{ asset('vendor/dawnstar/assets/css/dawnstar.css') }}" rel="stylesheet"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" >
     @stack('styles')
 </head>
 
@@ -28,6 +29,31 @@
 
 <script src="{{ asset('vendor/dawnstar/assets/js/vendor.min.js') }}"></script>
 <script src="{{ asset('vendor/dawnstar/assets/js/app.min.js') }}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    function showNotification(type, message) {
+        toastr.options = {
+            "closeButton": true,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-bottom-right",
+            "showDuration": "100",
+            "hideDuration": "750",
+            "timeOut": "2000",
+            "extendedTimeOut": "750",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+        if(type === 'success') {
+            toastr.success(message)
+        } else if(type === 'error') {
+            toastr.error(message)
+        }
+    }
+</script>
 @stack('scripts')
 </body>
 </html>

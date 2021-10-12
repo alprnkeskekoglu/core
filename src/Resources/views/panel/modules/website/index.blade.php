@@ -62,6 +62,6 @@
 
 @push('scripts')
     @if(session('success'))
-        <script>$.NotificationApp.send("", "{{ session('success') }}", "top-right", "rgba(0,0,0,0.2)", "success")</script>
+        <script>$.NotificationApp.send("", "{{ session('success') }}", "bottom-right", "rgba(0,0,0,0.2)", "success")</script>
     @endif
 @endpush

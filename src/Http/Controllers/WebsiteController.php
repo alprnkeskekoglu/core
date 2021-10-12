@@ -2,8 +2,6 @@
 
 namespace Dawnstar\Http\Controllers;
 
-use Database\Seeders\DatabaseSeeder;
-use Dawnstar\Database\seeds\LanguageSeeder;
 use Dawnstar\Http\Requests\WebsiteRequest;
 use Dawnstar\Models\Website;
 use Dawnstar\Models\Language;
@@ -12,11 +10,7 @@ class WebsiteController extends BaseController
 {
     public function index()
     {
-        /*$seeder = new DatabaseSeeder();
-        $seeder->call([
-            LanguageSeeder::class
-        ]);*/
-        $websites = Website::paginate(12);
+        $websites = Website::all();
         return view('Dawnstar::modules.website.index', compact('websites'));
     }
 

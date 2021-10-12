@@ -2,6 +2,7 @@
 
 namespace Dawnstar;
 
+use Dawnstar\Console\Commands\Update;
 use Dawnstar\Providers\RouteServiceProvider;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,5 +23,12 @@ class   DawnstarServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__ . '/Resources/lang', 'Dawnstar');
 
         $this->publishes([__DIR__ . '/Assets' => public_path('vendor/dawnstar/assets')], 'dawnstar-assets');
+
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Update::class,
+            ]);
+        }
     }
 }
