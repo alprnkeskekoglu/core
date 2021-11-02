@@ -5,15 +5,13 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <div class="card-header">
+                    <a href="{{ route('dawnstar.websites.index') }}" class="btn btn-secondary">
+                        <i class="mdi mdi-arrow-left"></i>
+                        @lang('Dawnstar::general.back')
+                    </a>
+                </div>
                 <div class="card-body">
-                    <div class="row mb-2">
-                        <div class="col-12">
-                            <a href="{{ route('dawnstar.websites.index') }}" class="btn btn-secondary">
-                                <i class="mdi mdi-arrow-left"></i>
-                                @lang('Dawnstar::general.back')
-                            </a>
-                        </div>
-                    </div>
                     <form action="{{ route('dawnstar.websites.update', $website) }}" method="POST">
                         @method('PUT')
                         @csrf
@@ -114,6 +112,10 @@
 
                         <button type="submit" class="btn btn-primary">@lang('Dawnstar::general.save')</button>
                     </form>
+                </div>
+
+                <div class="card-footer text-end">
+                    <button type="submit" class="btn btn-primary" form="websiteStore">@lang('Dawnstar::general.save')</button>
                 </div>
             </div>
         </div>

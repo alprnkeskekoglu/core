@@ -1,10 +1,13 @@
 <?php
 
 use Dawnstar\Http\Controllers\WebsiteController;
+use Dawnstar\Http\Controllers\AdminController;
 use Dawnstar\Http\Controllers\CustomTranslationController;
 
 
 Route::resource('websites', WebsiteController::class)->except(['show']);
+
+Route::resource('admins', AdminController::class)->except(['show']);
 
 
 
