@@ -4,6 +4,7 @@ namespace Dawnstar\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 class AdminRequest extends FormRequest
 {
@@ -13,12 +14,18 @@ class AdminRequest extends FormRequest
             'status' => ['required'],
             'first_name' => ['required', 'string'],
             'last_name' => ['required', 'string'],
+            'role_id' => ['required'],
             'email' => [
                 'required',
                 'email',
                 Rule::unique('admins')->ignore($this->admin)
             ],
-            'password' => ['nullable', 'confirmed'],
+            'password' => [
+                Rule::requiredIf(is_null($this->admin)),
+                'nullable',
+                'confirmed',
+                Password::min(8)->letters()->numbers()
+            ],
         ];
     }
 

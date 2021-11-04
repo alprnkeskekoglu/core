@@ -1,7 +1,7 @@
 @extends('Dawnstar::layouts.app')
 
 @section('content')
-    @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::website.title.index')])
+    @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::website.title.edit')])
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -159,6 +159,9 @@
         @enderror
         @if($errors->any())
         $('#languages').trigger('change');
+        @endif
+        @if($errors->any())
+        showMessage('error', 'Oops...', '')
         @endif
     </script>
 @endpush

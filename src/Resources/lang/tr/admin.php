@@ -5,7 +5,8 @@ return [
 
     'title' => [
         'index' => 'Panel Yöneticileri',
-        'create' => 'Yeni Panel Yöneticisi Oluştur'
+        'create' => 'Yeni Panel Yöneticisi Oluştur',
+        'edit' => 'Panel Yönetici Düzenle'
     ],
 
     'labels' => [

@@ -16,3 +16,42 @@ function statusText(int $status): string
 {
     return __('Dawnstar::general.status_options.' . $status);
 }
+
+function custom(string $key, string $value = null, int $languageId = null) {
+    return $key;
+
+    $languageId = $languageId ?: 164;
+
+    $customTranslations = \Illuminate\Support\Facades\Cache::rememberForever('customTranslations_' . $languageId, function () use($languageId) {
+        return \Dawnstar\Models\CustomTranslation::where('language_id', $languageId)->pluck('value', 'key')->toArray();
+    });
+
+    if (array_key_exists($key, $customTranslations)) {
+        return $customTranslations[$key];
+    }
+
+    $customTranslation = \Dawnstar\Models\CustomTranslation::updateOrCreate(
+        [
+            'language_id' => $languageId,
+            'key' => $key
+        ],
+        [
+            'value' => $value
+        ]
+    );
+
+
+    $languages = [84]; // TODO
+
+    foreach ($languages as $language) {
+        \Dawnstar\Models\CustomTranslation::firstOrCreate(
+            [
+                'language_id' => $languageId,
+                'key' => $key
+            ]
+        );
+    }
+
+    \Illuminate\Support\Facades\Cache::forget('customTranslations_' . $languageId);
+    return $value;
+}

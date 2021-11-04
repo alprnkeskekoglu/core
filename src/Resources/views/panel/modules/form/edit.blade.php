@@ -1,31 +1,34 @@
 @extends('Dawnstar::layouts.app')
 
 @section('content')
-    @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::website.title.create')])
+    @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::form.title.edit')])
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <a href="{{ route('dawnstar.websites.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('dawnstar.forms.index') }}" class="btn btn-secondary">
                         <i class="mdi mdi-arrow-left"></i>
                         @lang('Dawnstar::general.back')
                     </a>
                 </div>
-
                 <div class="card-body">
-                    <form action="{{ route('dawnstar.websites.store') }}" id="websiteStore" method="POST">
+                    <form action="{{ route('dawnstar.forms.update', $form) }}" id="formStore" method="POST">
+                        @method('PUT')
                         @csrf
                         <div class="row">
-
                             <div class="col-lg-6">
-                                <label class="form-label">@lang('Dawnstar::website.labels.status')</label>
+                                <label class="form-label">@lang('Dawnstar::form.labels.status')</label>
                                 <div class="mb-3">
                                     <div class="form-check form-check-inline form-radio-success">
-                                        <input type="radio" id="status_1" name="status" class="form-check-input @error('status') is-invalid @enderror" value="1" {{ old('status', 1) == 1 ? 'checked' : '' }}>
+                                        <input type="radio" id="status_1" name="status" class="form-check-input @error('status') is-invalid @enderror" value="1" {{ old('status', $form->status) == 1 ? 'checked' : '' }}>
                                         <label class="form-check-label" for="status_1">@lang('Dawnstar::general.status_options.1')</label>
                                     </div>
+                                    <div class="form-check form-check-inline form-radio-secondary">
+                                        <input type="radio" id="status_2" name="status" class="form-check-input @error('status') is-invalid @enderror" value="2" {{ old('status', $form->status) == 2 ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="status_2">@lang('Dawnstar::general.status_options.2')</label>
+                                    </div>
                                     <div class="form-check form-check-inline form-radio-danger">
-                                        <input type="radio" id="status_0" name="status" class="form-check-input @error('status') is-invalid @enderror" value="0" {{ old('status') == 0 ? 'checked' : '' }}>
+                                        <input type="radio" id="status_0" name="status" class="form-check-input @error('status') is-invalid @enderror" value="0" {{ old('status', $form->status) == 0 ? 'checked' : '' }}>
                                         <label class="form-check-label" for="status_0">@lang('Dawnstar::general.status_options.0')</label>
                                     </div>
                                     @error('status')
@@ -36,17 +39,17 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <label class="form-label">@lang('Dawnstar::website.labels.default')</label>
+                                <label class="form-label">@lang('Dawnstar::form.labels.recaptcha_status')</label>
                                 <div class="mb-3">
                                     <div class="form-check form-check-inline form-radio-success">
-                                        <input type="radio" id="default_1" name="default" class="form-check-input @error('default') is-invalid @enderror" value="1" {{ old('default') == 1 ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="default_1">@lang('Dawnstar::general.yes')</label>
+                                        <input type="radio" id="recaş_1" name="recaptcha_status" class="form-check-input @error('recaptcha_status') is-invalid @enderror" value="1" {{ old('recaptcha_status', $form->recaptcha_status) == 1 ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="recaptcha_status_1">@lang('Dawnstar::general.status_options.1')</label>
                                     </div>
                                     <div class="form-check form-check-inline form-radio-danger">
-                                        <input type="radio" id="default_0" name="default" class="form-check-input @error('default') is-invalid @enderror" value="0" {{ old('default', 0) == 0 ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="default_0">@lang('Dawnstar::general.no')</label>
+                                        <input type="radio" id="recaptcha_status_0" name="recaptcha_status" class="form-check-input @error('recaptcha_status') is-invalid @enderror" value="0" {{ old('recaptcha_status', $form->recaptcha_status) == 0 ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="recaptcha_status_0">@lang('Dawnstar::general.status_options.0')</label>
                                     </div>
-                                    @error('default')
+                                    @error('recaptcha_status')
                                     <div class="invalid-feedback d-block">
                                         {{ $message }}
                                     </div>
@@ -55,8 +58,8 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}"/>
-                                    <label for="name">@lang('Dawnstar::website.labels.name')</label>
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $form->name) }}"/>
+                                    <label for="name">@lang('Dawnstar::form.labels.name')</label>
                                     @error('name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -66,39 +69,31 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control @error('domain') is-invalid @enderror" id="domain" name="domain" value="{{ old('domain') }}"/>
-                                    <label for="domain">@lang('Dawnstar::website.labels.domain')</label>
-                                    @error('domain')
+                                    <input type="text" class="form-control" id="key" name="key" value="{{ old('key', $form->key) }}" readonly/>
+                                    <label for="key">@lang('Dawnstar::form.labels.key')</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control @error('sender_email') is-invalid @enderror" id="sender_email" name="sender_email" value="{{ old('sender_email', $form->sender_email) }}"/>
+                                    <label for="sender_email">@lang('Dawnstar::form.labels.sender_email')</label>
+                                    @error('sender_email')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-floating mb-3">
-                                    <select class="select2 form-select select2-multiple" data-toggle="select2" id="languages" name="languages[]" multiple data-placeholder="@lang('Dawnstar::general.select')...">
-                                        @foreach($languages as $language)
-                                            <option {{ in_array($language->id, old('languages', [])) ? 'selected' : '' }} value="{{ $language->id }}">{{ $language->native_name }}</option>
+
+                                    <select class="select2 form-select select2-multiple" id="receiver_emails" name="receiver_emails[]" multiple>
+                                        @foreach(old('receiver_emails', $form->receiver_emails) as $email)
+                                            <option value="{{ $email }}" selected>{{ $email }}</option>
                                         @endforeach
                                     </select>
-                                    <label for="languages">@lang('Dawnstar::website.labels.languages')</label>
-                                    @error('languages')
-                                    <div class="invalid-feedback d-block">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-floating mb-3">
-                                    <select class="form-select @error('default_language') is-invalid @enderror" id="default_language" name="default_language">
-                                    </select>
-                                    <label for="default_language">@lang('Dawnstar::website.labels.default_language')</label>
-                                    @error('default_language')
+                                    <label for="receiver_emails">@lang('Dawnstar::form.labels.receiver_emails')</label>
+                                    @error('receiver_emails')
                                     <div class="invalid-feedback d-block">
                                         {{ $message }}
                                     </div>
@@ -110,7 +105,7 @@
                 </div>
 
                 <div class="card-footer text-end">
-                    <button type="submit" class="btn btn-primary" form="websiteStore">@lang('Dawnstar::general.save')</button>
+                    <button type="submit" class="btn btn-primary" form="formStore">@lang('Dawnstar::general.save')</button>
                 </div>
             </div>
         </div>
@@ -134,27 +129,17 @@
     </style>
 @endpush
 
+
 @push('scripts')
     <script>
+        $('.select2').select2({tags: true});
         $('.select2-selection--multiple').addClass('form-select');
 
-        $('#languages').change(function () {
-            var values = $(this).val();
-            var content = "";
-
-            $.each(values, function (k, value) {
-                var element = $('#languages').find('option[value="' + value + '"]');
-                content += '<option value="' + value + '">' + element.html() + '</option>';
-            });
-
-            $('#default_language').html(content);
-        });
-
-        @error('languages')
+        @error('receiver_emails')
         $('.select2-selection--multiple').addClass('is-invalid').attr('style', 'border-color: #ff5b5b !important');
         @enderror
         @if($errors->any())
-        $('#languages').trigger('change');
+        $('#receiver_emails').trigger('change');
         @endif
         @if($errors->any())
             showMessage('error', 'Oops...', '')

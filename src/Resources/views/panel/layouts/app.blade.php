@@ -27,33 +27,10 @@
     </div>
 </div>
 
-<script src="{{ asset('vendor/dawnstar/assets/js/vendor.min.js') }}"></script>
+<script src="{{ asset('vendor/dawnstar/assets/js/jquery.min.js') }}"></script>
 <script src="{{ asset('vendor/dawnstar/assets/js/app.min.js') }}"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script>
-    function showNotification(type, message) {
-        toastr.options = {
-            "closeButton": true,
-            "newestOnTop": true,
-            "progressBar": true,
-            "positionClass": "toast-bottom-right",
-            "showDuration": "100",
-            "hideDuration": "750",
-            "timeOut": "2000",
-            "extendedTimeOut": "750",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-
-        if(type === 'success') {
-            toastr.success(message)
-        } else if(type === 'error') {
-            toastr.error(message)
-        }
-    }
-</script>
+<script src="{{ asset('vendor/dawnstar/assets/js/sweetalert2.min.js') }}"></script>
+<script src="{{ asset('vendor/dawnstar/assets/js/dawnstar.js') }}"></script>
 @stack('scripts')
 </body>
 </html>

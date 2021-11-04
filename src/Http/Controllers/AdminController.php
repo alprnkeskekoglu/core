@@ -6,6 +6,7 @@ use Dawnstar\Http\Requests\AdminRequest;
 use Dawnstar\MediaManager\Foundation\MediaUpload;
 use Dawnstar\MediaManager\Models\ModelMedia;
 use Dawnstar\Models\Admin;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends BaseController
 {
@@ -23,7 +24,7 @@ class AdminController extends BaseController
 
     public function store(AdminRequest $request)
     {
-        $data = $request->only(['status', 'emai', 'first_name', 'last_name', 'email', 'password']);
+        $data = $request->only(['status', 'email', 'first_name', 'last_name', 'email', 'password']);
         $medias = $request->get('medias');
         $role_id = $request->get('role_id'); // TODO: role structure
 
@@ -35,34 +36,37 @@ class AdminController extends BaseController
     }
 
 
-    public function edit(Website $website)
+    public function edit(Admin $admin)
     {
-        $selectedLanguages = $website->languages;
-        $languages = Language::all();
-
-        return view('Dawnstar::modules.website.edit', compact('website', 'languages', 'selectedLanguages'));
+        $roles = [];
+        return view('Dawnstar::modules.admin.edit', compact('admin', 'roles'));
     }
 
-    public function update(Website $website, WebsiteRequest $request)
+    public function update(Admin $admin, AdminRequest $request)
     {
-        $data = $request->only(['status', 'default', 'name', 'domain']);
-        $languages = $request->get('languages');
-        $defaultLanguage = $request->get('default_language');
+        $data = $request->only(['status', 'email', 'first_name', 'last_name', 'email', 'password']);
+        $medias = $request->get('medias');
+        $role_id = $request->get('role_id'); // TODO: role structure
 
-        $website->update($data);
-        $website->languages()->sync($languages);
-        $website->languages()->updateExistingPivot($defaultLanguage, ['is_default' => 1]);
-
-        if($data['default'] == 1) {
-            $defaultWebsites = Website::where('default', 1)->where('id', '<>', $website->id)->update(['default' => 0]);
+        if ($data['password']) {
+            $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
         }
 
-        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Dawnstar::website.success.update')]);
+        $admin->update($data);
+        $admin->syncMedias($medias);
+
+        return redirect()->route('dawnstar.admins.index')->with(['success' => __('Dawnstar::admin.success.update')]);
     }
 
-    public function destroy(Website $website)
+    public function destroy(Admin $admin)
     {
-        $website->delete();
-        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Dawnstar::website.success.destroy')]);
+        if($admin->id === auth()->id()) {
+            return redirect()->route('dawnstar.admins.index')->with(['error' => __('Dawnstar::admin.error.destroy_auth_admin')]);
+        }
+
+        $admin->delete();
+        return redirect()->route('dawnstar.admins.index')->with(['success' => __('Dawnstar::admin.success.destroy')]);
     }
 }

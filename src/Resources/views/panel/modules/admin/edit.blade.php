@@ -1,7 +1,7 @@
 @extends('Dawnstar::layouts.app')
 
 @section('content')
-    @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::admin.title.create')])
+    @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::admin.title.edit')])
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -13,22 +13,23 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('dawnstar.admins.store') }}" id="adminStore" method="POST">
+                    <form action="{{ route('dawnstar.admins.update', $admin) }}" id="adminStore" method="POST">
+                        @method('PUT')
                         @csrf
                         <div class="row">
                             <div class="col-lg-6">
                                 <label class="form-label">@lang('Dawnstar::admin.labels.status')</label>
                                 <div class="mb-3">
                                     <div class="form-check form-check-inline form-radio-success">
-                                        <input type="radio" id="status_1" name="status" class="form-check-input @error('status') is-invalid @enderror" value="1" {{ old('status') == 1 ? 'checked' : '' }}>
+                                        <input type="radio" id="status_1" name="status" class="form-check-input @error('status') is-invalid @enderror" value="1" {{ old('status', $admin->status) == 1 ? 'checked' : '' }}>
                                         <label class="form-check-label" for="status_1">@lang('Dawnstar::general.status_options.1')</label>
                                     </div>
                                     <div class="form-check form-check-inline form-radio-secondary">
-                                        <input type="radio" id="status_2" name="status" class="form-check-input @error('status') is-invalid @enderror" value="2" {{ old('status', 2) == 2 ? 'checked' : '' }}>
+                                        <input type="radio" id="status_2" name="status" class="form-check-input @error('status') is-invalid @enderror" value="2" {{ old('status', $admin->status) == 2 ? 'checked' : '' }}>
                                         <label class="form-check-label" for="status_2">@lang('Dawnstar::general.status_options.2')</label>
                                     </div>
                                     <div class="form-check form-check-inline form-radio-danger">
-                                        <input type="radio" id="status_0" name="status" class="form-check-input @error('status') is-invalid @enderror" value="0" {{ old('status', 2) == 0 ? 'checked' : '' }}>
+                                        <input type="radio" id="status_0" name="status" class="form-check-input @error('status') is-invalid @enderror" value="0" {{ old('status', $admin->status) == 0 ? 'checked' : '' }}>
                                         <label class="form-check-label" for="status_0">@lang('Dawnstar::general.status_options.0')</label>
                                     </div>
                                     @error('status')
@@ -40,11 +41,11 @@
                             </div>
 
                             <div class="col-lg-4 mb-3">
-                                @include('MediaManager::includes.media_box',['label' => __('Dawnstar::admin.labels.avatar'), 'key' => 'avatar', 'max_count' => '1'])
+                                @include('MediaManager::includes.media_box',['label' => __('Dawnstar::admin.labels.avatar'), 'medias' => $admin->mc_avatar, 'key' => 'avatar', 'max_count' => '1'])
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control @error('first_name') is-invalid @enderror" id="first_name" name="first_name" value="{{ old('first_name') }}"/>
+                                    <input type="text" class="form-control @error('first_name') is-invalid @enderror" id="first_name" name="first_name" value="{{ old('first_name', $admin->first_name) }}"/>
                                     <label for="name">@lang('Dawnstar::admin.labels.first_name')</label>
                                     @error('first_name')
                                     <div class="invalid-feedback">
@@ -55,7 +56,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control @error('last_name') is-invalid @enderror" id="last_name" name="last_name" value="{{ old('last_name') }}"/>
+                                    <input type="text" class="form-control @error('last_name') is-invalid @enderror" id="last_name" name="last_name" value="{{ old('last_name', $admin->last_name) }}"/>
                                     <label for="name">@lang('Dawnstar::admin.labels.last_name')</label>
                                     @error('last_name')
                                     <div class="invalid-feedback">
@@ -69,7 +70,7 @@
                                     <select class="form-select @error('role_id') is-invalid @enderror" id="role_id" name="role_id">
                                         <option value="1">Super Admin</option>
                                         @foreach($roles as $role)
-                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                            <option value="{{ $role->id }}" {{ old('role_id', $admin->role_id) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
                                         @endforeach
                                     </select>
                                     <label for="role_id">@lang('Dawnstar::admin.labels.role_id')</label>
@@ -82,7 +83,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}"/>
+                                    <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $admin->email) }}"/>
                                     <label for="email">@lang('Dawnstar::admin.labels.email')</label>
                                     @error('email')
                                     <div class="invalid-feedback">

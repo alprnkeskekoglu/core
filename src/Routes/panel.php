@@ -2,12 +2,17 @@
 
 use Dawnstar\Http\Controllers\WebsiteController;
 use Dawnstar\Http\Controllers\AdminController;
+use Dawnstar\Http\Controllers\FormController;
+use Dawnstar\Http\Controllers\FormMessageController;
 use Dawnstar\Http\Controllers\CustomTranslationController;
 
 
 Route::resource('websites', WebsiteController::class)->except(['show']);
 
 Route::resource('admins', AdminController::class)->except(['show']);
+
+Route::resource('forms', FormController::class)->except(['show']);
+Route::resource('forms.messages', FormMessageController::class)->only(['index', 'show', 'destroy']);
 
 
 

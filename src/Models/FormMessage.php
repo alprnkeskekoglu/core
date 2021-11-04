@@ -11,6 +11,7 @@ class FormMessage extends BaseModel
 
     protected $table = 'form_messages';
     protected $guarded = ['id'];
+    protected $casts = ['data' => 'array'];
 
     public function form()
     {

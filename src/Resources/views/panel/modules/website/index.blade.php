@@ -30,10 +30,10 @@
                                 <tr>
                                     <th scope="row">{{ $website->id }}</th>
                                     <td>
-                                        <span class="badge bg-{{ statusClass($website->status) }} font-14">{{ statusText($website->status) }}</span>
+                                        <span class="badge bg-{{ statusClass($website->status) }} font-16">{{ statusText($website->status) }}</span>
                                     </td>
                                     <td>
-                                        <span class="badge bg-{{ statusClass($website->default) }} font-14">@lang('Dawnstar::general.' . ($website->default === 1 ? 'yes' : 'no'))</span>
+                                        <span class="badge bg-{{ statusClass($website->default) }} font-16">@lang('Dawnstar::general.' . ($website->default === 1 ? 'yes' : 'no'))</span>
                                     </td>
                                     <td>
                                         {{ $website->name }}
@@ -62,6 +62,6 @@
 
 @push('scripts')
     @if(session('success'))
-        <script>$.NotificationApp.send("", "{{ session('success') }}", "bottom-right", "rgba(0,0,0,0.2)", "success")</script>
+        <script>showMessage('success', '', '{{ session('success') }}')</script>
     @endif
 @endpush

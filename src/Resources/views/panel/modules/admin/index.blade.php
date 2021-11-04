@@ -19,7 +19,6 @@
                             <tr>
                                 <th>#</th>
                                 <th>@lang('Dawnstar::admin.labels.status')</th>
-                                <th>@lang('Dawnstar::admin.labels.avatar')</th>
                                 <th>@lang('Dawnstar::admin.full_name')</th>
                                 <th>@lang('Dawnstar::admin.labels.email')</th>
                                 <th>@lang('Dawnstar::general.actions')</th>
@@ -30,12 +29,10 @@
                                 <tr>
                                     <th scope="row">{{ $admin->id }}</th>
                                     <td>
-                                        <span class="badge bg-{{ statusClass($admin->status) }} font-14">{{ statusText($admin->status) }}</span>
+                                        <span class="badge bg-{{ statusClass($admin->status) }} font-16">{{ statusText($admin->status) }}</span>
                                     </td>
-                                    <td>
-                                        <img src="{{ media($admin->mf_avatar->id) }}" class="img-fluid avatar-md rounded-circle">
-                                    </td>
-                                    <td>
+                                    <td class="table-user">
+                                        <img src="{{ media($admin->mf_avatar->id) }}" class="me-2 img-fluid avatar-md rounded-circle"/>
                                         {{ $admin->full_name }}
                                     </td>
                                     <td>{{ $admin->email }}</td>
@@ -44,7 +41,9 @@
                                         <form action="{{ route('dawnstar.admins.destroy', $admin) }}" method="POST" class="d-inline">
                                             @method('DELETE')
                                             @csrf
-                                            <button type="submit" class="btn action-icon"><i class="mdi mdi-delete"></i></button>
+                                            <button type="submit" class="btn action-icon" {{ $admin->id === auth()->id() ? 'disabled' : '' }}>
+                                                <i class="mdi mdi-delete"></i>
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
@@ -60,6 +59,8 @@
 
 @push('scripts')
     @if(session('success'))
-        <script>$.NotificationApp.send("", "{{ session('success') }}", "bottom-right", "rgba(0,0,0,0.2)", "success")</script>
+        <script>
+            showMessage('success', '', '{{ session('success') }}')
+        </script>
     @endif
 @endpush
