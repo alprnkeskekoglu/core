@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'profile' => 'Hesabım',
     'full_name' => 'Ad Soyad',
 
     'title' => [
@@ -24,5 +25,6 @@ return [
         'store' => 'Panel Yöneticisi başarıyla oluşturuldu!',
         'update' => 'Panel Yöneticisi başarıyla güncellendi!',
         'destroy' => 'Panel Yöneticisi başarıyla silindi!',
+        'profile_update' => 'Profil başarıyla silindi!',
     ],
 ];

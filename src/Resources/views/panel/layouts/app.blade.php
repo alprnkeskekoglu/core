@@ -9,7 +9,6 @@
     <link href="{{ asset('vendor/dawnstar/assets/css/app-modern.min.css') }}" rel="stylesheet" id="light-style"/>
     <link href="{{ asset('vendor/dawnstar/assets/css/app-modern-dark.min.css') }}" rel="stylesheet" id="dark-style"/>
     <link href="{{ asset('vendor/dawnstar/assets/css/dawnstar.css') }}" rel="stylesheet"/>
-    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" >
     @stack('styles')
 </head>
 
@@ -27,7 +26,7 @@
     </div>
 </div>
 
-<script src="{{ asset('vendor/dawnstar/assets/js/jquery.min.js') }}"></script>
+<script src="{{ asset('vendor/dawnstar/assets/js/vendor.min.js') }}"></script>
 <script src="{{ asset('vendor/dawnstar/assets/js/app.min.js') }}"></script>
 <script src="{{ asset('vendor/dawnstar/assets/js/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('vendor/dawnstar/assets/js/dawnstar.js') }}"></script>

@@ -1,5 +1,10 @@
 <?php
 
+function languageFlag(string $code): string
+{
+    return "//flagcdn.com/h20/" . ($code == 'en' ? 'gb' : $code) . ".png";
+}
+
 function statusClass(int $status): string
 {
     switch ($status) {
@@ -15,6 +20,11 @@ function statusClass(int $status): string
 function statusText(int $status): string
 {
     return __('Dawnstar::general.status_options.' . $status);
+}
+
+function adminAction($model, string $type) {
+    $adminActionService = new \Dawnstar\Services\AdminActionService($model);
+    $adminActionService->create($type);
 }
 
 function custom(string $key, string $value = null, int $languageId = null) {

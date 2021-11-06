@@ -122,23 +122,9 @@
     </div>
 @endsection
 
-@push('styles')
-    <style>
-        .select2-selection__rendered{
-            padding: 0 !important;
-        }
-        span.selection{
-            position: relative;
-        }
-        .selection > .select2-selection--multiple {
-            padding-top: 1.2rem;
-            padding-bottom: .1rem;
-        }
-    </style>
-@endpush
-
 @push('scripts')
     <script>
+        $('.select2').select2();
         $('.select2-selection--multiple').addClass('form-select');
 
         $('#languages').change(function () {

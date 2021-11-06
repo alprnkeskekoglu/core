@@ -6,6 +6,7 @@ use Database\Seeders\DatabaseSeeder;
 use Dawnstar\Database\seeds\LanguageSeeder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 
 class Update extends Command
 {
@@ -22,7 +23,7 @@ class Update extends Command
 
     public function handle()
     {
-        @unlink(public_path('vendor/dawnstar'));
+        File::deleteDirectory(public_path('vendor/dawnstar'));
         $this->info(public_path('vendor') . " Deleted !!" . PHP_EOL);
         $this->info('**It may take longer to publish, wait a few seconds.' . PHP_EOL);
         Artisan::call('vendor:publish', ['--tag' => ['dawnstar-assets']]);

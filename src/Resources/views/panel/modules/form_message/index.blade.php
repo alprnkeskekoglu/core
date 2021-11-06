@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <div id="messageModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div id="showModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="showModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
             </div>
@@ -76,10 +76,10 @@
             $.ajax({
                 url: url,
                 success: function (response) {
-                    $('#messageModal .modal-content').html(response);
+                    $('#showModal .modal-content').html(response);
 
-                    var messageModal = new bootstrap.Modal(document.getElementById('messageModal'))
-                    messageModal.show()
+                    var showModal = new bootstrap.Modal(document.getElementById('showModal'))
+                    showModal.show()
                 }
             })
         });

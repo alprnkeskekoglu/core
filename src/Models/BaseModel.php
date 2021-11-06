@@ -6,6 +6,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
+    public static function boot()
+    {
+        static::created(function ($model) {
+            adminAction($model, 'store');
+        });
+
+        static::saved(function ($model) {
+            adminAction($model, 'store');
+        });
+
+        static::updated(function ($model) {
+            adminAction($model, 'update');
+        });
+
+        static::deleted(function ($model) {
+            adminAction($model, 'destroy');
+        });
+
+        parent::boot();
+    }
+
     public function scopeActive($query)
     {
         return $query->where('status', 1);
@@ -13,7 +34,6 @@ class BaseModel extends Model
 
     public function syncMedias(array $medias)
     {
-        dd($this);
         foreach ($medias as $key => $media_ids) {
             $media_ids = explode(',', $media_ids);
             $save = [];

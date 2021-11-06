@@ -3,14 +3,18 @@
 namespace Dawnstar;
 
 use Dawnstar\Console\Commands\Update;
-use Dawnstar\Providers\RouteServiceProvider;
+use Dawnstar\Http\Middleware\Authenticate;
+use Dawnstar\Http\Middleware\RedirectIfAuthenticated;
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
+use Dawnstar\Providers\ConfigServiceProvider;
+use Dawnstar\Providers\RouteServiceProvider;
 
-class   DawnstarServiceProvider extends ServiceProvider
+class DawnstarServiceProvider extends ServiceProvider
 {
-
     public function register()
     {
+        $this->app->register(ConfigServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
     }
 
@@ -30,5 +34,9 @@ class   DawnstarServiceProvider extends ServiceProvider
                 Update::class,
             ]);
         }
+
+        $router = $this->app->make(Router::class);
+        $router->aliasMiddleware('dawnstar_auth', Authenticate::class);
+        $router->aliasMiddleware('dawnstar_guest', RedirectIfAuthenticated::class);
     }
 }

@@ -20,7 +20,6 @@ class FormMessageController extends BaseController
         return view('Dawnstar::modules.form_message.show', compact('form', 'message'))->render();
     }
 
-
     public function destroy(Form $form, FormMessage $message)
     {
         $message->delete();

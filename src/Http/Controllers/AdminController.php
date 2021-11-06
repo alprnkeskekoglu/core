@@ -26,8 +26,9 @@ class AdminController extends BaseController
     {
         $data = $request->only(['status', 'email', 'first_name', 'last_name', 'email', 'password']);
         $medias = $request->get('medias');
-        $role_id = $request->get('role_id'); // TODO: role structure
+        $role_id = $request->get('role_id'); // TODO role structure
 
+        $data['password'] = Hash::make($data['password']);
 
         $admin = Admin::create($data);
         $admin->syncMedias($medias);
@@ -67,6 +68,7 @@ class AdminController extends BaseController
         }
 
         $admin->delete();
+
         return redirect()->route('dawnstar.admins.index')->with(['success' => __('Dawnstar::admin.success.destroy')]);
     }
 }

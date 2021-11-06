@@ -19,7 +19,6 @@ class CustomTranslationController extends BaseController
     public function search(Request $request)
     {
         $customTranslations = $this->getCustomTranslations($request->get('search'));
-
         return view('Dawnstar::modules.custom_translation.ajax', compact('customTranslations'))->render();
     }
 

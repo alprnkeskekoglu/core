@@ -2,11 +2,7 @@
 
 namespace Dawnstar\Http\Controllers;
 
-use Dawnstar\Http\Requests\WebsiteRequest;
-use Dawnstar\Models\Website;
-use Dawnstar\Models\Language;
-
-class WebsiteController extends BaseController
+class StructureController extends BaseController
 {
     public function index()
     {
@@ -16,8 +12,8 @@ class WebsiteController extends BaseController
 
     public function create()
     {
-        $languages = Language::all();
-        return view('Dawnstar::modules.website.create', compact('languages'));
+        $languages = session('dawnstar.languages');
+        return view('Dawnstar::modules.structure.create', compact('languages'));
     }
 
     public function store(WebsiteRequest $request)

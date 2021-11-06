@@ -47,6 +47,7 @@ class FormController extends BaseController
     public function destroy(Form $form)
     {
         $form->delete();
+
         return redirect()->route('dawnstar.forms.index')->with(['success' => __('Dawnstar::form.success.destroy')]);
     }
 }
