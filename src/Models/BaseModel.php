@@ -26,7 +26,7 @@ class BaseModel extends Model
 
         parent::boot();
     }
-
+  
     public function scopeActive($query)
     {
         return $query->where('status', 1);

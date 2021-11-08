@@ -20,7 +20,7 @@ class CreateAdminActionsTable extends Migration
             $table->morphs('model');
             $table->string('type');
             $table->timestamps();
-
+          
             $table->foreign('website_id')->references('id')->on('websites');
             $table->foreign('admin_id')->references('id')->on('admins');
         });

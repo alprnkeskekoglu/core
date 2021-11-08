@@ -55,4 +55,3 @@ Route::middleware(['dawnstar_auth'])->group(function () {
         Route::get('changeLanguage/{language}', [PanelController::class, 'changeLanguage'])->name('changeLanguage');
     });
 });
-

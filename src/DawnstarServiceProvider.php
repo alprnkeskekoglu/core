@@ -9,8 +9,9 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Dawnstar\Providers\ConfigServiceProvider;
 use Dawnstar\Providers\RouteServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
-class DawnstarServiceProvider extends ServiceProvider
+class   DawnstarServiceProvider extends ServiceProvider
 {
     public function register()
     {

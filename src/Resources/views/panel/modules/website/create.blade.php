@@ -16,7 +16,6 @@
                     <form action="{{ route('dawnstar.websites.store') }}" id="websiteStore" method="POST">
                         @csrf
                         <div class="row">
-
                             <div class="col-lg-6">
                                 <label class="form-label">@lang('Dawnstar::website.labels.status')</label>
                                 <div class="mb-3">

@@ -13,7 +13,6 @@ class Form extends BaseModel
     protected $guarded = ['id'];
     protected $casts = ['receiver_emails' => 'array'];
 
-
     public function messages()
     {
         return $this->hasMany(FormMessage::class);

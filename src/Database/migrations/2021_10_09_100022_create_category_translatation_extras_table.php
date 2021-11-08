@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePageExstrasTable extends Migration
+class CreateCategoryTranslationExstrasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreatePageExstrasTable extends Migration
      */
     public function up()
     {
-        Schema::create('page_extras', function (Blueprint $table) {
+        Schema::create('category_translation_extras', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('page_id')->index();
+            $table->unsignedBigInteger('category_translation_id')->index();
+            $table->unsignedInteger('language_id')->index();
             $table->string('key');
             $table->text('value');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('page_id')->references('id')->on('page_extras')->cascadeOnDelete();
+            $table->foreign('category_translation_id')->references('id')->on('category_translations')->cascadeOnDelete();
         });
     }
 
@@ -32,6 +33,6 @@ class CreatePageExstrasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('page_extras');
+        Schema::dropIfExists('category_translation_extras');
     }
 }

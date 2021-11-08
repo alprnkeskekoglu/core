@@ -2,6 +2,8 @@
 
 namespace Dawnstar\Http\Controllers;
 
+use Database\Seeders\DatabaseSeeder;
+use Dawnstar\Database\seeds\LanguageSeeder;
 use Dawnstar\Http\Requests\WebsiteRequest;
 use Dawnstar\Models\Website;
 use Dawnstar\Models\Language;
@@ -33,7 +35,7 @@ class WebsiteController extends BaseController
         if($data['default'] == 1) {
             $defaultWebsites = Website::where('default', 1)->where('id', $website->id)->update(['default' => 0]);
         }
-
+      
         return redirect()->route('dawnstar.websites.index')->with(['success' => __('Dawnstar::website.success.store')]);
     }
 
