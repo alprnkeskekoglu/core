@@ -14,6 +14,7 @@ use Dawnstar\Http\Controllers\FormController;
 use Dawnstar\Http\Controllers\FormMessageController;
 use Dawnstar\Http\Controllers\CustomTranslationController;
 
+use Dawnstar\Http\Controllers\UrlController;
 use Dawnstar\Http\Controllers\PanelController;
 
 
@@ -28,7 +29,7 @@ Route::middleware(['dawnstar_auth'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('websites', WebsiteController::class)->except(['show']);
-    
+
     Route::resource('structures', StructureController::class)->except(['show']);
 
     Route::resource('admins', AdminController::class)->except(['show']);
@@ -47,6 +48,8 @@ Route::middleware(['dawnstar_auth'])->group(function () {
         Route::put('/', [CustomTranslationController::class, 'update'])->name('update');
         Route::delete('/', [CustomTranslationController::class, 'destroy'])->name('destroy');
     });
+
+    Route::get('getUrl', [UrlController::class, 'getUrl'])->name('getUrl');
 
     Route::prefix('panel')->as('panel.')->group(function () {
         Route::get('changeLanguage/{language}', [PanelController::class, 'changeLanguage'])->name('changeLanguage');

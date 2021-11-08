@@ -11,6 +11,7 @@ class ContainerTranslation extends BaseModel
 
     protected $table = 'container_translations';
     protected $guarded = ['id'];
+    protected $casts = ['status' => 'bool'];
 
     public function container()
     {
@@ -25,6 +26,11 @@ class ContainerTranslation extends BaseModel
     public function extras()
     {
         return $this->hasMany(ContainerTranslationExtra::class);
+    }
+
+    public function language()
+    {
+        return $this->belongsTo(Language::class);
     }
 
     public function url()

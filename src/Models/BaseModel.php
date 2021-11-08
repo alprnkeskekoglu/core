@@ -32,6 +32,11 @@ class BaseModel extends Model
         return $query->where('status', 1);
     }
 
+    public function scopeWebsite($query)
+    {
+        return $query->where('website_id', session('dawnstar.website.id'));
+    }
+
     public function syncMedias(array $medias)
     {
         foreach ($medias as $key => $media_ids) {

@@ -2,84 +2,82 @@
 
 namespace Dawnstar\Http\Controllers;
 
+use Dawnstar\Http\Requests\StructureRequest;
+use Dawnstar\Models\Container;
+use Dawnstar\Models\ContainerTranslation;
+use Dawnstar\Models\Structure;
+
 class StructureController extends BaseController
 {
     public function index()
     {
-        $websites = Website::all();
-        return view('Dawnstar::modules.website.index', compact('websites'));
+        $structures = Structure::all();
+        return view('Dawnstar::modules.structure.index', compact('structures'));
     }
 
     public function create()
     {
         $languages = session('dawnstar.languages');
-        return view('Dawnstar::modules.structure.create', compact('languages'));
+        $hasHomepage = Structure::where('key', 'homepage')->exists();
+        $hasSearch = Structure::where('key', 'search')->exists();
+
+        return view('Dawnstar::modules.structure.create', compact('languages', 'hasHomepage', 'hasSearch'));
     }
 
-    public function store(WebsiteRequest $request)
+    public function store(StructureRequest $request)
     {
-        $data = $request->only(['status', 'default', 'name', 'domain']);
+        $data = $request->only(['status', 'type', 'key', 'has_detail', 'has_category', 'has_property', 'has_url', 'is_searchable']);
         $languages = $request->get('languages');
-        $defaultLanguage = $request->get('default_language');
+        $translations = $request->get('translations');
 
-        $website = Website::create($data);
-        $website->languages()->sync($languages);
-        $website->languages()->updateExistingPivot($defaultLanguage, ['default' => 1]);
+        $data['website_id'] = session('dawnstar.website.id');
 
-        if($data['default'] == 1) {
-            $defaultWebsites = Website::where('default', 1)->where('id', $website->id)->update(['default' => 0]);
+        $structure = Structure::create($data);
+        $container = Container::create(['structure_id' => $structure->id]);
+        foreach ($translations as $languageId => $translation) {
+            $translation['container_id'] = $container->id;
+            $translation['language_id'] = $languageId;
+            $translation['status'] = $languages[$languageId];
+            ContainerTranslation::create($translation);
         }
 
-        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Dawnstar::website.success.store')]);
+        return redirect()->route('dawnstar.structures.index')->with(['success' => __('Dawnstar::structure.success.store')]);
     }
 
 
-    public function edit(Website $website)
+    public function edit(Structure $structure)
     {
-        $selectedLanguages = $website->languages;
-        $languages = Language::all();
+        $languages = session('dawnstar.languages');
 
-        return view('Dawnstar::modules.website.edit', compact('website', 'languages', 'selectedLanguages'));
+        return view('Dawnstar::modules.structure.edit', compact('structure', 'languages'));
     }
 
-    public function update(Website $website, WebsiteRequest $request)
+    public function update(Structure $structure, StructureRequest $request)
     {
-        $data = $request->only(['status', 'default', 'name', 'domain']);
+        $data = $request->only(['status', 'type', 'key', 'has_detail', 'has_category', 'has_property', 'has_url', 'is_searchable']);
         $languages = $request->get('languages');
-        $defaultLanguage = $request->get('default_language');
+        $translations = $request->get('translations');
 
-        $website->update($data);
-        $website->languages()->sync($languages);
-        $website->languages()->updateExistingPivot($defaultLanguage, ['default' => 1]);
+        $structure->update($data);
 
-        if($data['default'] == 1) {
-            $defaultWebsites = Website::where('default', 1)->where('id', '<>', $website->id)->update(['default' => 0]);
+        foreach ($translations as $languageId => $translation) {
+            ContainerTranslation::updateOrCreate(
+                [
+                    'container_id' => $structure->container->id,
+                    'language_id' => $languageId,
+                    'status' => $languages[$languageId],
+                ],
+                $translation
+            );
         }
 
-        if($website->id === session('dawnstar.website.id')) {
-            $this->setSession($website);
-        }
-
-        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Dawnstar::website.success.update')]);
+        return redirect()->route('dawnstar.structures.index')->with(['success' => __('Dawnstar::structure.success.update')]);
     }
 
-    public function destroy(Website $website)
+    public function destroy(Structure $structure)
     {
-        $website->delete();
+        $structure->delete();
 
-        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Dawnstar::website.success.destroy')]);
-    }
-
-    private function setSession(Website $website)
-    {
-        $languages = $website->languages;
-        $language = $website->languages()->wherePivot('default', 1)->first();
-        session([
-            'dawnstar' => [
-                'website' => $website,
-                'languages' => $languages,
-                'language' => $language,
-            ]
-        ]);
+        return redirect()->route('dawnstar.structures.index')->with(['success' => __('Dawnstar::structure.success.destroy')]);
     }
 }

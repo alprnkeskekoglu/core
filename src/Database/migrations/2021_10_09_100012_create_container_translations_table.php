@@ -18,7 +18,7 @@ class CreateContainerTranslationsTable extends Migration
             $table->unsignedBigInteger('container_id')->index();
             $table->unsignedInteger('language_id')->index();
             $table->boolean('status')->default(1);
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('slug')->nullable();
             $table->text('detail')->nullable();
             $table->timestamps();
