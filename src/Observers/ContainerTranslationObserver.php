@@ -10,6 +10,9 @@ class ContainerTranslationObserver
 {
     public function created(ContainerTranslation $containerTranslation)
     {
+        if($containerTranslation->status != 1) {
+            return;
+        }
         $urlText = $this->getUrlText($containerTranslation);
 
         $containerTranslation->url()->create(
@@ -22,13 +25,17 @@ class ContainerTranslationObserver
 
     public function updated(ContainerTranslation $containerTranslation)
     {
+        if($containerTranslation->status != 1) {
+            return;
+        }
+
         if(is_null($containerTranslation->url)) {
             $this->created($containerTranslation);
         }
-        
+
         $urlText = $this->getUrlText($containerTranslation);
 
-        $url = $containerTranslation->url->update(['url' => $urlText]);
+        $containerTranslation->url->update(['url' => $urlText]);
     }
 
     private function getUrlText(ContainerTranslation $containerTranslation): string

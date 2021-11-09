@@ -25,6 +25,7 @@ Route::middleware(['dawnstar_guest'])->group(function () {
 
 Route::middleware(['dawnstar_auth'])->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

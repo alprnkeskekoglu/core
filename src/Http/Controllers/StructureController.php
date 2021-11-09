@@ -6,13 +6,27 @@ use Dawnstar\Http\Requests\StructureRequest;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\ContainerTranslation;
 use Dawnstar\Models\Structure;
+use Dawnstar\Repositories\ContainerRepository;
+use Dawnstar\Repositories\ContainerTranslationRepository;
+use Dawnstar\Repositories\StructureRepository;
 use Illuminate\Support\Facades\DB;
 
 class StructureController extends BaseController
 {
+    protected StructureRepository $structureRepository;
+    protected ContainerRepository $containerRepository;
+    protected ContainerTranslationRepository $containerTranslationRepository;
+
+    public function __construct(StructureRepository $structureRepository, ContainerRepository $containerRepository, ContainerTranslationRepository $containerTranslationRepository)
+    {
+        $this->structureRepository = $structureRepository;
+        $this->containerRepository = $containerRepository;
+        $this->containerTranslationRepository = $containerTranslationRepository;
+    }
+
     public function index()
     {
-        $structures = Structure::all();
+        $structures = $this->structureRepository->getAll();
         return view('Dawnstar::modules.structure.index', compact('structures'));
     }
 
@@ -27,23 +41,9 @@ class StructureController extends BaseController
 
     public function store(StructureRequest $request)
     {
-        $data = $request->only(['status', 'type', 'key', 'has_detail', 'has_category', 'has_property', 'has_url', 'is_searchable']);
-        $languages = $request->get('languages');
-        $translations = $request->get('translations');
-
-        $data['website_id'] = session('dawnstar.website.id');
-
-        DB::beginTransaction();
-        $structure = Structure::create($data);
-        $container = Container::create(['structure_id' => $structure->id]);
-        foreach ($translations as $languageId => $translation) {
-            $translation['container_id'] = $container->id;
-            $translation['language_id'] = $languageId;
-            $translation['status'] = $languages[$languageId];
-            $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
-            ContainerTranslation::create($translation);
-        }
-        DB::commit();
+        $structure = $this->structureRepository->store($request);
+        $container = $this->containerRepository->store($structure);
+        $this->containerTranslationRepository->store($container, $request);
 
         return redirect()->route('dawnstar.structures.index')->with(['success' => __('Dawnstar::structure.success.store')]);
     }
@@ -58,30 +58,15 @@ class StructureController extends BaseController
 
     public function update(Structure $structure, StructureRequest $request)
     {
-        $data = $request->only(['status', 'type', 'key', 'has_detail', 'has_category', 'has_property', 'has_url', 'is_searchable']);
-        $languages = $request->get('languages');
-        $translations = $request->get('translations');
-
-        $structure->update($data);
-
-        foreach ($translations as $languageId => $translation) {
-            $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
-            ContainerTranslation::updateOrCreate(
-                [
-                    'container_id' => $structure->container->id,
-                    'language_id' => $languageId,
-                    'status' => $languages[$languageId],
-                ],
-                $translation
-            );
-        }
+        $this->structureRepository->update($structure, $request);
+        $this->containerTranslationRepository->update($structure->container, $request);
 
         return redirect()->route('dawnstar.structures.index')->with(['success' => __('Dawnstar::structure.success.update')]);
     }
 
     public function destroy(Structure $structure)
     {
-        $structure->delete();
+        $this->structureRepository->destroy($structure);
 
         return redirect()->route('dawnstar.structures.index')->with(['success' => __('Dawnstar::structure.success.destroy')]);
     }

@@ -33,9 +33,9 @@ class UrlController extends BaseController
 
     private function getNewSlug($website, $languageCode, $slug, $counter)
     {
-        $urlText = ($website->url_language_code == 1 ? "/{$language->code}/" : '/') . $slug . '-' . $counter;
+        $urlText = ($website->url_language_code == 1 ? "/{$languageCode}/" : '/') . $slug . '-' . $counter;
 
-        $urlExist = Url::where('url', $url)->exists();
+        $urlExist = Url::where('url', $urlText)->exists();
 
         if ($urlExist) {
             return $this->getNewSlug($website, $languageCode, $slug, ++$counter);

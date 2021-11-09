@@ -124,7 +124,7 @@
                                                 <img src="{{ languageFlag($language->code) }}" width="25"> {{ strtoupper($language->code) }}
                                             </button>
                                             <span class="btn-language-status {{ old('languages.' . $language->id, 1) == 1 ? 'bg-danger' : 'bg-success' }}" data-status="1"><i class="mdi {{ old('languages.' . $language->id, 1) == 1 ? 'mdi-close' : 'mdi-check' }}"></i></span>
-                                            <input type="hidden" name="languages[{{ $language->id }}]" value="1">
+                                            <input type="hidden" name="languages[{{ $language->id }}]" value="{{ old('languages.' . $language->id, 1) }}">
                                         </div>
                                     @endforeach
                                 </div>
