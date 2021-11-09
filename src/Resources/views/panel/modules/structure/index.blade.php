@@ -20,6 +20,7 @@
                                 <th>#</th>
                                 <th>@lang('Dawnstar::structure.labels.status')</th>
                                 <th>@lang('Dawnstar::structure.labels.key')</th>
+                                <th>@lang('Dawnstar::container.labels.name')</th>
                                 <th>@lang('Dawnstar::general.actions')</th>
                             </tr>
                             </thead>
@@ -31,7 +32,10 @@
                                         <span class="badge bg-{{ statusClass($structure->status) }} font-16">{{ statusText($structure->status) }}</span>
                                     </td>
                                     <td>
-                                        {{ $structure->key }}
+                                        <strong>{{ $structure->key }}</strong>
+                                    </td>
+                                    <td>
+                                        {{ $structure->container->translation->name }}
                                     </td>
                                     <td class="table-action">
                                         <a href="{{ route('dawnstar.structures.edit', $structure) }}" class="action-icon"> <i class="mdi mdi-pencil"></i></a>

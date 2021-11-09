@@ -96,13 +96,13 @@
                                             $translation = $structure->container->translations()->where('language_id', $language->id)->first();
                                         @endphp
                                         <div class="ms-1">
-                                            <button type="button" class="btn btn-outline-secondary p-1 languageBtn{{ $loop->first ? ' active' : '' }}" data-language="{{ $language->id }}" {{ old('languages.' . $language->id, $translation->status) == 1 ? '' : 'disabled' }}>
+                                            <button type="button" class="btn btn-outline-secondary p-1 languageBtn{{ $loop->first ? ' active' : '' }}" data-language="{{ $language->id }}" {{ old('languages.' . $language->id, optional($translation)->status) == 1 ? '' : 'disabled' }}>
                                                 <img src="{{ languageFlag($language->code) }}" width="25"> {{ strtoupper($language->code) }}
                                             </button>
-                                            <span class="btn-language-status {{ old('languages.' . $language->id, $translation->status) == 1 ? 'bg-danger' : 'bg-success' }}" data-status="1">
-                                                <i class="mdi {{ old('languages.' . $language->id, $translation->status) == 1 ? 'mdi-close' : 'mdi-check' }}"></i>
+                                            <span class="btn-language-status {{ old('languages.' . $language->id, optional($translation)->status) == 1 ? 'bg-danger' : 'bg-success' }}" data-status="1">
+                                                <i class="mdi {{ old('languages.' . $language->id, optional($translation)->status) == 1 ? 'mdi-close' : 'mdi-check' }}"></i>
                                             </span>
-                                            <input type="hidden" name="languages[{{ $language->id }}]" value="{{ $translation->status ?: 0 }}">
+                                            <input type="hidden" name="languages[{{ $language->id }}]" value="{{ optional($translation)->status ?: 0 }}">
                                         </div>
                                     @endforeach
                                 </div>
@@ -116,7 +116,7 @@
                                         <input type="text" class="form-control nameInput @if($errors->has('translations.' . $language->id . '.name')) is-invalid @endif"
                                                id="translations_{{ $language->id }}_name"
                                                name="translations[{{ $language->id }}][name]"
-                                               value="{{ old('translations.'.$language->id.'.name', $translation->name) }}"
+                                               value="{{ old('translations.'.$language->id.'.name', optional($translation)->name) }}"
                                                data-language="{{ $language->id }}"/>
                                         <label for="translations_{{ $language->id }}_name">@lang('Dawnstar::container.labels.name') ({{ strtoupper($language->code) }})</label>
                                         @if($errors->has('translations.' . $language->id . '.name'))
@@ -129,14 +129,17 @@
                             </div>
                             <div class="col-lg-6">
                                 @foreach($languages as $language)
+                                    @php
+                                        $translation = $structure->container->translations()->where('language_id', $language->id)->first();
+                                    @endphp
                                     <div class="form-floating mb-3 hasLanguage {{ $loop->first ? '' : 'd-none' }}" data-language="{{ $language->id }}">
                                         <input type="text" class="form-control slugInput @if($errors->has('translations.' . $language->id . '.slug')) is-invalid @endif"
                                                id="translations_{{ $language->id }}_slug"
                                                name="translations[{{ $language->id }}][slug]"
-                                               value="{{ old('translations.'.$language->id.'.slug', $translation->slug) }}"
+                                               value="{{ old('translations.'.$language->id.'.slug', optional($translation)->slug) }}"
                                                data-language="{{ $language->id }}"/>
                                         <label for="translations_{{ $language->id }}_slug">@lang('Dawnstar::container.labels.slug') ({{ strtoupper($language->code) }})</label>
-                                        <div class="help-block text-muted ms-2">/{{ $language->code }}<span>{{ old('translations.'.$language->id.'.slug', $translation->slug) }}</span></div>
+                                        <div class="help-block text-muted ms-2">/{{ $language->code }}<span>/{{ old('translations.'.$language->id.'.slug', optional($translation)->slug) }}</span></div>
                                         @error('translations.' . $language->id . '.slug')
                                         <div class="invalid-feedback">
                                             {{ $errors->first('translations.' . $language->id . '.slug') }}

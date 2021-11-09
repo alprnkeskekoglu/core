@@ -6,6 +6,7 @@ use Dawnstar\Http\Requests\StructureRequest;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\ContainerTranslation;
 use Dawnstar\Models\Structure;
+use Illuminate\Support\Facades\DB;
 
 class StructureController extends BaseController
 {
@@ -32,14 +33,17 @@ class StructureController extends BaseController
 
         $data['website_id'] = session('dawnstar.website.id');
 
+        DB::beginTransaction();
         $structure = Structure::create($data);
         $container = Container::create(['structure_id' => $structure->id]);
         foreach ($translations as $languageId => $translation) {
             $translation['container_id'] = $container->id;
             $translation['language_id'] = $languageId;
             $translation['status'] = $languages[$languageId];
+            $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
             ContainerTranslation::create($translation);
         }
+        DB::commit();
 
         return redirect()->route('dawnstar.structures.index')->with(['success' => __('Dawnstar::structure.success.store')]);
     }
@@ -61,6 +65,7 @@ class StructureController extends BaseController
         $structure->update($data);
 
         foreach ($translations as $languageId => $translation) {
+            $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
             ContainerTranslation::updateOrCreate(
                 [
                     'container_id' => $structure->container->id,

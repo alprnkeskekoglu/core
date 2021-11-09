@@ -1,6 +1,12 @@
 <?php
 
 return [
+    'title' => [
+        'index' => 'Sayfa Yapıları',
+        'create' => 'Yeni Sayfa Yapısı Oluştur',
+        'edit' => 'Sayfa Yapısı Düzenle'
+    ],
+
     'labels' => [
         'status' => 'Durum',
         'type' => 'Tip',

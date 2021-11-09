@@ -245,6 +245,10 @@
         }
 
 
+        $(document).ready(function () {
+            updateOptions($('#type').val());
+        })
+
         $('#type').on('change', function () {
             var value = $(this).val();
 

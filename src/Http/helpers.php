@@ -144,8 +144,3 @@ function slugify(string $str, string $delimiter = '-'): string
 
     return mb_strtolower($str, 'UTF-8');
 }
-
-function statusText(int $status): string
-{
-    return __('Dawnstar::general.status_options.' . $status);
-}

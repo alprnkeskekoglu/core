@@ -5,11 +5,12 @@ namespace Dawnstar;
 use Dawnstar\Console\Commands\Update;
 use Dawnstar\Http\Middleware\Authenticate;
 use Dawnstar\Http\Middleware\RedirectIfAuthenticated;
+use Dawnstar\Models\ContainerTranslation;
+use Dawnstar\Observers\ContainerTranslationObserver;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Dawnstar\Providers\ConfigServiceProvider;
 use Dawnstar\Providers\RouteServiceProvider;
-use Illuminate\Support\ServiceProvider;
 
 class   DawnstarServiceProvider extends ServiceProvider
 {
@@ -39,5 +40,8 @@ class   DawnstarServiceProvider extends ServiceProvider
         $router = $this->app->make(Router::class);
         $router->aliasMiddleware('dawnstar_auth', Authenticate::class);
         $router->aliasMiddleware('dawnstar_guest', RedirectIfAuthenticated::class);
+
+
+        ContainerTranslation::observe(ContainerTranslationObserver::class);
     }
 }

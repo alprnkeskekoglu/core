@@ -15,7 +15,6 @@ class ContainerTranslationObserver
         $containerTranslation->url()->create(
             [
                 'website_id' => $containerTranslation->container->structure->website_id,
-                'type' => 'original',
                 'url' => $urlText
             ]
         );
@@ -23,6 +22,10 @@ class ContainerTranslationObserver
 
     public function updated(ContainerTranslation $containerTranslation)
     {
+        if(is_null($containerTranslation->url)) {
+            $this->created($containerTranslation);
+        }
+        
         $urlText = $this->getUrlText($containerTranslation);
 
         $url = $containerTranslation->url->update(['url' => $urlText]);
@@ -32,7 +35,7 @@ class ContainerTranslationObserver
     {
         $language = $containerTranslation->language;
         $website = session('dawnstar.website');
-        $urlText = ($website->url_language_code == 1 ? "/{$language->code}/" : '/') . $slug;
+        $urlText = ($website->url_language_code == 1 ? "/{$language->code}/" : '/') . $containerTranslation->slug;
 
         return rtrim($urlText, '/');
     }
