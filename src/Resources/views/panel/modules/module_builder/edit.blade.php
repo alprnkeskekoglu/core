@@ -34,5 +34,5 @@
         window.module_builder_id = '{{ $moduleBuilder->id }}'
         window.language_id = '{{ session('dawnstar.language.id') }}'
     </script>
-    <script src="{{ asset('vendor/dawnstar/assets/js/builder.js') }}"></script>
+    <script src="{{ asset('/js/builder.js') }}"></script>
 @endpush

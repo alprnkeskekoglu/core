@@ -11,6 +11,7 @@ return [
     ],
 
     'translation' => 'Dile Bağlı Mı?',
+    'type' => 'Tip',
     'name' => 'Kolon Adı',
     'col' => 'Kolon Uzunluğu',
     'label' => 'Başlık',
