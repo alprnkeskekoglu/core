@@ -51,6 +51,12 @@ const app = new Vue({
     mounted() {
         this.getBuilderData();
         this.getTranslations();
+
+        var self = this;
+        var elementModal = document.getElementById('elementModal')
+        elementModal.addEventListener('hidden.bs.modal', function (event) {
+           self.new_element = false;
+        });
     },
     methods: {
         getBuilderData() {

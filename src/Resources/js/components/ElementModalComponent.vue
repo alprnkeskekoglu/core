@@ -158,7 +158,6 @@ export default {
             if(this.checkForm()) {
                 if(this.$root.new_element) {
                     this.$root.builderData.push(this.$root.current);
-                    this.$root.new_element = false;
                 }
 
                 document.querySelector('[data-bs-dismiss="modal"]').click();
