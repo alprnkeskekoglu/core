@@ -12,6 +12,7 @@ use Dawnstar\Http\Controllers\AdminActionController;
 use Dawnstar\Http\Controllers\ProfileController;
 use Dawnstar\Http\Controllers\FormController;
 use Dawnstar\Http\Controllers\FormMessageController;
+use Dawnstar\Http\Controllers\ModuleBuilderController;
 use Dawnstar\Http\Controllers\CustomTranslationController;
 
 use Dawnstar\Http\Controllers\UrlController;
@@ -27,7 +28,6 @@ Route::middleware(['dawnstar_auth'])->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('websites', WebsiteController::class)->except(['show']);
 
@@ -42,12 +42,19 @@ Route::middleware(['dawnstar_auth'])->group(function () {
     Route::resource('forms', FormController::class)->except(['show']);
     Route::resource('forms.messages', FormMessageController::class)->only(['index', 'show', 'destroy']);
 
-
     Route::prefix('custom-translations')->as('custom_translations.')->group(function () {
         Route::get('/', [CustomTranslationController::class, 'index'])->name('index');
         Route::get('/search', [CustomTranslationController::class, 'search'])->name('search');
         Route::put('/', [CustomTranslationController::class, 'update'])->name('update');
         Route::delete('/', [CustomTranslationController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('module-builders')->as('module_builders.')->group(function () {
+        Route::get('/', [ModuleBuilderController::class, 'index'])->name('index');
+        Route::get('/getTranslations', [ModuleBuilderController::class, 'getTranslations'])->name('getTranslations');
+        Route::get('/{moduleBuilder}', [ModuleBuilderController::class, 'edit'])->name('edit');
+        Route::put('/{moduleBuilder}', [ModuleBuilderController::class, 'update'])->name('update');
+        Route::get('/{moduleBuilder}/getBuilderData', [ModuleBuilderController::class, 'getBuilderData']);
     });
 
     Route::get('getUrl', [UrlController::class, 'getUrl'])->name('getUrl');

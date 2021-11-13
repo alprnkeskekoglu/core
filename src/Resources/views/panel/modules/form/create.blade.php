@@ -85,7 +85,6 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-floating mb-3">
-
                                     <select class="select2 form-select select2-multiple" id="receiver_emails" name="receiver_emails[]" multiple>
                                         @foreach(old('receiver_emails', []) as $email)
                                             <option value="{{ $email }}" selected>{{ $email }}</option>
@@ -110,24 +109,6 @@
         </div>
     </div>
 @endsection
-
-@push('styles')
-    <style>
-        .select2-selection__rendered {
-            padding: 0 !important;
-        }
-
-        span.selection {
-            position: relative;
-        }
-
-        .selection > .select2-selection--multiple {
-            padding-top: 1.2rem;
-            padding-bottom: .1rem;
-        }
-    </style>
-@endpush
-
 
 @push('scripts')
     <script>

@@ -8,6 +8,7 @@ use Dawnstar\Models\ContainerTranslation;
 use Dawnstar\Models\Structure;
 use Dawnstar\Repositories\ContainerRepository;
 use Dawnstar\Repositories\ContainerTranslationRepository;
+use Dawnstar\Repositories\ModuleBuilderRepository;
 use Dawnstar\Repositories\StructureRepository;
 use Illuminate\Support\Facades\DB;
 
@@ -41,9 +42,14 @@ class StructureController extends BaseController
 
     public function store(StructureRequest $request)
     {
+        DB::beginTransaction();
         $structure = $this->structureRepository->store($request);
         $container = $this->containerRepository->store($structure);
         $this->containerTranslationRepository->store($container, $request);
+
+        $moduleBuilderRepository = new ModuleBuilderRepository();
+        $moduleBuilderRepository->store($structure);
+        DB::commit();
 
         return redirect()->route('dawnstar.structures.index')->with(['success' => __('Dawnstar::structure.success.store')]);
     }
