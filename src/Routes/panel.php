@@ -6,6 +6,7 @@ use Dawnstar\Http\Controllers\DashboardController;
 
 use Dawnstar\Http\Controllers\WebsiteController;
 use Dawnstar\Http\Controllers\StructureController;
+use Dawnstar\Http\Controllers\ContainerController;
 
 use Dawnstar\Http\Controllers\AdminController;
 use Dawnstar\Http\Controllers\AdminActionController;
@@ -32,6 +33,8 @@ Route::middleware(['dawnstar_auth'])->group(function () {
     Route::resource('websites', WebsiteController::class)->except(['show']);
 
     Route::resource('structures', StructureController::class)->except(['show']);
+    Route::resource('structures.containers', ContainerController::class)->only(['edit', 'update']);
+
 
     Route::resource('admins', AdminController::class)->except(['show']);
     Route::get('admin-actions', [AdminActionController::class, 'index'])->name('admin_actions.index');
@@ -52,7 +55,7 @@ Route::middleware(['dawnstar_auth'])->group(function () {
     Route::prefix('module-builders')->as('module_builders.')->group(function () {
         Route::get('/', [ModuleBuilderController::class, 'index'])->name('index');
         Route::get('/getTranslations', [ModuleBuilderController::class, 'getTranslations'])->name('getTranslations');
-        Route::get('/{moduleBuilder}', [ModuleBuilderController::class, 'edit'])->name('edit');
+        Route::get('/{moduleBuilder}/edit', [ModuleBuilderController::class, 'edit'])->name('edit');
         Route::put('/{moduleBuilder}', [ModuleBuilderController::class, 'update'])->name('update');
         Route::get('/{moduleBuilder}/getBuilderData', [ModuleBuilderController::class, 'getBuilderData']);
     });

@@ -6,7 +6,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <a href="{{ route('dawnstar.admins.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('dawnstar.structures.index') }}" class="btn btn-secondary">
                         <i class="mdi mdi-arrow-left"></i>
                         @lang('Dawnstar::general.back')
                     </a>
@@ -162,34 +162,8 @@
 
 
 @push('scripts')
+    <script src="{{ asset('vendor/dawnstar/assets/js/language-button.js') }}"></script>
     <script>
-        $('.languageBtn').on('click', function () {
-            var language = $(this).data('language');
-            $('.languageBtn').removeClass('active');
-            $(this).addClass('active');
-
-            $('.hasLanguage').addClass('d-none');
-            $('.hasLanguage[data-language="' + language + '"]').removeClass('d-none');
-        });
-
-        $('.btn-language-status').on('click', function () {
-            var status = $(this).data('status');
-
-            if (status == 0) {
-                $(this).addClass('bg-danger').removeClass('bg-success');
-                $(this).find('i').addClass('mdi-close').removeClass('mdi-check');
-                $(this).data('status', 1);
-                $(this).parent().find('input').val(1);
-                $(this).parent().find('button').prop('disabled', false);
-            } else if (status == 1) {
-                $(this).addClass('bg-success').removeClass('bg-danger');
-                $(this).find('i').addClass('mdi-check').removeClass('mdi-close');
-                $(this).data('status', 0);
-                $(this).parent().find('input').val(0);
-                $(this).parent().find('button').prop('disabled', true);
-            }
-        });
-
         var typingTimer;
         var doneTypingInterval = 250;
         var typedInput;
@@ -256,7 +230,6 @@
                 $('#has_category, #has_property').prop('disabled', true);
             }
         }
-
 
         @if($errors->any())
         showMessage('error', 'Oops...', '')

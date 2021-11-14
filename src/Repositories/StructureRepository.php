@@ -16,7 +16,7 @@ class StructureRepository implements StructureInterface
      */
     public function getById(int $id): Structure
     {
-        return Structure::find($id);
+        return Structure::findOrFail($id);
     }
 
     /**
@@ -25,7 +25,7 @@ class StructureRepository implements StructureInterface
      */
     public function getByStatus(int $status): Collection
     {
-        return Structure::where('status', $status)->get();
+        return Structure::where('website_id', session('dawnstar.website.id'))->where('status', $status)->get();
     }
 
     /**
@@ -33,7 +33,7 @@ class StructureRepository implements StructureInterface
      */
     public function getAll(): Collection
     {
-        return Structure::all();
+        return Structure::where('website_id', session('dawnstar.website.id'))->get();
     }
 
     /**
