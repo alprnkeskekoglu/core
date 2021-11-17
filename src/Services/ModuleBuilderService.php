@@ -36,6 +36,20 @@ class ModuleBuilderService
         return $html;
     }
 
+    public function validation()
+    {
+        $rules = $attributes = [];
+        $inputs = $this->builder->data;
+
+        foreach ($inputs as $input) {
+            if(isset($input['rules'])) {
+                $this->setRules($rules, $input);
+                $this->setAttributes($attributes, $input);
+            }
+        }
+        return [$rules, $attributes];
+    }
+
     private function getActiveLanguages()
     {
         $activeLanguageIds = $this->structure->container->translations()->active()->pluck('language_id')->toArray();
@@ -46,7 +60,7 @@ class ModuleBuilderService
     {
 
         $whiteList = [
-            'input', 'slug'
+            'input', 'slug', 'textarea'
         ];
 
         if (!in_array($input['element'], $whiteList)) {
@@ -74,11 +88,11 @@ class ModuleBuilderService
         $input['id'] = $input['name'];
         if ($input['translation']) {
             if ($element == 'media') {
-                $input['id'] = "translations_medias_{$input['name']}";
-                $input['name'] = "translations[medias][{$input['name']}]";
+                $input['id'] = "medias_{$input['name']}";
+                $input['name'] = "[medias][{$input['name']}]";
             } else {
-                $input['id'] = "translations_{$input['name']}";
-                $input['name'] = "translations[{$input['name']}]";
+                $input['id'] = "{$input['name']}";
+                $input['name'] = "[{$input['name']}]";
             }
         } elseif ($element == 'media') {
             $input['id'] = "medias_{$input['name']}";
@@ -127,4 +141,42 @@ class ModuleBuilderService
         return $this->model->translation->{$name}; //TODO Media
     }
     #endregion
+
+    private function setRules(array &$rules, array $input)
+    {
+        $element = $input['element'] ?? null;
+
+        if ($input['translation']) {
+            foreach ($this->languages as $language) {
+                if ($element == 'media') {
+                    $rules["translations.{$language->id}.medias.{$input['name']}"] = $input['rules'];
+                } else {
+                    $rules["translations.{$language->id}.{$input['name']}"] = $input['rules'];
+                }
+            }
+        } elseif ($element == 'media') {
+            $rules["medias.{$input['name']}"] = $input['rules'];
+        } else {
+            $rules[$input['name']] = $input['rules'];
+        }
+    }
+
+    private function setAttributes(array &$attributes, array $input)
+    {
+        $element = $input['element'] ?? null;
+
+        if ($input['translation']) {
+            foreach ($this->languages as $language) {
+                if ($element == 'media') {
+                    $attributes["translations.{$language->id}.medias.{$input['name']}"] = $input['labels'][session('dawnstar.language.id')];
+                } else {
+                    $attributes["translations.{$language->id}.{$input['name']}"] = $input['labels'][session('dawnstar.language.id')];
+                }
+            }
+        } elseif ($element == 'media') {
+            $attributes["medias.{$input['name']}"] = $input['labels'][session('dawnstar.language.id')];
+        } else {
+            $attributes[$input['name']] = $input['labels'][session('dawnstar.language.id')];
+        }
+    }
 }

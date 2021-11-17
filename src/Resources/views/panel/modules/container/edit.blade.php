@@ -42,6 +42,7 @@
 
 @push('scripts')
     <script src="{{ asset('vendor/dawnstar/assets/js/language-button.js') }}"></script>
+    <script src="{{ asset('vendor/dawnstar/assets/js/slugify.js') }}"></script>
     <script>
         @if($errors->any())
         showMessage('error', 'Oops...', '')

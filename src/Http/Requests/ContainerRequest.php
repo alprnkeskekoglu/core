@@ -3,8 +3,9 @@
 namespace Dawnstar\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class ContainerTranslationRequest extends FormRequest
+class ContainerRequest extends FormRequest
 {
     public function rules()
     {

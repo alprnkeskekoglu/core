@@ -5,7 +5,9 @@ namespace Dawnstar\Repositories;
 use Dawnstar\Contracts\ContainerInterface;
 use Dawnstar\Http\Requests\ContainerRequest;
 use Dawnstar\Models\Container;
+use Dawnstar\Models\ModuleBuilder;
 use Dawnstar\Models\Structure;
+use Dawnstar\Services\ModuleBuilderService;
 use Illuminate\Database\Eloquent\Collection;
 
 class ContainerRepository implements ContainerInterface
@@ -31,9 +33,13 @@ class ContainerRepository implements ContainerInterface
         return Container::create(['structure_id' => $structure->id]);
     }
 
-    public function update(Container $container)
+    public function update(Structure $structure, Container $container)
     {
-        // TODO: Implement update() method.
+        // TODO: Validation
+
+        $data = request()->except(['_token', '_method', 'translations', 'languages']);
+
+        $container->update($data);
     }
 
     public function destroy(Container $container)

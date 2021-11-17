@@ -34,6 +34,7 @@ class ContainerTranslationRepository implements ContainerTranslationInterface
     {
         $languages = $containerTranslationRequest->get('languages');
         $translations = $containerTranslationRequest->get('translations');
+        dd($translations);
 
         foreach ($translations as $languageId => $translation) {
             $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];

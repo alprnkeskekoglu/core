@@ -24,7 +24,6 @@ class StructureRequest extends FormRequest
 
             'translations.*.name' => ['required_if:languages.*,1'],
             'translations.*.slug' => ['required_if:languages.*,1']
-
         ];
     }
 

@@ -2,10 +2,11 @@
     @foreach($languages as $language)
         <div class="form-floating mb-2 hasLanguage {{ $loop->first ? '' : 'd-none' }}" data-language="{{ $language->id }}">
             <input type="text"
-                   class="form-control {{ $input['class'] }}"
+                   class="form-control slugInput {{ $input['class'] }}"
+                   name="translations[{{ $language->id }}]{{ $input['name'] }}"
                    value="{{ $input['value'] }}"
-                   id="{{ $input['id'] }}"/>
-            <label for="{{ $input['id'] }}">{{ $input['labels'][$language->id] }}</label>
+                   id="translations_{{ $language->id }}_{{ $input['id'] }}" data-language="{{ $language->id }}"/>
+            <label for="translations_{{ $language->id }}_{{ $input['id'] }}">{{ $input['labels'][session('dawnstar.language.id')] }}</label>
             <div class="help-block text-muted ms-2">/{{ $language->code }}<span>{{ $input['value'] }}</span></div>
         </div>
     @endforeach
