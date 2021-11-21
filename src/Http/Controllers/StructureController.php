@@ -45,7 +45,7 @@ class StructureController extends BaseController
         DB::beginTransaction();
         $structure = $this->structureRepository->store($request);
         $container = $this->containerRepository->store($structure);
-        $this->containerTranslationRepository->store($container, $request);
+        $this->containerTranslationRepository->store($container);
 
         $moduleBuilderRepository = new ModuleBuilderRepository();
         $moduleBuilderRepository->store($structure);

@@ -36,18 +36,9 @@ class ModuleBuilderService
         return $html;
     }
 
-    public function validation()
+    public function validate()
     {
-        $rules = $attributes = [];
-        $inputs = $this->builder->data;
-
-        foreach ($inputs as $input) {
-            if(isset($input['rules'])) {
-                $this->setRules($rules, $input);
-                $this->setAttributes($attributes, $input);
-            }
-        }
-        return [$rules, $attributes];
+        request()->validate(...$this->getValidationData());
     }
 
     private function getActiveLanguages()
@@ -56,6 +47,7 @@ class ModuleBuilderService
         return Language::whereIn('id', $activeLanguageIds)->get();
     }
 
+    #region Input
     private function getInputHtml(array $input): string
     {
 
@@ -69,6 +61,7 @@ class ModuleBuilderService
 
         $input['value'] = $this->getValue($input);
         $this->setInput($input);
+
 
         return view('Dawnstar::module_builder_inputs.' . $input['element'], [
             'input' => $input,
@@ -85,18 +78,25 @@ class ModuleBuilderService
     private function setInputNameAndId(array &$input)
     {
         $element = $input['element'] ?? null;
-        $input['id'] = $input['name'];
-        if ($input['translation']) {
-            if ($element == 'media') {
-                $input['id'] = "medias_{$input['name']}";
-                $input['name'] = "[medias][{$input['name']}]";
-            } else {
-                $input['id'] = "{$input['name']}";
-                $input['name'] = "[{$input['name']}]";
-            }
-        } elseif ($element == 'media') {
+
+        $input['key'] = $input['id'] = $input['name'];
+
+        if($element == 'media') {
             $input['id'] = "medias_{$input['name']}";
-            $input['name'] = "medias[{$input['name']}]";
+            $input['key'] = "medias.{$input['name']}";
+            $input['name'] = $input['translation'] ? "medias][{$input['name']}" : "medias[{$input['name']}]";
+        }
+
+        $name = $id = $key = [];
+        if($input['translation']) {
+            foreach ($this->languages as $language) {
+                $id[$language->id] = "translations_{$language->id}_" . $input['id'];
+                $key[$language->id] = "translations.{$language->id}." . $input['key'];
+                $name[$language->id] = "translations[{$language->id}][" . $input['name'] . "]";
+            }
+            $input['id'] = $id;
+            $input['key'] = $key;
+            $input['name'] = $name;
         }
     }
 
@@ -113,6 +113,7 @@ class ModuleBuilderService
             $input['label'] = $label;
         }
     }
+    #endregion
 
     #region Value
     private function getValue(array $input)
@@ -131,16 +132,37 @@ class ModuleBuilderService
     {
         $name = $input['name'];
 
-        return $this->model->{$name}; //TODO Media
+        return old($input['name'], $this->model->{$name}); //TODO Media
     }
 
     private function getTranslationValue(array $input)
     {
         $name = $input['name'];
+        $translations = $this->model->translations;
 
-        return $this->model->translation->{$name}; //TODO Media
+        $values = [];
+        foreach ($this->languages as $language) {//TODO Media
+            $translation = $translations->where('language_id', $language->id)->first();
+            $values[$language->id] = old("translations.{$language->id}.$name", $translation->{$name});
+        }
+        return $values;
     }
     #endregion
+
+    #region Validation
+    private function getValidationData()
+    {
+        $rules = $attributes = [];
+        $inputs = $this->builder->data;
+
+        foreach ($inputs as $input) {
+            if(isset($input['rules'])) {
+                $this->setRules($rules, $input);
+                $this->setAttributes($attributes, $input);
+            }
+        }
+        return [$rules, [], $attributes];
+    }
 
     private function setRules(array &$rules, array $input)
     {
@@ -164,19 +186,21 @@ class ModuleBuilderService
     private function setAttributes(array &$attributes, array $input)
     {
         $element = $input['element'] ?? null;
+        $panelLanguage = session('dawnstar.language');
 
         if ($input['translation']) {
             foreach ($this->languages as $language) {
                 if ($element == 'media') {
-                    $attributes["translations.{$language->id}.medias.{$input['name']}"] = $input['labels'][session('dawnstar.language.id')];
+                    $attributes["translations.{$language->id}.medias.{$input['name']}"] = $input['labels'][$panelLanguage->id] . ' (' . strtoupper($language->code) . ')';
                 } else {
-                    $attributes["translations.{$language->id}.{$input['name']}"] = $input['labels'][session('dawnstar.language.id')];
+                    $attributes["translations.{$language->id}.{$input['name']}"] = $input['labels'][$panelLanguage->id] . ' (' . strtoupper($language->code) . ')';
                 }
             }
         } elseif ($element == 'media') {
-            $attributes["medias.{$input['name']}"] = $input['labels'][session('dawnstar.language.id')];
+            $attributes["medias.{$input['name']}"] = $input['labels'][$panelLanguage->id];
         } else {
-            $attributes[$input['name']] = $input['labels'][session('dawnstar.language.id')];
+            $attributes[$input['name']] = $input['labels'][$panelLanguage->id];
         }
     }
+    #endregion
 }

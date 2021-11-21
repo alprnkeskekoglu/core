@@ -5,8 +5,6 @@ namespace Dawnstar\Repositories;
 use Dawnstar\Contracts\ContainerTranslationInterface;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\ContainerTranslation;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Foundation\Http\FormRequest;
 
 class ContainerTranslationRepository implements ContainerTranslationInterface
 {
@@ -16,10 +14,10 @@ class ContainerTranslationRepository implements ContainerTranslationInterface
         return ContainerTranslation::find($id);
     }
 
-    public function store(Container $container, FormRequest $containerTranslationRequest)
+    public function store(Container $container)
     {
-        $languages = $containerTranslationRequest->get('languages');
-        $translations = $containerTranslationRequest->get('translations');
+        $languages = request('languages');
+        $translations = request('translations');
 
         foreach ($translations as $languageId => $translation) {
             $translation['container_id'] = $container->id;
@@ -30,11 +28,10 @@ class ContainerTranslationRepository implements ContainerTranslationInterface
         }
     }
 
-    public function update(Container $container, FormRequest $containerTranslationRequest)
+    public function update(Container $container)
     {
-        $languages = $containerTranslationRequest->get('languages');
-        $translations = $containerTranslationRequest->get('translations');
-        dd($translations);
+        $languages = request('languages');
+        $translations = request('translations');
 
         foreach ($translations as $languageId => $translation) {
             $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
@@ -47,10 +44,5 @@ class ContainerTranslationRepository implements ContainerTranslationInterface
                 $translation
             );
         }
-    }
-
-    public function destroy(Container $container)
-    {
-        // TODO: Implement destroy() method.
     }
 }

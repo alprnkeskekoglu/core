@@ -25,7 +25,6 @@
                                     @endforeach
                                 </div>
                             </div>
-
                             {!! $moduleBuilder->html() !!}
                         </div>
                     </form>

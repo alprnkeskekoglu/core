@@ -163,45 +163,8 @@
 
 @push('scripts')
     <script src="{{ asset('vendor/dawnstar/assets/js/language-button.js') }}"></script>
+    <script src="{{ asset('vendor/dawnstar/assets/js/slugify.js') }}"></script>
     <script>
-        var typingTimer;
-        var doneTypingInterval = 250;
-        var typedInput;
-        $('body').delegate('.nameInput', 'keyup', function () {
-            clearTimeout(typingTimer);
-            typedInput = $(this);
-
-            var languageId = typedInput.data('language');
-
-            if(typedInput.val().length && $('#type').val() != 'homepage') {
-                typingTimer = setTimeout(getUrl, doneTypingInterval);
-            } else {
-                $('.slugInput[data-language="' + languageId + '"]').val('/');
-            }
-        });
-
-        $('body').delegate('.nameInput', 'keydown', function () {
-            clearTimeout(typingTimer);
-        });
-
-        $('body').delegate('.slugInput', 'keyup', function () {
-            $(this).parent().find('div.help-block > span').html($(this).val())
-        });
-
-        function getUrl() {
-            var name = typedInput.val();
-            var languageId = typedInput.attr('data-language');
-
-            $.ajax({
-                'url': '{{ route('dawnstar.getUrl') }}',
-                'data': {'language_id': languageId, 'name': name},
-                'method': 'GET',
-                success: function (response) {
-                    $('.slugInput[data-language="' + languageId + '"]').val('/' + response).trigger('keyup');
-                },
-            });
-        }
-
         $(document).ready(function () {
             updateOptions($('#type').val());
         })
