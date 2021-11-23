@@ -50,18 +50,15 @@ class ModuleBuilderService
     #region Input
     private function getInputHtml(array $input): string
     {
-
         $whiteList = [
-            'input', 'slug', 'textarea'
+            'input', 'slug', 'textarea', 'radio'
         ];
 
         if (!in_array($input['element'], $whiteList)) {
             return '';
         }
 
-        $input['value'] = $this->getValue($input);
         $this->setInput($input);
-
 
         return view('Dawnstar::module_builder_inputs.' . $input['element'], [
             'input' => $input,
@@ -71,8 +68,13 @@ class ModuleBuilderService
 
     private function setInput(array &$input)
     {
+        $this->setValue($input);
         $this->setInputNameAndId($input);
         $this->setLabel($input);
+
+        if (in_array($input['element'], ['radio'])) {
+            $this->setOptions($input);
+        }
     }
 
     private function setInputNameAndId(array &$input)
@@ -81,14 +83,14 @@ class ModuleBuilderService
 
         $input['key'] = $input['id'] = $input['name'];
 
-        if($element == 'media') {
+        if ($element == 'media') {
             $input['id'] = "medias_{$input['name']}";
             $input['key'] = "medias.{$input['name']}";
             $input['name'] = $input['translation'] ? "medias][{$input['name']}" : "medias[{$input['name']}]";
         }
 
         $name = $id = $key = [];
-        if($input['translation']) {
+        if ($input['translation'] == 'true') {
             foreach ($this->languages as $language) {
                 $id[$language->id] = "translations_{$language->id}_" . $input['id'];
                 $key[$language->id] = "translations.{$language->id}." . $input['key'];
@@ -105,45 +107,52 @@ class ModuleBuilderService
         $label = $input['labels'][session('dawnstar.language.id')] ?? '';
         unset($input['labels']);
 
-        if($input['translation']) {
+        if ($input['translation'] == 'true') {
             foreach ($this->languages as $language) {
-                $input['labels'][$language->id] = $label . ' (' . strtoupper($language->code) . ')';
+                $input['label'][$language->id] = $label . ' (' . strtoupper($language->code) . ')';
             }
         } else {
             $input['label'] = $label;
         }
     }
+
+    private function setOptions(array &$input)
+    {
+        $options = [];
+        foreach ($input['options'] as $option) {
+            $options[$option['key']] = $option['value'][session('dawnstar.language.id')];
+        }
+
+        $input['options'] = $options;
+    }
     #endregion
 
     #region Value
-    private function getValue(array $input)
+    private function setValue(array &$input)
     {
-        if (is_null($this->model)) {
-            return null;
+        if ($input['translation'] == 'true') {
+            $input['value'] = $this->getTranslationValue($input);
+        } else {
+            $input['value'] = $this->getNonTranslationValue($input);
         }
-
-        if ($input['translation']) {
-            return $this->getTranslationValue($input);
-        }
-        return $this->getValueNoNTranslationValue($input);
     }
 
     private function getNonTranslationValue(array $input)
     {
         $name = $input['name'];
 
-        return old($input['name'], $this->model->{$name}); //TODO Media
+        return old($input['name'], ($this->model ? $this->model->{$name} : null)); //TODO Media
     }
 
     private function getTranslationValue(array $input)
     {
         $name = $input['name'];
-        $translations = $this->model->translations;
+        $translations = optional($this->model)->translations;
 
         $values = [];
         foreach ($this->languages as $language) {//TODO Media
-            $translation = $translations->where('language_id', $language->id)->first();
-            $values[$language->id] = old("translations.{$language->id}.$name", $translation->{$name});
+            $translation = $translations ? $translations->where('language_id', $language->id)->first() : null;
+            $values[$language->id] = old("translations.{$language->id}.$name", ($translation ? $translation->{$name} : null));
         }
         return $values;
     }
@@ -156,7 +165,7 @@ class ModuleBuilderService
         $inputs = $this->builder->data;
 
         foreach ($inputs as $input) {
-            if(isset($input['rules'])) {
+            if (isset($input['rules'])) {
                 $this->setRules($rules, $input);
                 $this->setAttributes($attributes, $input);
             }
@@ -168,7 +177,7 @@ class ModuleBuilderService
     {
         $element = $input['element'] ?? null;
 
-        if ($input['translation']) {
+        if ($input['translation'] == 'true') {
             foreach ($this->languages as $language) {
                 if ($element == 'media') {
                     $rules["translations.{$language->id}.medias.{$input['name']}"] = $input['rules'];
@@ -188,7 +197,7 @@ class ModuleBuilderService
         $element = $input['element'] ?? null;
         $panelLanguage = session('dawnstar.language');
 
-        if ($input['translation']) {
+        if ($input['translation'] == 'true') {
             foreach ($this->languages as $language) {
                 if ($element == 'media') {
                     $attributes["translations.{$language->id}.medias.{$input['name']}"] = $input['labels'][$panelLanguage->id] . ' (' . strtoupper($language->code) . ')';

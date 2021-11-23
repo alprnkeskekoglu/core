@@ -7,6 +7,7 @@ use Dawnstar\Http\Controllers\DashboardController;
 use Dawnstar\Http\Controllers\WebsiteController;
 use Dawnstar\Http\Controllers\StructureController;
 use Dawnstar\Http\Controllers\ContainerController;
+use Dawnstar\Http\Controllers\PageController;
 
 use Dawnstar\Http\Controllers\AdminController;
 use Dawnstar\Http\Controllers\AdminActionController;
@@ -34,6 +35,9 @@ Route::middleware(['dawnstar_auth'])->group(function () {
 
     Route::resource('structures', StructureController::class)->except(['show']);
     Route::resource('structures.containers', ContainerController::class)->only(['edit', 'update']);
+
+    Route::get('structures/{structure}/pages/datatable', [PageController::class, 'datatable'])->name('structures.pages.datatable');
+    Route::resource('structures.pages', PageController::class)->except(['show']);
 
 
     Route::resource('admins', AdminController::class)->except(['show']);

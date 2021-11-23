@@ -23,9 +23,9 @@ class UrlController extends BaseController
         $url = Url::where('website_id', $website->id)->where('url', $urlText)->first();
 
         if ($url) {
-            if ($name == $url->model->name) {
-                return $slug;
-            }
+//            if ($name == $url->model->name) { TODO: Model update edilirken yeni slug dönmemeli
+//                return $slug;
+//            }
             return $this->getNewSlug($website, $language->code, $slug, 1);
         }
         return $slug;

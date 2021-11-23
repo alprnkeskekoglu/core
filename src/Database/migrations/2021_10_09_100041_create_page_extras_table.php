@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePageExstrasTable extends Migration
+class CreatePageExtrasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -21,7 +21,7 @@ class CreatePageExstrasTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('page_id')->references('id')->on('page_extras')->cascadeOnDelete();
+            $table->foreign('page_id')->references('id')->on('pages')->cascadeOnDelete();
         });
     }
 

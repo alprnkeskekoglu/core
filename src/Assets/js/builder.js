@@ -2108,7 +2108,6 @@ __webpack_require__.r(__webpack_exports__);
       meta_tag_options: ['robots', 'title', 'description', 'keywords', 'author', 'og:title', 'og:description', 'og:image', 'og:url', 'twitter:title', 'twitter:description', 'twitter:image', 'twitter:card']
     };
   },
-  mounted: function mounted() {},
   methods: {
     changeParentClass: function changeParentClass(key, col) {
       this.$root.builderData[key].parent_class = 'col-lg-' + col;
@@ -2311,6 +2310,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ElementModalComponent",
   data: function data() {
@@ -2322,12 +2324,14 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  mounted: function mounted() {},
   methods: {
     addNewOption: function addNewOption() {
       this.$root.current.options.push({
         key: null,
-        value: null
+        value: {
+          164: null,
+          40: null
+        }
       });
     },
     removeOption: function removeOption(key) {
@@ -2337,11 +2341,30 @@ __webpack_require__.r(__webpack_exports__);
       if (this.checkForm()) {
         if (this.$root.new_element) {
           this.$root.builderData.push(this.$root.current);
-          this.$root.new_element = false;
         }
 
         document.querySelector('[data-bs-dismiss="modal"]').click();
         this.errors = {};
+        this.$root.current = {
+          translation: false,
+          element: null,
+          type: null,
+          name: null,
+          parent_class: "col-lg-12",
+          "class": null,
+          labels: {
+            40: null,
+            164: null
+          },
+          rules: [],
+          options: [{
+            key: null,
+            value: {
+              164: null,
+              40: null
+            }
+          }]
+        };
       }
     },
     checkForm: function checkForm() {
@@ -2454,7 +2477,10 @@ var app = new Vue({
       rules: [],
       options: [{
         key: null,
-        value: null
+        value: {
+          164: null,
+          40: null
+        }
       }]
     },
     columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -2464,9 +2490,10 @@ var app = new Vue({
   mounted: function mounted() {
     this.getBuilderData();
     this.getTranslations();
-    var select2Elements = document.querySelectorAll('.select2-selection--multiple');
-    select2Elements.forEach(function (item) {
-      item.classList.add('form-select');
+    var self = this;
+    var elementModal = document.getElementById('elementModal');
+    elementModal.addEventListener('hidden.bs.modal', function (event) {
+      self.new_element = false;
     });
   },
   methods: {
@@ -17850,7 +17877,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.form-floating > label {\n    opacity: .65;\n    transform: scale(.85) translateY(-.5rem) translateX(.15rem);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.form-floating > label {\n    opacity: .65;\n    transform: scale(.85) translateY(-.5rem) translateX(.15rem);\n}\n.select2-selection--multiple {\n    padding: .45rem 2.5rem .45rem .9rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -49883,7 +49910,10 @@ var render = function() {
                       { staticClass: "form-floating mb-3" },
                       [
                         _c("select2", {
-                          attrs: { settings: { multiple: true, tags: true } },
+                          attrs: {
+                            options: _vm.$root.current.rules,
+                            settings: { multiple: true, tags: true }
+                          },
                           model: {
                             value: _vm.$root.current.rules,
                             callback: function($$v) {
@@ -49903,13 +49933,13 @@ var render = function() {
             _vm._v(" "),
             ["select", "checkbox", "radio"].indexOf(
               _vm.$root.current.element
-            ) != -1
+            ) !== -1
               ? _c("hr")
               : _vm._e(),
             _vm._v(" "),
             ["select", "checkbox", "radio"].indexOf(
               _vm.$root.current.element
-            ) != -1
+            ) !== -1
               ? _c(
                   "div",
                   { staticClass: "row" },
@@ -49920,8 +49950,8 @@ var render = function() {
                     _vm._v(" "),
                     _vm._l(_vm.$root.current.options, function(option, key) {
                       return _c("div", { staticClass: "col-lg-12 mb-2" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-lg-5" }, [
+                        _c("div", { staticClass: "row gx-1" }, [
+                          _c("div", { staticClass: "col-lg-3" }, [
                             _c("input", {
                               directives: [
                                 {
@@ -49945,25 +49975,63 @@ var render = function() {
                             })
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "col-lg-5" }, [
+                          _c("div", { staticClass: "col-lg-3" }, [
                             _c("input", {
                               directives: [
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: option.value,
-                                  expression: "option.value"
+                                  value: option.value[164],
+                                  expression: "option.value[164]"
                                 }
                               ],
                               staticClass: "form-control",
-                              attrs: { type: "text", placeholder: "Value" },
-                              domProps: { value: option.value },
+                              attrs: {
+                                type: "text",
+                                placeholder: "Value (TR)"
+                              },
+                              domProps: { value: option.value[164] },
                               on: {
                                 input: function($event) {
                                   if ($event.target.composing) {
                                     return
                                   }
-                                  _vm.$set(option, "value", $event.target.value)
+                                  _vm.$set(
+                                    option.value,
+                                    164,
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-lg-3" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: option.value[40],
+                                  expression: "option.value[40]"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "text",
+                                placeholder: "Value (EN)"
+                              },
+                              domProps: { value: option.value[40] },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    option.value,
+                                    40,
+                                    $event.target.value
+                                  )
                                 }
                               }
                             })
@@ -49971,7 +50039,9 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "div",
-                            { staticClass: "col-lg-2 align-self-center" },
+                            {
+                              staticClass: "col-lg-3 align-self-center text-end"
+                            },
                             [
                               _c(
                                 "button",
