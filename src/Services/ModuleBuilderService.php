@@ -51,7 +51,7 @@ class ModuleBuilderService
     private function getInputHtml(array $input): string
     {
         $whiteList = [
-            'input', 'slug', 'textarea', 'radio'
+            'input', 'slug', 'textarea', 'radio', 'checkbox', 'select'
         ];
 
         if (!in_array($input['element'], $whiteList)) {
@@ -72,7 +72,7 @@ class ModuleBuilderService
         $this->setInputNameAndId($input);
         $this->setLabel($input);
 
-        if (in_array($input['element'], ['radio'])) {
+        if (in_array($input['element'], ['radio', 'checkbox', 'select'])) {
             $this->setOptions($input);
         }
     }

@@ -6,6 +6,10 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
+                    <a href="{{ route('dawnstar.structures.pages.index', $structure) }}" class="btn btn-secondary">
+                        <i class="mdi mdi-arrow-left"></i>
+                        @lang('Dawnstar::general.back')
+                    </a>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('dawnstar.structures.pages.store', [$structure]) }}" id="pageStore" method="POST">

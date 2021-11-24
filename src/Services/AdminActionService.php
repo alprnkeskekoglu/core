@@ -14,8 +14,8 @@ class AdminActionService
 
     public function __construct($model)
     {
-        $this->website = Website::find(1); //TODO get from auth()
-        $this->admin = Admin::find(1); //TODO get from auth()
+        $this->website = session('dawnstar.website');
+        $this->admin = auth('admin')->user();
         $this->model = $model;
     }
 
