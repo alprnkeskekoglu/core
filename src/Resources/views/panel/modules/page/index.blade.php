@@ -52,6 +52,9 @@
                 lengthMenu: "@lang('Dawnstar::datatable.lengthMenu')",
                 search: "@lang('Dawnstar::datatable.search')",
                 info: "@lang('Dawnstar::datatable.info')",
+                emptyTable: "@lang('Dawnstar::datatable.emptyTable')",
+                processing: "@lang('Dawnstar::datatable.processing')",
+                zeroRecords: "@lang('Dawnstar::datatable.zeroRecords')",
             },
             drawCallback: function () {
                 $(".dataTables_paginate > .pagination").addClass("pagination-rounded")
