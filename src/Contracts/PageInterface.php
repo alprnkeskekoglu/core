@@ -16,7 +16,7 @@ interface PageInterface
 
     public function store(Structure $structure): Page;
 
-    public function update(Structure $structure, Page $page);
+    public function update(Page $page);
 
-    public function destroy(Structure $structure, Page $page);
+    public function destroy(Page $page);
 }

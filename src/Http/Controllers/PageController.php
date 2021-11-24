@@ -3,11 +3,13 @@
 namespace Dawnstar\Http\Controllers;
 
 
+use Dawnstar\Datatables\PageDatatable;
 use Dawnstar\Models\Page;
 use Dawnstar\Models\Structure;
 use Dawnstar\Repositories\PageRepository;
 use Dawnstar\Repositories\PageTranslationRepository;
 use Dawnstar\Services\ModuleBuilderService;
+use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class PageController extends BaseController
@@ -24,12 +26,12 @@ class PageController extends BaseController
     public function index(Structure $structure)
     {
         $columns = [
-            ['data' => 'id', 'name' => 'id', 'label' => '#'],
-            ['data' => 'status', 'name' => 'status', 'label' => __('Dawnstar::page.labels.status')],
-            ['data' => 'name', 'name' => 'translation.name', 'label' => __('Dawnstar::page.labels.name')],
-            ['data' => 'created_at', 'name' => 'created_at', 'label' => __('Dawnstar::page.labels.created_at')],
-            ['data' => 'updated_at', 'name' => 'updated_at', 'label' => __('Dawnstar::page.labels.updated_at')],
-            ['data' => 'action', 'name' => 'action', 'label' => __('Dawnstar::general.action')],
+            ['data' => 'id', 'name' => 'id', 'label' => '#', 'searchable' => false],
+            ['data' => 'status', 'name' => 'status', 'label' => __('Dawnstar::page.labels.status'), 'searchable' => false],
+            ['data' => 'name', 'name' => 'translation.name', 'label' => __('Dawnstar::page.labels.name'), 'orderable' => false],
+            ['data' => 'created_at', 'name' => 'created_at', 'label' => __('Dawnstar::page.labels.created_at'), 'searchable' => false],
+            ['data' => 'updated_at', 'name' => 'updated_at', 'label' => __('Dawnstar::page.labels.updated_at'), 'searchable' => false],
+            ['data' => 'actions', 'name' => 'actions', 'label' => __('Dawnstar::general.actions'), 'orderable' => false, 'searchable' => false],
         ];
         return view('Dawnstar::modules.page.index', compact('structure', 'columns'));
     }
@@ -53,23 +55,42 @@ class PageController extends BaseController
         return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Dawnstar::page.success.store')]);
     }
 
-    public function datatable(Structure $structure)
+    public function edit(Structure $structure, Page $page)
     {
-        $pages = Page::where('structure_id', $structure->id)->with('translation');
+        $moduleBuilder = new ModuleBuilderService($structure, 'page', $page);
+        $languages = $moduleBuilder->languages;
 
-        return DataTables::of($pages)
-            ->editColumn('name', function($page) {
-                return optional($page->translation)->name;
-            })
-            ->addColumn('action', function ($page) use($structure) {
-                return '' .
-                    '<a href="' . route('dawnstar.structures.edit', $structure) . '" class="action-icon"><i class="mdi mdi-pencil"></i></a>' .
-                    '<form action="' . route('dawnstar.structures.destroy', $structure) . '" method="POST" class="d-inline">' .
-                        '<input type="hidden" name="_method" value="DELETE">' .
-                        csrf_field() .
-                        '<button type="submit" class="btn action-icon"><i class="mdi mdi-delete"></i></button>'.
-                    '</form>';
-            })
-            ->make(true);
+        return view('Dawnstar::modules.page.edit', compact('structure', 'page', 'moduleBuilder', 'languages'));
+    }
+
+    public function update(Structure $structure, Page $page)
+    {
+        $moduleBuilder = new ModuleBuilderService($structure, 'page', $page);
+        $moduleBuilder->validate();
+
+        $page = $this->pageRepository->update($structure, $page);
+        $this->pageTranslationRepository->update($page);
+
+        return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Dawnstar::page.success.store')]);
+    }
+
+    public function destroy(Structure $structure, Page $page)
+    {
+        $this->pageRepository->destroy($page);
+        return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Dawnstar::page.success.destroy')]);
+    }
+
+    public function datatable(Structure $structure, Request $request)
+    {
+        $datatableName = str_replace('_', '', ucwords($structure->key, '_')) . 'Datatable';
+        $class = "App\\Datatables\\{$datatableName}";
+
+        if (class_exists($class) && method_exists($class, 'query')) {
+            $datatable = new $class();
+        } else {
+            $datatable = new PageDatatable();
+        }
+
+        return $datatable->query($structure, $request);
     }
 }

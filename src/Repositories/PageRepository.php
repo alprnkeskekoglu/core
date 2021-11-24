@@ -31,42 +31,39 @@ class PageRepository implements PageInterface
     {
         $requestData = request()->except(['_token', '_method', 'translations', 'languages']);
 
-        $extras = $data = [];
+        $data = [];
 
         foreach ($requestData as $key => $value) {
-            if(!Schema::hasColumn('pages', $key)) {
-                if(is_array($value)) {
-                    foreach ($value as $v) {
-                        $extras[] = new PageExtra(['key' => $key, 'value' => $v]);
-                    }
-                } else {
-                    $extras[] = new PageExtra(['key' => $key, 'value' => $value]);
-                }
-            } else {
+            if(Schema::hasColumn('pages', $key)) {
                 $data[$key] = $value;
             }
         }
-
         $data['structure_id'] = $structure->id;
         $data['container_id'] = $structure->container->id;
         $page = Page::create($data);
-        $page->extras()->saveMany($extras);
+        $this->getExtrasRepository()->store($page, $requestData);
 
         return $page;
     }
 
-    public function update(Structure $structure, Page $page)
+    public function update(Page $page)
     {
-        // TODO: Implement update() method.
+        $requestData = request()->except(['_token', '_method', 'translations', 'languages']);
+
+        $page->update($requestData);
+
+        $this->getExtrasRepository()->store($page, $requestData);
+
+        return $page;
     }
 
-    public function destroy(Structure $structure, Page $page)
+    public function destroy(Page $page)
     {
-        // TODO: Implement destroy() method.
+        $page->delete();
     }
 
-    public function datatable()
+    private function getExtrasRepository()
     {
-
+        return new ExtrasRepository();
     }
 }

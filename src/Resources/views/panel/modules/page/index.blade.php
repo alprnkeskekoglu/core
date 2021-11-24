@@ -2,7 +2,6 @@
 
 @section('content')
     @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::page.title.index')])
-
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -49,7 +48,10 @@
                 paginate: {
                     previous: "<i class='mdi mdi-chevron-left'>",
                     next: "<i class='mdi mdi-chevron-right'>"
-                }
+                },
+                lengthMenu: "@lang('Dawnstar::datatable.lengthMenu')",
+                search: "@lang('Dawnstar::datatable.search')",
+                info: "@lang('Dawnstar::datatable.info')",
             },
             drawCallback: function () {
                 $(".dataTables_paginate > .pagination").addClass("pagination-rounded")
