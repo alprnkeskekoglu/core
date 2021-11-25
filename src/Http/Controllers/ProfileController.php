@@ -2,50 +2,33 @@
 
 namespace Dawnstar\Http\Controllers;
 
-use Dawnstar\Contracts\Services\ModelStoreService;
-use Dawnstar\Http\Requests\AdminRequest;
-use Dawnstar\Models\Admin;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Dawnstar\Http\Requests\ProfileRequest;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends BaseController
 {
-    public function edit()
+    public function index()
     {
         $admin = auth()->user();
-        $breadcrumb = [
-            [
-                'name' => __('DawnstarLang::profile.index_title'),
-                'url' => '#'
-            ]
-        ];
 
-        return view('DawnstarView::pages.profile.edit', compact('admin', 'breadcrumb'));
+        return view('Dawnstar::modules.profile.index', compact('admin'));
     }
 
-    public function update(Request $request)
+    public function update(ProfileRequest $request)
     {
-        $admin = auth()->user();
+        $data = $request->only(['first_name', 'last_name', 'password']);
+        $medias = $request->get('medias');
 
-        $data = $request->except('_token', 'image');
-
-        if(is_null($data['password'])) {
-            unset($data['password']);
-        } else {
+        if ($data['password']) {
             $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
         }
 
+        $admin = auth()->user();
         $admin->update($data);
+        $admin->syncMedias($medias);
 
-        $storeDevice = new ModelStoreService();
-        $storeDevice->storeMedias($admin, ['image' => $request->get('image')]);
-
-        $admin->fresh();
-
-        // Admin Action
-        addAction($admin, 'update');
-
-        return redirect()->route('dawnstar.profiles.index')->with('success_message', __('DawnstarLang::admin.response_message.update'));
+        return redirect()->route('dawnstar.profile.index')->with(['success' => __('Dawnstar::admin.success.profile_update')]);
     }
 }

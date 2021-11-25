@@ -28,6 +28,8 @@
 
 <script src="{{ asset('vendor/dawnstar/assets/js/vendor.min.js') }}"></script>
 <script src="{{ asset('vendor/dawnstar/assets/js/app.min.js') }}"></script>
+<script src="{{ asset('vendor/dawnstar/assets/js/sweetalert2.min.js') }}"></script>
+<script src="{{ asset('vendor/dawnstar/assets/js/dawnstar.js') }}"></script>
 @stack('scripts')
 </body>
 </html>

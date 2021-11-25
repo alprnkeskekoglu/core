@@ -1,9 +1,6 @@
 <?php
-return [
-    'defaults' => [
-        'guard' => 'admin',
-    ],
 
+return [
     'guards' => [
         'admin' => [
             'driver' => 'session',
@@ -11,10 +8,21 @@ return [
         ],
     ],
 
+
     'providers' => [
         'admins' => [
             'driver' => 'eloquent',
-            'model' => \Dawnstar\Models\Admin::class,
+            'model' => Dawnstar\Models\Admin::class,
+        ],
+    ],
+
+
+    'passwords' => [
+        'admin' => [
+            'provider' => 'admins',
+            'table' => 'admin_password_resets',
+            'expire' => 60,
+            'throttle' => 60,
         ],
     ],
 ];

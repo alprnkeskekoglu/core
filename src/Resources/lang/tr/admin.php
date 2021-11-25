@@ -1,26 +1,30 @@
 <?php
 
 return [
-    'index_title' => 'Panel Yöneticileri',
-    'create_title' => 'Yönetici Oluştur',
-    'edit_title' => 'Yönetici Düzenle',
+    'profile' => 'Hesabım',
+    'full_name' => 'Ad Soyad',
 
-
-    'labels' => [
-        'image' => 'Görsel',
-        'status' => 'Durum',
-        'role_id' => 'Rol',
-        'fullname' => 'Ad Soyad',
-        'username' => 'Kullanıcı Adı',
-        'email' => 'E-posta',
-        'password' => 'Şifre',
+    'title' => [
+        'index' => 'Panel Yöneticileri',
+        'create' => 'Yeni Panel Yöneticisi Oluştur',
+        'edit' => 'Panel Yönetici Düzenle'
     ],
 
-    'password_regex' => 'Şifre harf, sayı ve özel karakter (@$!%*#?.&) içermelidir.',
+    'labels' => [
+        'status' => 'Durum',
+        'avatar' => 'Profil Görseli',
+        'first_name' => 'Ad',
+        'last_name' => 'Soyad',
+        'role_id' => 'Rol',
+        'email' => 'E-posta',
+        'password' => 'Şifre',
+        'password_confirmation' => 'Şifre Tekrarı',
+    ],
 
-    'response_message' => [
-        'store' => 'Admin başarıyla oluşturuldu.',
-        'update' => 'Admin başarıyla güncellendi.',
-        'destory' => "Admin başarıyla silindi."
+    'success' => [
+        'store' => 'Panel Yöneticisi başarıyla oluşturuldu!',
+        'update' => 'Panel Yöneticisi başarıyla güncellendi!',
+        'destroy' => 'Panel Yöneticisi başarıyla silindi!',
+        'profile_update' => 'Profil başarıyla silindi!',
     ],
 ];

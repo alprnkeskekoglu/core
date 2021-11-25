@@ -2,12 +2,13 @@
 
 namespace Dawnstar\Models;
 
+use Dawnstar\Traits\HasTranslation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Page extends BaseModel
 {
-    use SoftDeletes;
+    use SoftDeletes, HasTranslation;
 
     protected $table = 'pages';
     protected $guarded = ['id'];

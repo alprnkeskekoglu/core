@@ -21,4 +21,9 @@ class Structure extends BaseModel
     {
         return $this->hasOne(Container::class);
     }
+
+    public function moduleBuilders()
+    {
+        return $this->hasMany(ModuleBuilder::class);
+    }
 }

@@ -3,44 +3,24 @@
 namespace Dawnstar\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest as Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 class FormRequest extends Request
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         return [
-            'status' => 'required',
-            'name' => "required|unique:forms,name,{$this->id}",
-            'sender' => 'required|email',
-            'receivers' => 'required',
-            'recaptcha_status' => 'required',
-            'recaptcha_site_key' => 'required_if:recaptcha_status, 1',
-            'recaptcha_secret_key' => 'required_if:recaptcha_status, 1',
+            'status' => ['required', 'numeric'],
+            'recaptcha_status' => ['required', 'boolean'],
+            'name' => ['required', 'string'],
+            'sender_email' => ['required', 'email'],
+            'receiver_emails' => ['required', 'array'],
         ];
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function attributes()
     {
-        return __('DawnstarLang::form.labels');
+        return __('Dawnstar::form.labels');
     }
 }

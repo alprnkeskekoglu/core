@@ -3,7 +3,8 @@
 return [
     'title' => [
         'index' => 'Websiteler',
-        'create' => 'Yeni Website Oluştur'
+        'create' => 'Yeni Website Oluştur',
+        'edit' => 'Website Düzenle'
     ],
 
     'labels' => [

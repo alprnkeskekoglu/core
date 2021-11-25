@@ -2,134 +2,73 @@
 
 namespace Dawnstar\Http\Controllers;
 
-use Dawnstar\Contracts\Services\ModelStoreService;
 use Dawnstar\Http\Requests\AdminRequest;
+use Dawnstar\MediaManager\Foundation\MediaUpload;
+use Dawnstar\MediaManager\Models\ModelMedia;
 use Dawnstar\Models\Admin;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 
 class AdminController extends BaseController
 {
     public function index()
     {
-        canUser("admin.index", false);
-
         $admins = Admin::all();
-        $breadcrumb = [
-            [
-                'name' => __('DawnstarLang::admin.index_title'),
-                'url' => '#'
-            ]
-        ];
-
-        return view('DawnstarView::pages.admin.index', compact('admins', 'breadcrumb'));
+        return view('Dawnstar::modules.admin.index', compact('admins'));
     }
 
     public function create()
     {
-        canUser("admin.create", false);
-
-        $breadcrumb = [
-            [
-                'name' => __('DawnstarLang::admin.index_title'),
-                'url' => route('dawnstar.admins.index')
-            ],
-            [
-                'name' => __('DawnstarLang::admin.create_title'),
-                'url' => '#'
-            ]
-        ];
-
-        $roles = Role::all();
-
-        return view('DawnstarView::pages.admin.create', compact('breadcrumb', 'roles'));
+        $roles = [];
+        return view('Dawnstar::modules.admin.create', compact('roles'));
     }
 
     public function store(AdminRequest $request)
     {
-        canUser("admin.create", false);
-
-        $data = $request->except('_token', 'role_id');
+        $data = $request->only(['status', 'email', 'first_name', 'last_name', 'email', 'password']);
+        $medias = $request->get('medias');
+        $role_id = $request->get('role_id'); // TODO role structure
 
         $data['password'] = Hash::make($data['password']);
 
-        $image = $data['image'] ?? null;
-        unset($data['image']);
+        $admin = Admin::create($data);
+        $admin->syncMedias($medias);
 
-        $admin = Admin::firstOrCreate($data);
-
-        $role = Role::findById($request->get('role_id'));
-        $admin->assignRole($role->name);
-
-        $storeDevice = new ModelStoreService();
-        $storeDevice->storeMedias($admin, ['image' => $image]);
-
-        // Admin Action
-        addAction($admin, 'store');
-
-        return redirect()->route('dawnstar.admins.index')->with('success_message', __('DawnstarLang::admin.response_message.store'));
+        return redirect()->route('dawnstar.admins.index')->with(['success' => __('Dawnstar::admin.success.store')]);
     }
+
 
     public function edit(Admin $admin)
     {
-        canUser("admin.edit", false);
-
-        $breadcrumb = [
-            [
-                'name' => __('DawnstarLang::admin.index_title'),
-                'url' => route('dawnstar.admins.index')
-            ],
-            [
-                'name' => __('DawnstarLang::admin.edit_title'),
-                'url' => '#'
-            ]
-        ];
-
-        $roles = Role::all();
-
-        return view('DawnstarView::pages.admin.edit', compact('admin', 'roles', 'breadcrumb'));
+        $roles = [];
+        return view('Dawnstar::modules.admin.edit', compact('admin', 'roles'));
     }
 
-    public function update(AdminRequest $request, Admin $admin)
+    public function update(Admin $admin, AdminRequest $request)
     {
-        canUser("admin.update", false);
+        $data = $request->only(['status', 'email', 'first_name', 'last_name', 'email', 'password']);
+        $medias = $request->get('medias');
+        $role_id = $request->get('role_id'); // TODO: role structure
 
-        $data = $request->except('_token', 'image', 'role_id');
-
-        if(is_null($data['password'])) {
-            unset($data['password']);
-        } else {
+        if ($data['password']) {
             $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
         }
 
         $admin->update($data);
+        $admin->syncMedias($medias);
 
-        $role = Role::findById($request->get('role_id'));
-        $admin->assignRole($role->name);
-
-        $storeDevice = new ModelStoreService();
-        $storeDevice->storeMedias($admin, ['image' => $request->get('image')]);
-
-        // Admin Action
-        addAction($admin, 'update');
-
-        return redirect()->route('dawnstar.admins.index')->with('success_message', __('DawnstarLang::admin.response_message.update'));
+        return redirect()->route('dawnstar.admins.index')->with(['success' => __('Dawnstar::admin.success.update')]);
     }
 
     public function destroy(Admin $admin)
     {
-        canUser("admin.destroy", false);
-
-        if (auth('admin')->id() == $admin->id) {
-            return back()->withErrors(__('DawnstarLang::general.swal.error.title'));
+        if($admin->id === auth()->id()) {
+            return redirect()->route('dawnstar.admins.index')->with(['error' => __('Dawnstar::admin.error.destroy_auth_admin')]);
         }
 
         $admin->delete();
 
-        // Admin Action
-        addAction($admin, 'delete');
-
-        return redirect()->route('dawnstar.admins.index')->with('success_message', __('DawnstarLang::admin.response_message.delete'));
+        return redirect()->route('dawnstar.admins.index')->with(['success' => __('Dawnstar::admin.success.destroy')]);
     }
 }

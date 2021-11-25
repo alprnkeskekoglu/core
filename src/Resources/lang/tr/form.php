@@ -1,31 +1,24 @@
 <?php
 
 return [
-    'index_title' => 'Formlar',
-    'create_title' => 'Form Oluştur',
-    'edit_title' => 'Form Düzenle',
-    'result_title' => 'Form Sonuçları',
-    'status' => "Durum",
-    'name' => 'Form Adı',
-    'result_count' => 'Toplam / Okunmayanlar',
-    'send_time' => 'Gönderilme Zamanı',
+    'title' => [
+        'index' => 'Formlar',
+        'create' => 'Yeni Form Oluştur',
+        'edit' => 'Form Düzenle'
+    ],
 
     'labels' => [
         'status' => 'Durum',
-        'name' => 'Form Adı',
-        'key' => 'Form Key',
-        'sender' => 'Gönderici E-posta',
-        'receivers' => 'Alıcı E-posta',
         'recaptcha_status' => 'Recaptcha Durumu',
-        'recaptcha_site_key' => 'Recaptcha Site Key',
-        'recaptcha_secret_key' => 'Recaptcha Secret Key',
+        'name' => 'Ad',
+        'key' => 'Anahtar Kelime',
+        'sender_email' => 'Gönderici E-posta',
+        'receiver_emails' => 'Alıcı E-postalar',
     ],
 
-    'response_message' => [
-        'store' => 'Form başarıyla oluşturulmuştur.',
-        'update' => 'Form başarıyla güncellenmiştir.',
-        'id_error' => "Verilen id'ye (:id) ait form bulunamadı!"
+    'success' => [
+        'store' => 'Form başarıyla oluşturuldu!',
+        'update' => 'Form başarıyla güncellendi!',
+        'destroy' => 'Form başarıyla silindi!',
     ],
-
-    'recaptcha' => 'Lütfen robot olmadığınızı kanıtlayınız!',
 ];

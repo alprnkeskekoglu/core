@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Url extends BaseModel
 {
+    /* Types
+     * 1 => 'original'
+     * 2 => 'redirect'
+     *
+     */
+
     protected $table = 'urls';
     protected $guarded = ['id'];
 

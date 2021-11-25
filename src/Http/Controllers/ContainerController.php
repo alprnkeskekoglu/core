@@ -2,108 +2,39 @@
 
 namespace Dawnstar\Http\Controllers;
 
-use Dawnstar\Contracts\Services\ModelStoreService;
-use Dawnstar\Foundation\FormBuilder;
-use Dawnstar\Http\Requests\ContainerRequest;
 use Dawnstar\Models\Container;
-use Dawnstar\Models\ContainerDetail;
-use Dawnstar\Models\Language;
-use Dawnstar\Models\Meta;
-use Dawnstar\Models\Url;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use Dawnstar\Models\Structure;
+use Dawnstar\Repositories\ContainerRepository;
+use Dawnstar\Repositories\ContainerTranslationRepository;
+use Dawnstar\Services\ModuleBuilderService;
 
 class ContainerController extends BaseController
 {
-    public function edit(int $id)
+    protected ContainerRepository $containerRepository;
+    protected ContainerTranslationRepository $containerTranslationRepository;
+
+    public function __construct(ContainerRepository $containerRepository, ContainerTranslationRepository $containerTranslationRepository)
     {
-        canUser("container.{$id}.edit");
-
-        $container = Container::findOrFail($id);
-
-        $languages = $container->languages();
-
-        $formBuilder = new FormBuilder('container', $id);
-
-        $breadcrumb = [];
-        if ($container->type == 'dynamic') {
-            $breadcrumb[] = [
-                'name' => __('DawnstarLang::container.index_title'),
-                'url' => route('dawnstar.containers.pages.index', $container)
-            ];
-        }
-
-        $breadcrumb[] = [
-            'name' => __('DawnstarLang::container.edit_title'),
-            'url' => '#'
-        ];
-
-        return view('DawnstarView::pages.container.edit', compact('container', 'languages', 'formBuilder', 'breadcrumb'));
+        $this->containerRepository = $containerRepository;
+        $this->containerTranslationRepository = $containerTranslationRepository;
     }
 
-    public function update(Request $request, int $id)
+    public function edit(Structure $structure, Container $container)
     {
-        canUser("container.{$id}.edit");
+        $moduleBuilder = new ModuleBuilderService($structure, 'container', $container);
+        $languages = $moduleBuilder->languages;
 
-        $container = Container::findOrFail($id);
-
-        $storeService = new ModelStoreService();
-
-        $data = $request->except('_token');
-
-        $details = $data['details'] ?? [];
-        $medias = $data['medias'] ?? [];
-        $metas = $data['metas'] ?? [];
-        unset($data['details'], $data['medias'], $data['metas']);
-
-        $storeService->update($container, $data);
-
-        $storeService->storeDetails($container, $details);
-
-        $storeService->storeMedias($container, $medias);
-
-        $storeService->storeMetas($container, $metas);
-
-        // Admin Action
-        addAction($container, 'update');
-
-        if ($container->type == 'static') {
-            return redirect()->route('dawnstar.containers.edit', $container)->with('success_message', __('DawnstarLang::container.response_message.update'));
-        }
-
-        return redirect()->route('dawnstar.containers.pages.index', $container)->with('success_message', __('DawnstarLang::container.response_message.update'));
+        return view('Dawnstar::modules.container.edit', compact('structure', 'container', 'moduleBuilder', 'languages'));
     }
 
-    public function getUrl(Request $request)
+    public function update(Structure $structure, Container $container)
     {
-        $languageId = $request->get('language_id');
-        $containerSlug = $request->get('url');
-        $containerName = $request->get('name');
+        $moduleBuilder = new ModuleBuilderService($structure, 'container', $container);
+        $moduleBuilder->validate();
 
-        $language = Language::find($languageId);
+        $this->containerRepository->update($structure, $container);
+        $this->containerTranslationRepository->update($container);
 
-        $urlText = (session('dawnstar.website.default_language_code') == 1 ? '/' . $language->code : '') . $containerSlug;
-
-        $url = Url::where('website_id', session('dawnstar.website.id'))->where('url', $urlText)->first();
-
-        if ($url) {
-            if ($containerName == $url->model->name) {
-                return $containerSlug;
-            }
-            return $this->getNewSlug($language->code, $containerSlug, 1);
-        }
-        return $containerSlug;
-    }
-
-    private function getNewSlug($languageCode, $containerSlug, $counter)
-    {
-        $url = (session('dawnstar.website.default_language_code') == 1 ? ('/' . $languageCode) : '') . $containerSlug . '-' . $counter;
-
-        $urlExist = Url::where('url', $url)->exists();
-
-        if ($urlExist) {
-            return $this->getNewSlug($languageCode, $containerSlug, ++$counter);
-        }
-        return $containerSlug . '-' . $counter;
+        return redirect()->route('dawnstar.structures.containers.edit', [$structure, $container])->with(['success' => __('Dawnstar::structure.success.update')]);
     }
 }

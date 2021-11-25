@@ -27,6 +27,11 @@ class ContainerTranslation extends BaseModel
         return $this->hasMany(ContainerTranslationExtra::class);
     }
 
+    public function language()
+    {
+        return $this->belongsTo(Language::class);
+    }
+  
     public function url()
     {
         return $this->morphOne(Url::class, 'model');

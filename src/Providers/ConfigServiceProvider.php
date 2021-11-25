@@ -2,32 +2,17 @@
 
 namespace Dawnstar\Providers;
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Console\Events\CommandFinished;
-use Symfony\Component\Console\Output\ConsoleOutput;
 use Illuminate\Support\ServiceProvider;
 
 class ConfigServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->app['config']
-            ->set("database.connections.locale_sqlite",
-                [
-                    'driver' => 'sqlite',
-                    'database' => __DIR__ . '/../Database/locale.db',
-                    'prefix' => ''
-                ]);
-
         $files = $this->app['files']->files(__DIR__ . '/../Config');
         foreach ($files as $file) {
             $filename = $this->getConfigBasename($file);
-
             $this->mergeConfig($file, $filename);
         }
-
     }
 
     protected function getConfigBasename($file)
@@ -37,7 +22,6 @@ class ConfigServiceProvider extends ServiceProvider
 
     protected function mergeConfig($path, $key)
     {
-
         $config = config($key);
 
         foreach (require $path as $k => $v) {

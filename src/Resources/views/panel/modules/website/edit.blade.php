@@ -1,19 +1,17 @@
 @extends('Dawnstar::layouts.app')
 
 @section('content')
-    @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::website.title.index')])
+    @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::website.title.edit')])
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <div class="card-header">
+                    <a href="{{ route('dawnstar.websites.index') }}" class="btn btn-secondary">
+                        <i class="mdi mdi-arrow-left"></i>
+                        @lang('Dawnstar::general.back')
+                    </a>
+                </div>
                 <div class="card-body">
-                    <div class="row mb-2">
-                        <div class="col-12">
-                            <a href="{{ route('dawnstar.websites.index') }}" class="btn btn-secondary">
-                                <i class="mdi mdi-arrow-left"></i>
-                                @lang('Dawnstar::general.back')
-                            </a>
-                        </div>
-                    </div>
                     <form action="{{ route('dawnstar.websites.update', $website) }}" method="POST">
                         @method('PUT')
                         @csrf
@@ -115,28 +113,18 @@
                         <button type="submit" class="btn btn-primary">@lang('Dawnstar::general.save')</button>
                     </form>
                 </div>
+
+                <div class="card-footer text-end">
+                    <button type="submit" class="btn btn-primary" form="websiteStore">@lang('Dawnstar::general.save')</button>
+                </div>
             </div>
         </div>
     </div>
 @endsection
 
-@push('styles')
-    <style>
-        .select2-selection__rendered{
-            padding: 0 !important;
-        }
-        span.selection{
-            position: relative;
-        }
-        .selection > .select2-selection--multiple {
-            padding-top: 1.2rem;
-            padding-bottom: .1rem;
-        }
-    </style>
-@endpush
-
 @push('scripts')
     <script>
+        $('.select2').select2();
         $('.select2-selection--multiple').addClass('form-select');
 
         $('#languages').change(function () {
@@ -157,6 +145,9 @@
         @enderror
         @if($errors->any())
         $('#languages').trigger('change');
+        @endif
+        @if($errors->any())
+        showMessage('error', 'Oops...', '')
         @endif
     </script>
 @endpush

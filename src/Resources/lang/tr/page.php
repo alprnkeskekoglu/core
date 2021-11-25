@@ -1,22 +1,22 @@
 <?php
 
 return [
-    'index_title' => 'Sayfalar',
-    'create_title' => 'Sayfa Oluştur',
-    'edit_title' => 'Sayfa Düzenle',
-
-    'container' => 'Sayfa Yapısı',
-    'category' => 'Kategoriler',
+    'title' => [
+        'index' => 'Sayfalar',
+        'create' => 'Yeni Sayfa Oluştur',
+        'edit' => 'Sayfa Düzenle'
+    ],
 
     'labels' => [
         'status' => 'Durum',
         'name' => 'Sayfa Adı',
-        'slug' => 'Sayfa Url',
+        'created_at' => 'Oluşturma Tarihi',
+        'updated_at' => 'Güncelleme Tarihi'
     ],
 
-    'response_message' => [
-        'store' => 'Sayfa başarıyla oluşturulmuştur.',
-        'update' => 'Sayfa başarıyla güncellenmiştir.',
-        'id_error' => "Verilen id'ye (:id) ait sayfa bulunamadı!"
+    'success' => [
+        'store' => 'Sayfa başarıyla oluşturuldu!',
+        'update' => 'Sayfa başarıyla güncellendi!',
+        'destroy' => 'Sayfa başarıyla silindi!',
     ],
 ];

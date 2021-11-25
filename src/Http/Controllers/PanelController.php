@@ -3,26 +3,13 @@
 namespace Dawnstar\Http\Controllers;
 
 use Dawnstar\Models\Language;
-use Dawnstar\Models\Website;
-use Illuminate\Http\Request;
 
 class PanelController extends BaseController
 {
-    public function changeLanguage(string $languageCode)
+    public function changeLanguage(Language $language)
     {
-        $language = Language::where('code', $languageCode)->first();
-
         session(['dawnstar.language' => $language]);
 
-        return redirect()->back();
+        return back();
     }
-    public function changeWebsite(int $id)
-    {
-        $website = Website::find($id);
-
-        session(['dawnstar.website' => $website]);
-
-        return redirect()->back();
-    }
-
 }

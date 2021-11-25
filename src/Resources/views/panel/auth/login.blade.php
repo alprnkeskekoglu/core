@@ -1,68 +1,82 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Dawnstar</title>
-    <meta name="robots" content="noindex, nofollow">
-    <link rel="shortcut icon" href="assets/media/favicons/favicon.png">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap">
-    <link rel="stylesheet" id="css-main" href="{{ asset('vendor/dawnstar/assets/css/dashmix.min.css') }}">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dawnstar | Login</title>
+
+    <link rel="shortcut icon" href="{{ asset('vendor/dawnstar/assets/images/favicon.ico') }}">
+    <link href="{{ asset('vendor/dawnstar/assets/css/icons.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('vendor/dawnstar/assets/css/app-modern.min.css') }}" rel="stylesheet" id="light-style"/>
 </head>
-<body>
-<div id="page-container">
-    <main id="main-container">
-        <div class="bg-image" style="background-image: url('{{ dawnstarAsset('media/images/login_bg.jpg') }}');">
-            <div class="row no-gutters bg-xpro-dark-op">
-                <div class="hero-static col-md-6 d-flex align-items-center bg-white">
-                    <div class="p-3 w-100">
-                        <div class="mb-3 text-center">
-                            <a class="link-fx font-w700 font-size-h1" href="index.html">
-                                <span class="text-dark">Dawn</span><span class="text-primary">star</span>
-                            </a>
-                            <p class="font-w700 font-size-sm text-muted">{{ __('DawnstarLang::auth.sign_in') }}</p>
-                        </div>
 
-                        <div class="row no-gutters justify-content-center">
-                            <div class="col-sm-8 col-xl-6">
-                                @include('DawnstarView::layouts.alerts')
-                                <form action="{{ route('dawnstar.auth.login') }}" method="POST">
-                                    @csrf
-                                    <div class="py-3">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control-lg form-control-alt" id="email" name="email" placeholder="{{ __('DawnstarLang::auth.email') }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-lg form-control-alt" id="password" name="password" placeholder="{{ __('DawnstarLang::auth.password') }}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-block btn-hero-lg btn-hero-primary">
-                                            <i class="fa fa-fw fa-sign-in-alt mr-1"></i> {{ __('DawnstarLang::auth.sign_in') }}
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+<body class="authentication-bg pb-0">
+
+<div class="auth-fluid">
+    <div class="auth-fluid-form-box">
+        <div class="align-items-center d-flex h-100">
+            <div class="card-body">
+                <div class="auth-brand text-center text-lg-start">
+                    <span><img src="assets/images/logo-dark.png" alt="" height="18"></span>
                 </div>
 
-                <div class="hero-static col-md-6 d-none d-md-flex align-items-md-center justify-content-md-center text-md-center">
-                    <div class="p-3">
-                        <p class="display-4 font-w700 text-white mb-3">
-                            {{ __('DawnstarLang::auth.banner_title') }}
-                        </p>
-                        <p class="font-size-lg font-w600 text-white-75 mb-0">
-                            Copyright &copy; <span data-toggle="year-copy"></span>
-                        </p>
+                <h4 class="mt-0">@lang('Dawnstar::auth.login')</h4>
+
+                <form action="{{ route('dawnstar.login') }}" method="POST">
+                    @csrf
+
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}"/>
+                        <label for="email">@lang('Dawnstar::auth.email')</label>
+                        @error('email')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
-                </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password"/>
+                        <label for="password">@lang('Dawnstar::auth.password')</label>
+                        @error('password')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <!--
+                    <a href="pages-recoverpw-2.html" class="text-muted float-end"><small>Forgot your password?</small></a>
+                    -->
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="remember" id="remember" value="1">
+                            <label class="form-check-label" for="remember">@lang('Dawnstar::auth.remember')</label>
+                        </div>
+                    </div>
+                    <div class="d-grid mb-0 text-center">
+                        <button class="btn btn-primary" type="submit"><i class="mdi mdi-login"></i>@lang('Dawnstar::auth.login')</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </main>
-</div>
+    </div>
 
-<script src="{{ asset('vendor/dawnstar/assets/js/dashmix.core.min.js') }}"></script>
-<script src="{{ asset('vendor/dawnstar/assets/js/dashmix.app.min.js') }}"></script>
+    <div class="auth-fluid-right text-center">
+        <div class="auth-user-testimonial">
+            <h2 class="mb-3">All In One!</h2>
+            <p class="lead">
+                <i class="mdi mdi-format-quote-open"></i>
+                High-Powered. Quick. Low-Code. High Security.
+                <i class="mdi mdi-format-quote-close"></i>
+            </p>
+            <p>
+                {{ date('Y') }} - created by <a href="https://github.com/alprnkeskekoglu" target="_blank" class="text-white">@alprnkeskekoglu</a>
+            </p>
+        </div>
+    </div>
+</div>
+<script src="{{ asset('vendor/dawnstar/assets/js/vendor.min.js') }}"></script>
+<script src="{{ asset('vendor/dawnstar/assets/js/app.min.js') }}"></script>
 </body>
 </html>

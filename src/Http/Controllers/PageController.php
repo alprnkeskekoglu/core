@@ -2,227 +2,95 @@
 
 namespace Dawnstar\Http\Controllers;
 
-use Carbon\Carbon;
-use Dawnstar\Contracts\Services\ModelStoreService;
-use Dawnstar\Foundation\FormBuilder;
-use Dawnstar\Models\Container;
+
+use Dawnstar\Datatables\PageDatatable;
 use Dawnstar\Models\Page;
+use Dawnstar\Models\Structure;
+use Dawnstar\Repositories\PageRepository;
+use Dawnstar\Repositories\PageTranslationRepository;
+use Dawnstar\Services\ModuleBuilderService;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class PageController extends BaseController
 {
-    public function index(int $containerId)
+    protected PageRepository $pageRepository;
+    protected PageTranslationRepository $pageTranslationRepository;
+
+    public function __construct(PageRepository $pageRepository, PageTranslationRepository $pageTranslationRepository)
     {
-        canUser("container.{$containerId}.index");
+        $this->pageRepository = $pageRepository;
+        $this->pageTranslationRepository = $pageTranslationRepository;
+    }
 
-        $container = Container::findOrFail($containerId);
-
-        if($container->type == 'static') {
-            return redirect()->route('dawnstar.container.edit', ['id' => $containerId]);
-        }
-
-        $breadcrumb = [
-            [
-                'name' => __('DawnstarLang::page.index_title'),
-                'url' => '#'
-            ]
+    public function index(Structure $structure)
+    {
+        $columns = [
+            ['data' => 'id', 'name' => 'id', 'label' => '#', 'searchable' => false],
+            ['data' => 'status', 'name' => 'status', 'label' => __('Dawnstar::page.labels.status'), 'searchable' => false],
+            ['data' => 'name', 'name' => 'translation.name', 'label' => __('Dawnstar::page.labels.name'), 'orderable' => false],
+            ['data' => 'created_at', 'name' => 'created_at', 'label' => __('Dawnstar::page.labels.created_at'), 'searchable' => false],
+            ['data' => 'updated_at', 'name' => 'updated_at', 'label' => __('Dawnstar::page.labels.updated_at'), 'searchable' => false],
+            ['data' => 'actions', 'name' => 'actions', 'label' => __('Dawnstar::general.actions'), 'orderable' => false, 'searchable' => false],
         ];
-
-        return view('DawnstarView::pages.page.index', compact('container', 'breadcrumb'));
+        return view('Dawnstar::modules.page.index', compact('structure', 'columns'));
     }
 
-    public function create(int $containerId)
+    public function create(Structure $structure)
     {
-        canUser("container.{$containerId}.create");
+        $moduleBuilder = new ModuleBuilderService($structure, 'page');
+        $languages = $moduleBuilder->languages;
 
-        $container = Container::findOrFail($containerId);
-
-        if($container->type == 'static') {
-            return redirect()->route('dawnstar.container.edit', ['id' => $containerId]);
-        }
-
-        $languages = $container->languages();
-
-        $formBuilder = new FormBuilder('page', $containerId);
-
-        $breadcrumb = [
-            [
-                'name' => __('DawnstarLang::page.index_title'),
-                'url' => route('dawnstar.containers.pages.index', ['containerId' => $containerId])
-            ],
-            [
-                'name' => __('DawnstarLang::page.create_title'),
-                'url' => '#'
-            ]
-        ];
-
-        return view('DawnstarView::pages.page.create', compact('container', 'languages', 'formBuilder', 'breadcrumb'));
+        return view('Dawnstar::modules.page.create', compact('structure', 'moduleBuilder', 'languages'));
     }
 
-    public function store(Request $request, int $containerId)
+    public function store(Structure $structure)
     {
-        canUser("container.{$containerId}.create");
+        $moduleBuilder = new ModuleBuilderService($structure, 'page');
+        $moduleBuilder->validate();
 
-        $container = Container::findOrFail($containerId);
+        $page = $this->pageRepository->store($structure);
+        $this->pageTranslationRepository->store($page);
 
-        if($container->type == 'static') {
-            return redirect()->route('dawnstar.container.edit', ['id' => $containerId]);
-        }
-
-        $storeService = new ModelStoreService();
-
-        $data = $request->except('_token');
-
-        $categories = $data['categories'] ?? [];
-        $details = $data['details'] ?? [];
-        $extras = $data['extras'] ?? [];
-        $medias = $data['medias'] ?? [];
-        $metas = $data['metas'] ?? [];
-        unset($data['categories'], $data['details'], $data['extras'], $data['medias'], $data['metas']);
-
-        $data['container_id'] = $containerId;
-
-        $page = $storeService->store(Page::class, $data);
-
-        $page->categories()->sync($categories);
-
-        $storeService->storeExtras($page, $extras);
-
-        $storeService->storeDetails($page, $details);
-
-        $storeService->storeMedias($page, $medias);
-
-        $storeService->storeMetas($page, $metas);
-
-        // Admin Action
-        addAction($page, 'store');
-
-        return redirect()->route('dawnstar.containers.pages.index', ['containerId' => $containerId])->with('success_message', __('DawnstarLang::page.response_message.store'));
+        return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Dawnstar::page.success.store')]);
     }
 
-    public function edit(int $containerId, int $id)
+    public function edit(Structure $structure, Page $page)
     {
-        canUser("container.{$containerId}.edit");
+        $moduleBuilder = new ModuleBuilderService($structure, 'page', $page);
+        $languages = $moduleBuilder->languages;
 
-        $container = Container::findOrFail($containerId);
-        $page = Page::findOrFail($id);
-
-        $languages = $container->languages();
-
-        $formBuilder = new FormBuilder('page', $containerId, $id);
-
-        $breadcrumb = [
-            [
-                'name' => __('DawnstarLang::page.index_title'),
-                'url' => route('dawnstar.containers.pages.index', ['containerId' => $containerId])
-            ],
-            [
-                'name' => __('DawnstarLang::page.edit_title'),
-                'url' => '#'
-            ]
-        ];
-
-        return view('DawnstarView::pages.page.edit', compact('container', 'page', 'languages', 'formBuilder', 'breadcrumb'));
+        return view('Dawnstar::modules.page.edit', compact('structure', 'page', 'moduleBuilder', 'languages'));
     }
 
-    public function update(Request $request, int $containerId, int $id)
+    public function update(Structure $structure, Page $page)
     {
-        canUser("container.{$containerId}.update");
+        $moduleBuilder = new ModuleBuilderService($structure, 'page', $page);
+        $moduleBuilder->validate();
 
-        $page = Page::findOrFail($id);
+        $page = $this->pageRepository->update($page);
+        $this->pageTranslationRepository->update($page);
 
-        $storeService = new ModelStoreService();
-
-        $data = $request->except('_token');
-
-        $categories = $data['categories'] ?? [];
-        $details = $data['details'] ?? [];
-        $extras = $data['extras'] ?? [];
-        $medias = $data['medias'] ?? [];
-        $metas = $data['metas'] ?? [];
-        unset($data['categories'], $data['details'], $data['extras'], $data['medias'], $data['metas']);
-
-        $storeService->update($page, $data);
-
-        $page->categories()->sync($categories);
-
-        $storeService->storeExtras($page, $extras);
-
-        $storeService->storeDetails($page, $details);
-
-        $storeService->storeMedias($page, $medias);
-
-        $storeService->storeMetas($page, $metas);
-
-        // Admin Action
-        addAction($page, 'update');
-
-        return redirect()->route('dawnstar.containers.pages.edit', ['containerId' => $containerId, 'id' => $id])->with('success_message', __('DawnstarLang::page.response_message.update'));
+        return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Dawnstar::page.success.update')]);
     }
 
-    public function destroy(int $containerId, int $id)
+    public function destroy(Structure $structure, Page $page)
     {
-        canUser("container.{$containerId}.destroy");
-
-        $container = Container::find($containerId);
-        if (is_null($container)) {
-            return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
-        }
-
-        $page = Page::find($id);
-        if (is_null($page)) {
-            return response()->json(['title' => __('DawnstarLang::general.swal.error.title'), 'subtitle' => __('DawnstarLang::general.swal.error.subtitle')], 406);
-        }
-
-        $page->delete();
-
-        // Admin Action
-        addAction($page, 'delete');
-
-        return response()->json(['title' => __('DawnstarLang::general.swal.success.title'), 'subtitle' => __('DawnstarLang::general.swal.success.subtitle')]);
+        $this->pageRepository->destroy($page);
+        return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Dawnstar::page.success.destroy')]);
     }
 
-    public function getPageList(Request $request, int $containerId)
+    public function datatable(Structure $structure, Request $request)
     {
-        $draw = $request->draw;
-        $start = $request->start;
-        $length = $request->length;
-        $search = $request->search['value'] ?? null;
+        $datatableName = str_replace('_', '', ucwords($structure->key, '_')) . 'Datatable';
+        $class = "App\\Datatables\\{$datatableName}";
 
-        $pages = Page::where('container_id', $containerId)
-            ->with('detail')
-            ->orderBy('order');
-
-        if ($search) {
-            $pages = $pages->whereHas('detail', function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%');
-            });
+        if (class_exists($class) && method_exists($class, 'query')) {
+            $datatable = new $class();
+        } else {
+            $datatable = new PageDatatable();
         }
 
-        $totalCount = $pages->count();
-        $pages = $pages
-            ->offset($start)
-            ->limit($length)
-            ->get(['id', 'container_id', 'order', 'status', 'created_at']);
-
-
-        $holder = [];
-        foreach ($pages as $page) {
-            $holder[] = [
-                'id' => $page->id,
-                'container_id' => $page->container_id,
-                'status' => $page->status,
-                'order' => $page->order,
-                'name' => optional($page->detail)->name,
-                'slug' => $page->detail && $page->detail->url ? url($page->detail->url->url) : null,
-            ];
-        }
-
-        $data['draw'] = $draw;
-        $data['recordsTotal'] = $totalCount;
-        $data['recordsFiltered'] = $totalCount;
-        $data['data'] = $holder;
-
-        return response()->json($data);
+        return $datatable->query($structure, $request);
     }
 }
