@@ -24,9 +24,10 @@ class Update extends Command
     public function handle()
     {
         File::deleteDirectory(public_path('vendor/dawnstar'));
+        File::deleteDirectory(public_path('vendor/media-manager'));
         $this->info(public_path('vendor') . " Deleted !!" . PHP_EOL);
         $this->info('**It may take longer to publish, wait a few seconds.' . PHP_EOL);
-        Artisan::call('vendor:publish', ['--tag' => ['dawnstar-assets']]);
+        Artisan::call('vendor:publish', ['--tag' => ['dawnstar-assets', 'media-manager-assets']]);
         $this->info(Artisan::output());
 
         if($this->option('fresh')) {

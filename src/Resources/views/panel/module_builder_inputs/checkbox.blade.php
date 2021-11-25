@@ -10,7 +10,7 @@
                                    id="{{ $input['id'][$language->id] . '_' . $value }}"
                                    name="{{ $input['name'][$language->id] }}[]"
                                    class="form-check-input {{ $input['class'] ?? '' }}  @if($errors->has($input['key'][$language->id])) is-invalid @endif"
-                                   value="{{ $value }}" {{ $input['value'][$language->id] == $value ? 'checked' : '' }}>
+                                   value="{{ $value }}" {{ in_array($value, (is_array($input['value'][$language->id]) ? $input['value'][$language->id] : [$input['value'][$language->id]])) ? 'checked' : '' }}>
                             <label class="form-check-label" for="{{ $input['id'][$language->id] . '_' . $value }}">{{ $label }}</label>
                         </div>
                     @endforeach

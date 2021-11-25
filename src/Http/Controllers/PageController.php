@@ -71,7 +71,7 @@ class PageController extends BaseController
         $page = $this->pageRepository->update($page);
         $this->pageTranslationRepository->update($page);
 
-        return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Dawnstar::page.success.store')]);
+        return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Dawnstar::page.success.update')]);
     }
 
     public function destroy(Structure $structure, Page $page)
