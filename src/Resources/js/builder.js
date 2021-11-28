@@ -45,7 +45,7 @@ const app = new Vue({
             ],
         },
         columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-        elements: ['input', 'slug', 'textarea', 'select', 'checkbox', 'radio', 'media'],
+        elements: ['input', 'slug', 'textarea', 'select', 'checkbox', 'radio', 'media', 'country'],
         new_element: false,
     },
     mounted() {

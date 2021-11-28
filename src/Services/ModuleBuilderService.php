@@ -5,7 +5,9 @@ namespace Dawnstar\Services;
 use Dawnstar\Models\Language;
 use Dawnstar\Models\ModuleBuilder;
 use Dawnstar\Models\Structure;
+use Dawnstar\Region\Models\Country;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 
 class ModuleBuilderService
@@ -51,7 +53,7 @@ class ModuleBuilderService
     private function getInputHtml(array $input): string
     {
         $whiteList = [
-            'input', 'slug', 'textarea', 'radio', 'checkbox', 'select'
+            'input', 'slug', 'textarea', 'radio', 'checkbox', 'select', 'country'
         ];
 
         if (!in_array($input['element'], $whiteList)) {
@@ -72,7 +74,7 @@ class ModuleBuilderService
         $this->setInputNameAndId($input);
         $this->setLabel($input);
 
-        if (in_array($input['element'], ['radio', 'checkbox', 'select'])) {
+        if (in_array($input['element'], ['radio', 'checkbox', 'select', 'country', 'city'])) {
             $this->setOptions($input);
         }
     }
@@ -119,6 +121,11 @@ class ModuleBuilderService
     private function setOptions(array &$input)
     {
         $options = [];
+
+        if($input['element'] == 'country') {
+            $options = $this->getCountry();
+        }
+
         foreach ($input['options'] as $option) {
             $options[$option['key']] = $option['value'][session('dawnstar.language.id')];
         }
@@ -212,4 +219,12 @@ class ModuleBuilderService
         }
     }
     #endregion
+
+    private function getCountry()
+    {
+        $languageCode = session('dawnstar.language.code');
+        return Cache::rememberForever('module_builder_country_' . $languageCode, function () use($languageCode) {
+            return Country::all()->pluck("name_{$languageCode}", 'id');
+        });
+    }
 }

@@ -30,7 +30,6 @@ Route::middleware(['dawnstar_auth'])->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
-
     Route::resource('websites', WebsiteController::class)->except(['show']);
 
     Route::resource('structures', StructureController::class)->except(['show']);
@@ -38,7 +37,6 @@ Route::middleware(['dawnstar_auth'])->group(function () {
 
     Route::get('structures/{structure}/pages/datatable', [PageController::class, 'datatable'])->name('structures.pages.datatable');
     Route::resource('structures.pages', PageController::class)->except(['show']);
-
 
     Route::resource('admins', AdminController::class)->except(['show']);
     Route::get('admin-actions', [AdminActionController::class, 'index'])->name('admin_actions.index');

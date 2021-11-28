@@ -143,7 +143,9 @@ export default {
             errors: {},
             types: {
                 'input': ['text', 'number', 'date', 'datetime', 'color'],
-                'textarea': ['default', 'ckeditor']
+                'textarea': ['default', 'ckeditor'],
+                'select': ['single', 'multiple'],
+                'country': ['single', 'multiple'],
             },
         }
     },

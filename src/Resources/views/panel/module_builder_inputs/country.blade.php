@@ -5,15 +5,15 @@
                 <select class="select2 form-select {{ $input['type'] == 'multiple' ? 'select2-multiple' : '' }} @if($errors->has($input['key'][$language->id])) is-invalid @endif"
                         {{ $input['type'] == 'multiple' ? 'multiple' : '' }}
                         name="{{ $input['name'][$language->id] . ($input['type'] == 'multiple' ? '[]' : '') }}"
-                        data-type="select2"
+                        data-type="country"
                         data-placeholder="@lang('Dawnstar::general.select')"
                         id="{{ $input['id'][$language->id] }}">
-                        @if($input['type'] != 'multiple')
-                            <option value="">@lang('Dawnstar::general.select')</option>
-                        @endif
-                        @foreach($input['options'] as $value => $label)
-                            <option value="{{ $value }}" {{ in_array($value, (is_array($input['value'][$language->id]) ? $input['value'][$language->id] : [$input['value'][$language->id]])) ? 'selected' : '' }}>{{ $label }}</option>
-                        @endforeach
+                    @if($input['type'] != 'multiple')
+                        <option value="">@lang('Dawnstar::general.select')</option>
+                    @endif
+                    @foreach($input['options'] as $value => $label)
+                        <option value="{{ $value }}" {{ in_array($value, (is_array($input['value'][$language->id]) ? $input['value'][$language->id] : [$input['value'][$language->id]])) ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
                 </select>
                 <label for="{{ $input['id'][$language->id] }}">{{ $input['label'] }}</label>
                 @if($errors->has($input['key'][$language->id]))
@@ -28,8 +28,8 @@
             <select class="select2 form-select {{ $input['type'] == 'multiple' ? 'select2-multiple' : '' }} {{ $input['class'] ?? '' }} @error($input['name']) is-invalid @enderror"
                     {{ $input['type'] == 'multiple' ? 'multiple' : '' }}
                     name="{{ $input['name'] . ($input['type'] == 'multiple' ? '[]' : '') }}"
-                    data-type="select2"
-                    data-placeholder="@lang('Dawnstar::general.select')"
+                    data-type="country"
+                    data-placeholder="{{ __('Dawnstar::general.select') }}"
                     id="{{ $input['id'] }}">
                 @if($input['type'] != 'multiple')
                     <option value="">@lang('Dawnstar::general.select')</option>
@@ -51,27 +51,11 @@
 @once
     @push('scripts')
         <script>
-            $('select[data-type="select2"]').select2({
+            $('select[data-type="country"]').select2({
                 language: '{{ session('dawnstar.language.code') }}',
-                matcher: select2Search
             });
             $('.select2-selection').addClass('form-select');
 
-            function select2Search(params, data) {
-                if ($.trim(params.term) === '') {
-                    return data;
-                }
-                if (typeof data.text === 'undefined') {
-                    return null;
-                }
-
-                var temp = data.text.toLowerCase();
-                var searchTemp = params.term.toLowerCase();
-                if (temp.indexOf(searchTemp) > -1) {
-                    return $.extend({}, data, true);
-                }
-                return null;
-            }
             @error('languages')
             $('.select2-selection--multiple').addClass('is-invalid').attr('style', 'border-color: #ff5b5b !important');
             @enderror
