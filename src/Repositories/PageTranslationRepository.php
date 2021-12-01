@@ -14,11 +14,16 @@ class PageTranslationRepository implements TranslationInterface
         $translations = request('translations');
 
         foreach ($translations as $languageId => $translation) {
+            $medias = $translation['medias'] ?? [];
+            unset($translation['medias']);
+
             $translation['page_id'] = $page->id;
             $translation['language_id'] = $languageId;
             $translation['status'] = $languages[$languageId];
             $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
-            PageTranslation::create($translation);
+            $translationModel = PageTranslation::create($translation);
+
+            $this->getMediaRepository()->syncMedias($translationModel, $medias);
         }
     }
 
@@ -28,8 +33,11 @@ class PageTranslationRepository implements TranslationInterface
         $translations = request('translations');
 
         foreach ($translations as $languageId => $translation) {
+            $medias = $translation['medias'] ?? [];
+            unset($translation['medias']);
+
             $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
-            PageTranslation::updateOrCreate(
+            $translationModel = PageTranslation::updateOrCreate(
                 [
                     'page_id' => $page->id,
                     'language_id' => $languageId,
@@ -37,6 +45,12 @@ class PageTranslationRepository implements TranslationInterface
                 ],
                 $translation
             );
+            $this->getMediaRepository()->syncMedias($translationModel, $medias);
         }
+    }
+
+    private function getMediaRepository()
+    {
+        return new MediaRepository();
     }
 }

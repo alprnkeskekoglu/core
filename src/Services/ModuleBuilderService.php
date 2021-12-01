@@ -53,7 +53,7 @@ class ModuleBuilderService
     private function getInputHtml(array $input): string
     {
         $whiteList = [
-            'input', 'slug', 'textarea', 'radio', 'checkbox', 'select', 'country'
+            'input', 'slug', 'textarea', 'radio', 'checkbox', 'select', 'country', 'media'
         ];
 
         if (!in_array($input['element'], $whiteList)) {
@@ -87,6 +87,7 @@ class ModuleBuilderService
 
         if ($element == 'media') {
             $input['id'] = "medias_{$input['name']}";
+            $input['column'] = $input['name'];
             $input['key'] = "medias.{$input['name']}";
             $input['name'] = $input['translation'] ? "medias][{$input['name']}" : "medias[{$input['name']}]";
         }
@@ -148,18 +149,33 @@ class ModuleBuilderService
     {
         $name = $input['name'];
 
+        if($this->model && $input['element'] == 'media') {
+            return $this->model->medias()->wherePivot('key', $name)->orderBy('model_medias.order')->pluck('id')->toArray();
+        }
+
         return old($input['name'], ($this->model ? $this->model->{$name} : null)); //TODO Media
     }
 
     private function getTranslationValue(array $input)
     {
+        if(is_null($this->model)) {
+            return null;
+        }
+
         $name = $input['name'];
         $translations = optional($this->model)->translations;
 
         $values = [];
         foreach ($this->languages as $language) {//TODO Media
             $translation = $translations ? $translations->where('language_id', $language->id)->first() : null;
-            $values[$language->id] = old("translations.{$language->id}.$name", ($translation ? $translation->{$name} : null));
+
+
+            if($translation && $input['element'] == 'media') {
+                $values[$language->id] = $translation->medias()->wherePivot('key', $name)->orderBy('model_medias.order')->pluck('id')->toArray();
+            } else {
+                $values[$language->id] = old("translations.{$language->id}.$name", ($translation ? $translation->{$name} : null));
+            }
+;
         }
         return $values;
     }

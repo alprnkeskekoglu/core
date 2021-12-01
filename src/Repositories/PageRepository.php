@@ -29,7 +29,7 @@ class PageRepository implements PageInterface
 
     public function store(Structure $structure): Page
     {
-        $requestData = request()->except(['_token', '_method', 'translations', 'languages']);
+        $requestData = request()->except(['_token', '_method', 'translations', 'languages', 'medias']);
 
         $data = [];
 
@@ -40,19 +40,29 @@ class PageRepository implements PageInterface
         }
         $data['structure_id'] = $structure->id;
         $data['container_id'] = $structure->container->id;
+
         $page = Page::create($data);
+        
         $this->getExtrasRepository()->store($page, $requestData);
+
+        if (request('medias')) {
+            $this->getMediaRepository()->syncMedias($page, request('medias'));
+        }
 
         return $page;
     }
 
     public function update(Page $page)
     {
-        $requestData = request()->except(['_token', '_method', 'translations', 'languages']);
+        $requestData = request()->except(['_token', '_method', 'translations', 'languages', 'medias']);
 
         $page->update($requestData);
 
         $this->getExtrasRepository()->store($page, $requestData);
+
+        if (request('medias')) {
+            $this->getMediaRepository()->syncMedias($page, request('medias'));
+        }
 
         return $page;
     }
@@ -65,5 +75,10 @@ class PageRepository implements PageInterface
     private function getExtrasRepository()
     {
         return new ExtrasRepository();
+    }
+
+    private function getMediaRepository()
+    {
+        return new MediaRepository();
     }
 }
