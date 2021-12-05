@@ -158,10 +158,6 @@ class ModuleBuilderService
 
     private function getTranslationValue(array $input)
     {
-        if(is_null($this->model)) {
-            return null;
-        }
-
         $name = $input['name'];
         $translations = optional($this->model)->translations;
 

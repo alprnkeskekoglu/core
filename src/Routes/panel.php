@@ -12,9 +12,15 @@ use Dawnstar\Http\Controllers\PageController;
 use Dawnstar\Http\Controllers\AdminController;
 use Dawnstar\Http\Controllers\AdminActionController;
 use Dawnstar\Http\Controllers\ProfileController;
+
+use Dawnstar\Http\Controllers\MenuController;
+use Dawnstar\Http\Controllers\MenuItemController;
+
 use Dawnstar\Http\Controllers\FormController;
 use Dawnstar\Http\Controllers\FormMessageController;
+
 use Dawnstar\Http\Controllers\ModuleBuilderController;
+
 use Dawnstar\Http\Controllers\CustomTranslationController;
 
 use Dawnstar\Http\Controllers\UrlController;
@@ -43,6 +49,12 @@ Route::middleware(['dawnstar_auth'])->group(function () {
 
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::resource('menus', MenuController::class)->except(['show']);
+    Route::get('menus/{menu}/items/getUrls', [MenuItemController::class, 'getUrls'])->name('menus.items.getUrls');
+    Route::post('menus/{menu}/items/saveOrder', [MenuItemController::class, 'saveOrder'])->name('menus.items.saveOrder');
+    Route::resource('menus.items', MenuItemController::class)->except(['create', 'show']);
+
 
     Route::resource('forms', FormController::class)->except(['show']);
     Route::resource('forms.messages', FormMessageController::class)->only(['index', 'show', 'destroy']);

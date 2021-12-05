@@ -2,12 +2,13 @@
 
 namespace Dawnstar\Models;
 
+use Dawnstar\MediaManager\Traits\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MenuItem extends BaseModel
 {
-    use SoftDeletes;
+    use SoftDeletes, HasMedia;
 
     protected $table = 'menu_items';
     protected $guarded = ['id'];
@@ -22,8 +23,8 @@ class MenuItem extends BaseModel
         return $this->hasMany(MenuItem::class, 'parent_id', 'id');
     }
 
-    public function translations()
+    public function url()
     {
-        return $this->hasMany(MenuItemTranslation::class);
+        return $this->belongsTo(Url::class);
     }
 }
