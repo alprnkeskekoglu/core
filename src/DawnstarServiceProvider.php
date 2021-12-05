@@ -6,7 +6,9 @@ use Dawnstar\Console\Commands\Update;
 use Dawnstar\Http\Middleware\Authenticate;
 use Dawnstar\Http\Middleware\RedirectIfAuthenticated;
 use Dawnstar\Models\ContainerTranslation;
+use Dawnstar\Models\PageTranslation;
 use Dawnstar\Observers\ContainerTranslationObserver;
+use Dawnstar\Observers\PageTranslationObserver;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Dawnstar\Providers\ConfigServiceProvider;
@@ -43,5 +45,6 @@ class   DawnstarServiceProvider extends ServiceProvider
 
 
         ContainerTranslation::observe(ContainerTranslationObserver::class);
+        PageTranslation::observe(PageTranslationObserver::class);
     }
 }

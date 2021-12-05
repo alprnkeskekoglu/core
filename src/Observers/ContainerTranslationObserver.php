@@ -2,9 +2,7 @@
 
 namespace Dawnstar\Observers;
 
-use Dawnstar\Models\CategoryTranslation;
 use Dawnstar\Models\ContainerTranslation;
-use Dawnstar\Models\PageTranslation;
 
 class ContainerTranslationObserver
 {

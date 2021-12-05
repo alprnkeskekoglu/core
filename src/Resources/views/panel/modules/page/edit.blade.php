@@ -30,6 +30,8 @@
                                 </div>
                             </div>
                             {!! $moduleBuilder->html() !!}
+                            <hr class="mt-3">
+                            {!! $moduleBuilder->metaTagHtml() !!}
                         </div>
                     </form>
                 </div>

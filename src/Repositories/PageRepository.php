@@ -29,7 +29,7 @@ class PageRepository implements PageInterface
 
     public function store(Structure $structure): Page
     {
-        $requestData = request()->except(['_token', '_method', 'translations', 'languages', 'medias']);
+        $requestData = request()->except(['_token', '_method', 'translations', 'languages', 'medias', 'meta_tags']);
 
         $data = [];
 
@@ -42,7 +42,7 @@ class PageRepository implements PageInterface
         $data['container_id'] = $structure->container->id;
 
         $page = Page::create($data);
-        
+
         $this->getExtrasRepository()->store($page, $requestData);
 
         if (request('medias')) {

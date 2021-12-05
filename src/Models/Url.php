@@ -19,6 +19,11 @@ class Url extends BaseModel
         return $this->morphTo('model');
     }
 
+    public function metas()
+    {
+        return $this->hasMany(MetaTag::class);
+    }
+
     public function __toString()
     {
         return url($this->url);

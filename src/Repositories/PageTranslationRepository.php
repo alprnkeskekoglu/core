@@ -24,6 +24,11 @@ class PageTranslationRepository implements TranslationInterface
             $translationModel = PageTranslation::create($translation);
 
             $this->getMediaRepository()->syncMedias($translationModel, $medias);
+
+
+            if (request('meta_tags')) {
+                $this->getMetaTagRepository()->sync($translationModel, request('meta_tags'));
+            }
         }
     }
 
@@ -52,5 +57,10 @@ class PageTranslationRepository implements TranslationInterface
     private function getMediaRepository()
     {
         return new MediaRepository();
+    }
+
+    private function getMetaTagRepository()
+    {
+        return new MetaTagRepository();
     }
 }

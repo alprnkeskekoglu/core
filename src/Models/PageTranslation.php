@@ -23,6 +23,11 @@ class PageTranslation extends BaseModel
         return $this->hasMany(PageTranslationExtra::class);
     }
 
+    public function language()
+    {
+        return $this->belongsTo(Language::class);
+    }
+    
     public function url()
     {
         return $this->morphOne(Url::class, 'model');
