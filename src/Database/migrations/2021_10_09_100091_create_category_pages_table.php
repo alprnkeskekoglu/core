@@ -14,11 +14,8 @@ class CreateCategoryPagesTable extends Migration
     public function up()
     {
         Schema::create('category_pages', function (Blueprint $table) {
-            $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('page_id');
-
-            $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete();
-            $table->foreign('page_id')->references('id')->on('pages')->cascadeOnDelete();
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('page_id')->constrained()->onDelete('cascade');
         });
     }
 

@@ -15,7 +15,7 @@ class CreateContainerTranslationsTable extends Migration
     {
         Schema::create('container_translations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('container_id')->index();
+            $table->foreignId('container_id')->index()->constrained()->onDelete('cascade');
             $table->unsignedInteger('language_id')->index();
             $table->boolean('status')->default(1);
             $table->string('name')->nullable();
@@ -23,8 +23,6 @@ class CreateContainerTranslationsTable extends Migration
             $table->text('detail')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('container_id')->references('id')->on('containers')->cascadeOnDelete();
         });
     }
 

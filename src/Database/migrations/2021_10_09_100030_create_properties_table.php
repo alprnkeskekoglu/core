@@ -15,15 +15,13 @@ class CreatePropertiesTable extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('container_id')->index();
+            $table->foreignId('container_id')->index()->constrained()->onDelete('cascade');
             $table->tinyInteger('status')->default(2);
             $table->string('cvar_1')->nullable();
             $table->integer('cint_1')->nullable();
             $table->text('ctext_1')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('container_id')->references('id')->on('containers')->cascadeOnDelete();
         });
     }
 

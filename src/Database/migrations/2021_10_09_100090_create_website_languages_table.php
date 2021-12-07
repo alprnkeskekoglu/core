@@ -14,11 +14,9 @@ class CreateWebsiteLanguagesTable extends Migration
     public function up()
     {
         Schema::create('website_languages', function (Blueprint $table) {
-            $table->unsignedBigInteger('website_id');
+            $table->foreignId('website_id')->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('language_id');
             $table->boolean('default')->default(0);
-
-            $table->foreign('website_id')->references('id')->on('websites')->cascadeOnDelete();
         });
     }
 

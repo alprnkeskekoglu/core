@@ -184,7 +184,6 @@
                 $('#key').val('homepage').prop('readonly', true);
                 $('#has_detail, #has_url').prop('checked', true);
                 $('#has_category, #has_property, #is_searchable').prop('disabled', true);
-                $('.slugInput').val('/');
             } else if(value == 'search') {
                 $('#key').val('search').prop('readonly', true);
                 $('#has_url').prop('checked', true);

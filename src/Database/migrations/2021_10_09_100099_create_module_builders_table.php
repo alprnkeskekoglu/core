@@ -15,14 +15,12 @@ class CreateModuleBuildersTable extends Migration
     {
         Schema::create('module_builders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('structure_id')->index();
+            $table->foreignId('structure_id')->index()->constrained()->onDelete('cascade');
             $table->string('type');
             $table->json('data');
             $table->json('meta_tags');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('structure_id')->references('id')->on('structures')->cascadeOnDelete();
         });
     }
 

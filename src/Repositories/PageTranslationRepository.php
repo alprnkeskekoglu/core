@@ -14,17 +14,19 @@ class PageTranslationRepository implements TranslationInterface
         $translations = request('translations');
 
         foreach ($translations as $languageId => $translation) {
-            $medias = $translation['medias'] ?? [];
-            unset($translation['medias']);
-
             $translation['page_id'] = $page->id;
             $translation['language_id'] = $languageId;
             $translation['status'] = $languages[$languageId];
             $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
             $translationModel = PageTranslation::create($translation);
 
-            $this->getMediaRepository()->syncMedias($translationModel, $medias);
 
+            if (isset($translation['medias'])) {
+                $this->getMediaRepository()->syncMedias($translationModel, $translation['medias']);
+                unset($translation['medias']);
+            }
+
+            $this->getExtrasRepository()->store($translationModel, $translation);
 
             if (request('meta_tags')) {
                 $this->getMetaTagRepository()->sync($translationModel, request('meta_tags'));
@@ -38,8 +40,6 @@ class PageTranslationRepository implements TranslationInterface
         $translations = request('translations');
 
         foreach ($translations as $languageId => $translation) {
-            $medias = $translation['medias'] ?? [];
-            unset($translation['medias']);
 
             $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
             $translationModel = PageTranslation::updateOrCreate(
@@ -50,8 +50,23 @@ class PageTranslationRepository implements TranslationInterface
                 ],
                 $translation
             );
-            $this->getMediaRepository()->syncMedias($translationModel, $medias);
+
+            if (isset($translation['medias'])) {
+                $this->getMediaRepository()->syncMedias($translationModel, $translation['medias']);
+                unset($translation['medias']);
+            }
+
+            $this->getExtrasRepository()->store($translationModel, $translation);
+
+            if (request('meta_tags')) {
+                $this->getMetaTagRepository()->sync($translationModel, request('meta_tags'));
+            }
         }
+    }
+
+    private function getExtrasRepository()
+    {
+        return new ExtrasRepository();
     }
 
     private function getMediaRepository()

@@ -14,7 +14,7 @@ class AdminActionService
 
     public function __construct($model)
     {
-        $this->website = session('dawnstar.website');
+        $this->website = session('dawnstar.website', collect(['id' => 1]));
         $this->admin = auth('admin')->user();
         $this->model = $model;
     }

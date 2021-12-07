@@ -8,6 +8,7 @@ return [
     ],
 
     'labels' => [
+        'order' => 'Sıra',
         'status' => 'Durum',
         'name' => 'Sayfa Adı',
         'created_at' => 'Oluşturma Tarihi',

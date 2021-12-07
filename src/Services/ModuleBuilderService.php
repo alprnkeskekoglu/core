@@ -235,7 +235,6 @@ class ModuleBuilderService
             $attributes[$input['name']] = $input['labels'][$panelLanguage->id];
         }
     }
-
     #endregion
 
     private function setMetaTags(array &$tags)

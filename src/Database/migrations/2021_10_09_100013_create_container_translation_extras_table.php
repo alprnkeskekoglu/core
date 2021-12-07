@@ -15,14 +15,11 @@ class CreateContainerTranslationExtrasTable extends Migration
     {
         Schema::create('container_translation_extras', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('container_translation_id')->index();
-            $table->unsignedInteger('language_id')->index();
+            $table->foreignId('container_translation_id')->index()->constrained()->onDelete('cascade');
             $table->string('key');
             $table->text('value');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('container_translation_id')->references('id')->on('container_translations')->cascadeOnDelete();
         });
     }
 

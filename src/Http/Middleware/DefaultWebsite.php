@@ -2,12 +2,13 @@
 
 namespace Dawnstar\Http\Middleware;
 
+use Dawnstar\Models\Website;
 use Innoio\Core\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class RedirectIfAuthenticated
+class DefaultWebsite
 {
     /**
      * Handle an incoming request.
@@ -19,10 +20,10 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, ...$guards)
     {
-        if (Auth::guard('admin')->check()) {
-            return redirect()->route('dawnstar.dashboard');
+        $defaultWebsite = Website::where('status', 1)->where('default', 1)->first();
+        if($defaultWebsite) {
+            return $next($request);
         }
-
-        return $next($request);
+        return redirect()->route('dawnstar.websites.create');
     }
 }

@@ -15,7 +15,7 @@ class CreatePropertyOptionTranslationsTable extends Migration
     {
         Schema::create('property_option_translations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('property_option_id')->index();
+            $table->foreignId('property_option_id')->index()->constrained()->onDelete('cascade');
             $table->unsignedInteger('language_id')->index();
             $table->boolean('status')->default(1);
             $table->string('name');
@@ -23,8 +23,6 @@ class CreatePropertyOptionTranslationsTable extends Migration
             $table->text('detail')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('property_option_id')->references('id')->on('property_options')->cascadeOnDelete();
         });
     }
 

@@ -15,7 +15,7 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('container_id')->index();
+            $table->foreignId('container_id')->index()->constrained()->onDelete('cascade');
             $table->tinyInteger('status')->default(2);
             $table->unsignedBigInteger('parent_id')->default(0);
             $table->unsignedInteger('left')->default(0);
@@ -30,8 +30,6 @@ class CreateCategoriesTable extends Migration
             $table->text('ctext_2')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('container_id')->references('id')->on('containers')->cascadeOnDelete();
         });
     }
 

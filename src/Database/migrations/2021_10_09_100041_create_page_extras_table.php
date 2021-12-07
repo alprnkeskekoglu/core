@@ -15,13 +15,11 @@ class CreatePageExtrasTable extends Migration
     {
         Schema::create('page_extras', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('page_id')->index();
+            $table->foreignId('page_id')->index()->constrained()->onDelete('cascade');
             $table->string('key');
             $table->text('value');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('page_id')->references('id')->on('pages')->cascadeOnDelete();
         });
     }
 

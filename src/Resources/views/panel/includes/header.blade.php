@@ -3,15 +3,16 @@
     <div class="container-fluid">
         <!-- LOGO -->
         <a href="index.html" class="topnav-logo">
-                    <span class="topnav-logo-lg">
-                        <img src="assets/images/logo-light.png" alt="" height="16">
-                    </span>
+            <span class="topnav-logo-lg">
+                <img src="assets/images/logo-light.png" alt="" height="16">
+            </span>
             <span class="topnav-logo-sm">
-                        <img src="assets/images/logo_sm.png" alt="" height="16">
-                    </span>
+                <img src="assets/images/logo_sm.png" alt="" height="16">
+            </span>
         </a>
 
         <ul class="list-unstyled topbar-menu float-end mb-0">
+            @if(session('dawnstar.website'))
             <li class="dropdown notification-list topbar-dropdown d-none d-lg-block">
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" id="topbar-languagedrop" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     <img src="{{ languageFlag(session('dawnstar.language.code')) }}" alt="{{ session('dawnstar.language.code') }}" class="me-1" height="12">
@@ -28,6 +29,7 @@
                     @endforeach
                 </div>
             </li>
+            @endif
 
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" id="topbar-notifydrop" role="button" aria-haspopup="true" aria-expanded="false">

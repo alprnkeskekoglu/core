@@ -15,7 +15,7 @@ class CreateStructuresTable extends Migration
     {
         Schema::create('structures', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('website_id')->index();
+            $table->foreignId('website_id')->index()->constrained()->onDelete('cascade');
             $table->tinyInteger('status')->default(2);
             $table->string('key')->unique();
             $table->string('type');
@@ -26,8 +26,6 @@ class CreateStructuresTable extends Migration
             $table->boolean('is_searchable')->default(1);
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('website_id')->references('id')->on('websites');
         });
     }
 

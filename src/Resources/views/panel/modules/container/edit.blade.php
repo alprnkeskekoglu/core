@@ -1,12 +1,15 @@
 @extends('Dawnstar::layouts.app')
 
 @section('content')
-    @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::container.title.edit')])
+    @include('Dawnstar::includes.page_header',['headerTitle' => $container->translation->name])
     <div class="row">
         <div class="col-12">
             <div class="card">
+                @if($structure->type == 'dynamic')
                 <div class="card-header">
+                    @include('Dawnstar::includes.buttons.back', ['route' => route('dawnstar.structures.pages.index', $structure)])
                 </div>
+                @endif
                 <div class="card-body">
                     <form action="{{ route('dawnstar.structures.containers.update', [$structure, $container]) }}" id="containerUpdate" method="POST">
                         @method('PUT')
@@ -26,6 +29,8 @@
                                 </div>
                             </div>
                             {!! $moduleBuilder->html() !!}
+                            <hr class="mt-3">
+                            {!! $moduleBuilder->metaTagHtml() !!}
                         </div>
                     </form>
                 </div>

@@ -38,6 +38,7 @@ class PageRepository implements PageInterface
                 $data[$key] = $value;
             }
         }
+        
         $data['structure_id'] = $structure->id;
         $data['container_id'] = $structure->container->id;
 

@@ -5,6 +5,7 @@ namespace Dawnstar\Repositories;
 use Dawnstar\Contracts\TranslationInterface;
 use Dawnstar\Models\Container;
 use Dawnstar\Models\ContainerTranslation;
+use Illuminate\Support\Facades\Schema;
 
 class ContainerTranslationRepository implements TranslationInterface
 {
@@ -19,7 +20,16 @@ class ContainerTranslationRepository implements TranslationInterface
             $translation['language_id'] = $languageId;
             $translation['status'] = $languages[$languageId];
             $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
-            ContainerTranslation::create($translation);
+
+            $translationModel = ContainerTranslation::create($translation);
+
+
+            if (isset($translation['medias'])) {
+                $this->getMediaRepository()->syncMedias($translationModel, $translation['medias']);
+                unset($translation['medias']);
+            }
+
+            $this->getExtrasRepository()->store($translationModel, $translation);
         }
     }
 
@@ -30,7 +40,7 @@ class ContainerTranslationRepository implements TranslationInterface
 
         foreach ($translations as $languageId => $translation) {
             $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
-            ContainerTranslation::updateOrCreate(
+            $translationModel = ContainerTranslation::updateOrCreate(
                 [
                     'container_id' => $container->id,
                     'language_id' => $languageId,
@@ -38,6 +48,32 @@ class ContainerTranslationRepository implements TranslationInterface
                 ],
                 $translation
             );
+
+            if (isset($translation['medias'])) {
+                $this->getMediaRepository()->syncMedias($translationModel, $translation['medias']);
+                unset($translation['medias']);
+            }
+
+            $this->getExtrasRepository()->store($translationModel, $translation);
+            
+            if (request('meta_tags')) {
+                $this->getMetaTagRepository()->sync($translationModel, request('meta_tags'));
+            }
         }
+    }
+
+    private function getExtrasRepository()
+    {
+        return new ExtrasRepository();
+    }
+
+    private function getMediaRepository()
+    {
+        return new MediaRepository();
+    }
+
+    private function getMetaTagRepository()
+    {
+        return new MetaTagRepository();
     }
 }

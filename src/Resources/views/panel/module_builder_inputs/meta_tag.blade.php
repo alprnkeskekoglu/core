@@ -81,7 +81,7 @@
 
                 var slug = $('#metaTags').find('.previewBox[data-language="'+language+'"]').find('.slug');
 
-                slug.html(slug.attr('data-domain') + '/' + value);
+                slug.html(slug.attr('data-domain') + value);
             })
 
             $('.meta_tags, .slugInput').trigger('keyup');

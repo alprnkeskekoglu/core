@@ -15,7 +15,7 @@ class CreateContainersTable extends Migration
     {
         Schema::create('containers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('structure_id')->index();
+            $table->foreignId('structure_id')->index()->constrained()->onDelete('cascade');
             $table->string('cvar_1')->nullable();
             $table->string('cvar_2')->nullable();
             $table->string('cvar_3')->nullable();
@@ -26,8 +26,6 @@ class CreateContainersTable extends Migration
             $table->text('ctext_2')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('structure_id')->references('id')->on('structures')->cascadeOnDelete();
         });
     }
 
