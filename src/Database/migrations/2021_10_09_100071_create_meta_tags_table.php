@@ -15,13 +15,11 @@ class CreateMetaTagsTable extends Migration
     {
         Schema::create('meta_tags', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('url_id')->index();
+            $table->foreignId('url_id')->index()->constrained()->onDelete('cascade');
             $table->string('key');
             $table->string('template')->default('<meta name="{0}" content="{1}">');
             $table->text('value')->nullable();
             $table->timestamps();
-
-            $table->foreign('url_id')->references('id')->on('urls')->cascadeOnDelete();
         });
     }
 

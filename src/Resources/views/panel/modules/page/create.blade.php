@@ -29,6 +29,8 @@
                                 </div>
                             </div>
                             {!! $moduleBuilder->html() !!}
+                            <hr class="mt-3">
+                            {!! $moduleBuilder->metaTagHtml() !!}
                         </div>
                     </form>
                 </div>
@@ -40,7 +42,6 @@
         </div>
     </div>
 @endsection
-
 
 @push('scripts')
     <script src="{{ asset('vendor/dawnstar/assets/js/language-button.js') }}"></script>

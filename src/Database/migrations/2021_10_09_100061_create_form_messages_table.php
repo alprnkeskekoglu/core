@@ -15,7 +15,7 @@ class CreateFormMessagesTable extends Migration
     {
         Schema::create('form_messages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('form_id')->index();
+            $table->foreignId('form_id')->index()->constrained()->onDelete('cascade');
             $table->boolean('read')->default(0);
             $table->string('email')->nullable();
             $table->json('data');
@@ -23,8 +23,6 @@ class CreateFormMessagesTable extends Migration
             $table->text('user_agent')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('form_id')->references('id')->on('forms')->cascadeOnDelete();
         });
     }
 

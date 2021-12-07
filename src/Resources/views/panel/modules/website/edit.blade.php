@@ -12,7 +12,7 @@
                     </a>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('dawnstar.websites.update', $website) }}" method="POST">
+                    <form action="{{ route('dawnstar.websites.update', $website) }}" id="websiteUpdate" method="POST">
                         @method('PUT')
                         @csrf
                         <div class="row">
@@ -109,13 +109,11 @@
                                 </div>
                             </div>
                         </div>
-
-                        <button type="submit" class="btn btn-primary">@lang('Dawnstar::general.save')</button>
                     </form>
                 </div>
 
                 <div class="card-footer text-end">
-                    <button type="submit" class="btn btn-primary" form="websiteStore">@lang('Dawnstar::general.save')</button>
+                    <button type="submit" class="btn btn-primary" form="websiteUpdate">@lang('Dawnstar::general.save')</button>
                 </div>
             </div>
         </div>

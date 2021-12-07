@@ -5,7 +5,9 @@ namespace Dawnstar\Services;
 use Dawnstar\Models\Language;
 use Dawnstar\Models\ModuleBuilder;
 use Dawnstar\Models\Structure;
+use Dawnstar\Region\Models\Country;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 
 class ModuleBuilderService
@@ -36,22 +38,28 @@ class ModuleBuilderService
         return $html;
     }
 
+    public function metaTagHtml(): string
+    {
+        $tags = $this->builder->meta_tags;
+
+        $this->setMetaTags($tags);
+
+        return view('Dawnstar::module_builder_inputs.meta_tag', [
+            'tags' => $tags,
+            'languages' => $this->languages
+        ])->render();
+    }
+
     public function validate()
     {
         request()->validate(...$this->getValidationData());
-    }
-
-    private function getActiveLanguages()
-    {
-        $activeLanguageIds = $this->structure->container->translations()->active()->pluck('language_id')->toArray();
-        return Language::whereIn('id', $activeLanguageIds)->get();
     }
 
     #region Input
     private function getInputHtml(array $input): string
     {
         $whiteList = [
-            'input', 'slug', 'textarea', 'radio', 'checkbox', 'select'
+            'input', 'slug', 'textarea', 'radio', 'checkbox', 'select', 'country', 'media'
         ];
 
         if (!in_array($input['element'], $whiteList)) {
@@ -72,7 +80,7 @@ class ModuleBuilderService
         $this->setInputNameAndId($input);
         $this->setLabel($input);
 
-        if (in_array($input['element'], ['radio', 'checkbox', 'select'])) {
+        if (in_array($input['element'], ['radio', 'checkbox', 'select', 'country', 'city'])) {
             $this->setOptions($input);
         }
     }
@@ -85,6 +93,7 @@ class ModuleBuilderService
 
         if ($element == 'media') {
             $input['id'] = "medias_{$input['name']}";
+            $input['column'] = $input['name'];
             $input['key'] = "medias.{$input['name']}";
             $input['name'] = $input['translation'] ? "medias][{$input['name']}" : "medias[{$input['name']}]";
         }
@@ -119,6 +128,11 @@ class ModuleBuilderService
     private function setOptions(array &$input)
     {
         $options = [];
+
+        if ($input['element'] == 'country') {
+            $options = $this->getCountry();
+        }
+
         foreach ($input['options'] as $option) {
             $options[$option['key']] = $option['value'][session('dawnstar.language.id')];
         }
@@ -141,6 +155,10 @@ class ModuleBuilderService
     {
         $name = $input['name'];
 
+        if ($this->model && $input['element'] == 'media') {
+            return $this->model->medias()->wherePivot('key', $name)->orderBy('model_medias.order')->pluck('id')->toArray();
+        }
+
         return old($input['name'], ($this->model ? $this->model->{$name} : null)); //TODO Media
     }
 
@@ -150,9 +168,15 @@ class ModuleBuilderService
         $translations = optional($this->model)->translations;
 
         $values = [];
-        foreach ($this->languages as $language) {//TODO Media
+        foreach ($this->languages as $language) {
             $translation = $translations ? $translations->where('language_id', $language->id)->first() : null;
-            $values[$language->id] = old("translations.{$language->id}.$name", ($translation ? $translation->{$name} : null));
+
+
+            if ($translation && $input['element'] == 'media') {
+                $values[$language->id] = $translation->medias()->wherePivot('key', $name)->orderBy('model_medias.order')->pluck('id')->toArray();
+            } else {
+                $values[$language->id] = old("translations.{$language->id}.$name", ($translation ? $translation->{$name} : null));
+            };
         }
         return $values;
     }
@@ -212,4 +236,50 @@ class ModuleBuilderService
         }
     }
     #endregion
+
+    private function setMetaTags(array &$tags)
+    {
+        $data = [];
+        foreach($tags as $tag) {
+            $data[] = [
+                'key' => $tag,
+                'value' => $this->getMetaTagValue($tag)
+            ];
+        }
+
+        $tags = $data;
+    }
+
+    private function getMetaTagValue(string $tag)
+    {
+        $values = [];
+
+        $translations = optional($this->model)->translations;
+        foreach ($this->languages as $language) {
+            $translation = $translations ? $translations->where('language_id', $language->id)->first() : null;
+
+            if($translation) {
+                $metas = $translation->url->metas->pluck('value', 'key')->toArray();
+                $values[$language->id] = $metas[$tag] ?? '';
+            }
+
+        }
+
+        return $values;
+    }
+
+
+    private function getActiveLanguages()
+    {
+        $activeLanguageIds = $this->structure->container->translations()->active()->pluck('language_id')->toArray();
+        return Language::whereIn('id', $activeLanguageIds)->get();
+    }
+
+    private function getCountry()
+    {
+        $languageCode = session('dawnstar.language.code');
+        return Cache::rememberForever('module_builder_country_' . $languageCode, function () use ($languageCode) {
+            return Country::all()->pluck("name_{$languageCode}", 'id');
+        });
+    }
 }

@@ -15,6 +15,7 @@ class CreateFormsTable extends Migration
     {
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('website_id')->index()->constrained()->onDelete('cascade');
             $table->tinyInteger('status')->default(1);
             $table->boolean('recaptcha_status')->default(0);
             $table->string('name');

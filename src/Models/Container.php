@@ -2,13 +2,14 @@
 
 namespace Dawnstar\Models;
 
+use Dawnstar\MediaManager\Traits\HasMedia;
 use Dawnstar\Traits\HasTranslation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Container extends BaseModel
 {
-    use SoftDeletes, HasTranslation;
+    use SoftDeletes, HasTranslation, HasMedia;
 
     protected $table = 'containers';
     protected $guarded = ['id'];

@@ -13,6 +13,15 @@
         <li class="side-nav-title side-nav-item">Navigation</li>
 
         <li class="side-nav-item">
+            <a href="{{ route('dawnstar.websites.index') }}" class="side-nav-link">
+                <i class="uil-home-alt"></i>
+                <span>Website</span>
+            </a>
+            <a href="{{ route('dawnstar.structures.index') }}" class="side-nav-link">
+                <i class="uil-home-alt"></i>
+                <span>Structure</span>
+            </a>
+
             <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
                 <i class="uil-home-alt"></i>
                 <span class="badge bg-info rounded-pill float-end">4</span>

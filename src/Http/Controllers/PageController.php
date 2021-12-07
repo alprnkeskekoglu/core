@@ -25,8 +25,13 @@ class PageController extends BaseController
 
     public function index(Structure $structure)
     {
+        if($structure->type != 'dynamic') {
+            abort(404);
+        }
+
         $columns = [
             ['data' => 'id', 'name' => 'id', 'label' => '#', 'searchable' => false],
+            ['data' => 'order', 'name' => 'order', 'label' => __('Dawnstar::page.labels.order'), 'searchable' => false],
             ['data' => 'status', 'name' => 'status', 'label' => __('Dawnstar::page.labels.status'), 'searchable' => false],
             ['data' => 'name', 'name' => 'translation.name', 'label' => __('Dawnstar::page.labels.name'), 'orderable' => false],
             ['data' => 'created_at', 'name' => 'created_at', 'label' => __('Dawnstar::page.labels.created_at'), 'searchable' => false],
@@ -38,6 +43,10 @@ class PageController extends BaseController
 
     public function create(Structure $structure)
     {
+        if($structure->type != 'dynamic') {
+            abort(404);
+        }
+
         $moduleBuilder = new ModuleBuilderService($structure, 'page');
         $languages = $moduleBuilder->languages;
 

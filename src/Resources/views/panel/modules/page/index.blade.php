@@ -5,13 +5,15 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-body">
-                    <div class="mb-3 text-end">
-                        <a href="{{ route('dawnstar.structures.pages.create', $structure) }}" class="btn btn-primary">
-                            <i class="uil uil-plus me-1"></i>
-                            @lang('Dawnstar::general.add_new')
+                <div class="card-header">
+                    <div class="float-end">
+                        <a href="{{ route('dawnstar.structures.containers.edit', [$structure, $structure->container]) }}" class="btn btn-secondary">
+                            @lang('Dawnstar::general.list_page')
                         </a>
+                        @include('Dawnstar::includes.buttons.add_new', ['route' => route('dawnstar.structures.pages.create', $structure)])
                     </div>
+                </div>
+                <div class="card-body">
                     <table class="table table-centered mb-0" id="pageTable">
                         <thead>
                         <tr>

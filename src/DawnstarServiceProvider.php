@@ -4,9 +4,14 @@ namespace Dawnstar;
 
 use Dawnstar\Console\Commands\Update;
 use Dawnstar\Http\Middleware\Authenticate;
+use Dawnstar\Http\Middleware\DefaultWebsite;
 use Dawnstar\Http\Middleware\RedirectIfAuthenticated;
 use Dawnstar\Models\ContainerTranslation;
+use Dawnstar\Models\Page;
+use Dawnstar\Models\PageTranslation;
 use Dawnstar\Observers\ContainerTranslationObserver;
+use Dawnstar\Observers\PageObserver;
+use Dawnstar\Observers\PageTranslationObserver;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Dawnstar\Providers\ConfigServiceProvider;
@@ -40,8 +45,11 @@ class   DawnstarServiceProvider extends ServiceProvider
         $router = $this->app->make(Router::class);
         $router->aliasMiddleware('dawnstar_auth', Authenticate::class);
         $router->aliasMiddleware('dawnstar_guest', RedirectIfAuthenticated::class);
+        $router->aliasMiddleware('default_website', DefaultWebsite::class);
 
 
         ContainerTranslation::observe(ContainerTranslationObserver::class);
+        Page::observe(PageObserver::class);
+        PageTranslation::observe(PageTranslationObserver::class);
     }
 }

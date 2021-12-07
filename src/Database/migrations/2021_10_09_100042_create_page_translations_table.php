@@ -15,7 +15,7 @@ class CreatePageTranslationsTable extends Migration
     {
         Schema::create('page_translations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('page_id')->index();
+            $table->foreignId('page_id')->index()->constrained()->onDelete('cascade');
             $table->unsignedInteger('language_id')->index();
             $table->boolean('status')->default(1);
             $table->string('name');
@@ -23,8 +23,6 @@ class CreatePageTranslationsTable extends Migration
             $table->text('detail')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('page_id')->references('id')->on('pages')->cascadeOnDelete();
         });
     }
 

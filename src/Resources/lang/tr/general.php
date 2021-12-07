@@ -8,12 +8,14 @@ return [
     'no' => 'Hayır',
     'select' => 'Seçiniz',
 
+    'list_page' => 'Liste Sayfası',
+
     'actions' => 'İşlemler',
     'status_options' => [
         0 => 'Pasif',
         1 => 'Aktif',
         2 => 'Taslak'
     ],
-    
+
     'required' => 'Bu alan zorunludur!',
 ];

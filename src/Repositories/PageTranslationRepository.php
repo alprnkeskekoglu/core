@@ -18,7 +18,19 @@ class PageTranslationRepository implements TranslationInterface
             $translation['language_id'] = $languageId;
             $translation['status'] = $languages[$languageId];
             $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
-            PageTranslation::create($translation);
+            $translationModel = PageTranslation::create($translation);
+
+
+            if (isset($translation['medias'])) {
+                $this->getMediaRepository()->syncMedias($translationModel, $translation['medias']);
+                unset($translation['medias']);
+            }
+
+            $this->getExtrasRepository()->store($translationModel, $translation);
+
+            if (request('meta_tags')) {
+                $this->getMetaTagRepository()->sync($translationModel, request('meta_tags'));
+            }
         }
     }
 
@@ -28,8 +40,9 @@ class PageTranslationRepository implements TranslationInterface
         $translations = request('translations');
 
         foreach ($translations as $languageId => $translation) {
+
             $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
-            PageTranslation::updateOrCreate(
+            $translationModel = PageTranslation::updateOrCreate(
                 [
                     'page_id' => $page->id,
                     'language_id' => $languageId,
@@ -37,6 +50,32 @@ class PageTranslationRepository implements TranslationInterface
                 ],
                 $translation
             );
+
+            if (isset($translation['medias'])) {
+                $this->getMediaRepository()->syncMedias($translationModel, $translation['medias']);
+                unset($translation['medias']);
+            }
+
+            $this->getExtrasRepository()->store($translationModel, $translation);
+
+            if (request('meta_tags')) {
+                $this->getMetaTagRepository()->sync($translationModel, request('meta_tags'));
+            }
         }
+    }
+
+    private function getExtrasRepository()
+    {
+        return new ExtrasRepository();
+    }
+
+    private function getMediaRepository()
+    {
+        return new MediaRepository();
+    }
+
+    private function getMetaTagRepository()
+    {
+        return new MetaTagRepository();
     }
 }

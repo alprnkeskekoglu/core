@@ -15,15 +15,13 @@ class CreateUrlsTable extends Migration
     {
         Schema::create('urls', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('website_id')->index();
+            $table->foreignId('website_id')->index()->constrained()->onDelete('cascade');
             $table->unsignedInteger('url_id')->nullable()->index();
             $table->morphs('model');
             $table->string('url')->unique();
             $table->unsignedInteger('type')->default(1);
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('website_id')->references('id')->on('websites');
         });
     }
 

@@ -15,14 +15,11 @@ class CreateCategoryTranslationExtrasTable extends Migration
     {
         Schema::create('category_translation_extras', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('category_translation_id')->index();
-            $table->unsignedInteger('language_id')->index();
+            $table->foreignId('category_translation_id')->index()->constrained()->onDelete('cascade');
             $table->string('key');
             $table->text('value');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('category_translation_id')->references('id')->on('category_translations')->cascadeOnDelete();
         });
     }
 

@@ -17,7 +17,7 @@ $('body').delegate('.nameInput', 'keydown', function () {
     clearTimeout(typingTimer);
 });
 $('body').delegate('.slugInput', 'keyup', function () {
-    $(this).parent().find('div.help-block > span').html($(this).val())
+    $(this).parent().find('div.help-block > span').html('/' + $(this).val())
 });
 function getUrl() {
     var name = typedInput.val();
@@ -28,7 +28,7 @@ function getUrl() {
         'data': {'language_id': languageId, 'name': name},
         'method': 'GET',
         success: function (response) {
-            $('.slugInput[data-language="' + languageId + '"]').val('/' + response).trigger('keyup');
+            $('.slugInput[data-language="' + languageId + '"]').val(response).trigger('keyup');
         },
     });
 }

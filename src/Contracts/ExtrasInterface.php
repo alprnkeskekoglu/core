@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 interface ExtrasInterface
 {
-    public function store($model, $data);
+    public function store($model, array $data);
 }

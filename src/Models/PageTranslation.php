@@ -2,12 +2,13 @@
 
 namespace Dawnstar\Models;
 
+use Dawnstar\MediaManager\Traits\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PageTranslation extends BaseModel
 {
-    use SoftDeletes;
+    use SoftDeletes, HasMedia;
 
     protected $table = 'page_translations';
     protected $guarded = ['id'];
@@ -22,6 +23,11 @@ class PageTranslation extends BaseModel
         return $this->hasMany(PageTranslationExtra::class);
     }
 
+    public function language()
+    {
+        return $this->belongsTo(Language::class);
+    }
+    
     public function url()
     {
         return $this->morphOne(Url::class, 'model');

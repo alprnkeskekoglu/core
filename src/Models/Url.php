@@ -9,7 +9,6 @@ class Url extends BaseModel
     /* Types
      * 1 => 'original'
      * 2 => 'redirect'
-     *
      */
 
     protected $table = 'urls';
@@ -18,6 +17,11 @@ class Url extends BaseModel
     public function model()
     {
         return $this->morphTo('model');
+    }
+
+    public function metas()
+    {
+        return $this->hasMany(MetaTag::class);
     }
 
     public function __toString()

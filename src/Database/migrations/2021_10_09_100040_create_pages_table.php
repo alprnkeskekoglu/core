@@ -16,7 +16,7 @@ class CreatePagesTable extends Migration
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('structure_id')->index();
-            $table->unsignedBigInteger('container_id')->index();
+            $table->foreignId('container_id')->index()->constrained()->onDelete('cascade');
             $table->tinyInteger('status')->default(2);
             $table->unsignedInteger('order')->default(1);
             $table->date('date')->nullable();
@@ -32,9 +32,6 @@ class CreatePagesTable extends Migration
             $table->date('cdate_2')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('structure_id')->references('id')->on('structures')->cascadeOnDelete();
-            $table->foreign('container_id')->references('id')->on('containers')->cascadeOnDelete();
         });
     }
 
