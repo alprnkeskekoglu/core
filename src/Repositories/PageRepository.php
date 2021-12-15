@@ -29,7 +29,7 @@ class PageRepository implements PageInterface
 
     public function store(Structure $structure): Page
     {
-        $requestData = request()->except(['_token', '_method', 'translations', 'languages', 'medias', 'meta_tags']);
+        $requestData = request()->except(['_token', '_method', 'translations', 'languages', 'medias', 'meta_tags', 'relations']);
 
         $data = [];
 
@@ -38,13 +38,14 @@ class PageRepository implements PageInterface
                 $data[$key] = $value;
             }
         }
-        
+
         $data['structure_id'] = $structure->id;
         $data['container_id'] = $structure->container->id;
 
         $page = Page::create($data);
 
         $this->getExtrasRepository()->store($page, $requestData);
+        $this->syncCustomPages($page);
 
         if (request('medias')) {
             $this->getMediaRepository()->syncMedias($page, request('medias'));
@@ -60,6 +61,7 @@ class PageRepository implements PageInterface
         $page->update($requestData);
 
         $this->getExtrasRepository()->store($page, $requestData);
+        $this->syncCustomPages($page);
 
         if (request('medias')) {
             $this->getMediaRepository()->syncMedias($page, request('medias'));
@@ -71,6 +73,19 @@ class PageRepository implements PageInterface
     public function destroy(Page $page)
     {
         $page->delete();
+    }
+
+    public function syncCustomPages(Page $page)
+    {
+        $relations = request('relations');
+
+        if($relations) {
+            foreach ($relations as $key => $ids) {
+                $page->customPages($key)->syncWithPivotValues($ids, ['key' => $key]);
+            }
+        } else {
+            $page->customPages()->sync([]);
+        }
     }
 
     private function getExtrasRepository()

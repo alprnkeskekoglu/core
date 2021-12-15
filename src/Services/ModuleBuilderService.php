@@ -4,6 +4,7 @@ namespace Dawnstar\Services;
 
 use Dawnstar\Models\Language;
 use Dawnstar\Models\ModuleBuilder;
+use Dawnstar\Models\Page;
 use Dawnstar\Models\Structure;
 use Dawnstar\Region\Models\Country;
 use Illuminate\Database\Eloquent\Model;
@@ -59,7 +60,7 @@ class ModuleBuilderService
     private function getInputHtml(array $input): string
     {
         $whiteList = [
-            'input', 'slug', 'textarea', 'radio', 'checkbox', 'select', 'country', 'media'
+            'input', 'slug', 'textarea', 'radio', 'checkbox', 'select', 'country', 'media', 'relation'
         ];
 
         if (!in_array($input['element'], $whiteList)) {
@@ -80,7 +81,7 @@ class ModuleBuilderService
         $this->setInputNameAndId($input);
         $this->setLabel($input);
 
-        if (in_array($input['element'], ['radio', 'checkbox', 'select', 'country', 'city'])) {
+        if (in_array($input['element'], ['radio', 'checkbox', 'select', 'country', 'city', 'relation'])) {
             $this->setOptions($input);
         }
     }
@@ -96,6 +97,11 @@ class ModuleBuilderService
             $input['column'] = $input['name'];
             $input['key'] = "medias.{$input['name']}";
             $input['name'] = $input['translation'] ? "medias][{$input['name']}" : "medias[{$input['name']}]";
+        } elseif($element == 'relation') {
+            $input['id'] = "relations_{$input['name']}";
+            $input['column'] = $input['name'];
+            $input['key'] = "relations.{$input['name']}";
+            $input['name'] = "relations[{$input['name']}]";
         }
 
         $name = $id = $key = [];
@@ -130,7 +136,9 @@ class ModuleBuilderService
         $options = [];
 
         if ($input['element'] == 'country') {
-            $options = $this->getCountry();
+            $options = $this->getCountries();
+        } elseif($input['element'] == 'relation') {
+            $options = $this->getRelations($input);
         }
 
         foreach ($input['options'] as $option) {
@@ -157,9 +165,11 @@ class ModuleBuilderService
 
         if ($this->model && $input['element'] == 'media') {
             return $this->model->medias()->wherePivot('key', $name)->orderBy('model_medias.order')->pluck('id')->toArray();
+        } elseif ($input['element'] == 'relation') {
+            return $this->model->customPages($name)->pluck('id')->toArray();
         }
 
-        return old($input['name'], ($this->model ? $this->model->{$name} : null)); //TODO Media
+        return old($input['name'], ($this->model ? $this->model->{$name} : null));
     }
 
     private function getTranslationValue(array $input)
@@ -275,11 +285,22 @@ class ModuleBuilderService
         return Language::whereIn('id', $activeLanguageIds)->get();
     }
 
-    private function getCountry()
+    private function getCountries()
     {
         $languageCode = session('dawnstar.language.code');
         return Cache::rememberForever('module_builder_country_' . $languageCode, function () use ($languageCode) {
             return Country::all()->pluck("name_{$languageCode}", 'id');
         });
+    }
+
+    private function getRelations(array $input)
+    {
+        $options = Page::query();
+
+        foreach ($input['queries'] as $query) {
+            $options = $options->where($query[0], $query[1], $query[2]);
+        }
+
+        return $options->pluck('id', 'id')->toArray();
     }
 }

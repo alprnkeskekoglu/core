@@ -1,7 +1,7 @@
 <div class="{{ $input['parent_class'] }}">
     @if($input['translation'] == 'true')
         @foreach($languages as $language)
-            <div class="mediaBox hasLanguage {{ $loop->first ? '' : 'd-none' }}" data-language="{{ $language->id }}">
+            <div class="mediaBox mb-4 hasLanguage {{ $loop->first ? '' : 'd-none' }}" data-language="{{ $language->id }}">
                 <div class="mb-1">
                     <label class="form-label">{{ $input['label'][$language->id] }}</label>
                     <button type="button" class="btn btn-outline-info font-15 p-0 px-2 ms-5 mediaManagerBtn" title="Media Manager"
@@ -37,7 +37,7 @@
             </div>
         @endforeach
     @else
-        <div class="mediaBox">
+        <div class="mediaBox mb-4">
             <div class="mb-1">
                 <label class="form-label">{{ $input['label'] }}</label>
                 <button type="button" class="btn btn-outline-info font-15 p-0 px-2 ms-5 mediaManagerBtn" title="Media Manager"

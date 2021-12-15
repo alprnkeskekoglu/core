@@ -19,6 +19,7 @@ return [
     'max_count' => 'Maksimum Sayı',
     'selectable' => 'Seçilebilir Tip',
     'options' => 'Seçenekler',
+    'queries' => 'Sorgular',
 
 
     'success' => [

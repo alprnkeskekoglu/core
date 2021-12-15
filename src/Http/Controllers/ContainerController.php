@@ -32,7 +32,7 @@ class ContainerController extends BaseController
         $moduleBuilder = new ModuleBuilderService($structure, 'container', $container);
         $moduleBuilder->validate();
 
-        $this->containerRepository->update($structure, $container);
+        $this->containerRepository->update($container);
         $this->containerTranslationRepository->update($container);
 
         return redirect()->route('dawnstar.structures.containers.edit', [$structure, $container])->with(['success' => __('Dawnstar::structure.success.update')]);

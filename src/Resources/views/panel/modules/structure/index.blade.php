@@ -39,6 +39,7 @@
                                     </td>
                                     <td class="table-action">
                                         <a href="{{ route('dawnstar.structures.edit', $structure) }}" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
+                                        <a href="{{ route('dawnstar.structures.edit', $structure) }}" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
                                         <form action="{{ route('dawnstar.structures.destroy', $structure) }}" method="POST" class="d-inline">
                                             @method('DELETE')
                                             @csrf

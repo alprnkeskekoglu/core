@@ -1,17 +1,9 @@
+@php
+    $structures = \Dawnstar\Models\Structure::all();
+@endphp
 <div class="leftside-menu leftside-menu-detached">
-
-    <div class="leftbar-user">
-        <a href="javascript: void(0);">
-            <img src="assets/images/users/avatar-1.jpg" alt="user-image" height="42" class="rounded-circle shadow-sm">
-            <span class="leftbar-user-name">Dominic Keller</span>
-        </a>
-    </div>
-
-    <!--- Sidemenu -->
     <ul class="side-nav">
-
         <li class="side-nav-title side-nav-item">Navigation</li>
-
         <li class="side-nav-item">
             <a href="{{ route('dawnstar.websites.index') }}" class="side-nav-link">
                 <i class="uil-home-alt"></i>
@@ -29,18 +21,11 @@
             </a>
             <div class="collapse" id="sidebarDashboards">
                 <ul class="side-nav-second-level">
+                    @foreach($structures as $structure)
                     <li>
-                        <a href="dashboard-analytics.html">Analytics</a>
+                        <a href="{{ route('dawnstar.structures.pages.index', [$structure]) }}">{{ $structure->container->translation->name }}</a>
                     </li>
-                    <li>
-                        <a href="dashboard-crm.html">CRM</a>
-                    </li>
-                    <li>
-                        <a href="index.html">Ecommerce</a>
-                    </li>
-                    <li>
-                        <a href="dashboard-projects.html">Projects</a>
-                    </li>
+                    @endforeach
                 </ul>
             </div>
         </li>

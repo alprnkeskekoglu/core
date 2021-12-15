@@ -1,7 +1,7 @@
 <div class="{{ $input['parent_class'] }}">
     @if($input['translation'] == 'true')
         @foreach($languages as $language)
-            <div class="form-floating hasLanguage {{ $loop->first ? '' : 'd-none' }}" data-language="{{ $language->id }}">
+            <div class="form-floating mb-3 hasLanguage {{ $loop->first ? '' : 'd-none' }}" data-language="{{ $language->id }}">
                 <select class="select2 form-select {{ $input['type'] == 'multiple' ? 'select2-multiple' : '' }} @if($errors->has($input['key'][$language->id])) is-invalid @endif"
                         {{ $input['type'] == 'multiple' ? 'multiple' : '' }}
                         name="{{ $input['name'][$language->id] . ($input['type'] == 'multiple' ? '[]' : '') }}"

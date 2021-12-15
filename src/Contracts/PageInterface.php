@@ -19,4 +19,6 @@ interface PageInterface
     public function update(Page $page);
 
     public function destroy(Page $page);
+
+    public function syncCustomPages(Page $page);
 }

@@ -41,11 +41,11 @@
                     <!-- item-->
                     <div class="dropdown-item noti-title">
                         <h5 class="m-0">
-                                    <span class="float-end">
-                                        <a href="javascript: void(0);" class="text-dark">
-                                            <small>Clear All</small>
-                                        </a>
-                                    </span>Notification
+                            <span class="float-end">
+                                <a href="javascript: void(0);" class="text-dark">
+                                    <small>Clear All</small>
+                                </a>
+                            </span>Notification
                         </h5>
                     </div>
 

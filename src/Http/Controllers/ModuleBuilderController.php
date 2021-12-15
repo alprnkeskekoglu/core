@@ -71,6 +71,7 @@ class ModuleBuilderController extends BaseController
             'selectable' => __('Dawnstar::module_builder.selectable'),
             'rules' => __('Dawnstar::module_builder.rules'),
             'options' => __('Dawnstar::module_builder.options'),
+            'queries' => __('Dawnstar::module_builder.queries'),
         ];
 
         return response()->json(['translations' => $return]);

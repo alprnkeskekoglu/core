@@ -26,7 +26,7 @@ class PageController extends BaseController
     public function index(Structure $structure)
     {
         if($structure->type != 'dynamic') {
-            abort(404);
+            return redirect()->route('dawnstar.structures.containers.edit', [$structure, $structure->container]);
         }
 
         $columns = [

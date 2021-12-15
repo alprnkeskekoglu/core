@@ -19,16 +19,6 @@ class Page extends BaseModel
         return $this->belongsTo(Container::class);
     }
 
-    public function parent()
-    {
-        return $this->belongsTo(Page::class, 'id', 'parent_id');
-    }
-
-    public function children()
-    {
-        return $this->hasMany(Page::class, 'parent_id', 'id');
-    }
-
     public function translations()
     {
         return $this->hasMany(PageTranslation::class);
@@ -52,6 +42,17 @@ class Page extends BaseModel
     public function propertyOptions()
     {
         return $this->belongsToMany(PropertyOption::class, 'page_property_options');
+    }
+
+    public function customPages(string $key = null)
+    {
+        $pages = $this->belongsToMany(Page::class, 'page_relations', 'locale_id', 'foreign_id');
+
+        if($key) {
+            $pages = $pages->wherePivot('key', $key);
+        }
+
+        return $pages;
     }
 
     public function __get($key)
