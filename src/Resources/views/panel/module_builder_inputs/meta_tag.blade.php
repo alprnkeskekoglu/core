@@ -3,7 +3,6 @@
         Meta Tags
     </div>
     <div class="mb-4">
-
         @foreach($languages as $language)
             <div class="previewBox hasLanguage {{ $loop->first ? '' : 'd-none' }}" data-language="{{ $language->id }}">
                 <div class="d-flex justify-content-center">

@@ -2,6 +2,7 @@
 
 namespace Dawnstar\Services;
 
+use Dawnstar\Models\Category;
 use Dawnstar\Models\Language;
 use Dawnstar\Models\ModuleBuilder;
 use Dawnstar\Models\Page;
@@ -60,7 +61,7 @@ class ModuleBuilderService
     private function getInputHtml(array $input): string
     {
         $whiteList = [
-            'input', 'slug', 'textarea', 'radio', 'checkbox', 'select', 'country', 'media', 'relation'
+            'input', 'slug', 'textarea', 'radio', 'checkbox', 'select', 'country', 'media', 'relation', 'category'
         ];
 
         if (!in_array($input['element'], $whiteList)) {
@@ -81,7 +82,7 @@ class ModuleBuilderService
         $this->setInputNameAndId($input);
         $this->setLabel($input);
 
-        if (in_array($input['element'], ['radio', 'checkbox', 'select', 'country', 'city', 'relation'])) {
+        if (in_array($input['element'], ['radio', 'checkbox', 'select', 'country', 'city', 'relation', 'category'])) {
             $this->setOptions($input);
         }
     }
@@ -97,11 +98,16 @@ class ModuleBuilderService
             $input['column'] = $input['name'];
             $input['key'] = "medias.{$input['name']}";
             $input['name'] = $input['translation'] ? "medias][{$input['name']}" : "medias[{$input['name']}]";
-        } elseif($element == 'relation') {
+        } elseif ($element == 'relation') {
             $input['id'] = "relations_{$input['name']}";
             $input['column'] = $input['name'];
             $input['key'] = "relations.{$input['name']}";
             $input['name'] = "relations[{$input['name']}]";
+        } elseif ($element == 'category') {
+            $input['id'] = "categories";
+            $input['column'] = $input['name'];
+            $input['key'] = "categories";
+            $input['name'] = "categories";
         }
 
         $name = $id = $key = [];
@@ -137,8 +143,10 @@ class ModuleBuilderService
 
         if ($input['element'] == 'country') {
             $options = $this->getCountries();
-        } elseif($input['element'] == 'relation') {
+        } elseif ($input['element'] == 'relation') {
             $options = $this->getRelations($input);
+        } elseif ($input['element'] == 'category') {
+            $options = $this->getCategories($input);
         }
 
         foreach ($input['options'] as $option) {
@@ -167,6 +175,8 @@ class ModuleBuilderService
             return $this->model->medias()->wherePivot('key', $name)->orderBy('model_medias.order')->pluck('id')->toArray();
         } elseif ($input['element'] == 'relation') {
             return $this->model->customPages($name)->pluck('id')->toArray();
+        } elseif ($input['element'] == 'category') {
+            return $this->model->categories->pluck('id')->toArray();
         }
 
         return old($input['name'], ($this->model ? $this->model->{$name} : null));
@@ -180,7 +190,6 @@ class ModuleBuilderService
         $values = [];
         foreach ($this->languages as $language) {
             $translation = $translations ? $translations->where('language_id', $language->id)->first() : null;
-
 
             if ($translation && $input['element'] == 'media') {
                 $values[$language->id] = $translation->medias()->wherePivot('key', $name)->orderBy('model_medias.order')->pluck('id')->toArray();
@@ -245,12 +254,13 @@ class ModuleBuilderService
             $attributes[$input['name']] = $input['labels'][$panelLanguage->id];
         }
     }
+
     #endregion
 
     private function setMetaTags(array &$tags)
     {
         $data = [];
-        foreach($tags as $tag) {
+        foreach ($tags as $tag) {
             $data[] = [
                 'key' => $tag,
                 'value' => $this->getMetaTagValue($tag)
@@ -268,7 +278,7 @@ class ModuleBuilderService
         foreach ($this->languages as $language) {
             $translation = $translations ? $translations->where('language_id', $language->id)->first() : null;
 
-            if($translation) {
+            if ($translation) {
                 $metas = $translation->url->metas->pluck('value', 'key')->toArray();
                 $values[$language->id] = $metas[$tag] ?? '';
             }
@@ -295,12 +305,37 @@ class ModuleBuilderService
 
     private function getRelations(array $input)
     {
-        $options = Page::query();
+        $options = Page::with('translation');
 
         foreach ($input['queries'] as $query) {
             $options = $options->where($query[0], $query[1], $query[2]);
         }
 
-        return $options->pluck('id', 'id')->toArray();
+        return $options->get()->pluck('translation.name', 'id')->toArray(); // TODO: Display Name
+    }
+
+    private function getCategories(array $input)
+    {
+        return \Illuminate\Support\Facades\Cache::rememberForever('categories' . $this->structure->id . session('dawnstar.language.id'), function () {
+            $categories = $this->structure->categories()->orderBy('left')->get();
+
+            $return = [];
+            foreach ($categories as $category) {
+                $return[$category->id] = $this->getCategoryName($category);
+            }
+            return $return;
+        });
+    }
+
+    private function getCategoryName(Category $category): string
+    {
+        $name[] = $category->translation->name;
+
+        $parent = $category->parent;
+        if ($parent) {
+            $name[] = $this->getCategoryName($parent);
+        }
+
+        return implode(' >> ', array_reverse($name));
     }
 }
