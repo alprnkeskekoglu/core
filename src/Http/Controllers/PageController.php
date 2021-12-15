@@ -2,7 +2,6 @@
 
 namespace Dawnstar\Http\Controllers;
 
-
 use Dawnstar\Datatables\PageDatatable;
 use Dawnstar\Models\Page;
 use Dawnstar\Models\Structure;

@@ -89,7 +89,7 @@ class MenuItemController extends BaseController
     {
         $data = $request->get('data');
 
-        $orderedData = $this->buildTree($data);
+        $orderedData = buildTree($data);
 
         foreach ($orderedData as $ordered) {
             $item = MenuItem::find($ordered['id']);
@@ -124,49 +124,6 @@ class MenuItemController extends BaseController
                     ->orderBy('left');
             }])
             ->get();
-    }
-
-    private function buildTree(array $elements, $parentId = 0, $max = 0)
-    {
-        $branch = array();
-        foreach ($elements as $element)
-        {
-            $element['left'] = $max = $max + 1;
-            $element['rigt'] = $max + 1;
-            $element['parent_id'] = $parentId;
-
-            if (isset($element['children']))
-            {
-                $children = $this->buildTree($element['children'], $element['id'], $max);
-                if ($children)
-                {
-
-                    $element['rgt'] = $max = (isset(end($children)['rgt']) ? end($children)['rgt'] : 1) + 1;
-                    $element['children'] = $children;
-                } else
-                {
-                    $element['rgt'] = $max = $max + 1;
-                }
-            }
-
-            $branch[] = $element;
-        }
-
-        return $this->unBuildTree($branch);
-    }
-
-    private function unBuildTree($elements, $branch = [])
-    {
-        foreach ($elements as $element)
-        {
-            if (isset($element['children']))
-            {
-                $branch = $this->unBuildTree($element['children'], $branch);
-                unset($element['children']);
-            }
-            $branch[] = $element;
-        }
-        return $branch;
     }
     #endregion
 }

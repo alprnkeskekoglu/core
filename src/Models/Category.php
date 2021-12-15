@@ -2,15 +2,22 @@
 
 namespace Dawnstar\Models;
 
+use Dawnstar\MediaManager\Traits\HasMedia;
+use Dawnstar\Traits\HasTranslation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends BaseModel
 {
-    use SoftDeletes;
+    use SoftDeletes, HasMedia, HasTranslation;
 
     protected $table = 'categories';
     protected $guarded = ['id'];
+
+    public function structure()
+    {
+        return $this->belongsTo(Structure::class);
+    }
 
     public function container()
     {

@@ -16,7 +16,7 @@ class MenuItemRequest extends Request
             'type' => ['required', 'numeric'],
             'url_id' => ['required_if:type,1'],
             'external_link' => ['required_if:type,2'],
-            'target' => ['required', 'string'],
+            'target' => ['required_if:type,1', 'required_if:type,2'],
             'name' => ['required'],
         ];
     }

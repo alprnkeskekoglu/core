@@ -13,6 +13,7 @@ class ExtrasRepository implements ExtrasInterface
 
         foreach ($data as $key => $value) {
             if(!Schema::hasColumn($model->getTable(), $key)) {
+                dd($model->getTable(), $key);
                 if(is_array($value)) {
                     foreach ($value as $v) {
                         $model->extras()->create([

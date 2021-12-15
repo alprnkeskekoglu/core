@@ -181,8 +181,6 @@
             });
             $('.select2-selection').addClass('form-select');
 
-
-
             $('#orderSaveBtn').on('click', function () {
                 var languageId = $(this).closest('.tab-pane').attr('data-language');
 

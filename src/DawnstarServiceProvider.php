@@ -6,9 +6,11 @@ use Dawnstar\Console\Commands\Update;
 use Dawnstar\Http\Middleware\Authenticate;
 use Dawnstar\Http\Middleware\DefaultWebsite;
 use Dawnstar\Http\Middleware\RedirectIfAuthenticated;
+use Dawnstar\Models\CategoryTranslation;
 use Dawnstar\Models\ContainerTranslation;
 use Dawnstar\Models\Page;
 use Dawnstar\Models\PageTranslation;
+use Dawnstar\Observers\CategoryTranslationObserver;
 use Dawnstar\Observers\ContainerTranslationObserver;
 use Dawnstar\Observers\PageObserver;
 use Dawnstar\Observers\PageTranslationObserver;
@@ -48,8 +50,9 @@ class   DawnstarServiceProvider extends ServiceProvider
         $router->aliasMiddleware('default_website', DefaultWebsite::class);
 
 
-        ContainerTranslation::observe(ContainerTranslationObserver::class);
         Page::observe(PageObserver::class);
+        ContainerTranslation::observe(ContainerTranslationObserver::class);
         PageTranslation::observe(PageTranslationObserver::class);
+        CategoryTranslation::observe(CategoryTranslationObserver::class);
     }
 }
