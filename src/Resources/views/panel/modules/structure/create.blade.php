@@ -129,10 +129,10 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6" id="nameBox">
                                 @foreach($languages as $language)
                                     <div class="form-floating mb-3 hasLanguage {{ $loop->first ? '' : 'd-none' }}" data-language="{{ $language->id }}">
-                                        <input type="text" class="form-control nameInput @if($errors->has('translations.' . $language->id . '.name')) is-invalid @endif"
+                                        <input type="text" class="form-control @if($errors->has('translations.' . $language->id . '.name')) is-invalid @endif"
                                                id="translations_{{ $language->id }}_name"
                                                name="translations[{{ $language->id }}][name]"
                                                value="{{ old('translations.'.$language->id.'.name') }}"
@@ -146,7 +146,7 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 d-none" id="slugBox">
                                 @foreach($languages as $language)
                                     <div class="form-floating mb-3 hasLanguage {{ $loop->first ? '' : 'd-none' }}" data-language="{{ $language->id }}">
                                         <input type="text" class="form-control slugInput @if($errors->has('translations.' . $language->id . '.slug')) is-invalid @endif"
@@ -193,6 +193,16 @@
             $('#has_detail, #has_category, #has_property, #has_url, #is_searchable').prop('disabled', false);
 
             updateOptions(value);
+        });
+
+        $('#has_url').on('change', function () {
+            if ($(this).is(':checked')) {
+                $('#slugBox').removeClass('d-none')
+                $('#nameBox').find('input').addClass('nameInput');
+            } else {
+                $('#slugBox').addClass('d-none')
+                $('#nameBox').find('input').removeClass('nameInput');
+            }
         });
 
         function updateOptions(value) {

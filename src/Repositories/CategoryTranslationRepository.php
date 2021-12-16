@@ -16,7 +16,9 @@ class CategoryTranslationRepository implements TranslationInterface
             $translation['category_id'] = $page->id;
             $translation['language_id'] = $languageId;
             $translation['status'] = $languages[$languageId];
-            $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
+            $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
+                ltrim($translation['slug'], '/') :
+                $translation['slug'];
 
             $translationModel = CategoryTranslation::create($translation);
 
@@ -39,7 +41,9 @@ class CategoryTranslationRepository implements TranslationInterface
         $translations = request('translations');
 
         foreach ($translations as $languageId => $translation) {
-            $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
+            $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
+                ltrim($translation['slug'], '/') :
+                $translation['slug'];
             $translationModel = CategoryTranslation::updateOrCreate(
                 [
                     'category_id' => $page->id,

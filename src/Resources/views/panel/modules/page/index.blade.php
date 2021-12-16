@@ -7,9 +7,11 @@
             <div class="card">
                 <div class="card-header">
                     <div class="float-end">
+                        @if($structure->has_detail == 1)
                         <a href="{{ route('dawnstar.structures.containers.edit', [$structure, $structure->container]) }}" class="btn btn-secondary">
                             @lang('Dawnstar::general.list_page')
                         </a>
+                        @endif
                         @include('Dawnstar::includes.buttons.add_new', ['route' => route('dawnstar.structures.pages.create', $structure)])
                     </div>
                 </div>

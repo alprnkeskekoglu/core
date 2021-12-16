@@ -19,7 +19,7 @@ class Website extends BaseModel
 
     public function languages()
     {
-        return $this->belongsToMany(Language::class, 'website_languages');
+        return $this->belongsToMany(Language::class, 'website_languages')->withPivot('default')->orderByDesc('pivot_default');
     }
 
     public function defaultLanguage()

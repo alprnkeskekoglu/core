@@ -2,29 +2,56 @@
     $structures = \Dawnstar\Models\Structure::all();
 @endphp
 <div class="leftside-menu leftside-menu-detached">
+    <div class="leftbar-user">
+    </div>
     <ul class="side-nav">
-        <li class="side-nav-title side-nav-item">Navigation</li>
-        <li class="side-nav-item">
-            <a href="{{ route('dawnstar.websites.index') }}" class="side-nav-link">
-                <i class="uil-home-alt"></i>
-                <span>Website</span>
-            </a>
-            <a href="{{ route('dawnstar.structures.index') }}" class="side-nav-link">
-                <i class="uil-home-alt"></i>
-                <span>Structure</span>
-            </a>
+        <a href="#" class="side-nav-link">
+            <i class="uil-home-alt"></i>
+            <span>Dashboard</span>
+        </a>
 
-            <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
-                <i class="uil-home-alt"></i>
-                <span class="badge bg-info rounded-pill float-end">4</span>
-                <span> Dashboards </span>
+        @foreach(panelMenu() as $menu)
+            @if(count($menu['children']) == 0)
+                <a href="{{ $menu['url'] }}" class="side-nav-link">
+                    <i class="{{ $menu['icon'] }}"></i>
+                    <span>{{ $menu['name'] }}</span>
+                </a>
+            @else
+                <li class="side-nav-item">
+                    <a data-bs-toggle="collapse" href="#{{ $menu['url'] }}" aria-expanded="false" aria-controls="{{ $menu['url'] }}" class="side-nav-link">
+                        <i class="{{ $menu['icon'] }}"></i>
+                        <span>{{ $menu['name'] }}</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="{{ $menu['url'] }}">
+                        <ul class="side-nav-second-level">
+                            @foreach($menu['children'] as $childMenu)
+                                <li>
+                                    <a href="{{ $childMenu['url'] }}">
+                                        {{ $childMenu['name'] }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </li>
+            @endif
+        @endforeach
+
+        <li class="side-nav-title side-nav-item"></li>
+
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#page" aria-expanded="false" aria-controls="page" class="side-nav-link">
+                <i class="mdi mdi-book-open-page-variant"></i>
+                <span>@lang('Dawnstar::panel_menu.page')</span>
+                <span class="menu-arrow"></span>
             </a>
-            <div class="collapse" id="sidebarDashboards">
+            <div class="collapse" id="page">
                 <ul class="side-nav-second-level">
                     @foreach($structures as $structure)
-                    <li>
-                        <a href="{{ route('dawnstar.structures.pages.index', [$structure]) }}">{{ $structure->container->translation->name }}</a>
-                    </li>
+                        <li>
+                            <a href="{{ route('dawnstar.structures.pages.index', [$structure]) }}">{{ $structure->container->translation->name }}</a>
+                        </li>
                     @endforeach
                 </ul>
             </div>

@@ -8,7 +8,7 @@ class PageTranslationObserver
 {
     public function created(PageTranslation $pageTranslation)
     {
-        if($pageTranslation->status != 1) {
+        if($pageTranslation->status != 1 || is_null($pageTranslation->slug)) {
             return;
         }
         $urlText = $this->getUrlText($pageTranslation);
@@ -23,7 +23,7 @@ class PageTranslationObserver
 
     public function updated(PageTranslation $pageTranslation)
     {
-        if($pageTranslation->status != 1) {
+        if($pageTranslation->status != 1 || is_null($pageTranslation->slug)) {
             return;
         }
 

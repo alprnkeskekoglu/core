@@ -2313,6 +2313,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ElementModalComponent",
   data: function data() {
@@ -2338,6 +2366,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     removeOption: function removeOption(key) {
       this.$root.current.options.splice(key, 1);
+    },
+    addNewQuery: function addNewQuery() {
+      this.$root.current.queries.push({
+        0: null,
+        1: null,
+        2: null
+      });
+    },
+    removeQuery: function removeQuery(key) {
+      this.$root.current.queries.splice(key, 1);
     },
     saveElement: function saveElement() {
       if (this.checkForm()) {
@@ -2365,8 +2403,15 @@ __webpack_require__.r(__webpack_exports__);
               164: null,
               40: null
             }
+          }],
+          queries: [{
+            0: null,
+            1: null,
+            2: null
           }]
         };
+      } else {
+        alert('HATA');
       }
     },
     checkForm: function checkForm() {
@@ -2376,7 +2421,7 @@ __webpack_require__.r(__webpack_exports__);
         this.errors['type'] = true;
       }
 
-      if (!this.$root.current.name) {
+      if (!this.$root.current.name && ['category'].indexOf(this.$root.current.element) === -1) {
         this.errors['name'] = true;
       }
 
@@ -2483,10 +2528,15 @@ var app = new Vue({
           164: null,
           40: null
         }
+      }],
+      queries: [{
+        0: null,
+        1: null,
+        2: null
       }]
     },
     columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    elements: ['input', 'slug', 'textarea', 'select', 'checkbox', 'radio', 'media', 'country'],
+    elements: ['input', 'slug', 'textarea', 'select', 'checkbox', 'radio', 'media', 'country', 'relation', 'category'],
     new_element: false
   },
   mounted: function mounted() {
@@ -49405,93 +49455,109 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-lg-12" }, [
-                _c("label", { staticClass: "form-label" }, [
-                  _vm._v(_vm._s(_vm.$root.trans.translation))
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "mb-3" }, [
-                  _c("div", { staticClass: "form-check form-check-inline" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.$root.current.translation,
-                          expression: "$root.current.translation"
-                        }
-                      ],
-                      staticClass: "form-check-input",
-                      attrs: {
-                        type: "radio",
-                        id: "translation_1",
-                        value: "true"
-                      },
-                      domProps: {
-                        checked: _vm._q(_vm.$root.current.translation, "true")
-                      },
-                      on: {
-                        change: function($event) {
-                          return _vm.$set(
-                            _vm.$root.current,
-                            "translation",
-                            "true"
-                          )
-                        }
-                      }
-                    }),
+              ["relation", "category"].indexOf(_vm.$root.current.element) === -1
+                ? _c("div", { staticClass: "col-lg-12" }, [
+                    _c("label", { staticClass: "form-label" }, [
+                      _vm._v(_vm._s(_vm.$root.trans.translation))
+                    ]),
                     _vm._v(" "),
-                    _c(
-                      "label",
-                      {
-                        staticClass: "form-check-label",
-                        attrs: { for: "translation_1" }
-                      },
-                      [_vm._v(_vm._s(_vm.$root.trans.yes))]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-check form-check-inline" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.$root.current.translation,
-                          expression: "$root.current.translation"
-                        }
-                      ],
-                      staticClass: "form-check-input",
-                      attrs: {
-                        type: "radio",
-                        id: "translation_0",
-                        value: "false"
-                      },
-                      domProps: {
-                        checked: _vm._q(_vm.$root.current.translation, "false")
-                      },
-                      on: {
-                        change: function($event) {
-                          return _vm.$set(
-                            _vm.$root.current,
-                            "translation",
-                            "false"
+                    _c("div", { staticClass: "mb-3" }, [
+                      _c(
+                        "div",
+                        { staticClass: "form-check form-check-inline" },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.$root.current.translation,
+                                expression: "$root.current.translation"
+                              }
+                            ],
+                            staticClass: "form-check-input",
+                            attrs: {
+                              type: "radio",
+                              id: "translation_1",
+                              value: "true"
+                            },
+                            domProps: {
+                              checked: _vm._q(
+                                _vm.$root.current.translation,
+                                "true"
+                              )
+                            },
+                            on: {
+                              change: function($event) {
+                                return _vm.$set(
+                                  _vm.$root.current,
+                                  "translation",
+                                  "true"
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-check-label",
+                              attrs: { for: "translation_1" }
+                            },
+                            [_vm._v(_vm._s(_vm.$root.trans.yes))]
                           )
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "label",
-                      {
-                        staticClass: "form-check-label",
-                        attrs: { for: "translation_0" }
-                      },
-                      [_vm._v(_vm._s(_vm.$root.trans.no))]
-                    )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-check form-check-inline" },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.$root.current.translation,
+                                expression: "$root.current.translation"
+                              }
+                            ],
+                            staticClass: "form-check-input",
+                            attrs: {
+                              type: "radio",
+                              id: "translation_0",
+                              value: "false"
+                            },
+                            domProps: {
+                              checked: _vm._q(
+                                _vm.$root.current.translation,
+                                "false"
+                              )
+                            },
+                            on: {
+                              change: function($event) {
+                                return _vm.$set(
+                                  _vm.$root.current,
+                                  "translation",
+                                  "false"
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-check-label",
+                              attrs: { for: "translation_0" }
+                            },
+                            [_vm._v(_vm._s(_vm.$root.trans.no))]
+                          )
+                        ]
+                      )
+                    ])
                   ])
-                ])
-              ]),
+                : _vm._e(),
               _vm._v(" "),
               _c("div", { staticClass: "col-lg-6" }, [
                 _c("div", { staticClass: "form-floating mb-3" }, [
@@ -49632,7 +49698,13 @@ var render = function() {
                       ],
                       class:
                         "form-control " + (_vm.errors.name ? "is-invalid" : ""),
-                      attrs: { type: "text", id: "name" },
+                      attrs: {
+                        type: "text",
+                        disabled:
+                          ["category"].indexOf(_vm.$root.current.element) !==
+                          -1,
+                        id: "name"
+                      },
                       domProps: { value: _vm.$root.current.name },
                       on: {
                         input: function($event) {
@@ -49933,7 +50005,7 @@ var render = function() {
                 : _vm._e()
             ]),
             _vm._v(" "),
-            ["select", "checkbox", "radio"].indexOf(
+            ["select", "checkbox", "radio", "relation"].indexOf(
               _vm.$root.current.element
             ) !== -1
               ? _c("hr")
@@ -50068,6 +50140,140 @@ var render = function() {
                                       on: {
                                         click: function($event) {
                                           return _vm.removeOption(key)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass:
+                                          "mdi mdi-18px mdi-window-close"
+                                      })
+                                    ]
+                                  )
+                                : _vm._e()
+                            ]
+                          )
+                        ])
+                      ])
+                    })
+                  ],
+                  2
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            ["relation"].indexOf(_vm.$root.current.element) !== -1
+              ? _c(
+                  "div",
+                  { staticClass: "row" },
+                  [
+                    _c("div", { staticClass: "col-lg-12" }, [
+                      _vm._v(_vm._s(_vm.$root.trans.queries))
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.$root.current.queries, function(query, key) {
+                      return _c("div", { staticClass: "col-lg-12 mb-2" }, [
+                        _c("div", { staticClass: "row gx-1" }, [
+                          _c("div", { staticClass: "col-lg-3" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: query[0],
+                                  expression: "query[0]"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "text", placeholder: "Column" },
+                              domProps: { value: query[0] },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(query, 0, $event.target.value)
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-lg-3" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: query[1],
+                                  expression: "query[1]"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "text", placeholder: "Condition" },
+                              domProps: { value: query[1] },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(query, 1, $event.target.value)
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-lg-3" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: query[2],
+                                  expression: "query[2]"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "text", placeholder: "Value" },
+                              domProps: { value: query[2] },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(query, 2, $event.target.value)
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "col-lg-3 align-self-center text-end"
+                            },
+                            [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-sm btn-primary",
+                                  attrs: { type: "button" },
+                                  on: { click: _vm.addNewQuery }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "mdi mdi-18px mdi-plus"
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _vm.$root.current.queries.length > 1
+                                ? _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-sm btn-danger",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.removeQuery(key)
                                         }
                                       }
                                     },

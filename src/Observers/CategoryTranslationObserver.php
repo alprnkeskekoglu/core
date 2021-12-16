@@ -8,7 +8,7 @@ class CategoryTranslationObserver
 {
     public function created(CategoryTranslation $categoryTranslation)
     {
-        if($categoryTranslation->status != 1) {
+        if($categoryTranslation->status != 1 || is_null($categoryTranslation->slug)) {
             return;
         }
         $urlText = $this->getUrlText($categoryTranslation);
@@ -23,7 +23,7 @@ class CategoryTranslationObserver
 
     public function updated(CategoryTranslation $categoryTranslation)
     {
-        if($categoryTranslation->status != 1) {
+        if($categoryTranslation->status != 1 || is_null($categoryTranslation->slug)) {
             return;
         }
 

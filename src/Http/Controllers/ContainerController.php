@@ -21,6 +21,10 @@ class ContainerController extends BaseController
 
     public function edit(Structure $structure, Container $container)
     {
+        if($structure->has_detail != 1) {
+            return redirect()->route('dawnstar.structures.pages.index', $structure);
+        }
+
         $moduleBuilder = new ModuleBuilderService($structure, 'container', $container);
         $languages = $moduleBuilder->languages;
 
