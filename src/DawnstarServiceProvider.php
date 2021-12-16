@@ -3,6 +3,7 @@
 namespace Dawnstar;
 
 use Dawnstar\Console\Commands\Update;
+use Dawnstar\Foundation\Dawnstar;
 use Dawnstar\Http\Middleware\Authenticate;
 use Dawnstar\Http\Middleware\DefaultWebsite;
 use Dawnstar\Http\Middleware\RedirectIfAuthenticated;
@@ -25,6 +26,9 @@ class   DawnstarServiceProvider extends ServiceProvider
     {
         $this->app->register(ConfigServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+
+        $this->app->singleton(Dawnstar::class, Dawnstar::class);
+        $this->app->bind("Dawnstar", Dawnstar::class);
     }
 
     public function boot()

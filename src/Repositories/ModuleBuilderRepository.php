@@ -5,6 +5,7 @@ namespace Dawnstar\Repositories;
 use Dawnstar\Contracts\ModuleBuilderInterface;
 use Dawnstar\Models\ModuleBuilder;
 use Dawnstar\Models\Structure;
+use Dawnstar\Services\ModuleFileService;
 use Illuminate\Database\Eloquent\Collection;
 
 class ModuleBuilderRepository implements ModuleBuilderInterface
@@ -36,7 +37,6 @@ class ModuleBuilderRepository implements ModuleBuilderInterface
         }
 
         foreach ($types as $type) {
-
             $data = include __DIR__ . '/../Resources/module_builder/' . $type . '.php';
 
             ModuleBuilder::firstOrCreate(
@@ -48,5 +48,14 @@ class ModuleBuilderRepository implements ModuleBuilderInterface
                 ]
             );
         }
+
+        $this->createFiles($structure);
+    }
+
+    public function createFiles(Structure $structure): void
+    {
+        $service = new ModuleFileService($structure);
+        $service->createController();
+        $service->createBlades();
     }
 }

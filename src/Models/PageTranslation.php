@@ -18,6 +18,11 @@ class PageTranslation extends BaseModel
         return $this->belongsTo(Page::class);
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'page_id');
+    }
+
     public function extras()
     {
         return $this->hasMany(PageTranslationExtra::class);
@@ -27,7 +32,7 @@ class PageTranslation extends BaseModel
     {
         return $this->belongsTo(Language::class);
     }
-    
+
     public function url()
     {
         return $this->morphOne(Url::class, 'model');

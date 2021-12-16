@@ -1,5 +1,10 @@
 <?php
 
+function dawnstar()
+{
+    return app('Dawnstar');
+}
+
 function languageFlag(string $code): string
 {
     return "//flagcdn.com/h20/" . ($code == 'en' ? 'gb' : $code) . ".png";

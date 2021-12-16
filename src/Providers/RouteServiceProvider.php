@@ -15,13 +15,20 @@ class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         $this->mapPanelRoutes();
-        //$this->mapWebRoutes();
+        $this->mapWebRoutes();
     }
 
     protected function mapPanelRoutes()
     {
         Route::group(['middleware' => 'web', 'prefix' => 'dawnstar', 'as' => 'dawnstar.'], function ($router) {
             require __DIR__ . '/../Routes/panel.php';
+        });
+    }
+
+    protected function mapWebRoutes()
+    {
+        Route::group(['middleware' => 'web'], function ($router) {
+            require __DIR__ . '/../Routes/web.php';
         });
     }
 }
