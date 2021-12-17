@@ -62,16 +62,19 @@ class LoginController extends Controller
     private function setSession()
     {
         $admin = auth('admin')->user();
+
         $website = Website::where('status', 1)->where('default', 1)->first();
-        $languages = $website->languages;
-        $language = $website->languages()->wherePivot('default', 1)->first();
+        if($website) {
+            $languages = $website->languages;
+            $language = $website->languages()->wherePivot('default', 1)->first();
+        }
 
         session([
             'dawnstar' => [
                 'admin' => $admin,
                 'website' => $website,
-                'languages' => $languages,
-                'language' => $language,
+                'languages' => $languages ?? [],
+                'language' => $language ?? null,
             ]
         ]);
     }

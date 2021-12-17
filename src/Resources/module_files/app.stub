@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>Dawnstar</title>
+    
+<!-- Styles Start -->
+@stack('styles')
+<!-- Styles End -->
+
+<!-- After Styles Start -->
+@stack('after_styles')
+<!-- After Styles End -->
+</head>
+
+<body>
+<!-- Scripts Start -->
+@stack('scripts')
+<!-- Scripts End -->
+
+<!-- After Scripts Start -->
+@stack('after_scripts')
+<!-- After Scripts End -->
+</body>
+</html>

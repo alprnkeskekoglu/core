@@ -2,6 +2,7 @@
 
 namespace Dawnstar;
 
+use Dawnstar\Console\Commands\Install;
 use Dawnstar\Console\Commands\Update;
 use Dawnstar\Foundation\Dawnstar;
 use Dawnstar\Http\Middleware\Authenticate;
@@ -44,6 +45,7 @@ class   DawnstarServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
+                Install::class,
                 Update::class,
             ]);
         }

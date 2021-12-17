@@ -33,9 +33,13 @@ class WebsiteController extends BaseController
         $website->languages()->updateExistingPivot($defaultLanguage, ['default' => 1]);
 
         if($data['default'] == 1) {
-            $defaultWebsites = Website::where('default', 1)->where('id', $website->id)->update(['default' => 0]);
+            Website::where('default', 1)->where('id', $website->id)->update(['default' => 0]);
         }
-      
+
+        if(session('dawmstar.website') == null) {
+            $this->setSession($website);
+        }
+
         return redirect()->route('dawnstar.websites.index')->with(['success' => __('Dawnstar::website.success.store')]);
     }
 
