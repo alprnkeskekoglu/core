@@ -152,10 +152,10 @@
                                         <input type="text" class="form-control slugInput @if($errors->has('translations.' . $language->id . '.slug')) is-invalid @endif"
                                                id="translations_{{ $language->id }}_slug"
                                                name="translations[{{ $language->id }}][slug]"
-                                               value="{{ old('translations.'.$language->id.'.slug') }}"
+                                               value="/{{ old('translations.'.$language->id.'.slug') }}"
                                                data-language="{{ $language->id }}"/>
                                         <label for="translations_{{ $language->id }}_slug">@lang('Dawnstar::container.labels.slug') ({{ strtoupper($language->code) }})</label>
-                                        <div class="help-block text-muted ms-2">/{{ $language->code }}<span>{{ old('translations.'.$language->id.'.slug') }}</span></div>
+                                        <div class="help-block text-muted ms-2">/{{ $language->code }}<span>/{{ ltrim(old('translations.'.$language->id.'.slug'), '/') }}</span></div>
                                         @error('translations.' . $language->id . '.slug')
                                         <div class="invalid-feedback">
                                             {{ $errors->first('translations.' . $language->id . '.slug') }}
@@ -208,11 +208,11 @@
         function updateOptions(value) {
             if(value == 'homepage') {
                 $('#key').val('homepage').prop('readonly', true);
-                $('#has_detail, #has_url').prop('checked', true);
+                $('#has_detail, #has_url').prop('checked', true).trigger('change');
                 $('#has_category, #has_property, #is_searchable').prop('disabled', true);
             } else if(value == 'search') {
                 $('#key').val('search').prop('readonly', true);
-                $('#has_url').prop('checked', true);
+                $('#has_url').prop('checked', true).trigger('change');
                 $('#has_detail, #has_category, #has_property, #is_searchable').prop('disabled', true);
             } else if(value == 'static') {
                 $('#has_category, #has_property').prop('disabled', true);

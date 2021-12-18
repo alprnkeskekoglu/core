@@ -14,6 +14,11 @@ class Page extends BaseModel
     protected $table = 'pages';
     protected $guarded = ['id'];
 
+    public function structure()
+    {
+        return $this->belongsTo(Structure::class);
+    }
+
     public function container()
     {
         return $this->belongsTo(Container::class);

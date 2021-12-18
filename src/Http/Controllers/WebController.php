@@ -24,7 +24,15 @@ class WebController extends BaseController
 
         $dawnstar->website = $website = $this->getWebsite($parsedUrl);
 
-        $this->checkHomepage($parsedUrl, $website);
+        if(!isset($parsedUrl['path'])) {
+            $homePage = Structure::where('website_id', $website->id)->where('key', 'homepage')->first();
+            $homePageDetail = $homePage->container->translations()->where('language_id', $website->defaultLanguage()->id)->first();
+
+            if($homePageDetail) {
+                return redirect()->to($homePageDetail->url->url);
+            }
+            abort(404);
+        }
 
         $path = $parsedUrl['path'];
         $url = Url::where('url', $path)->where('website_id', $website->id)->first();
@@ -38,6 +46,7 @@ class WebController extends BaseController
 
         $dawnstar->url = $url;
         $dawnstar->parent = $translation->parent;
+        $dawnstar->translation = $translation;
         $dawnstar->language = $translation->language;
         $dawnstar->parent = $parent;
 
@@ -82,18 +91,5 @@ class WebController extends BaseController
         $domainArray = [$domain, "www." . $domain];
 
         return Website::whereIn('domain', $domainArray)->firstOrFail();
-    }
-
-    private function checkHomepage(array $parsedUrl, Website $website)
-    {
-        if(!isset($parsedUrl['path'])) {
-            $homePage = Structure::where('website_id', $website->id)->where('key', 'homepage')->first();
-            $homePageDetail = $homePage->container->translations()->where('language_id', $website->defaultLanguage()->id)->first();
-
-            if($homePageDetail) {
-                return redirect()->to($homePageDetail->url->url);
-            }
-            abort(404);
-        }
     }
 }

@@ -91,9 +91,9 @@ class PageController extends BaseController
     public function datatable(Structure $structure, Request $request)
     {
         $datatableName = str_replace('_', '', ucwords($structure->key, '_')) . 'Datatable';
-        $class = "App\\Datatables\\{$datatableName}";
+        $class = app_path('Datatables/' . $datatableName);
 
-        if (class_exists($class) && method_exists($class, 'query')) {
+        if (file_exists($class)) {
             $datatable = new $class();
         } else {
             $datatable = new PageDatatable();

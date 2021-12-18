@@ -20,7 +20,7 @@ class PageTranslation extends BaseModel
 
     public function parent()
     {
-        return $this->belongsTo(Category::class, 'page_id');
+        return $this->belongsTo(Page::class, 'page_id');
     }
 
     public function extras()

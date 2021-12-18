@@ -48,7 +48,9 @@ class ModuleBuilderService
 
         return view('Dawnstar::module_builder_inputs.meta_tag', [
             'tags' => $tags,
-            'languages' => $this->languages
+            'languages' => $this->languages,
+            'type' => $this->type,
+            'structure' => $this->structure,
         ])->render();
     }
 
@@ -72,7 +74,9 @@ class ModuleBuilderService
 
         return view('Dawnstar::module_builder_inputs.' . $input['element'], [
             'input' => $input,
-            'languages' => $this->languages
+            'languages' => $this->languages,
+            'type' => $this->type,
+            'structure' => $this->structure,
         ])->render();
     }
 
@@ -254,7 +258,6 @@ class ModuleBuilderService
             $attributes[$input['name']] = $input['labels'][$panelLanguage->id];
         }
     }
-
     #endregion
 
     private function setMetaTags(array &$tags)
@@ -287,7 +290,6 @@ class ModuleBuilderService
 
         return $values;
     }
-
 
     private function getActiveLanguages()
     {

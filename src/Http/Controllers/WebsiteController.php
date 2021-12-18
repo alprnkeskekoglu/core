@@ -28,13 +28,13 @@ class WebsiteController extends BaseController
         $languages = $request->get('languages');
         $defaultLanguage = $request->get('default_language');
 
-        $website = Website::create($data);
-        $website->languages()->sync($languages);
-        $website->languages()->updateExistingPivot($defaultLanguage, ['default' => 1]);
-
         if($data['default'] == 1) {
             Website::where('default', 1)->where('id', $website->id)->update(['default' => 0]);
         }
+
+        $website = Website::create($data);
+        $website->languages()->sync($languages);
+        $website->languages()->updateExistingPivot($defaultLanguage, ['default' => 1]);
 
         if(session('dawmstar.website') == null) {
             $this->setSession($website);

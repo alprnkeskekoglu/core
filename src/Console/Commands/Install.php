@@ -71,9 +71,9 @@ class Install extends Command
 
         if (strpos($content, 'view(\'welcome\');') !== false) {
             file_put_contents($file, '<?php');
-            $this->info("Main route file has been cleaned");
+            $this->info("Web route file has been cleaned");
         } else {
-            $this->info("Main route file was changed already");
+            $this->info("Web route file was changed already");
         }
     }
 

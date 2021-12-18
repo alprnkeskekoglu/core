@@ -71,7 +71,7 @@ class ModuleFileService
         ];
 
         $replaceValues[] = $this->getControllerFunction('container');
-        if ($this->structure->type != 'static') {
+        if ($this->structure->type == 'dynamic') {
             $replaceValues[] = $this->getControllerFunction('page');
             if ($this->structure->has_category) {
                 $replaceValues[] = $this->getControllerFunction('category');
