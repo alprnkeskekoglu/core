@@ -7,18 +7,23 @@ use Dawnstar\MediaManager\Foundation\MediaUpload;
 use Dawnstar\MediaManager\Models\ModelMedia;
 use Dawnstar\Models\Admin;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends BaseController
 {
     public function index()
     {
+        canUser('admin.index', false);
+
         $admins = Admin::all();
         return view('Dawnstar::modules.admin.index', compact('admins'));
     }
 
     public function create()
     {
-        $roles = [];
+        canUser('admin.create', false);
+
+        $roles = Role::all();
         return view('Dawnstar::modules.admin.create', compact('roles'));
     }
 
@@ -26,12 +31,15 @@ class AdminController extends BaseController
     {
         $data = $request->only(['status', 'email', 'first_name', 'last_name', 'email', 'password']);
         $medias = $request->get('medias');
-        $role_id = $request->get('role_id'); // TODO role structure
+        $roleId = $request->get('role_id');
 
         $data['password'] = Hash::make($data['password']);
 
         $admin = Admin::create($data);
         $admin->syncMedias($medias);
+
+        $role = Role::findById($roleId);
+        $admin->syncRoles([$role->name]);
 
         return redirect()->route('dawnstar.admins.index')->with(['success' => __('Dawnstar::admin.success.store')]);
     }
@@ -39,7 +47,9 @@ class AdminController extends BaseController
 
     public function edit(Admin $admin)
     {
-        $roles = [];
+        canUser('admin.edit', false);
+
+        $roles = Role::all();
         return view('Dawnstar::modules.admin.edit', compact('admin', 'roles'));
     }
 
@@ -47,7 +57,7 @@ class AdminController extends BaseController
     {
         $data = $request->only(['status', 'email', 'first_name', 'last_name', 'email', 'password']);
         $medias = $request->get('medias');
-        $role_id = $request->get('role_id'); // TODO: role structure
+        $roleId = $request->get('role_id');
 
         if ($data['password']) {
             $data['password'] = Hash::make($data['password']);
@@ -58,11 +68,16 @@ class AdminController extends BaseController
         $admin->update($data);
         $admin->syncMedias($medias);
 
+        $role = Role::findById($roleId);
+        $admin->syncRoles([$role->name]);
+
         return redirect()->route('dawnstar.admins.index')->with(['success' => __('Dawnstar::admin.success.update')]);
     }
 
     public function destroy(Admin $admin)
     {
+        canUser('admin.destroy', false);
+
         if($admin->id === auth()->id()) {
             return redirect()->route('dawnstar.admins.index')->with(['error' => __('Dawnstar::admin.error.destroy_auth_admin')]);
         }

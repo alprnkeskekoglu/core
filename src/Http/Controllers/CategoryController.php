@@ -20,6 +20,8 @@ class CategoryController extends BaseController
 
     public function index(Structure $structure)
     {
+        canUser("structure.{$structure->id}.index");
+
         $moduleBuilder = new ModuleBuilderService($structure, 'category');
         $languages = $moduleBuilder->languages;
 
@@ -30,6 +32,8 @@ class CategoryController extends BaseController
 
     public function store(Structure $structure)
     {
+        canUser("structure.{$structure->id}.create");
+
         $moduleBuilder = new ModuleBuilderService($structure, 'category');
         $moduleBuilder->validate();
 
@@ -41,6 +45,8 @@ class CategoryController extends BaseController
 
     public function edit(Structure $structure, Category $category)
     {
+        canUser("structure.{$structure->id}.edit");
+
         $moduleBuilder = new ModuleBuilderService($structure, 'category', $category);
         $languages = $moduleBuilder->languages;
 
@@ -51,6 +57,8 @@ class CategoryController extends BaseController
 
     public function update(Structure $structure, Category $category)
     {
+        canUser("structure.{$structure->id}.edit");
+
         $moduleBuilder = new ModuleBuilderService($structure, 'category', $category);
         $moduleBuilder->validate();
 
@@ -62,12 +70,16 @@ class CategoryController extends BaseController
 
     public function destroy(Structure $structure, Category $category)
     {
+        canUser("structure.{$structure->id}.destroy");
+
         $this->categoryRepository->destroy($category);
         return redirect()->route('dawnstar.structures.categories.index', $structure)->with(['success' => __('Dawnstar::category.success.destroy')]);
     }
 
     public function saveOrder(Request $request)
     {
+        canUser("structure.{$structure->id}.edit");
+
         $data = $request->get('data');
 
         $orderedData = buildTree($data);

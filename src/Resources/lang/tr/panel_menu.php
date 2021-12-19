@@ -7,15 +7,15 @@ return [
 
     'panel_management' => 'Panel Yönetimi',
     'admin' => 'Yöneticiler',
-    //'role' => 'Roller',
+    'role' => 'Roller',
     //'setting' => 'Genel Ayarlar',
     //'log' => 'Admin Hareketleri',
-    
+
     'website_management' => 'Website Yönetimi',
     //'user' => 'Kullanıcılar',
     'menu' => 'Menü',
     'form' => 'Formlar',
     'custom_translation' => 'Dil Çevirileri',
 
-    'page' => 'Sayfalar'    
+    'page' => 'Sayfalar'
 ];

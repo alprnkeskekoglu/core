@@ -11,6 +11,7 @@ use Dawnstar\Http\Controllers\PageController;
 use Dawnstar\Http\Controllers\CategoryController;
 
 use Dawnstar\Http\Controllers\AdminController;
+use Dawnstar\Http\Controllers\RoleController;
 use Dawnstar\Http\Controllers\AdminActionController;
 use Dawnstar\Http\Controllers\ProfileController;
 
@@ -53,6 +54,9 @@ Route::middleware(['dawnstar_auth'])->group(function () {
 
         Route::resource('admins', AdminController::class)->except(['show']);
         Route::get('admin-actions', [AdminActionController::class, 'index'])->name('admin_actions.index');
+
+        Route::resource('roles', RoleController::class)->except(['show']);
+        Route::resource('roles.permissions', PermissionController::class)->only(['index', 'store']);
 
         Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
         Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');

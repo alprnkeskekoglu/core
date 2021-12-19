@@ -7,6 +7,7 @@ use Dawnstar\Database\seeds\LanguageSeeder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Spatie\Permission\Models\Role;
 
 class Install extends Command
 {
@@ -37,6 +38,7 @@ class Install extends Command
         $this->cleanWebRoute();
         $this->createDirectories();
         $this->createSymbolicLink();
+        $this->createSuperAdmin();
 
         @unlink(resource_path('views/welcome.blade.php'));
 
@@ -99,5 +101,10 @@ class Install extends Command
     {
         Artisan::call('storage:link');
         $this->info(Artisan::output());
+    }
+
+    private function createSuperAdmin()
+    {
+        Role::firstOrCreate(['name' => 'Super Admin']);
     }
 }

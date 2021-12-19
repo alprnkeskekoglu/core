@@ -27,12 +27,16 @@ class StructureController extends BaseController
 
     public function index()
     {
+        canUser("structure.index");
+
         $structures = $this->structureRepository->getAll();
         return view('Dawnstar::modules.structure.index', compact('structures'));
     }
 
     public function create()
     {
+        canUser("structure.create");
+
         $languages = session('dawnstar.languages');
         $hasHomepage = Structure::where('key', 'homepage')->exists();
         $hasSearch = Structure::where('key', 'search')->exists();
@@ -42,6 +46,8 @@ class StructureController extends BaseController
 
     public function store(StructureRequest $request)
     {
+        canUser("structure.create");
+
         DB::beginTransaction();
         $structure = $this->structureRepository->store($request);
         $container = $this->containerRepository->store($structure);
@@ -57,6 +63,8 @@ class StructureController extends BaseController
 
     public function edit(Structure $structure)
     {
+        canUser("structure.edit");
+
         $languages = session('dawnstar.languages');
 
         return view('Dawnstar::modules.structure.edit', compact('structure', 'languages'));
@@ -64,6 +72,8 @@ class StructureController extends BaseController
 
     public function update(Structure $structure, StructureRequest $request)
     {
+        canUser("structure.edit");
+
         $this->structureRepository->update($structure, $request);
         $this->containerTranslationRepository->update($structure->container, $request);
 
@@ -72,6 +82,8 @@ class StructureController extends BaseController
 
     public function destroy(Structure $structure)
     {
+        canUser("structure.destroy");
+
         $this->structureRepository->destroy($structure);
 
         return redirect()->route('dawnstar.structures.index')->with(['success' => __('Dawnstar::structure.success.destroy')]);

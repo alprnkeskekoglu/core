@@ -313,7 +313,7 @@ class ModuleBuilderService
             $options = $options->where($query[0], $query[1], $query[2]);
         }
 
-        return $options->get()->pluck('translation.name', 'id')->toArray(); // TODO: Display Name
+        return $options->get()->pluck('translation.name', 'id')->toArray();
     }
 
     private function getCategories(array $input)

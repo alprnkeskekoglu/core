@@ -28,6 +28,8 @@ class PageController extends BaseController
             return redirect()->route('dawnstar.structures.containers.edit', [$structure, $structure->container]);
         }
 
+        canUser("structure.{$structure->id}.index");
+
         $columns = [
             ['data' => 'id', 'name' => 'id', 'label' => '#', 'searchable' => false],
             ['data' => 'order', 'name' => 'order', 'label' => __('Dawnstar::page.labels.order'), 'searchable' => false],
@@ -46,6 +48,8 @@ class PageController extends BaseController
             abort(404);
         }
 
+        canUser("structure.{$structure->id}.create");
+
         $moduleBuilder = new ModuleBuilderService($structure, 'page');
         $languages = $moduleBuilder->languages;
 
@@ -54,6 +58,8 @@ class PageController extends BaseController
 
     public function store(Structure $structure)
     {
+        canUser("structure.{$structure->id}.create");
+
         $moduleBuilder = new ModuleBuilderService($structure, 'page');
         $moduleBuilder->validate();
 
@@ -65,6 +71,8 @@ class PageController extends BaseController
 
     public function edit(Structure $structure, Page $page)
     {
+        canUser("structure.{$structure->id}.edit");
+
         $moduleBuilder = new ModuleBuilderService($structure, 'page', $page);
         $languages = $moduleBuilder->languages;
 
@@ -73,6 +81,8 @@ class PageController extends BaseController
 
     public function update(Structure $structure, Page $page)
     {
+        canUser("structure.{$structure->id}.edit");
+
         $moduleBuilder = new ModuleBuilderService($structure, 'page', $page);
         $moduleBuilder->validate();
 
@@ -84,12 +94,16 @@ class PageController extends BaseController
 
     public function destroy(Structure $structure, Page $page)
     {
+        canUser("structure.{$structure->id}.destroy");
+
         $this->pageRepository->destroy($page);
         return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Dawnstar::page.success.destroy')]);
     }
 
     public function datatable(Structure $structure, Request $request)
     {
+        canUser("structure.{$structure->id}.index");
+
         $datatableName = str_replace('_', '', ucwords($structure->key, '_')) . 'Datatable';
         $class = app_path('Datatables/' . $datatableName);
 

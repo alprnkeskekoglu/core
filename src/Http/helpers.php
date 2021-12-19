@@ -33,6 +33,24 @@ function adminAction($model, string $type)
     $adminActionService->create($type);
 }
 
+function canUser(string $key, bool $hasWebsite = true)
+{
+    $user = auth('admin')->user();
+    $role = $user->roles->first();
+
+    if($role->name == 'Super Admin') {
+        return true;
+    }
+
+    if ($hasWebsite) {
+        $key = 'website.' . session('dawnstar.website.id') . '.' . $key;
+    }
+
+    if (!$role->hasPermissionTo($key)) {
+        throw new \Dawnstar\Exception\PermissionException();
+    }
+}
+
 function custom(string $key, string $value = null, int $languageId = null)
 {
     return $key;
@@ -133,6 +151,10 @@ function panelMenu(): array
                 [
                     'name' => __('Dawnstar::panel_menu.admin'),
                     'url' => route('dawnstar.admins.index')
+                ],
+                [
+                    'name' => __('Dawnstar::panel_menu.role'),
+                    'url' => route('dawnstar.roles.index')
                 ]
             ]
         ],

@@ -12,18 +12,24 @@ class CustomTranslationController extends BaseController
 {
     public function index()
     {
+        canUser("custom_translation.index", false);
+
         $customTranslations = $this->getCustomTranslations();
         return view('Dawnstar::modules.custom_translation.index', compact('customTranslations'));
     }
 
     public function search(Request $request)
     {
+        canUser("custom_translation.index", false);
+
         $customTranslations = $this->getCustomTranslations($request->get('search'));
         return view('Dawnstar::modules.custom_translation.ajax', compact('customTranslations'))->render();
     }
 
     public function update()
     {
+        canUser("custom_translation.edit", false);
+
         $customTranslation = CustomTranslation::find(request('id'));
         if($customTranslation) {
             $customTranslation->update(['value' => request('value')]);
@@ -34,12 +40,16 @@ class CustomTranslationController extends BaseController
 
     public function destroy()
     {
+        canUser("custom_translation.destroy", false);
+
         $customTranslation = CustomTranslation::where('key', request('key'))->delete();
         return response()->json(['success' => __('Dawnstar::custom_translation.success.destroy')]);
     }
 
     private function getCustomTranslations(string $search = null)
     {
+        canUser("custom_translation.index", false);
+
         $customTranslations = CustomTranslation::query();
 
         if($search) {

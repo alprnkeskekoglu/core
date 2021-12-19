@@ -13,6 +13,8 @@ class MenuItemController extends BaseController
 {
     public function index(Menu $menu)
     {
+        canUser("menu.index");
+
         $activeLanguage = $this->getActiveLanguage();
         $items = $this->getItems($menu, $activeLanguage);
 
@@ -21,6 +23,8 @@ class MenuItemController extends BaseController
 
     public function store(Menu $menu, MenuItemRequest $request)
     {
+        canUser("menu.create");
+
         $data = $request->except('_token', 'medias');
         $medias = $request->get('medias');
 
@@ -34,6 +38,8 @@ class MenuItemController extends BaseController
 
     public function edit(Menu $menu, MenuItem $item)
     {
+        canUser("menu.edit");
+
         $activeLanguage = $this->getActiveLanguage();
         $items = $this->getItems($menu, $activeLanguage);
 
@@ -42,6 +48,8 @@ class MenuItemController extends BaseController
 
     public function update(Menu $menu, MenuItem $item, MenuItemRequest $request)
     {
+        canUser("menu.edit");
+
         $data = $request->except('_token', 'medias');
         $medias = $request->get('medias');
 
@@ -53,6 +61,8 @@ class MenuItemController extends BaseController
 
     public function destroy(Menu $menu)
     {
+        canUser("menu.destroy");
+
         $menu->delete();
 
         return redirect()->route('dawnstar.menus.index')->with(['success' => __('Dawnstar::menu.success.destroy')]);
@@ -60,6 +70,8 @@ class MenuItemController extends BaseController
 
     public function getUrls()
     {
+        canUser("menu.index");
+
         $languageId = request('language_id');
         $search = request('search');
 
@@ -87,6 +99,8 @@ class MenuItemController extends BaseController
 
     public function saveOrder(Request $request)
     {
+        canUser("menu.edit");
+
         $data = $request->get('data');
 
         $orderedData = buildTree($data);

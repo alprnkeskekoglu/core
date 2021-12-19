@@ -17,6 +17,7 @@ use Dawnstar\Observers\ContainerTranslationObserver;
 use Dawnstar\Observers\PageObserver;
 use Dawnstar\Observers\PageTranslationObserver;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Dawnstar\Providers\ConfigServiceProvider;
 use Dawnstar\Providers\RouteServiceProvider;

@@ -12,18 +12,24 @@ class WebsiteController extends BaseController
 {
     public function index()
     {
+        canUser("index");
+
         $websites = Website::all();
         return view('Dawnstar::modules.website.index', compact('websites'));
     }
 
     public function create()
     {
+        canUser("create");
+
         $languages = Language::all();
         return view('Dawnstar::modules.website.create', compact('languages'));
     }
 
     public function store(WebsiteRequest $request)
     {
+        canUser("create");
+
         $data = $request->only(['status', 'default', 'name', 'domain']);
         $languages = $request->get('languages');
         $defaultLanguage = $request->get('default_language');
@@ -46,6 +52,8 @@ class WebsiteController extends BaseController
 
     public function edit(Website $website)
     {
+        canUser("edit");
+
         $selectedLanguages = $website->languages;
         $languages = Language::all();
 
@@ -54,6 +62,8 @@ class WebsiteController extends BaseController
 
     public function update(Website $website, WebsiteRequest $request)
     {
+        canUser("edit");
+
         $data = $request->only(['status', 'default', 'name', 'domain']);
         $languages = $request->get('languages');
         $defaultLanguage = $request->get('default_language');
@@ -75,6 +85,8 @@ class WebsiteController extends BaseController
 
     public function destroy(Website $website)
     {
+        canUser("destroy");
+
         $website->delete();
 
         return redirect()->route('dawnstar.websites.index')->with(['success' => __('Dawnstar::website.success.destroy')]);

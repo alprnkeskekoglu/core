@@ -21,6 +21,8 @@ class ContainerController extends BaseController
 
     public function edit(Structure $structure, Container $container)
     {
+        canUser("structure.{$structure->id}.edit");
+
         if($structure->has_detail != 1) {
             return redirect()->route('dawnstar.structures.pages.index', $structure);
         }
@@ -33,6 +35,8 @@ class ContainerController extends BaseController
 
     public function update(Structure $structure, Container $container)
     {
+        canUser("structure.{$structure->id}.edit");
+
         $moduleBuilder = new ModuleBuilderService($structure, 'container', $container);
         $moduleBuilder->validate();
 
