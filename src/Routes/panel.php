@@ -36,6 +36,9 @@ Route::middleware(['dawnstar_auth'])->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/getReport', [DashboardController::class, 'getReport'])->name('dashboard.getReport');
+
     Route::resource('websites', WebsiteController::class)->except(['show']);
 
     Route::middleware(['default_website'])->group(function () {
