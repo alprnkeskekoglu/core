@@ -22,6 +22,16 @@ class Structure extends BaseModel
         return $this->hasOne(Container::class);
     }
 
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    public function pages()
+    {
+        return $this->hasMany(Page::class);
+    }
+
     public function moduleBuilders()
     {
         return $this->hasMany(ModuleBuilder::class);

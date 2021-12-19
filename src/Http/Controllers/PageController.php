@@ -2,7 +2,6 @@
 
 namespace Dawnstar\Http\Controllers;
 
-
 use Dawnstar\Datatables\PageDatatable;
 use Dawnstar\Models\Page;
 use Dawnstar\Models\Structure;
@@ -26,8 +25,10 @@ class PageController extends BaseController
     public function index(Structure $structure)
     {
         if($structure->type != 'dynamic') {
-            abort(404);
+            return redirect()->route('dawnstar.structures.containers.edit', [$structure, $structure->container]);
         }
+
+        canUser("structure.{$structure->id}.index");
 
         $columns = [
             ['data' => 'id', 'name' => 'id', 'label' => '#', 'searchable' => false],
@@ -47,6 +48,8 @@ class PageController extends BaseController
             abort(404);
         }
 
+        canUser("structure.{$structure->id}.create");
+
         $moduleBuilder = new ModuleBuilderService($structure, 'page');
         $languages = $moduleBuilder->languages;
 
@@ -55,6 +58,8 @@ class PageController extends BaseController
 
     public function store(Structure $structure)
     {
+        canUser("structure.{$structure->id}.create");
+
         $moduleBuilder = new ModuleBuilderService($structure, 'page');
         $moduleBuilder->validate();
 
@@ -66,6 +71,8 @@ class PageController extends BaseController
 
     public function edit(Structure $structure, Page $page)
     {
+        canUser("structure.{$structure->id}.edit");
+
         $moduleBuilder = new ModuleBuilderService($structure, 'page', $page);
         $languages = $moduleBuilder->languages;
 
@@ -74,6 +81,8 @@ class PageController extends BaseController
 
     public function update(Structure $structure, Page $page)
     {
+        canUser("structure.{$structure->id}.edit");
+
         $moduleBuilder = new ModuleBuilderService($structure, 'page', $page);
         $moduleBuilder->validate();
 
@@ -85,16 +94,20 @@ class PageController extends BaseController
 
     public function destroy(Structure $structure, Page $page)
     {
+        canUser("structure.{$structure->id}.destroy");
+
         $this->pageRepository->destroy($page);
         return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Dawnstar::page.success.destroy')]);
     }
 
     public function datatable(Structure $structure, Request $request)
     {
-        $datatableName = str_replace('_', '', ucwords($structure->key, '_')) . 'Datatable';
-        $class = "App\\Datatables\\{$datatableName}";
+        canUser("structure.{$structure->id}.index");
 
-        if (class_exists($class) && method_exists($class, 'query')) {
+        $datatableName = str_replace('_', '', ucwords($structure->key, '_')) . 'Datatable';
+        $class = app_path('Datatables/' . $datatableName);
+
+        if (file_exists($class)) {
             $datatable = new $class();
         } else {
             $datatable = new PageDatatable();

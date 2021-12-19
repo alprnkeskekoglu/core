@@ -23,7 +23,7 @@ class StructureRequest extends FormRequest
             'is_searchable' => ['required', 'boolean'],
 
             'translations.*.name' => ['required_if:languages.*,1'],
-            'translations.*.slug' => ['required_if:languages.*,1']
+            'translations.*.slug' => ['required_if:has_url,1']
         ];
     }
 

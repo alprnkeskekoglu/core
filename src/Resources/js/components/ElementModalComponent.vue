@@ -7,7 +7,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-lg-12" v-if="['relation', 'category'].indexOf($root.current.element) === -1">
                                 <label class="form-label">{{ $root.trans.translation }}</label>
                                 <div class="mb-3">
                                     <div class="form-check form-check-inline">
@@ -43,7 +43,10 @@
 
                             <div :class="types[$root.current.element] != undefined ? 'col-ld-12' : 'col-lg-6'">
                                 <div class="form-floating mb-3">
-                                    <input type="text" :class="'form-control ' + (errors.name ? 'is-invalid' : '')" id="name" v-model="$root.current.name">
+                                    <input type="text" :class="'form-control ' + (errors.name ? 'is-invalid' : '')"
+                                           :disabled="['category'].indexOf($root.current.element) !== -1"
+                                           id="name"
+                                           v-model="$root.current.name">
                                     <label for="name">{{ $root.trans.name }}</label>
                                     <div class="invalid-feedback d-block" v-if="errors.name">
                                         {{ $root.trans.required }}
@@ -99,7 +102,7 @@
                             </div>
                         </div>
 
-                        <hr v-if="['select', 'checkbox', 'radio'].indexOf($root.current.element) !== -1">
+                        <hr v-if="['select', 'checkbox', 'radio', 'relation'].indexOf($root.current.element) !== -1">
 
                         <div class="row" v-if="['select', 'checkbox', 'radio'].indexOf($root.current.element) !== -1">
                             <div class="col-lg-12">{{ $root.trans.options }}</div>
@@ -119,6 +122,31 @@
                                             <i class="mdi mdi-18px mdi-plus"></i>
                                         </button>
                                         <button type="button" class="btn btn-sm btn-danger" @click="removeOption(key)" v-if="$root.current.options.length > 1">
+                                            <i class="mdi mdi-18px mdi-window-close"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" v-if="['relation'].indexOf($root.current.element) !== -1">
+                            <div class="col-lg-12">{{ $root.trans.queries }}</div>
+                            <div class="col-lg-12 mb-2" v-for="(query, key) in $root.current.queries">
+                                <div class="row gx-1">
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control" v-model="query[0]" placeholder="Column">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control" v-model="query[1]" placeholder="Condition">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control" v-model="query[2]" placeholder="Value">
+                                    </div>
+                                    <div class="col-lg-3 align-self-center text-end">
+                                        <button type="button" class="btn btn-sm btn-primary" @click="addNewQuery">
+                                            <i class="mdi mdi-18px mdi-plus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-danger" @click="removeQuery(key)" v-if="$root.current.queries.length > 1">
                                             <i class="mdi mdi-18px mdi-window-close"></i>
                                         </button>
                                     </div>
@@ -156,6 +184,12 @@ export default {
         removeOption(key) {
             this.$root.current.options.splice(key, 1)
         },
+        addNewQuery() {
+            this.$root.current.queries.push({0: null, 1: null, 2: null})
+        },
+        removeQuery(key) {
+            this.$root.current.queries.splice(key, 1)
+        },
         saveElement() {
             if(this.checkForm()) {
                 if(this.$root.new_element) {
@@ -182,7 +216,16 @@ export default {
                             }
                         }
                     ],
+                    queries: [
+                        {
+                            0: null,
+                            1: null,
+                            2: null
+                        }
+                    ],
                 };
+            } else {
+                alert('HATA');
             }
         },
         checkForm() {
@@ -191,7 +234,7 @@ export default {
             if(!this.$root.current.type && this.$root.current.element == 'input') {
                 this.errors['type'] = true;
             }
-            if(!this.$root.current.name) {
+            if(!this.$root.current.name && ['category'].indexOf(this.$root.current.element) === -1) {
                 this.errors['name'] = true;
             }
 

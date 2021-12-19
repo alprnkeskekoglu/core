@@ -32,7 +32,7 @@
                                         <span class="badge bg-{{ statusClass($admin->status) }} font-16">{{ statusText($admin->status) }}</span>
                                     </td>
                                     <td class="table-user">
-                                        <img src="{{ media($admin->mf_avatar->id) }}" class="me-2 img-fluid avatar-md rounded-circle"/>
+                                        <img src="{{ $admin->mf_avatar ? media($admin->mf_avatar->id) : defaultImage() }}" class="me-2 img-fluid avatar-md rounded-circle"/>
                                         {{ $admin->full_name }}
                                     </td>
                                     <td>{{ $admin->email }}</td>

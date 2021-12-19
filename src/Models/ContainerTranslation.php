@@ -20,7 +20,7 @@ class ContainerTranslation extends BaseModel
 
     public function parent()
     {
-        return $this->belongsTo(Container::class);
+        return $this->belongsTo(Container::class, 'container_id');
     }
 
     public function extras()
@@ -32,7 +32,7 @@ class ContainerTranslation extends BaseModel
     {
         return $this->belongsTo(Language::class);
     }
-  
+
     public function url()
     {
         return $this->morphOne(Url::class, 'model');

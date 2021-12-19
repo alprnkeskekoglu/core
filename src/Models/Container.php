@@ -23,4 +23,15 @@ class Container extends BaseModel
     {
         return $this->hasMany(ContainerTranslation::class);
     }
+
+    public function customPages(string $key)
+    {
+        $pages = $this->belongsToMany(Page::class, 'container_pages');
+
+        if($key) {
+            $pages = $pages->wherePivot('key', $key);
+        }
+
+        return $pages;
+    }
 }

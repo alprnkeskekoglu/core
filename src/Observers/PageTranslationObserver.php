@@ -8,7 +8,7 @@ class PageTranslationObserver
 {
     public function created(PageTranslation $pageTranslation)
     {
-        if($pageTranslation->status != 1) {
+        if($pageTranslation->status != 1 || is_null($pageTranslation->slug)) {
             return;
         }
         $urlText = $this->getUrlText($pageTranslation);
@@ -23,7 +23,7 @@ class PageTranslationObserver
 
     public function updated(PageTranslation $pageTranslation)
     {
-        if($pageTranslation->status != 1) {
+        if($pageTranslation->status != 1 || is_null($pageTranslation->slug)) {
             return;
         }
 
@@ -40,7 +40,9 @@ class PageTranslationObserver
     {
         $language = $pageTranslation->language;
         $website = session('dawnstar.website');
-        $urlText = ($website->url_language_code == 1 ? "/{$language->code}/" : '/') . $pageTranslation->slug;
+        $containerTranslation = $pageTranslation->parent->container->translations()->where('language_id', $language->id)->first();
+
+        $urlText = ($website->url_language_code == 1 ? "/{$language->code}/" : '/') . $containerTranslation->slug . '/' . $pageTranslation->slug;
 
         return rtrim($urlText, '/');
     }

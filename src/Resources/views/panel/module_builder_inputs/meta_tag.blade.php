@@ -3,12 +3,15 @@
         Meta Tags
     </div>
     <div class="mb-4">
-
         @foreach($languages as $language)
+            @php
+                $containerTranslation = $structure->container->translations()->where('language_id', $language->id)->first();
+                $url = request()->root() . '/' . $language->code . ($type != 'container' ? "/{$containerTranslation->slug}" : '')
+            @endphp
             <div class="previewBox hasLanguage {{ $loop->first ? '' : 'd-none' }}" data-language="{{ $language->id }}">
                 <div class="d-flex justify-content-center">
                     <div class="preview col-md-6 border border-2 mb-4 p-2 w-50">
-                        <span class="text-dark slug" data-domain="{{ request()->root() . '/' . $language->code }}">{{ request()->root() . '/' . $language->code }}</span>
+                        <span class="text-dark slug" data-domain="{{ $url }}">{{ $url }}</span>
                         <button class="text-muted">▼</button>
                         <h2 class="title"></h2>
                         <span class="text-muted">{{ date('d M Y') }}</span> — <p class="d-inline description"></p>
@@ -68,9 +71,9 @@
                 var key = $(this).attr('data-key');
 
                 var box = $(this).closest('.previewBox');
-                if(key == 'title') {
+                if (key == 'title') {
                     box.find('.title').html(value);
-                } else if(key == 'description') {
+                } else if (key == 'description') {
                     box.find('.description').html(value);
                 }
             });
@@ -79,7 +82,7 @@
                 var value = $(this).val();
                 var language = $(this).attr('data-language');
 
-                var slug = $('#metaTags').find('.previewBox[data-language="'+language+'"]').find('.slug');
+                var slug = $('#metaTags').find('.previewBox[data-language="' + language + '"]').find('.slug');
 
                 slug.html(slug.attr('data-domain') + value);
             })

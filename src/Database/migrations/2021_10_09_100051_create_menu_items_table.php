@@ -25,7 +25,7 @@ class CreateMenuItemsTable extends Migration
             $table->tinyInteger('type');
             $table->unsignedInteger('url_id')->nullable()->index();
             $table->string('external_link')->nullable();
-            $table->string('target')->default('_self');
+            $table->string('target')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

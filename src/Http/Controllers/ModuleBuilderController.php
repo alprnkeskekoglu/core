@@ -26,17 +26,23 @@ class ModuleBuilderController extends BaseController
 
     public function index()
     {
+        canUser("structure.{$moduleBuilder->structure->id}.index");
+
         $moduleBuilders = $this->moduleBuilderRepository->getAll();
         return view('Dawnstar::modules.module_builder.index', compact('moduleBuilders'));
     }
 
     public function edit(ModuleBuilder $moduleBuilder)
     {
+        canUser("structure.{$moduleBuilder->structure->id}.edit");
+
         return view('Dawnstar::modules.module_builder.edit', compact('moduleBuilder'));
     }
 
     public function update(ModuleBuilder $moduleBuilder, Request $request)
     {
+        canUser("structure.{$moduleBuilder->structure->id}.edit");
+
         $data = $request->get('data');
         $metaTags = $request->get('meta_tags');
 
@@ -50,6 +56,8 @@ class ModuleBuilderController extends BaseController
 
     public function getBuilderData(ModuleBuilder $moduleBuilder)
     {
+        canUser("structure.{$moduleBuilder->structure->id}.edit");
+
         return response()->json(['builderData' => $moduleBuilder->data, 'metaTags' => $moduleBuilder->meta_tags]);
     }
 
@@ -71,6 +79,7 @@ class ModuleBuilderController extends BaseController
             'selectable' => __('Dawnstar::module_builder.selectable'),
             'rules' => __('Dawnstar::module_builder.rules'),
             'options' => __('Dawnstar::module_builder.options'),
+            'queries' => __('Dawnstar::module_builder.queries'),
         ];
 
         return response()->json(['translations' => $return]);

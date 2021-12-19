@@ -1,46 +1,58 @@
+@php
+    $structures = \Dawnstar\Models\Structure::all();
+@endphp
 <div class="leftside-menu leftside-menu-detached">
-
     <div class="leftbar-user">
-        <a href="javascript: void(0);">
-            <img src="assets/images/users/avatar-1.jpg" alt="user-image" height="42" class="rounded-circle shadow-sm">
-            <span class="leftbar-user-name">Dominic Keller</span>
-        </a>
     </div>
-
-    <!--- Sidemenu -->
     <ul class="side-nav">
+        <a href="#" class="side-nav-link">
+            <i class="uil-home-alt"></i>
+            <span>Dashboard</span>
+        </a>
 
-        <li class="side-nav-title side-nav-item">Navigation</li>
+        @foreach(panelMenu() as $menu)
+            @if(count($menu['children']) == 0)
+                <a href="{{ $menu['url'] }}" class="side-nav-link">
+                    <i class="{{ $menu['icon'] }}"></i>
+                    <span>{{ $menu['name'] }}</span>
+                </a>
+            @else
+                <li class="side-nav-item">
+                    <a data-bs-toggle="collapse" href="#{{ $menu['url'] }}" aria-expanded="false" aria-controls="{{ $menu['url'] }}" class="side-nav-link">
+                        <i class="{{ $menu['icon'] }}"></i>
+                        <span>{{ $menu['name'] }}</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="{{ $menu['url'] }}">
+                        <ul class="side-nav-second-level">
+                            @foreach($menu['children'] as $childMenu)
+                                <li>
+                                    <a href="{{ $childMenu['url'] }}">
+                                        {{ $childMenu['name'] }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </li>
+            @endif
+        @endforeach
+
+        <li class="side-nav-title side-nav-item"></li>
 
         <li class="side-nav-item">
-            <a href="{{ route('dawnstar.websites.index') }}" class="side-nav-link">
-                <i class="uil-home-alt"></i>
-                <span>Website</span>
+            <a data-bs-toggle="collapse" href="#page" aria-expanded="false" aria-controls="page" class="side-nav-link">
+                <i class="mdi mdi-book-open-page-variant"></i>
+                <span>@lang('Dawnstar::panel_menu.page')</span>
+                <span class="menu-arrow"></span>
             </a>
-            <a href="{{ route('dawnstar.structures.index') }}" class="side-nav-link">
-                <i class="uil-home-alt"></i>
-                <span>Structure</span>
-            </a>
-
-            <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
-                <i class="uil-home-alt"></i>
-                <span class="badge bg-info rounded-pill float-end">4</span>
-                <span> Dashboards </span>
-            </a>
-            <div class="collapse" id="sidebarDashboards">
+            <div class="collapse" id="page">
                 <ul class="side-nav-second-level">
-                    <li>
-                        <a href="dashboard-analytics.html">Analytics</a>
-                    </li>
-                    <li>
-                        <a href="dashboard-crm.html">CRM</a>
-                    </li>
-                    <li>
-                        <a href="index.html">Ecommerce</a>
-                    </li>
-                    <li>
-                        <a href="dashboard-projects.html">Projects</a>
-                    </li>
+                    @foreach($structures as $structure)
+                        <li>
+                            <a href="{{ route('dawnstar.structures.pages.index', [$structure]) }}">{{ $structure->container->translation->name }}</a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
         </li>

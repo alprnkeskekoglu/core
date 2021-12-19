@@ -9,5 +9,7 @@ interface ContainerInterface extends BaseInterface
 {
     public function store(Structure $structure): Container;
 
-    public function update(Structure $structure, Container $container);
+    public function update(Container $container);
+
+    public function syncCustomPages(Container $container);
 }

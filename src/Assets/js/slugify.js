@@ -13,22 +13,27 @@ $('body').delegate('.nameInput', 'keyup', function () {
         $('.slugInput[data-language="' + languageId + '"]').val('/');
     }
 });
+
 $('body').delegate('.nameInput', 'keydown', function () {
     clearTimeout(typingTimer);
 });
+
 $('body').delegate('.slugInput', 'keyup', function () {
-    $(this).parent().find('div.help-block > span').html('/' + $(this).val())
+    $(this).parent().find('div.help-block > span').html($(this).val())
 });
+
 function getUrl() {
     var name = typedInput.val();
-    var languageId = typedInput.attr('data-language');
+    var language_id = typedInput.attr('data-language');
+    var is_new = $('.slugInput[data-language="' + language_id + '"]').attr('data-new');
+    var container_slug = $('.slugInput[data-language="' + language_id + '"]').attr('data-container');
 
     $.ajax({
         'url': '/dawnstar/getUrl',
-        'data': {'language_id': languageId, 'name': name},
+        'data': {language_id, name, is_new, container_slug},
         'method': 'GET',
         success: function (response) {
-            $('.slugInput[data-language="' + languageId + '"]').val(response).trigger('keyup');
+            $('.slugInput[data-language="' + language_id + '"]').val('/' + response).trigger('keyup');
         },
     });
 }

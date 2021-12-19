@@ -8,7 +8,7 @@ class ContainerTranslationObserver
 {
     public function created(ContainerTranslation $containerTranslation)
     {
-        if($containerTranslation->status != 1) {
+        if($containerTranslation->status != 1 || is_null($containerTranslation->slug)) {
             return;
         }
         $urlText = $this->getUrlText($containerTranslation);
@@ -23,7 +23,7 @@ class ContainerTranslationObserver
 
     public function updated(ContainerTranslation $containerTranslation)
     {
-        if($containerTranslation->status != 1) {
+        if($containerTranslation->status != 1 || is_null($containerTranslation->slug)) {
             return;
         }
 

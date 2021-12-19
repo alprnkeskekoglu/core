@@ -2,17 +2,22 @@
 
 namespace Dawnstar;
 
+use Dawnstar\Console\Commands\Install;
 use Dawnstar\Console\Commands\Update;
+use Dawnstar\Foundation\Dawnstar;
 use Dawnstar\Http\Middleware\Authenticate;
 use Dawnstar\Http\Middleware\DefaultWebsite;
 use Dawnstar\Http\Middleware\RedirectIfAuthenticated;
+use Dawnstar\Models\CategoryTranslation;
 use Dawnstar\Models\ContainerTranslation;
 use Dawnstar\Models\Page;
 use Dawnstar\Models\PageTranslation;
+use Dawnstar\Observers\CategoryTranslationObserver;
 use Dawnstar\Observers\ContainerTranslationObserver;
 use Dawnstar\Observers\PageObserver;
 use Dawnstar\Observers\PageTranslationObserver;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Dawnstar\Providers\ConfigServiceProvider;
 use Dawnstar\Providers\RouteServiceProvider;
@@ -23,6 +28,9 @@ class   DawnstarServiceProvider extends ServiceProvider
     {
         $this->app->register(ConfigServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+
+        $this->app->singleton(Dawnstar::class, Dawnstar::class);
+        $this->app->bind("Dawnstar", Dawnstar::class);
     }
 
     public function boot()
@@ -38,6 +46,7 @@ class   DawnstarServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
+                Install::class,
                 Update::class,
             ]);
         }
@@ -48,8 +57,9 @@ class   DawnstarServiceProvider extends ServiceProvider
         $router->aliasMiddleware('default_website', DefaultWebsite::class);
 
 
-        ContainerTranslation::observe(ContainerTranslationObserver::class);
         Page::observe(PageObserver::class);
+        ContainerTranslation::observe(ContainerTranslationObserver::class);
         PageTranslation::observe(PageTranslationObserver::class);
+        CategoryTranslation::observe(CategoryTranslationObserver::class);
     }
 }

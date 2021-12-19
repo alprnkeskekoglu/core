@@ -8,8 +8,10 @@ use Dawnstar\Http\Controllers\WebsiteController;
 use Dawnstar\Http\Controllers\StructureController;
 use Dawnstar\Http\Controllers\ContainerController;
 use Dawnstar\Http\Controllers\PageController;
+use Dawnstar\Http\Controllers\CategoryController;
 
 use Dawnstar\Http\Controllers\AdminController;
+use Dawnstar\Http\Controllers\RoleController;
 use Dawnstar\Http\Controllers\AdminActionController;
 use Dawnstar\Http\Controllers\ProfileController;
 
@@ -26,7 +28,6 @@ use Dawnstar\Http\Controllers\CustomTranslationController;
 use Dawnstar\Http\Controllers\UrlController;
 use Dawnstar\Http\Controllers\PanelController;
 
-
 Route::middleware(['dawnstar_guest'])->group(function () {
     Route::get('login', [LoginController::class, 'showLoginForm'])->name('login.index');
     Route::post('login', [LoginController::class, 'login'])->name('login');
@@ -35,6 +36,9 @@ Route::middleware(['dawnstar_guest'])->group(function () {
 Route::middleware(['dawnstar_auth'])->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/getReport', [DashboardController::class, 'getReport'])->name('dashboard.getReport');
 
     Route::resource('websites', WebsiteController::class)->except(['show']);
 
@@ -45,8 +49,14 @@ Route::middleware(['dawnstar_auth'])->group(function () {
         Route::get('structures/{structure}/pages/datatable', [PageController::class, 'datatable'])->name('structures.pages.datatable');
         Route::resource('structures.pages', PageController::class)->except(['show']);
 
+        Route::post('structures/{structure}/categories/saveOrder', [CategoryController::class, 'saveOrder'])->name('structures.categories.saveOrder');
+        Route::resource('structures.categories', CategoryController::class)->except(['create', 'show']);
+
         Route::resource('admins', AdminController::class)->except(['show']);
         Route::get('admin-actions', [AdminActionController::class, 'index'])->name('admin_actions.index');
+
+        Route::resource('roles', RoleController::class)->except(['show']);
+        Route::resource('roles.permissions', PermissionController::class)->only(['index', 'store']);
 
         Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
         Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');

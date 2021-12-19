@@ -17,6 +17,7 @@ class CreateCategoryTranslationsTable extends Migration
             $table->id();
             $table->foreignId('category_id')->index()->constrained()->onDelete('cascade');
             $table->unsignedInteger('language_id')->index();
+            $table->boolean('status')->default(1);
             $table->string('name');
             $table->string('slug')->nullable();
             $table->text('detail')->nullable();

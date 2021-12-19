@@ -19,10 +19,11 @@ class ContainerTranslationRepository implements TranslationInterface
             $translation['container_id'] = $container->id;
             $translation['language_id'] = $languageId;
             $translation['status'] = $languages[$languageId];
-            $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
+            $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
+                ltrim($translation['slug'], '/') :
+                $translation['slug'];
 
             $translationModel = ContainerTranslation::create($translation);
-
 
             if (isset($translation['medias'])) {
                 $this->getMediaRepository()->syncMedias($translationModel, $translation['medias']);
@@ -39,7 +40,10 @@ class ContainerTranslationRepository implements TranslationInterface
         $translations = request('translations');
 
         foreach ($translations as $languageId => $translation) {
-            $translation['slug'] = $translation['slug'] != '/' ? ltrim($translation['slug'], '/') : $translation['slug'];
+
+            $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
+                ltrim($translation['slug'], '/') :
+                $translation['slug'];
             $translationModel = ContainerTranslation::updateOrCreate(
                 [
                     'container_id' => $container->id,
@@ -55,7 +59,7 @@ class ContainerTranslationRepository implements TranslationInterface
             }
 
             $this->getExtrasRepository()->store($translationModel, $translation);
-            
+
             if (request('meta_tags')) {
                 $this->getMetaTagRepository()->sync($translationModel, request('meta_tags'));
             }

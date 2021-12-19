@@ -11,4 +11,6 @@ interface ModuleBuilderInterface
     public function getAll(): Collection;
 
     public function store(Structure $structure): void;
+
+    public function createFiles(Structure $structure): void;
 }

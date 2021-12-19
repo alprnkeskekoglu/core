@@ -12,20 +12,22 @@ class UrlController extends BaseController
     {
         $languageId = $request->get('language_id');
         $name = $request->get('name');
+        $isNew = $request->get('is_new');
+        $containerSlug = $request->get('container_slug');
 
         $slug = $this->slugify($name);
 
         $language = Language::find($languageId);
         $website = session('dawnstar.website');
 
-        $urlText = ($website->url_language_code == 1 ? "/{$language->code}/" : '/') . $slug;
+        $urlText = ($website->url_language_code == 1 ? "/{$language->code}/" : '/') . $containerSlug . '/' . $slug;
 
         $url = Url::where('website_id', $website->id)->where('url', $urlText)->first();
 
         if ($url) {
-//            if ($name == $url->model->name) { TODO: Model update edilirken yeni slug dönmemeli
-//                return $slug;
-//            }
+            if ($slug == $url->model->slug && $isNew != 1) {
+                return $slug;
+            }
             return $this->getNewSlug($website, $language->code, $slug, 1);
         }
         return $slug;

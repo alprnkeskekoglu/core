@@ -21,6 +21,12 @@ class ContainerController extends BaseController
 
     public function edit(Structure $structure, Container $container)
     {
+        canUser("structure.{$structure->id}.edit");
+
+        if($structure->has_detail != 1) {
+            return redirect()->route('dawnstar.structures.pages.index', $structure);
+        }
+
         $moduleBuilder = new ModuleBuilderService($structure, 'container', $container);
         $languages = $moduleBuilder->languages;
 
@@ -29,10 +35,12 @@ class ContainerController extends BaseController
 
     public function update(Structure $structure, Container $container)
     {
+        canUser("structure.{$structure->id}.edit");
+
         $moduleBuilder = new ModuleBuilderService($structure, 'container', $container);
         $moduleBuilder->validate();
 
-        $this->containerRepository->update($structure, $container);
+        $this->containerRepository->update($container);
         $this->containerTranslationRepository->update($container);
 
         return redirect()->route('dawnstar.structures.containers.edit', [$structure, $container])->with(['success' => __('Dawnstar::structure.success.update')]);

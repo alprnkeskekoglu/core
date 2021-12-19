@@ -17,9 +17,19 @@ class CategoryTranslation extends BaseModel
         return $this->belongsTo(Category::class);
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
     public function extras()
     {
         return $this->hasMany(CategoryTranslationExtra::class);
+    }
+
+    public function language()
+    {
+        return $this->belongsTo(Language::class);
     }
 
     public function url()

@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="d-grid mb-0 text-center">
-                        <button class="btn btn-primary" type="submit"><i class="mdi mdi-login"></i>@lang('Dawnstar::auth.login')</button>
+                        <button class="btn btn-primary" type="submit"><i class="mdi mdi-login"></i> @lang('Dawnstar::auth.login')</button>
                     </div>
                 </form>
             </div>

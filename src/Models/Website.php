@@ -5,7 +5,7 @@ namespace Dawnstar\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Website extends BaseModel
+class Website extends Model
 {
     use SoftDeletes;
 
@@ -19,7 +19,7 @@ class Website extends BaseModel
 
     public function languages()
     {
-        return $this->belongsToMany(Language::class, 'website_languages');
+        return $this->belongsToMany(Language::class, 'website_languages')->withPivot('default')->orderByDesc('pivot_default');
     }
 
     public function defaultLanguage()

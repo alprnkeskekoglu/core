@@ -9,6 +9,8 @@ class FormController extends BaseController
 {
     public function index()
     {
+        canUser("form.index", false);
+
         $forms = Form::withCount(['messages' => function($q) {
             $q->where('read', 0);
         }])->get();
@@ -17,11 +19,15 @@ class FormController extends BaseController
 
     public function create()
     {
+        canUser("form.create", false);
+
         return view('Dawnstar::modules.form.create');
     }
 
     public function store(FormRequest $request)
     {
+        canUser("form.create", false);
+
         $data = $request->all();
 
         $form = Form::create($data);
@@ -32,11 +38,15 @@ class FormController extends BaseController
 
     public function edit(Form $form)
     {
+        canUser("form.edit", false);
+
         return view('Dawnstar::modules.form.edit', compact('form'));
     }
 
     public function update(Form $form, FormRequest $request)
     {
+        canUser("form.edit", false);
+
         $data = $request->all();
 
         $form->update($data);
@@ -46,6 +56,8 @@ class FormController extends BaseController
 
     public function destroy(Form $form)
     {
+        canUser("form.destroy", false);
+
         $form->delete();
 
         return redirect()->route('dawnstar.forms.index')->with(['success' => __('Dawnstar::form.success.destroy')]);
