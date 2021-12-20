@@ -2,6 +2,7 @@
 
 namespace Dawnstar;
 
+use Dawnstar\Console\Commands\CreateSearchView;
 use Dawnstar\Console\Commands\Install;
 use Dawnstar\Console\Commands\Update;
 use Dawnstar\Foundation\Dawnstar;
@@ -48,6 +49,7 @@ class   DawnstarServiceProvider extends ServiceProvider
             $this->commands([
                 Install::class,
                 Update::class,
+                CreateSearchView::class,
             ]);
         }
 

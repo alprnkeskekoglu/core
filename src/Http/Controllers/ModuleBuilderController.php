@@ -26,8 +26,6 @@ class ModuleBuilderController extends BaseController
 
     public function index()
     {
-        canUser("structure.{$moduleBuilder->structure->id}.index");
-
         $moduleBuilders = $this->moduleBuilderRepository->getAll();
         return view('Dawnstar::modules.module_builder.index', compact('moduleBuilders'));
     }

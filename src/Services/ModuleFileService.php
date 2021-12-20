@@ -41,7 +41,7 @@ class ModuleFileService
             File::makeDirectory($folder, 0777, true, true);
         }
 
-        if ($this->structure->type == 'static') {
+        if (in_array($this->structure->type, ['static', 'search'])) {
             $this->createBlade('container');
         } else {
             if ($this->structure->has_detail) {
@@ -88,9 +88,19 @@ class ModuleFileService
 
     private function getControllerFunction(string $type)
     {
-        return "public function {$type}(Dawnstar \$dawnstar) {" .
-            "\n\t\treturn view('modules." . strtolower($this->structure->key) . ".{$type}');" .
-            "\n\t}";
+        $content = "public function {$type}(Dawnstar \$dawnstar) {";
+
+        if($this->structure->key == 'search') {
+            $content .= "\n\t\t" . '$search = new \Dawnstar\Foundation\Search();';
+            $content .= "\n\t\t" . '$results = $search->getResults();';
+            $content .= "\n\t\treturn view('modules." . strtolower($this->structure->key) . ".{$type}', compact('results'));";
+        } else {
+            $content .= "\n\t\treturn view('modules." . strtolower($this->structure->key) . ".{$type}');";
+        }
+
+        $content .= "\n\t}\n";
+
+        return $content;
     }
     #endregion
 
