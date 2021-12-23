@@ -8,7 +8,7 @@ use Dawnstar\Models\ContainerTranslation;
 use Dawnstar\Models\Structure;
 use Dawnstar\Repositories\ContainerRepository;
 use Dawnstar\Repositories\ContainerTranslationRepository;
-use Dawnstar\Repositories\ModuleBuilderRepository;
+use Dawnstar\ModuleBuilder\Repositories\ModuleBuilderRepository;
 use Dawnstar\Repositories\StructureRepository;
 use Illuminate\Support\Facades\DB;
 

@@ -6,7 +6,7 @@ use Dawnstar\Models\Container;
 use Dawnstar\Models\Structure;
 use Dawnstar\Repositories\ContainerRepository;
 use Dawnstar\Repositories\ContainerTranslationRepository;
-use Dawnstar\Services\ModuleBuilderService;
+use Dawnstar\ModuleBuilder\Services\ModuleBuilderService;
 
 class ContainerController extends BaseController
 {

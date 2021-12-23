@@ -7,7 +7,7 @@ use Dawnstar\Models\Page;
 use Dawnstar\Models\Structure;
 use Dawnstar\Repositories\PageRepository;
 use Dawnstar\Repositories\PageTranslationRepository;
-use Dawnstar\Services\ModuleBuilderService;
+use Dawnstar\ModuleBuilder\Services\ModuleBuilderService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
