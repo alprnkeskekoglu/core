@@ -9,6 +9,13 @@ class Dawnstar
         view()->share("dawnstar", $this);
     }
 
+    public function metasHtml()
+    {
+        $meta = new Meta();
+
+        return $meta->getHtml();
+    }
+
     public function __get($name)
     {
         if (isset($this->$name)) {

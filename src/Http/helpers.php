@@ -33,6 +33,17 @@ function adminAction($model, string $type)
     $adminActionService->create($type);
 }
 
+function searchUrl()
+{
+    $structure = \Dawnstar\Models\Structure::where('key', 'search')
+        ->first();
+
+    if ($structure && $structure->container->detail) {
+        return url($structure->container->translation->url->url);
+    }
+    return "javascript:void(0);";
+}
+
 function canUser(string $key, bool $hasWebsite = true)
 {
     $user = auth('admin')->user();
