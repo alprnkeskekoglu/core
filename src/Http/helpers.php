@@ -44,6 +44,18 @@ function searchUrl()
     return "javascript:void(0);";
 }
 
+function menu(string $key)
+{
+    $dawnstar = dawnstar();
+
+    $websiteId = $dawnstar->website->id;
+    $languageId = $dawnstar->language->id;
+
+    return \Illuminate\Support\Facades\Cache::rememberForever('menu' . $key . $websiteId . $languageId, function () use ($key) {
+        return (new \Dawnstar\Foundation\Menu($key))->init();
+    });
+}
+
 function canUser(string $key, bool $hasWebsite = true)
 {
     $user = auth('admin')->user();
@@ -107,17 +119,17 @@ function buildTree(array $elements, $parentId = 0, $max = 0)
     $branch = array();
     foreach ($elements as $element) {
         $element['left'] = $max = $max + 1;
-        $element['rigt'] = $max + 1;
+        $element['right'] = $max + 1;
         $element['parent_id'] = $parentId;
 
         if (isset($element['children'])) {
             $children = buildTree($element['children'], $element['id'], $max);
             if ($children) {
 
-                $element['rgt'] = $max = (isset(end($children)['rgt']) ? end($children)['rgt'] : 1) + 1;
+                $element['right'] = $max = (isset(end($children)['right']) ? end($children)['right'] : 1) + 1;
                 $element['children'] = $children;
             } else {
-                $element['rgt'] = $max = $max + 1;
+                $element['right'] = $max = $max + 1;
             }
         }
 
