@@ -29,6 +29,7 @@ class FormController extends BaseController
         canUser("form.create", false);
 
         $data = $request->all();
+        $data['website_id'] = session('dawnstar.website.id');
 
         $form = Form::create($data);
 

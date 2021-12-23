@@ -54,9 +54,10 @@ class Install extends Command
     {
         File::deleteDirectory(public_path('vendor/dawnstar'));
         File::deleteDirectory(public_path('vendor/media-manager'));
+        File::deleteDirectory(public_path('vendor/module-builder'));
         $this->info(public_path('vendor') . " Deleted !!" . PHP_EOL);
         $this->info('**It may take longer to publish, wait a few seconds.' . PHP_EOL);
-        Artisan::call('vendor:publish', ['--tag' => ['dawnstar-assets', 'media-manager-assets']]);
+        Artisan::call('vendor:publish', ['--tag' => ['dawnstar-assets', 'media-manager-assets', 'module-builder-assets']]);
         $this->info(Artisan::output());
     }
 
@@ -85,7 +86,7 @@ class Install extends Command
         if (!is_dir(resource_path('views/layouts'))) {
             File::makeDirectory(resource_path('views/layouts'), 0777, true, true);
 
-            $appLayout = file_get_contents(__DIR__ . '/../../Resources/module_files/app.stub');
+            $appLayout = base_path('vendor/dawnstar/module-builder/src/Resources/stubs/app.stub');
             file_put_contents(resource_path('views/layouts/app.blade.php'), $appLayout);
         }
         if (!is_dir(resource_path('views/includes'))) {

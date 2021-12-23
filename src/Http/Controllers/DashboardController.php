@@ -153,6 +153,7 @@ class DashboardController extends BaseController
             ->orderByDesc('total')
             ->where('created_at', '>=', $this->startDate)
             ->where('created_at', '<=', $this->endDate)
+            ->whereNotNull('url_id')
             ->get();
 
         $sum = $pageViews->sum('total');

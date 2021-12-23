@@ -68,6 +68,7 @@
                             <div class="col-lg-6">
                                 <div class="form-floating mb-3">
                                     <select class="form-select @error('role_id') is-invalid @enderror" id="role_id" name="role_id">
+                                        <option value="">@lang('Dawnstar::general.select')</option>
                                         @foreach($roles as $role)
                                             <option value="{{ $role->id }}" {{ old('role_id', $admin->role_id) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
                                         @endforeach

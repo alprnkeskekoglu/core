@@ -5,7 +5,7 @@
     <div class="leftbar-user">
     </div>
     <ul class="side-nav">
-        <a href="#" class="side-nav-link">
+        <a href="{{ route('dawnstar.dashboard.index') }}" class="side-nav-link">
             <i class="uil-home-alt"></i>
             <span>Dashboard</span>
         </a>
@@ -38,6 +38,7 @@
             @endif
         @endforeach
 
+        @if($structures->isNotEmpty())
         <li class="side-nav-title side-nav-item"></li>
 
         <li class="side-nav-item">
@@ -56,7 +57,7 @@
                 </ul>
             </div>
         </li>
-
+        @endif
     </ul>
     <div class="clearfix"></div>
 </div>

@@ -24,7 +24,7 @@ class Container extends BaseModel
         return $this->hasMany(ContainerTranslation::class);
     }
 
-    public function customPages(string $key)
+    public function customPages(string $key = null)
     {
         $pages = $this->belongsToMany(Page::class, 'container_pages');
 
