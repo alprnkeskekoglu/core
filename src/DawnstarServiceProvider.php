@@ -40,6 +40,7 @@ class   DawnstarServiceProvider extends ServiceProvider
 
         $this->loadMigrationsFrom(__DIR__ . '/Database/migrations');
         $this->loadViewsFrom(__DIR__ . '/Resources/views/panel', 'Dawnstar');
+        $this->loadViewsFrom(__DIR__ . '/Resources/views/web', 'DawnstarWeb');
         $this->loadTranslationsFrom(__DIR__ . '/Resources/lang', 'Dawnstar');
 
         $this->publishes([__DIR__ . '/Assets' => public_path('vendor/dawnstar/assets')], 'dawnstar-assets');

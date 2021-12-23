@@ -44,6 +44,11 @@ function searchUrl()
     return "javascript:void(0);";
 }
 
+function form(string $key)
+{
+    return (new \Dawnstar\Foundation\Form($key))->init();
+}
+
 function menu(string $key)
 {
     $dawnstar = dawnstar();
@@ -76,8 +81,6 @@ function canUser(string $key, bool $hasWebsite = true)
 
 function custom(string $key, string $value = null, int $languageId = null)
 {
-    return $key;
-
     $languageId = $languageId ?: 164;
 
     $customTranslations = \Illuminate\Support\Facades\Cache::rememberForever('customTranslations_' . $languageId, function () use ($languageId) {

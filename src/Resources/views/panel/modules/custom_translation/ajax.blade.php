@@ -6,7 +6,7 @@
                     <a class="custom-accordion-title collapsed d-block py-1" data-bs-toggle="collapse" href="#collapse{{ $key }}" aria-expanded="false" aria-controls="collapse{{ $key }}">
                         <div class="text-center">
                             <span class="start-0 position-absolute">{{ $key }}</span>
-                            <span class="fw-normal">{{ $customTranslation['default_value'] ?? '' }}</span>
+                            <span class="fw-normal">{{ $customTranslation['default_value'] ?? "-" }}</span>
                         </div>
                     </a>
 

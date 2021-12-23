@@ -16,6 +16,12 @@ class FormMessageController extends BaseController
         return view('Dawnstar::modules.form_message.index', compact('form', 'messages'));
     }
 
+    public function store(string $key)
+    {
+        $form = new \Dawnstar\Foundation\Form($key);
+        return $form->store();
+    }
+
     public function show(Form $form, FormMessage $message)
     {
         canUser("form.index", false);

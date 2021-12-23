@@ -25,9 +25,6 @@ class Menu
         $this->key = $key;
     }
 
-    /**
-     * @return array
-     */
     public function init(): array
     {
         $menu = $this->getMenu();
