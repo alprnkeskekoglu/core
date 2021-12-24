@@ -23,8 +23,6 @@ class LoginController extends Controller
 
             $request->session()->regenerate();
 
-            $this->setSession();
-
             return redirect()->intended('admin/dashboard');
         }
 
@@ -57,25 +55,5 @@ class LoginController extends Controller
             'password' => $request->get('password'),
             'status' => 1
         ];
-    }
-
-    private function setSession()
-    {
-        $admin = auth('admin')->user();
-
-        $website = Website::where('status', 1)->where('default', 1)->first();
-        if($website) {
-            $languages = $website->languages;
-            $language = $website->languages()->wherePivot('default', 1)->first();
-        }
-
-        session([
-            'dawnstar' => [
-                'admin' => $admin,
-                'website' => $website,
-                'languages' => $languages ?? [],
-                'language' => $language ?? null,
-            ]
-        ]);
     }
 }

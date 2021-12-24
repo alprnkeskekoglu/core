@@ -2,7 +2,7 @@
 
 return [
     'order_save' => 'Sıralamayı Güncelle',
-    
+
     'title' => [
         'index' => 'Menü Öğeleri',
         'edit' => 'Menü Öğesi Düzenle'
@@ -25,7 +25,7 @@ return [
     ],
 
     'targets' => [
-        'self' => 'Aynı Pencere',
+        'self' => 'Aynı Sekme',
         'blank' => 'Yeni Sekme'
     ],
 

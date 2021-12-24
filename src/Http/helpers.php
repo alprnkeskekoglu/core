@@ -61,12 +61,32 @@ function menu(string $key)
     });
 }
 
+function setSession()
+{
+    $admin = auth('admin')->user();
+
+    $website = \Dawnstar\Models\Website::where('status', 1)->where('default', 1)->first();
+    if ($website) {
+        $languages = $website->languages;
+        $language = $website->languages()->wherePivot('default', 1)->first();
+    }
+
+    session([
+        'dawnstar' => [
+            'admin' => $admin,
+            'website' => $website,
+            'languages' => $languages ?? [],
+            'language' => $language ?? null,
+        ]
+    ]);
+}
+
 function canUser(string $key, bool $hasWebsite = true)
 {
     $user = auth('admin')->user();
     $role = $user->roles->first();
 
-    if($role->name == 'Super Admin') {
+    if ($role->name == 'Super Admin') {
         return true;
     }
 

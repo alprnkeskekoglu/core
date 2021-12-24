@@ -15,22 +15,8 @@ class Authenticate extends Middleware
 
         config(['auth.defaults.guard' => 'admin']);
 
-        if(is_null(session('dawmstar'))) {
-            $admin = auth('admin')->user();
-            $website = Website::where('status', 1)->where('default', 1)->first();
-            if($website) {
-                $languages = $website->languages;
-                $language = $website->languages()->wherePivot('default', 1)->first();
-            }
-
-            session([
-                'dawnstar' => [
-                    'admin' => $admin,
-                    'website' => $website,
-                    'languages' => $languages ?? [],
-                    'language' => $language ?? null,
-                ]
-            ]);
+        if(is_null(session('dawnstar'))) {
+            setSession();
         }
 
         app()->setLocale(session('dawnstar.language.code', 'tr'));

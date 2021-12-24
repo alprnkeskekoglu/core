@@ -25,6 +25,6 @@ return [
         'store' => 'Panel Yöneticisi başarıyla oluşturuldu!',
         'update' => 'Panel Yöneticisi başarıyla güncellendi!',
         'destroy' => 'Panel Yöneticisi başarıyla silindi!',
-        'profile_update' => 'Profil başarıyla silindi!',
+        'profile_update' => 'Profil başarıyla güncellendi!',
     ],
 ];
