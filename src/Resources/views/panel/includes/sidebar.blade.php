@@ -1,5 +1,5 @@
 @php
-    $structures = \Dawnstar\Models\Structure::all();
+    $structures = \Dawnstar\Core\Models\Structure::all();
 @endphp
 <div class="leftside-menu leftside-menu-detached">
     <div class="leftbar-user">

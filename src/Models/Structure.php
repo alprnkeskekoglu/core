@@ -2,7 +2,7 @@
 
 namespace Dawnstar\Core\Models;
 
-use Dawnstar\Core\ModuleBuilder\Models\ModuleBuilder;
+use Dawnstar\ModuleBuilder\Models\ModuleBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

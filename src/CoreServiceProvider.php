@@ -2,27 +2,27 @@
 
 namespace Dawnstar\Core;
 
-use Core\Console\Commands\CreateSearchView;
-use Core\Console\Commands\Install;
-use Core\Console\Commands\Update;
-use Core\Foundation\Dawnstar;
-use Core\Http\Middleware\Authenticate;
-use Core\Http\Middleware\DefaultWebsite;
-use Core\Http\Middleware\Maintenance;
-use Core\Http\Middleware\RedirectIfAuthenticated;
-use Core\Models\CategoryTranslation;
-use Core\Models\ContainerTranslation;
-use Core\Models\Page;
-use Core\Models\PageTranslation;
-use Core\Observers\CategoryTranslationObserver;
-use Core\Observers\ContainerTranslationObserver;
-use Core\Observers\PageObserver;
-use Core\Observers\PageTranslationObserver;
+use Dawnstar\Core\Console\Commands\CreateSearchView;
+use Dawnstar\Core\Console\Commands\Install;
+use Dawnstar\Core\Console\Commands\Update;
+use Dawnstar\Core\Foundation\Dawnstar;
+use Dawnstar\Core\Http\Middleware\Authenticate;
+use Dawnstar\Core\Http\Middleware\DefaultWebsite;
+use Dawnstar\Core\Http\Middleware\Maintenance;
+use Dawnstar\Core\Http\Middleware\RedirectIfAuthenticated;
+use Dawnstar\Core\Models\CategoryTranslation;
+use Dawnstar\Core\Models\ContainerTranslation;
+use Dawnstar\Core\Models\Page;
+use Dawnstar\Core\Models\PageTranslation;
+use Dawnstar\Core\Observers\CategoryTranslationObserver;
+use Dawnstar\Core\Observers\ContainerTranslationObserver;
+use Dawnstar\Core\Observers\PageObserver;
+use Dawnstar\Core\Observers\PageTranslationObserver;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
-use Core\Providers\ConfigServiceProvider;
-use Core\Providers\RouteServiceProvider;
+use Dawnstar\Core\Providers\ConfigServiceProvider;
+use Dawnstar\Core\Providers\RouteServiceProvider;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -31,20 +31,20 @@ class CoreServiceProvider extends ServiceProvider
         $this->app->register(ConfigServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
 
-        $this->app->singleton(Core::class, Core::class);
-        $this->app->bind("Dawnstar", Core::class);
+        $this->app->singleton(Dawnstar::class, Dawnstar::class);
+        $this->app->bind("Dawnstar", Dawnstar::class);
     }
 
     public function boot()
     {
-        include_once base_path('vendor/dawnstar/dawnstar/src/Http/helpers.php');
+        include_once base_path('vendor/dawnstar/core/src/Http/helpers.php');
 
         $this->loadMigrationsFrom(__DIR__ . '/Database/migrations');
         $this->loadViewsFrom(__DIR__ . '/Resources/views/panel', 'Core');
         $this->loadViewsFrom(__DIR__ . '/Resources/views/web', 'CoreWeb');
         $this->loadTranslationsFrom(__DIR__ . '/Resources/lang', 'Core');
 
-        $this->publishes([__DIR__ . '/Assets' => public_path('vendor/dawnstar/core/assets')], 'dawnstar-core-assets');
+        $this->publishes([__DIR__ . '/Assets' => public_path('vendor/dawnstar/core')], 'dawnstar-core-assets');
 
 
         if ($this->app->runningInConsole()) {

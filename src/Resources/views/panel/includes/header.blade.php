@@ -1,5 +1,5 @@
 @php
-    $forms = \Dawnstar\Models\Form::withCount('unreadMessages')->having('unread_messages_count', '>', 0)->active()->get();
+    $forms = \Dawnstar\Core\Models\Form::withCount('unreadMessages')->having('unread_messages_count', '>', 0)->active()->get();
 @endphp
 
 <div class="navbar-custom topnav-navbar topnav-navbar-dark">

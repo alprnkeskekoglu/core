@@ -54,12 +54,12 @@
 @endsection
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('vendor/dawnstar/assets/plugins/nestable/nestable.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('vendor/dawnstar/core/plugins/nestable/nestable.min.css') }}"/>
 @endpush
 @push('scripts')
-    <script src="{{ asset('vendor/dawnstar/assets/js/language-button.js') }}"></script>
-    <script src="{{ asset('vendor/dawnstar/assets/js/slugify.js') }}"></script>
-    <script src="{{ asset('vendor/dawnstar/assets/plugins/nestable/nestable.min.js') }}"></script>
+    <script src="{{ asset('vendor/dawnstar/core/js/language-button.js') }}"></script>
+    <script src="{{ asset('vendor/dawnstar/core/js/slugify.js') }}"></script>
+    <script src="{{ asset('vendor/dawnstar/core/plugins/nestable/nestable.min.js') }}"></script>
     <script>
         $(document).ready(function () {
             $('#menuList').nestable({

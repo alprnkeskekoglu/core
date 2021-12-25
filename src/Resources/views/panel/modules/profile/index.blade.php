@@ -66,7 +66,7 @@
     </div>
 @endsection
 @push('scripts')
-    <script src="{{ asset('vendor/media-manager/assets/js/media-manager.js') }}"></script>
+    <script src="{{ asset('vendor/dawnstar/media-manager/js/media-manager.js') }}"></script>
     <script>
         @if($errors->any())
         showMessage('error', 'Oops...', '')

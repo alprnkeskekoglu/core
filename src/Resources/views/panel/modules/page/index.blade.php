@@ -12,6 +12,11 @@
                             @lang('Core::general.list_page')
                         </a>
                         @endif
+                        @if($structure->has_category == 1)
+                        <a href="{{ route('dawnstar.structures.categories.index', [$structure]) }}" class="btn btn-secondary">
+                            @lang('Core::general.category')
+                        </a>
+                        @endif
                         @include('Core::includes.buttons.add_new', ['route' => route('dawnstar.structures.pages.create', $structure)])
                     </div>
                 </div>
@@ -32,15 +37,15 @@
 @endsection
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('vendor/dawnstar/assets/plugins/datatable/css/dataTables.bootstrap5.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/dawnstar/assets/plugins/datatable/css/responsive.bootstrap5.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/dawnstar/core/plugins/datatable/css/dataTables.bootstrap5.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/dawnstar/core/plugins/datatable/css/responsive.bootstrap5.css') }}">
 @endpush
 
 @push('scripts')
-    <script src="{{ asset('vendor/dawnstar/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('vendor/dawnstar/assets/plugins/datatable/js/dataTables.bootstrap5.js') }}"></script>
-    <script src="{{ asset('vendor/dawnstar/assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('vendor/dawnstar/assets/plugins/datatable/js/responsive.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('vendor/dawnstar/core/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('vendor/dawnstar/core/plugins/datatable/js/dataTables.bootstrap5.js') }}"></script>
+    <script src="{{ asset('vendor/dawnstar/core/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('vendor/dawnstar/core/plugins/datatable/js/responsive.bootstrap5.min.js') }}"></script>
 
     <script>
         $('#pageTable').DataTable({

@@ -6,7 +6,7 @@ use Dawnstar\Core\Models\Category;
 use Dawnstar\Core\Models\Structure;
 use Dawnstar\Core\Repositories\CategoryRepository;
 use Dawnstar\Core\Repositories\CategoryTranslationRepository;
-use Dawnstar\Core\ModuleBuilder\Services\ModuleBuilderService;
+use Dawnstar\ModuleBuilder\Services\ModuleBuilderService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 

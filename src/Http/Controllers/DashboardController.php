@@ -3,10 +3,10 @@
 namespace Dawnstar\Core\Http\Controllers;
 
 use Carbon\Carbon;
-use Dawnstar\Core\Tracker\Models\TrackerBrowser;
-use Dawnstar\Core\Tracker\Models\TrackerDevice;
-use Dawnstar\Core\Tracker\Models\TrackerOperatingSystem;
-use Dawnstar\Core\Tracker\Models\TrackerVisit;
+use Dawnstar\Tracker\Models\TrackerBrowser;
+use Dawnstar\Tracker\Models\TrackerDevice;
+use Dawnstar\Tracker\Models\TrackerOperatingSystem;
+use Dawnstar\Tracker\Models\TrackerVisit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;

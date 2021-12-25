@@ -3,8 +3,8 @@
 namespace Dawnstar\Core\Http\Controllers;
 
 use Dawnstar\Core\Http\Requests\AdminRequest;
-use Dawnstar\Core\MediaManager\Foundation\MediaUpload;
-use Dawnstar\Core\MediaManager\Models\ModelMedia;
+use Dawnstar\MediaManager\Foundation\MediaUpload;
+use Dawnstar\MediaManager\Models\ModelMedia;
 use Dawnstar\Core\Models\Admin;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;

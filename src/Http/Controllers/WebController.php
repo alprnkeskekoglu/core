@@ -10,7 +10,7 @@ use Dawnstar\Core\Models\PageTranslation;
 use Dawnstar\Core\Models\Structure;
 use Dawnstar\Core\Models\Url;
 use Dawnstar\Core\Models\Website;
-use Dawnstar\Core\Tracker\Foundation\Tracker;
+use Dawnstar\Tracker\Foundation\Tracker;
 use Illuminate\Support\Facades\Hash;
 
 class WebController extends BaseController

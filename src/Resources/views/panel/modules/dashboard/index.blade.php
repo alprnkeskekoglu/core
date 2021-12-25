@@ -71,7 +71,7 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('vendor/dawnstar/assets/js/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('vendor/dawnstar/core/js/apexcharts.min.js') }}"></script>
     <script>
 
         var types = [

@@ -29,13 +29,13 @@ function statusText(int $status): string
 
 function adminAction($model, string $type)
 {
-    $adminActionService = new \Dawnstar\Services\AdminActionService($model);
+    $adminActionService = new \Dawnstar\Core\Services\AdminActionService($model);
     $adminActionService->create($type);
 }
 
 function searchUrl()
 {
-    $structure = \Dawnstar\Models\Structure::where('key', 'search')
+    $structure = \Dawnstar\Core\Models\Structure::where('key', 'search')
         ->first();
 
     if ($structure && $structure->container->detail) {
@@ -65,7 +65,7 @@ function setSession()
 {
     $admin = auth('admin')->user();
 
-    $website = \Dawnstar\Models\Website::where('status', 1)->where('default', 1)->first();
+    $website = \Dawnstar\Core\Models\Website::where('status', 1)->where('default', 1)->first();
     if ($website) {
         $languages = $website->languages;
         $language = $website->languages()->wherePivot('default', 1)->first();
@@ -104,14 +104,14 @@ function custom(string $key, string $value = null, int $languageId = null)
     $languageId = $languageId ?: 164;
 
     $customTranslations = \Illuminate\Support\Facades\Cache::rememberForever('customTranslations_' . $languageId, function () use ($languageId) {
-        return \Dawnstar\Models\CustomTranslation::where('language_id', $languageId)->pluck('value', 'key')->toArray();
+        return \Dawnstar\Core\Models\CustomTranslation::where('language_id', $languageId)->pluck('value', 'key')->toArray();
     });
 
     if (array_key_exists($key, $customTranslations)) {
         return $customTranslations[$key];
     }
 
-    $customTranslation = \Dawnstar\Models\CustomTranslation::updateOrCreate(
+    $customTranslation = \Dawnstar\Core\Models\CustomTranslation::updateOrCreate(
         [
             'language_id' => $languageId,
             'key' => $key
@@ -125,7 +125,7 @@ function custom(string $key, string $value = null, int $languageId = null)
     $languages = [84]; // TODO
 
     foreach ($languages as $language) {
-        \Dawnstar\Models\CustomTranslation::firstOrCreate(
+        \Dawnstar\Core\Models\CustomTranslation::firstOrCreate(
             [
                 'language_id' => $languageId,
                 'key' => $key

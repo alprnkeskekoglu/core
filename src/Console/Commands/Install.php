@@ -26,6 +26,12 @@ class Install extends Command
             return;
         }
 
+        $this->vendorPublish();
+        $this->removeUserMigration();
+        $this->cleanWebRoute();
+        $this->createDirectories();
+        $this->createSymbolicLink();
+
         Artisan::call('migrate', ['--force' => true]);
         $this->info(Artisan::output());
 
@@ -33,11 +39,6 @@ class Install extends Command
         $seeder->call([LanguageSeeder::class]);
         $this->info("Database seed completed!" . PHP_EOL);
 
-        $this->vendorPublish();
-        $this->removeUserMigration();
-        $this->cleanWebRoute();
-        $this->createDirectories();
-        $this->createSymbolicLink();
         $this->createSuperAdmin();
 
         @unlink(resource_path('views/welcome.blade.php'));
@@ -52,12 +53,11 @@ class Install extends Command
 
     private function vendorPublish()
     {
-        File::deleteDirectory(public_path('vendor/dawnstar'));
-        File::deleteDirectory(public_path('vendor/media-manager'));
-        File::deleteDirectory(public_path('vendor/module-builder'));
+        File::deleteDirectory(public_path('vendor'));
+
         $this->info(public_path('vendor') . " Deleted !!" . PHP_EOL);
         $this->info('**It may take longer to publish, wait a few seconds.' . PHP_EOL);
-        Artisan::call('vendor:publish', ['--tag' => ['dawnstar-assets', 'media-manager-assets', 'module-builder-assets']]);
+        Artisan::call('vendor:publish', ['--all' => true]);
         $this->info(Artisan::output());
     }
 
@@ -86,7 +86,7 @@ class Install extends Command
         if (!is_dir(resource_path('views/layouts'))) {
             File::makeDirectory(resource_path('views/layouts'), 0777, true, true);
 
-            $appLayout = base_path('vendor/dawnstar/module-builder/src/Resources/stubs/app.stub');
+            $appLayout = file_get_contents(base_path('vendor/dawnstar/module-builder/src/Resources/stubs/app.stub'));
             file_put_contents(resource_path('views/layouts/app.blade.php'), $appLayout);
         }
         if (!is_dir(resource_path('views/includes'))) {

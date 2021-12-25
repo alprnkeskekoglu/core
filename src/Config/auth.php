@@ -12,7 +12,7 @@ return [
     'providers' => [
         'admins' => [
             'driver' => 'eloquent',
-            'model' => Dawnstar\Models\Admin::class,
+            'model' => Dawnstar\Core\Models\Admin::class,
         ],
     ],
 

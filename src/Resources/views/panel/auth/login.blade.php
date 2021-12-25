@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dawnstar | Login</title>
 
-    <link rel="shortcut icon" href="{{ asset('vendor/dawnstar/assets/images/favicon.ico') }}">
-    <link href="{{ asset('vendor/dawnstar/assets/css/icons.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('vendor/dawnstar/assets/css/app-modern.min.css') }}" rel="stylesheet" id="light-style"/>
+    <link rel="shortcut icon" href="{{ asset('vendor/dawnstar/core/images/favicon.ico') }}">
+    <link href="{{ asset('vendor/dawnstar/core/css/icons.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('vendor/dawnstar/core/css/app-modern.min.css') }}" rel="stylesheet" id="light-style"/>
 </head>
 
 <body class="authentication-bg pb-0">
@@ -76,7 +76,7 @@
         </div>
     </div>
 </div>
-<script src="{{ asset('vendor/dawnstar/assets/js/vendor.min.js') }}"></script>
-<script src="{{ asset('vendor/dawnstar/assets/js/app.min.js') }}"></script>
+<script src="{{ asset('vendor/dawnstar/core/js/vendor.min.js') }}"></script>
+<script src="{{ asset('vendor/dawnstar/core/js/app.min.js') }}"></script>
 </body>
 </html>
