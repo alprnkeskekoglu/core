@@ -1,7 +1,7 @@
-@extends('Dawnstar::layouts.app')
+@extends('Core::layouts.app')
 
 @section('content')
-    @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::category.title.index')])
+    @include('Core::includes.page_header',['headerTitle' => __('Core::category.title.index')])
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -11,10 +11,10 @@
                         <div class="col-lg-7">
                             <button type="button" class="btn btn-dark mb-2" id="orderSaveBtn">
                                 <i class="mdi mdi-order-numeric-ascending"></i>
-                                @lang('Dawnstar::category.order_save')
+                                @lang('Core::category.order_save')
                             </button>
                             <div class="dd" id="categoryList">
-                                @include('Dawnstar::modules.category.items')
+                                @include('Core::modules.category.items')
                             </div>
                         </div>
 
@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="card-footer text-end">
-                    <button type="submit" class="btn btn-primary" form="categoryStore">@lang('Dawnstar::general.save')</button>
+                    <button type="submit" class="btn btn-primary" form="categoryStore">@lang('Core::general.save')</button>
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
                     '_token': '{{ csrf_token() }}'
                 },
                 success: function (response) {
-                    showMessage('success', '', '@lang('Dawnstar::category.success.order')')
+                    showMessage('success', '', '@lang('Core::category.success.order')')
                 },
                 error: function (response) {
                     showMessage('error', 'Oops...', '')

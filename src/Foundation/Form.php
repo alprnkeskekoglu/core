@@ -1,10 +1,10 @@
 <?php
 
-namespace Dawnstar\Foundation;
+namespace Dawnstar\Core\Foundation;
 
-use Dawnstar\Mail\FormSender;
-use Dawnstar\Models\Form as Model;
-use Dawnstar\Models\FormMessage;
+use Dawnstar\Core\Mail\FormSender;
+use Dawnstar\Core\Models\Form as Model;
+use Dawnstar\Core\Models\FormMessage;
 use Illuminate\Support\Facades\Mail;
 
 class Form

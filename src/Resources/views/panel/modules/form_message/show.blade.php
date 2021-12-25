@@ -6,7 +6,7 @@
     <table class="table table-borderless mb-0">
         <tbody>
         <tr>
-            <td class="fw-bolder w-25">@lang('Dawnstar::form_message.labels.sended_time')</td>
+            <td class="fw-bolder w-25">@lang('Core::form_message.labels.sended_time')</td>
             <td>{{ \Carbon\Carbon::parse($message->created_at)->formatLocalized('%A %d %B %Y') . ', ' . \Carbon\Carbon::parse($message->created_at)->format('H:i:s') }}</td>
         </tr>
         <tr>
@@ -15,7 +15,7 @@
         </tr>
         @if($message->email)
         <tr>
-            <td class="fw-bolder w-25">@lang('Dawnstar::form_message.labels.email')</td>
+            <td class="fw-bolder w-25">@lang('Core::form_message.labels.email')</td>
             <td>{{ $message->email }}</td>
         </tr>
         @endif

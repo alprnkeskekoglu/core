@@ -1,12 +1,12 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
 use Carbon\Carbon;
-use Dawnstar\Tracker\Models\TrackerBrowser;
-use Dawnstar\Tracker\Models\TrackerDevice;
-use Dawnstar\Tracker\Models\TrackerOperatingSystem;
-use Dawnstar\Tracker\Models\TrackerVisit;
+use Dawnstar\Core\Tracker\Models\TrackerBrowser;
+use Dawnstar\Core\Tracker\Models\TrackerDevice;
+use Dawnstar\Core\Tracker\Models\TrackerOperatingSystem;
+use Dawnstar\Core\Tracker\Models\TrackerVisit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -24,7 +24,7 @@ class DashboardController extends BaseController
 
     public function index()
     {
-        return view('Dawnstar::modules.dashboard.index');
+        return view('Core::modules.dashboard.index');
     }
 
     public function getReport()
@@ -42,7 +42,7 @@ class DashboardController extends BaseController
             ->where('created_at', '<=', now())->where('created_at', '>=', now()->subMinutes(1))
             ->get()->count();
 
-        return view('Dawnstar::modules.dashboard.partials.online', compact('activeUsers'));
+        return view('Core::modules.dashboard.partials.online', compact('activeUsers'));
     }
 
     private function userCount()
@@ -52,7 +52,7 @@ class DashboardController extends BaseController
             ->where('created_at', '<=', $this->endDate)
             ->get()->count();
 
-        return view('Dawnstar::modules.dashboard.partials.user_count', compact('userCount'));
+        return view('Core::modules.dashboard.partials.user_count', compact('userCount'));
     }
 
     private function viewsPerMinute()
@@ -73,7 +73,7 @@ class DashboardController extends BaseController
 
         $viewsPerMinute = $count ? number_format($total/$count, 2) : 0;
 
-        return view('Dawnstar::modules.dashboard.partials.views_per_minute', compact('viewsPerMinute'));
+        return view('Core::modules.dashboard.partials.views_per_minute', compact('viewsPerMinute'));
     }
 
     private function sessions()
@@ -91,7 +91,7 @@ class DashboardController extends BaseController
             $sessions[$date] = isset($visitors[$date]) ? $visitors[$date]->count() : 0;
         }
 
-         return view('Dawnstar::modules.dashboard.partials.sessions', compact('sessions'));
+         return view('Core::modules.dashboard.partials.sessions', compact('sessions'));
     }
 
     private function devices()
@@ -108,7 +108,7 @@ class DashboardController extends BaseController
         }
         $devices = $return;
 
-        return view('Dawnstar::modules.dashboard.partials.devices', compact('devices'));
+        return view('Core::modules.dashboard.partials.devices', compact('devices'));
     }
 
     private function operatingSystems()
@@ -125,7 +125,7 @@ class DashboardController extends BaseController
         }
         $operatingSystems = $return;
 
-        return view('Dawnstar::modules.dashboard.partials.operating_systems', compact('operatingSystems'));
+        return view('Core::modules.dashboard.partials.operating_systems', compact('operatingSystems'));
     }
 
     private function browsers()
@@ -143,7 +143,7 @@ class DashboardController extends BaseController
         }
         $browsers = $return;
 
-        return view('Dawnstar::modules.dashboard.partials.browsers', compact('browsers'));
+        return view('Core::modules.dashboard.partials.browsers', compact('browsers'));
     }
 
     private function pageViews()
@@ -170,7 +170,7 @@ class DashboardController extends BaseController
 
         $pageViews = $return;
 
-        return view('Dawnstar::modules.dashboard.partials.page_views', compact('pageViews'));
+        return view('Core::modules.dashboard.partials.page_views', compact('pageViews'));
     }
 
     private function weeklyViews()
@@ -188,7 +188,7 @@ class DashboardController extends BaseController
             $weeklyViews[$view->hour][$view->week] = number_format($view->total * 100 / $sum, 2) . '%';
         }
 
-        return view('Dawnstar::modules.dashboard.partials.weekly_views', compact('weeklyViews'));
+        return view('Core::modules.dashboard.partials.weekly_views', compact('weeklyViews'));
     }
 
     private function referers()
@@ -216,6 +216,6 @@ class DashboardController extends BaseController
             ];
         }
 
-        return view('Dawnstar::modules.dashboard.partials.referers', compact('referers'));
+        return view('Core::modules.dashboard.partials.referers', compact('referers'));
     }
 }

@@ -1,5 +1,5 @@
 <div class="card-body">
-    <h4 class="header-title">@lang('Dawnstar::dashboard.weekly_views')</h4>
+    <h4 class="header-title">@lang('Core::dashboard.weekly_views')</h4>
     <div id="views" class="apex-charts"></div>
 </div>
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Dawnstar\Http\Requests;
+namespace Dawnstar\Core\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -31,6 +31,6 @@ class AdminRequest extends FormRequest
 
     public function attributes()
     {
-        return __('Dawnstar::admin.labels');
+        return __('Core::admin.labels');
     }
 }

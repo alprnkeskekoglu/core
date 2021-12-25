@@ -1,30 +1,30 @@
 <?php
 
-use Dawnstar\Http\Controllers\LoginController;
+use Dawnstar\Core\Http\Controllers\LoginController;
 
-use Dawnstar\Http\Controllers\DashboardController;
+use Dawnstar\Core\Http\Controllers\DashboardController;
 
-use Dawnstar\Http\Controllers\WebsiteController;
-use Dawnstar\Http\Controllers\StructureController;
-use Dawnstar\Http\Controllers\ContainerController;
-use Dawnstar\Http\Controllers\PageController;
-use Dawnstar\Http\Controllers\CategoryController;
+use Dawnstar\Core\Http\Controllers\WebsiteController;
+use Dawnstar\Core\Http\Controllers\StructureController;
+use Dawnstar\Core\Http\Controllers\ContainerController;
+use Dawnstar\Core\Http\Controllers\PageController;
+use Dawnstar\Core\Http\Controllers\CategoryController;
 
-use Dawnstar\Http\Controllers\AdminController;
-use Dawnstar\Http\Controllers\RoleController;
-use Dawnstar\Http\Controllers\AdminActionController;
-use Dawnstar\Http\Controllers\ProfileController;
+use Dawnstar\Core\Http\Controllers\AdminController;
+use Dawnstar\Core\Http\Controllers\RoleController;
+use Dawnstar\Core\Http\Controllers\AdminActionController;
+use Dawnstar\Core\Http\Controllers\ProfileController;
 
-use Dawnstar\Http\Controllers\MenuController;
-use Dawnstar\Http\Controllers\MenuItemController;
+use Dawnstar\Core\Http\Controllers\MenuController;
+use Dawnstar\Core\Http\Controllers\MenuItemController;
 
-use Dawnstar\Http\Controllers\FormController;
-use Dawnstar\Http\Controllers\FormMessageController;
+use Dawnstar\Core\Http\Controllers\FormController;
+use Dawnstar\Core\Http\Controllers\FormMessageController;
 
-use Dawnstar\Http\Controllers\CustomTranslationController;
+use Dawnstar\Core\Http\Controllers\CustomTranslationController;
 
-use Dawnstar\Http\Controllers\UrlController;
-use Dawnstar\Http\Controllers\PanelController;
+use Dawnstar\Core\Http\Controllers\UrlController;
+use Dawnstar\Core\Http\Controllers\PanelController;
 
 Route::middleware(['dawnstar_guest'])->group(function () {
     Route::get('login', [LoginController::class, 'showLoginForm'])->name('login.index');

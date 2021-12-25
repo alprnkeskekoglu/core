@@ -1,9 +1,9 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
-use Dawnstar\Http\Requests\MenuRequest;
-use Dawnstar\Models\Menu;
+use Dawnstar\Core\Http\Requests\MenuRequest;
+use Dawnstar\Core\Models\Menu;
 
 class MenuController extends BaseController
 {
@@ -13,14 +13,14 @@ class MenuController extends BaseController
 
         $menus = Menu::where('website_id', session('dawnstar.website.id'))->get();
 
-        return view('Dawnstar::modules.menu.index', compact('menus'));
+        return view('Core::modules.menu.index', compact('menus'));
     }
 
     public function create()
     {
         canUser("menu.create");
 
-        return view('Dawnstar::modules.menu.create');
+        return view('Core::modules.menu.create');
     }
 
     public function store(MenuRequest $request)
@@ -33,14 +33,14 @@ class MenuController extends BaseController
 
         $menu = Menu::create($data);
 
-        return redirect()->route('dawnstar.menus.index')->with(['success' => __('Dawnstar::menu.success.store')]);
+        return redirect()->route('dawnstar.menus.index')->with(['success' => __('Core::menu.success.store')]);
     }
 
     public function edit(Menu $menu)
     {
         canUser("menu.edit");
 
-        return view('Dawnstar::modules.menu.edit', compact('menu'));
+        return view('Core::modules.menu.edit', compact('menu'));
     }
 
     public function update(Menu $menu, MenuRequest $request)
@@ -51,7 +51,7 @@ class MenuController extends BaseController
 
         $menu->update($data);
 
-        return redirect()->route('dawnstar.menus.index')->with(['success' => __('Dawnstar::menu.success.update')]);
+        return redirect()->route('dawnstar.menus.index')->with(['success' => __('Core::menu.success.update')]);
     }
 
     public function destroy(Menu $menu)
@@ -60,6 +60,6 @@ class MenuController extends BaseController
 
         $menu->delete();
 
-        return redirect()->route('dawnstar.menus.index')->with(['success' => __('Dawnstar::menu.success.destroy')]);
+        return redirect()->route('dawnstar.menus.index')->with(['success' => __('Core::menu.success.destroy')]);
     }
 }

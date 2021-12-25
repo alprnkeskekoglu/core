@@ -1,16 +1,16 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
-use Dawnstar\Models\CategoryTranslation;
-use Dawnstar\Models\Container;
-use Dawnstar\Models\ContainerTranslation;
-use Dawnstar\Models\Language;
-use Dawnstar\Models\PageTranslation;
-use Dawnstar\Models\Structure;
-use Dawnstar\Models\Url;
-use Dawnstar\Models\Website;
-use Dawnstar\Tracker\Foundation\Tracker;
+use Dawnstar\Core\Models\CategoryTranslation;
+use Dawnstar\Core\Models\Container;
+use Dawnstar\Core\Models\ContainerTranslation;
+use Dawnstar\Core\Models\Language;
+use Dawnstar\Core\Models\PageTranslation;
+use Dawnstar\Core\Models\Structure;
+use Dawnstar\Core\Models\Url;
+use Dawnstar\Core\Models\Website;
+use Dawnstar\Core\Tracker\Foundation\Tracker;
 use Illuminate\Support\Facades\Hash;
 
 class WebController extends BaseController

@@ -1,14 +1,14 @@
-@extends('Dawnstar::layouts.app')
+@extends('Core::layouts.app')
 
 @section('content')
-    @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::structure.title.create')])
+    @include('Core::includes.page_header',['headerTitle' => __('Core::structure.title.create')])
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <a href="{{ route('dawnstar.structures.index') }}" class="btn btn-secondary">
                         <i class="mdi mdi-arrow-left"></i>
-                        @lang('Dawnstar::general.back')
+                        @lang('Core::general.back')
                     </a>
                 </div>
                 <div class="card-body">
@@ -16,19 +16,19 @@
                         @csrf
                         <div class="row">
                             <div class="col-lg-12">
-                                <label class="form-label">@lang('Dawnstar::structure.labels.status')</label>
+                                <label class="form-label">@lang('Core::structure.labels.status')</label>
                                 <div class="mb-3">
                                     <div class="form-check form-check-inline form-radio-success">
                                         <input type="radio" id="status_1" name="status" class="form-check-input @error('status') is-invalid @enderror" value="1" {{ old('status') == 1 ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="status_1">@lang('Dawnstar::general.status_options.1')</label>
+                                        <label class="form-check-label" for="status_1">@lang('Core::general.status_options.1')</label>
                                     </div>
                                     <div class="form-check form-check-inline form-radio-secondary">
                                         <input type="radio" id="status_2" name="status" class="form-check-input @error('status') is-invalid @enderror" value="2" {{ old('status', 2) == 2 ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="status_2">@lang('Dawnstar::general.status_options.2')</label>
+                                        <label class="form-check-label" for="status_2">@lang('Core::general.status_options.2')</label>
                                     </div>
                                     <div class="form-check form-check-inline form-radio-danger">
                                         <input type="radio" id="status_0" name="status" class="form-check-input @error('status') is-invalid @enderror" value="0" {{ old('status', 2) == 0 ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="status_0">@lang('Dawnstar::general.status_options.0')</label>
+                                        <label class="form-check-label" for="status_0">@lang('Core::general.status_options.0')</label>
                                     </div>
                                     @error('status')
                                     <div class="invalid-feedback d-block">
@@ -40,25 +40,25 @@
                             <div class="col-lg-6">
                                 <div class="form-floating mb-3">
                                     <select class="form-select @error('type') is-invalid @enderror" id="type" name="type">
-                                        <option value="">@lang('Dawnstar::general.select')</option>
+                                        <option value="">@lang('Core::general.select')</option>
                                         @if(!$hasHomepage)
                                         <option value="homepage" {{ old('type') == 'homepage' ? 'selected' : '' }}>
-                                            @lang('Dawnstar::structure.types.homepage')
+                                            @lang('Core::structure.types.homepage')
                                         </option>
                                         @endif
                                         @if(!$hasSearch)
                                         <option value="search" {{ old('type') == 'search' ? 'selected' : '' }}>
-                                            @lang('Dawnstar::structure.types.search')
+                                            @lang('Core::structure.types.search')
                                         </option>
                                         @endif
                                         <option value="dynamic" {{ old('type') == 'dynamic' ? 'selected' : '' }}>
-                                            @lang('Dawnstar::structure.types.dynamic')
+                                            @lang('Core::structure.types.dynamic')
                                         </option>
                                         <option value="static" {{ old('type') == 'static' ? 'selected' : '' }}>
-                                            @lang('Dawnstar::structure.types.static')
+                                            @lang('Core::structure.types.static')
                                         </option>
                                     </select>
-                                    <label for="type">@lang('Dawnstar::structure.labels.type')</label>
+                                    <label for="type">@lang('Core::structure.labels.type')</label>
                                     @error('type')
                                     <div class="invalid-feedback d-block">
                                         {{ $message }}
@@ -69,7 +69,7 @@
                             <div class="col-lg-6">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control @error('key') is-invalid @enderror" id="key" name="key" value="{{ old('key') }}"/>
-                                    <label for="name">@lang('Dawnstar::structure.labels.key')</label>
+                                    <label for="name">@lang('Core::structure.labels.key')</label>
                                     @error('key')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -83,35 +83,35 @@
                                 <div class="form-check form-large-check">
                                     <input type="hidden" name="has_detail" value="0">
                                     <input type="checkbox" class="form-check-input" id="has_detail" name="has_detail" value="1" {{ old('has_detail') == 1 ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="has_detail">@lang('Dawnstar::structure.labels.has_detail')</label>
+                                    <label class="form-check-label" for="has_detail">@lang('Core::structure.labels.has_detail')</label>
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-4">
                                 <div class="form-check form-large-check">
                                     <input type="hidden" name="has_category" value="0">
                                     <input type="checkbox" class="form-check-input" id="has_category" name="has_category" value="1" {{ old('has_category') == 1 ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="has_category">@lang('Dawnstar::structure.labels.has_category')</label>
+                                    <label class="form-check-label" for="has_category">@lang('Core::structure.labels.has_category')</label>
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-4">
                                 <div class="form-check form-large-check">
                                     <input type="hidden" name="has_property" value="0">
                                     <input type="checkbox" class="form-check-input" id="has_property" name="has_property" value="1" {{ old('has_property') == 1 ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="has_property">@lang('Dawnstar::structure.labels.has_property')</label>
+                                    <label class="form-check-label" for="has_property">@lang('Core::structure.labels.has_property')</label>
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-4">
                                 <div class="form-check form-large-check">
                                     <input type="hidden" name="has_url" value="0">
                                     <input type="checkbox" class="form-check-input" id="has_url" name="has_url" value="1" {{ old('has_url') == 1 ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="has_url">@lang('Dawnstar::structure.labels.has_url')</label>
+                                    <label class="form-check-label" for="has_url">@lang('Core::structure.labels.has_url')</label>
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-4">
                                 <div class="form-check form-large-check">
                                     <input type="hidden" name="is_searchable" value="0">
                                     <input type="checkbox" class="form-check-input" id="is_searchable" name="is_searchable" value="1" {{ old('is_searchable') == 1 ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="is_searchable">@lang('Dawnstar::structure.labels.is_searchable')</label>
+                                    <label class="form-check-label" for="is_searchable">@lang('Core::structure.labels.is_searchable')</label>
                                 </div>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                                                name="translations[{{ $language->id }}][name]"
                                                value="{{ old('translations.'.$language->id.'.name') }}"
                                                data-language="{{ $language->id }}"/>
-                                        <label for="translations_{{ $language->id }}_name">@lang('Dawnstar::container.labels.name') ({{ strtoupper($language->code) }})</label>
+                                        <label for="translations_{{ $language->id }}_name">@lang('Core::container.labels.name') ({{ strtoupper($language->code) }})</label>
                                         @if($errors->has('translations.' . $language->id . '.name'))
                                         <div class="invalid-feedback">
                                             {{ $errors->first('translations.' . $language->id . '.name') }}
@@ -154,7 +154,7 @@
                                                name="translations[{{ $language->id }}][slug]"
                                                value="/{{ old('translations.'.$language->id.'.slug') }}"
                                                data-language="{{ $language->id }}"/>
-                                        <label for="translations_{{ $language->id }}_slug">@lang('Dawnstar::container.labels.slug') ({{ strtoupper($language->code) }})</label>
+                                        <label for="translations_{{ $language->id }}_slug">@lang('Core::container.labels.slug') ({{ strtoupper($language->code) }})</label>
                                         <div class="help-block text-muted ms-2">/{{ $language->code }}<span>/{{ ltrim(old('translations.'.$language->id.'.slug'), '/') }}</span></div>
                                         @error('translations.' . $language->id . '.slug')
                                         <div class="invalid-feedback">
@@ -169,7 +169,7 @@
                 </div>
 
                 <div class="card-footer text-end">
-                    <button type="submit" class="btn btn-primary" form="structureStore">@lang('Dawnstar::general.save')</button>
+                    <button type="submit" class="btn btn-primary" form="structureStore">@lang('Core::general.save')</button>
                 </div>
             </div>
         </div>

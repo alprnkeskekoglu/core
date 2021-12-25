@@ -1,9 +1,9 @@
 <?php
 
-namespace Dawnstar\Contracts;
+namespace Dawnstar\Core\Contracts;
 
-use Dawnstar\Http\Requests\StructureRequest;
-use Dawnstar\Models\Structure;
+use Dawnstar\Core\Http\Requests\StructureRequest;
+use Dawnstar\Core\Models\Structure;
 
 interface StructureInterface extends BaseInterface
 {

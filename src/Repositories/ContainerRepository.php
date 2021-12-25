@@ -1,11 +1,11 @@
 <?php
 
-namespace Dawnstar\Repositories;
+namespace Dawnstar\Core\Repositories;
 
-use Dawnstar\Contracts\ContainerInterface;
-use Dawnstar\Models\Container;
-use Dawnstar\Models\Page;
-use Dawnstar\Models\Structure;
+use Dawnstar\Core\Contracts\ContainerInterface;
+use Dawnstar\Core\Models\Container;
+use Dawnstar\Core\Models\Page;
+use Dawnstar\Core\Models\Structure;
 use Illuminate\Database\Eloquent\Collection;
 
 class ContainerRepository implements ContainerInterface

@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Models;
+namespace Dawnstar\Core\Models;
 
-use Dawnstar\MediaManager\Traits\HasMedia;
+use Dawnstar\Core\MediaManager\Traits\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;

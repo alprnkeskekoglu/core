@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Models;
+namespace Dawnstar\Core\Models;
 
-use Dawnstar\ModuleBuilder\Models\ModuleBuilder;
+use Dawnstar\Core\ModuleBuilder\Models\ModuleBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

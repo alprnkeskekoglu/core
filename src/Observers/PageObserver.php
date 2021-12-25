@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Observers;
+namespace Dawnstar\Core\Observers;
 
-use Dawnstar\Models\Page;
+use Dawnstar\Core\Models\Page;
 use Illuminate\Support\Facades\DB;
 
 class PageObserver

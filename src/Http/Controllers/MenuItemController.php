@@ -1,12 +1,12 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
-use Dawnstar\Http\Requests\MenuItemRequest;
-use Dawnstar\Models\Language;
-use Dawnstar\Models\Menu;
-use Dawnstar\Models\MenuItem;
-use Dawnstar\Models\Url;
+use Dawnstar\Core\Http\Requests\MenuItemRequest;
+use Dawnstar\Core\Models\Language;
+use Dawnstar\Core\Models\Menu;
+use Dawnstar\Core\Models\MenuItem;
+use Dawnstar\Core\Models\Url;
 use Illuminate\Http\Request;
 
 class MenuItemController extends BaseController
@@ -18,7 +18,7 @@ class MenuItemController extends BaseController
         $activeLanguage = $this->getActiveLanguage();
         $items = $this->getItems($menu, $activeLanguage);
 
-        return view('Dawnstar::modules.menu_item.index', compact('menu', 'items', 'activeLanguage'));
+        return view('Core::modules.menu_item.index', compact('menu', 'items', 'activeLanguage'));
     }
 
     public function store(Menu $menu, MenuItemRequest $request)
@@ -33,7 +33,7 @@ class MenuItemController extends BaseController
         $menuItem = MenuItem::create($data);
         $menuItem->syncMedias($medias);
 
-        return redirect()->route('dawnstar.menus.items.index', $menu)->with(['success' => __('Dawnstar::menu_item.success.store')]);
+        return redirect()->route('dawnstar.menus.items.index', $menu)->with(['success' => __('Core::menu_item.success.store')]);
     }
 
     public function edit(Menu $menu, MenuItem $item)
@@ -43,7 +43,7 @@ class MenuItemController extends BaseController
         $activeLanguage = $this->getActiveLanguage();
         $items = $this->getItems($menu, $activeLanguage);
 
-        return view('Dawnstar::modules.menu_item.edit', compact('menu', 'item', 'items', 'activeLanguage'));
+        return view('Core::modules.menu_item.edit', compact('menu', 'item', 'items', 'activeLanguage'));
     }
 
     public function update(Menu $menu, MenuItem $item, MenuItemRequest $request)
@@ -56,7 +56,7 @@ class MenuItemController extends BaseController
         $item->update($data);
         $item->syncMedias($medias);
 
-        return redirect()->route('dawnstar.menus.items.index', $menu)->with(['success' => __('Dawnstar::menu_item.success.update')]);
+        return redirect()->route('dawnstar.menus.items.index', $menu)->with(['success' => __('Core::menu_item.success.update')]);
     }
 
     public function destroy(Menu $menu)
@@ -65,7 +65,7 @@ class MenuItemController extends BaseController
 
         $menu->delete();
 
-        return redirect()->route('dawnstar.menus.index')->with(['success' => __('Dawnstar::menu.success.destroy')]);
+        return redirect()->route('dawnstar.menus.index')->with(['success' => __('Core::menu.success.destroy')]);
     }
 
     public function getUrls()

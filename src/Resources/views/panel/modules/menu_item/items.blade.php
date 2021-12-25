@@ -16,7 +16,7 @@
             </div>
             <div class="dd-handle bg-white py-2 ps-3 rounded-1" style="height: 45px">{{ $item->name }}</div>
             @if($item->children->isNotEmpty())
-                @include('Dawnstar::modules.menu_item.items', ['items' => $item->children])
+                @include('Core::modules.menu_item.items', ['items' => $item->children])
             @endif
         </li>
     @endforeach

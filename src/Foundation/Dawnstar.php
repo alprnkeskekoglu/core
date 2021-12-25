@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Foundation;
+namespace Dawnstar\Core\Foundation;
 
-use Dawnstar\Models\Website;
+use Dawnstar\Core\Models\Website;
 
 class Dawnstar
 {

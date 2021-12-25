@@ -1,6 +1,6 @@
 <?php
 
-namespace Dawnstar\Http\Middleware;
+namespace Dawnstar\Core\Http\Middleware;
 
 use Innoio\Core\Providers\RouteServiceProvider;
 use Closure;

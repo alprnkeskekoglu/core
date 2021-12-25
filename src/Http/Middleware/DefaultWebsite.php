@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Http\Middleware;
+namespace Dawnstar\Core\Http\Middleware;
 
-use Dawnstar\Models\Website;
+use Dawnstar\Core\Models\Website;
 use Innoio\Core\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;

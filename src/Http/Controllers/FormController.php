@@ -1,9 +1,9 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
-use Dawnstar\Http\Requests\FormRequest;
-use Dawnstar\Models\Form;
+use Dawnstar\Core\Http\Requests\FormRequest;
+use Dawnstar\Core\Models\Form;
 
 class FormController extends BaseController
 {
@@ -14,14 +14,14 @@ class FormController extends BaseController
         $forms = Form::withCount(['messages' => function($q) {
             $q->where('read', 0);
         }])->get();
-        return view('Dawnstar::modules.form.index', compact('forms'));
+        return view('Core::modules.form.index', compact('forms'));
     }
 
     public function create()
     {
         canUser("form.create", false);
 
-        return view('Dawnstar::modules.form.create');
+        return view('Core::modules.form.create');
     }
 
     public function store(FormRequest $request)
@@ -33,7 +33,7 @@ class FormController extends BaseController
 
         $form = Form::create($data);
 
-        return redirect()->route('dawnstar.forms.index')->with(['success' => __('Dawnstar::form.success.store')]);
+        return redirect()->route('dawnstar.forms.index')->with(['success' => __('Core::form.success.store')]);
     }
 
 
@@ -41,7 +41,7 @@ class FormController extends BaseController
     {
         canUser("form.edit", false);
 
-        return view('Dawnstar::modules.form.edit', compact('form'));
+        return view('Core::modules.form.edit', compact('form'));
     }
 
     public function update(Form $form, FormRequest $request)
@@ -52,7 +52,7 @@ class FormController extends BaseController
 
         $form->update($data);
 
-        return redirect()->route('dawnstar.forms.index')->with(['success' => __('Dawnstar::form.success.update')]);
+        return redirect()->route('dawnstar.forms.index')->with(['success' => __('Core::form.success.update')]);
     }
 
     public function destroy(Form $form)
@@ -61,6 +61,6 @@ class FormController extends BaseController
 
         $form->delete();
 
-        return redirect()->route('dawnstar.forms.index')->with(['success' => __('Dawnstar::form.success.destroy')]);
+        return redirect()->route('dawnstar.forms.index')->with(['success' => __('Core::form.success.destroy')]);
     }
 }

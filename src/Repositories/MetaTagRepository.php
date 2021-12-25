@@ -1,9 +1,9 @@
 <?php
 
-namespace Dawnstar\Repositories;
+namespace Dawnstar\Core\Repositories;
 
-use Dawnstar\Contracts\MetaTagInterface;
-use Dawnstar\Models\MetaTag;
+use Dawnstar\Core\Contracts\MetaTagInterface;
+use Dawnstar\Core\Models\MetaTag;
 use Illuminate\Support\Facades\Schema;
 
 class MetaTagRepository implements MetaTagInterface

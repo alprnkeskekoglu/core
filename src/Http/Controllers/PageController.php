@@ -1,13 +1,13 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
-use Dawnstar\Datatables\PageDatatable;
-use Dawnstar\Models\Page;
-use Dawnstar\Models\Structure;
-use Dawnstar\Repositories\PageRepository;
-use Dawnstar\Repositories\PageTranslationRepository;
-use Dawnstar\ModuleBuilder\Services\ModuleBuilderService;
+use Dawnstar\Core\Datatables\PageDatatable;
+use Dawnstar\Core\Models\Page;
+use Dawnstar\Core\Models\Structure;
+use Dawnstar\Core\Repositories\PageRepository;
+use Dawnstar\Core\Repositories\PageTranslationRepository;
+use Dawnstar\Core\ModuleBuilder\Services\ModuleBuilderService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -32,14 +32,14 @@ class PageController extends BaseController
 
         $columns = [
             ['data' => 'id', 'name' => 'id', 'label' => '#', 'searchable' => false],
-            ['data' => 'order', 'name' => 'order', 'label' => __('Dawnstar::page.labels.order'), 'searchable' => false],
-            ['data' => 'status', 'name' => 'status', 'label' => __('Dawnstar::page.labels.status'), 'searchable' => false],
-            ['data' => 'name', 'name' => 'translation.name', 'label' => __('Dawnstar::page.labels.name'), 'orderable' => false],
-            ['data' => 'created_at', 'name' => 'created_at', 'label' => __('Dawnstar::page.labels.created_at'), 'searchable' => false],
-            ['data' => 'updated_at', 'name' => 'updated_at', 'label' => __('Dawnstar::page.labels.updated_at'), 'searchable' => false],
-            ['data' => 'actions', 'name' => 'actions', 'label' => __('Dawnstar::general.actions'), 'orderable' => false, 'searchable' => false],
+            ['data' => 'order', 'name' => 'order', 'label' => __('Core::page.labels.order'), 'searchable' => false],
+            ['data' => 'status', 'name' => 'status', 'label' => __('Core::page.labels.status'), 'searchable' => false],
+            ['data' => 'name', 'name' => 'translation.name', 'label' => __('Core::page.labels.name'), 'orderable' => false],
+            ['data' => 'created_at', 'name' => 'created_at', 'label' => __('Core::page.labels.created_at'), 'searchable' => false],
+            ['data' => 'updated_at', 'name' => 'updated_at', 'label' => __('Core::page.labels.updated_at'), 'searchable' => false],
+            ['data' => 'actions', 'name' => 'actions', 'label' => __('Core::general.actions'), 'orderable' => false, 'searchable' => false],
         ];
-        return view('Dawnstar::modules.page.index', compact('structure', 'columns'));
+        return view('Core::modules.page.index', compact('structure', 'columns'));
     }
 
     public function create(Structure $structure)
@@ -53,7 +53,7 @@ class PageController extends BaseController
         $moduleBuilder = new ModuleBuilderService($structure, 'page');
         $languages = $moduleBuilder->languages;
 
-        return view('Dawnstar::modules.page.create', compact('structure', 'moduleBuilder', 'languages'));
+        return view('Core::modules.page.create', compact('structure', 'moduleBuilder', 'languages'));
     }
 
     public function store(Structure $structure)
@@ -66,7 +66,7 @@ class PageController extends BaseController
         $page = $this->pageRepository->store($structure);
         $this->pageTranslationRepository->store($page);
 
-        return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Dawnstar::page.success.store')]);
+        return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Core::page.success.store')]);
     }
 
     public function edit(Structure $structure, Page $page)
@@ -76,7 +76,7 @@ class PageController extends BaseController
         $moduleBuilder = new ModuleBuilderService($structure, 'page', $page);
         $languages = $moduleBuilder->languages;
 
-        return view('Dawnstar::modules.page.edit', compact('structure', 'page', 'moduleBuilder', 'languages'));
+        return view('Core::modules.page.edit', compact('structure', 'page', 'moduleBuilder', 'languages'));
     }
 
     public function update(Structure $structure, Page $page)
@@ -89,7 +89,7 @@ class PageController extends BaseController
         $page = $this->pageRepository->update($page);
         $this->pageTranslationRepository->update($page);
 
-        return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Dawnstar::page.success.update')]);
+        return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Core::page.success.update')]);
     }
 
     public function destroy(Structure $structure, Page $page)
@@ -97,7 +97,7 @@ class PageController extends BaseController
         canUser("structure.{$structure->id}.destroy");
 
         $this->pageRepository->destroy($page);
-        return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Dawnstar::page.success.destroy')]);
+        return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Core::page.success.destroy')]);
     }
 
     public function datatable(Structure $structure, Request $request)

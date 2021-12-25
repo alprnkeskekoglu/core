@@ -1,6 +1,6 @@
 <?php
 
-namespace Dawnstar\Http\Requests;
+namespace Dawnstar\Core\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest as Request;
 use Illuminate\Validation\Rule;
@@ -23,6 +23,6 @@ class MenuItemRequest extends Request
 
     public function attributes()
     {
-        return __('Dawnstar::menu_item.labels');
+        return __('Core::menu_item.labels');
     }
 }

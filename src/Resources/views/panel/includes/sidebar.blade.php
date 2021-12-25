@@ -44,7 +44,7 @@
         <li class="side-nav-item">
             <a data-bs-toggle="collapse" href="#page" aria-expanded="false" aria-controls="page" class="side-nav-link">
                 <i class="mdi mdi-book-open-page-variant"></i>
-                <span>@lang('Dawnstar::panel_menu.page')</span>
+                <span>@lang('Core::panel_menu.page')</span>
                 <span class="menu-arrow"></span>
             </a>
             <div class="collapse" id="page">

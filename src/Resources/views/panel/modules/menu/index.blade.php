@@ -1,7 +1,7 @@
-@extends('Dawnstar::layouts.app')
+@extends('Core::layouts.app')
 
 @section('content')
-    @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::menu.title.index')])
+    @include('Core::includes.page_header',['headerTitle' => __('Core::menu.title.index')])
 
     <div class="row">
         <div class="col-12">
@@ -10,7 +10,7 @@
                     <div class="mb-3 text-end">
                         <a href="{{ route('dawnstar.menus.create') }}" class="btn btn-primary">
                             <i class="uil uil-plus me-1"></i>
-                            @lang('Dawnstar::general.add_new')
+                            @lang('Core::general.add_new')
                         </a>
                     </div>
                     <div class="table-responsive">
@@ -18,9 +18,9 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>@lang('Dawnstar::menu.labels.status')</th>
-                                <th>@lang('Dawnstar::menu.labels.name')</th>
-                                <th>@lang('Dawnstar::general.actions')</th>
+                                <th>@lang('Core::menu.labels.status')</th>
+                                <th>@lang('Core::menu.labels.name')</th>
+                                <th>@lang('Core::general.actions')</th>
                             </tr>
                             </thead>
                             <tbody>

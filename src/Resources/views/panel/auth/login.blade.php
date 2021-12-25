@@ -21,14 +21,14 @@
                     <span><img src="assets/images/logo-dark.png" alt="" height="18"></span>
                 </div>
 
-                <h4 class="mt-0">@lang('Dawnstar::auth.login')</h4>
+                <h4 class="mt-0">@lang('Core::auth.login')</h4>
 
                 <form action="{{ route('dawnstar.login') }}" method="POST">
                     @csrf
 
                     <div class="form-floating mb-3">
                         <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}"/>
-                        <label for="email">@lang('Dawnstar::auth.email')</label>
+                        <label for="email">@lang('Core::auth.email')</label>
                         @error('email')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -38,7 +38,7 @@
 
                     <div class="form-floating mb-3">
                         <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password"/>
-                        <label for="password">@lang('Dawnstar::auth.password')</label>
+                        <label for="password">@lang('Core::auth.password')</label>
                         @error('password')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -51,11 +51,11 @@
                     <div class="mb-3">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" name="remember" id="remember" value="1">
-                            <label class="form-check-label" for="remember">@lang('Dawnstar::auth.remember')</label>
+                            <label class="form-check-label" for="remember">@lang('Core::auth.remember')</label>
                         </div>
                     </div>
                     <div class="d-grid mb-0 text-center">
-                        <button class="btn btn-primary" type="submit"><i class="mdi mdi-login"></i> @lang('Dawnstar::auth.login')</button>
+                        <button class="btn btn-primary" type="submit"><i class="mdi mdi-login"></i> @lang('Core::auth.login')</button>
                     </div>
                 </form>
             </div>

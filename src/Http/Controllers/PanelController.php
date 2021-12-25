@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
-use Dawnstar\Models\Language;
+use Dawnstar\Core\Models\Language;
 
 class PanelController extends BaseController
 {

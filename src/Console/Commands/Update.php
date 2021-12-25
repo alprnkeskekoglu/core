@@ -1,9 +1,9 @@
 <?php
 
-namespace Dawnstar\Console\Commands;
+namespace Dawnstar\Core\Console\Commands;
 
 use Database\Seeders\DatabaseSeeder;
-use Dawnstar\Database\seeds\LanguageSeeder;
+use Dawnstar\Core\Database\seeds\LanguageSeeder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;

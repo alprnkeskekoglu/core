@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
-                @include('Dawnstar::includes.breadcrumb')
+                @include('Core::includes.breadcrumb')
             </div>
             <h4 class="page-title">{{ $headerTitle }}</h4>
         </div>

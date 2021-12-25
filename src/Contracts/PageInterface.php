@@ -1,9 +1,9 @@
 <?php
 
-namespace Dawnstar\Contracts;
+namespace Dawnstar\Core\Contracts;
 
-use Dawnstar\Models\Page;
-use Dawnstar\Models\Structure;
+use Dawnstar\Core\Models\Page;
+use Dawnstar\Core\Models\Structure;
 use Illuminate\Database\Eloquent\Collection;
 
 interface PageInterface

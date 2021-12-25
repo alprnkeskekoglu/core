@@ -1,11 +1,11 @@
 <?php
 
-namespace Dawnstar\Foundation;
+namespace Dawnstar\Core\Foundation;
 
-use Dawnstar\Models\Language;
-use Dawnstar\Models\MenuItem;
-use Dawnstar\Models\Website;
-use Dawnstar\Models\Menu as Model;
+use Dawnstar\Core\Models\Language;
+use Dawnstar\Core\Models\MenuItem;
+use Dawnstar\Core\Models\Website;
+use Dawnstar\Core\Models\Menu as Model;
 use Illuminate\Database\Eloquent\Collection;
 
 class Menu

@@ -1,12 +1,12 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
-use Dawnstar\Models\Container;
-use Dawnstar\Models\Structure;
-use Dawnstar\Repositories\ContainerRepository;
-use Dawnstar\Repositories\ContainerTranslationRepository;
-use Dawnstar\ModuleBuilder\Services\ModuleBuilderService;
+use Dawnstar\Core\Models\Container;
+use Dawnstar\Core\Models\Structure;
+use Dawnstar\Core\Repositories\ContainerRepository;
+use Dawnstar\Core\Repositories\ContainerTranslationRepository;
+use Dawnstar\Core\ModuleBuilder\Services\ModuleBuilderService;
 
 class ContainerController extends BaseController
 {
@@ -30,7 +30,7 @@ class ContainerController extends BaseController
         $moduleBuilder = new ModuleBuilderService($structure, 'container', $container);
         $languages = $moduleBuilder->languages;
 
-        return view('Dawnstar::modules.container.edit', compact('structure', 'container', 'moduleBuilder', 'languages'));
+        return view('Core::modules.container.edit', compact('structure', 'container', 'moduleBuilder', 'languages'));
     }
 
     public function update(Structure $structure, Container $container)
@@ -43,6 +43,6 @@ class ContainerController extends BaseController
         $this->containerRepository->update($container);
         $this->containerTranslationRepository->update($container);
 
-        return redirect()->route('dawnstar.structures.containers.edit', [$structure, $container])->with(['success' => __('Dawnstar::structure.success.update')]);
+        return redirect()->route('dawnstar.structures.containers.edit', [$structure, $container])->with(['success' => __('Core::structure.success.update')]);
     }
 }

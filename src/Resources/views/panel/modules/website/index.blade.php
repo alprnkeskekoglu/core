@@ -1,7 +1,7 @@
-@extends('Dawnstar::layouts.app')
+@extends('Core::layouts.app')
 
 @section('content')
-    @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::website.title.index')])
+    @include('Core::includes.page_header',['headerTitle' => __('Core::website.title.index')])
 
     <div class="row">
         <div class="col-12">
@@ -10,7 +10,7 @@
                     <div class="mb-3 text-end">
                         <a href="{{ route('dawnstar.websites.create') }}" class="btn btn-primary">
                             <i class="uil uil-plus me-1"></i>
-                            @lang('Dawnstar::general.add_new')
+                            @lang('Core::general.add_new')
                         </a>
                     </div>
                     <div class="table-responsive">
@@ -18,11 +18,11 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>@lang('Dawnstar::website.labels.status')</th>
-                                <th>@lang('Dawnstar::website.labels.default')</th>
-                                <th>@lang('Dawnstar::website.labels.name')</th>
-                                <th>@lang('Dawnstar::website.labels.domain')</th>
-                                <th>@lang('Dawnstar::general.actions')</th>
+                                <th>@lang('Core::website.labels.status')</th>
+                                <th>@lang('Core::website.labels.default')</th>
+                                <th>@lang('Core::website.labels.name')</th>
+                                <th>@lang('Core::website.labels.domain')</th>
+                                <th>@lang('Core::general.actions')</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -33,7 +33,7 @@
                                         <span class="badge bg-{{ statusClass($website->status) }} font-16">{{ statusText($website->status) }}</span>
                                     </td>
                                     <td>
-                                        <span class="badge bg-{{ statusClass($website->default) }} font-16">@lang('Dawnstar::general.' . ($website->default === 1 ? 'yes' : 'no'))</span>
+                                        <span class="badge bg-{{ statusClass($website->default) }} font-16">@lang('Core::general.' . ($website->default === 1 ? 'yes' : 'no'))</span>
                                     </td>
                                     <td>
                                         {{ $website->name }}

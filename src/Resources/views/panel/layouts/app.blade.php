@@ -13,15 +13,15 @@
 </head>
 
 <body class="loading" data-layout="detached">
-@include('Dawnstar::includes.header')
+@include('Core::includes.header')
 <div class="container-fluid">
     <div class="wrapper">
-        @include('Dawnstar::includes.sidebar')
+        @include('Core::includes.sidebar')
         <div class="content-page">
             <div class="content">
                 @yield('content')
             </div>
-            @include('Dawnstar::includes.footer')
+            @include('Core::includes.footer')
         </div>
     </div>
 </div>

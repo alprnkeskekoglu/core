@@ -1,6 +1,6 @@
 <?php
 
-namespace Dawnstar\Models;
+namespace Dawnstar\Core\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,7 +26,7 @@ class AdminAction extends Model
 
     public function getTypeTranslationAttribute()
     {
-        return __('Dawnstar::admin_action.types.' . $this->type);
+        return __('Core::admin_action.types.' . $this->type);
     }
 
     public function getTypeColorAttribute()

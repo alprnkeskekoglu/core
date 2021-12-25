@@ -1,12 +1,12 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
-use Dawnstar\Models\Category;
-use Dawnstar\Models\Structure;
-use Dawnstar\Repositories\CategoryRepository;
-use Dawnstar\Repositories\CategoryTranslationRepository;
-use Dawnstar\ModuleBuilder\Services\ModuleBuilderService;
+use Dawnstar\Core\Models\Category;
+use Dawnstar\Core\Models\Structure;
+use Dawnstar\Core\Repositories\CategoryRepository;
+use Dawnstar\Core\Repositories\CategoryTranslationRepository;
+use Dawnstar\Core\ModuleBuilder\Services\ModuleBuilderService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -27,7 +27,7 @@ class CategoryController extends BaseController
 
         $categories = $this->getCategories($structure);
 
-        return view('Dawnstar::modules.category.index', compact('structure', 'categories', 'moduleBuilder', 'languages'));
+        return view('Core::modules.category.index', compact('structure', 'categories', 'moduleBuilder', 'languages'));
     }
 
     public function store(Structure $structure)
@@ -40,7 +40,7 @@ class CategoryController extends BaseController
         $category = $this->categoryRepository->store($structure);
         $this->categoryTranslationRepository->store($category);
 
-        return redirect()->route('dawnstar.structures.categories.index', $structure)->with(['success' => __('Dawnstar::category.success.store')]);
+        return redirect()->route('dawnstar.structures.categories.index', $structure)->with(['success' => __('Core::category.success.store')]);
     }
 
     public function edit(Structure $structure, Category $category)
@@ -52,7 +52,7 @@ class CategoryController extends BaseController
 
         $categories = $this->getCategories($structure);
 
-        return view('Dawnstar::modules.category.edit', compact('structure', 'categories', 'category', 'moduleBuilder', 'languages'));
+        return view('Core::modules.category.edit', compact('structure', 'categories', 'category', 'moduleBuilder', 'languages'));
     }
 
     public function update(Structure $structure, Category $category)
@@ -65,7 +65,7 @@ class CategoryController extends BaseController
         $category = $this->categoryRepository->update($category);
         $this->categoryTranslationRepository->update($category);
 
-        return redirect()->route('dawnstar.structures.categories.index', $structure)->with(['success' => __('Dawnstar::category.success.update')]);
+        return redirect()->route('dawnstar.structures.categories.index', $structure)->with(['success' => __('Core::category.success.update')]);
     }
 
     public function destroy(Structure $structure, Category $category)
@@ -73,7 +73,7 @@ class CategoryController extends BaseController
         canUser("structure.{$structure->id}.destroy");
 
         $this->categoryRepository->destroy($category);
-        return redirect()->route('dawnstar.structures.categories.index', $structure)->with(['success' => __('Dawnstar::category.success.destroy')]);
+        return redirect()->route('dawnstar.structures.categories.index', $structure)->with(['success' => __('Core::category.success.destroy')]);
     }
 
     public function saveOrder(Request $request)

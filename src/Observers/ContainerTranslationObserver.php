@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Observers;
+namespace Dawnstar\Core\Observers;
 
-use Dawnstar\Models\ContainerTranslation;
+use Dawnstar\Core\Models\ContainerTranslation;
 
 class ContainerTranslationObserver
 {

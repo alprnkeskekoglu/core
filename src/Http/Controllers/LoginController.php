@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
-use Dawnstar\Models\Website;
+use Dawnstar\Core\Models\Website;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +12,7 @@ class LoginController extends Controller
 {
     public function showLoginForm()
     {
-        return view('Dawnstar::auth.login');
+        return view('Core::auth.login');
     }
 
     public function login(Request $request)

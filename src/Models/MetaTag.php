@@ -1,6 +1,6 @@
 <?php
 
-namespace Dawnstar\Models;
+namespace Dawnstar\Core\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

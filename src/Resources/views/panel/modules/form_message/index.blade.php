@@ -1,14 +1,14 @@
-@extends('Dawnstar::layouts.app')
+@extends('Core::layouts.app')
 
 @section('content')
-    @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::form.title.index')])
+    @include('Core::includes.page_header',['headerTitle' => __('Core::form.title.index')])
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <a href="{{ route('dawnstar.forms.index') }}" class="btn btn-secondary">
                         <i class="mdi mdi-arrow-left"></i>
-                        @lang('Dawnstar::general.back')
+                        @lang('Core::general.back')
                     </a>
                 </div>
                 <div class="card-body">
@@ -17,9 +17,9 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>@lang('Dawnstar::form_message.labels.read')</th>
-                                <th>@lang('Dawnstar::form_message.labels.email')</th>
-                                <th>@lang('Dawnstar::general.actions')</th>
+                                <th>@lang('Core::form_message.labels.read')</th>
+                                <th>@lang('Core::form_message.labels.email')</th>
+                                <th>@lang('Core::general.actions')</th>
                             </tr>
                             </thead>
                             <tbody>

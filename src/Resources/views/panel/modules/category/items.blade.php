@@ -16,7 +16,7 @@
             </div>
             <div class="dd-handle bg-white py-2 ps-3 rounded-1" style="height: 45px">{{ $category->translation->name }}</div>
             @if($category->children->isNotEmpty())
-                @include('Dawnstar::modules.category.items', ['categories' => $category->children])
+                @include('Core::modules.category.items', ['categories' => $category->children])
             @endif
         </li>
     @endforeach

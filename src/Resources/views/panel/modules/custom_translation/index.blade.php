@@ -1,7 +1,7 @@
-@extends('Dawnstar::layouts.app')
+@extends('Core::layouts.app')
 
 @section('content')
-    @include('Dawnstar::includes.page_header', ['headerTitle' => __('Dawnstar::custom_translation.title.index')])
+    @include('Core::includes.page_header', ['headerTitle' => __('Core::custom_translation.title.index')])
 
     <div class="row">
         <div class="col-12">
@@ -15,7 +15,7 @@
                     </div>
 
                     <div class="customTranslations">
-                        @include('Dawnstar::modules.custom_translation.ajax')
+                        @include('Core::modules.custom_translation.ajax')
                     </div>
                 </div>
             </div>

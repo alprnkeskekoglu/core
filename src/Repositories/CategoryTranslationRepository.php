@@ -1,9 +1,9 @@
 <?php
 
-namespace Dawnstar\Repositories;
+namespace Dawnstar\Core\Repositories;
 
-use Dawnstar\Contracts\TranslationInterface;
-use Dawnstar\Models\CategoryTranslation;
+use Dawnstar\Core\Contracts\TranslationInterface;
+use Dawnstar\Core\Models\CategoryTranslation;
 
 class CategoryTranslationRepository implements TranslationInterface
 {

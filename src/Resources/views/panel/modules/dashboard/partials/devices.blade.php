@@ -1,5 +1,5 @@
 <div class="card-body">
-    <h4 class="header-title">@lang('Dawnstar::dashboard.devices')</h4>
+    <h4 class="header-title">@lang('Core::dashboard.devices')</h4>
     <div id="sessions-device" class="apex-charts mt-3"></div>
 </div>
 

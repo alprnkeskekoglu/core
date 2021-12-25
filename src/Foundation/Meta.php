@@ -1,6 +1,6 @@
 <?php
 
-namespace Dawnstar\Foundation;
+namespace Dawnstar\Core\Foundation;
 
 class Meta
 {

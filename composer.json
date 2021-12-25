@@ -1,5 +1,5 @@
 {
-    "name": "dawnstar/dawnstar",
+    "name": "dawnstar/core",
     "description": "Package for Dawnstar CMS",
     "license": "MIT",
     "minimum-stability": "stable",
@@ -15,13 +15,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Dawnstar\\": "src"
+            "Dawnstar\\Core\\": "src"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Dawnstar\\DawnstarServiceProvider"
+                "Dawnstar\\Core\\CoreServiceProvider"
             ]
         }
     }

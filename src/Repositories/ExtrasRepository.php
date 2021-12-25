@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Repositories;
+namespace Dawnstar\Core\Repositories;
 
-use Dawnstar\Contracts\ExtrasInterface;
+use Dawnstar\Core\Contracts\ExtrasInterface;
 use Illuminate\Support\Facades\Schema;
 
 class ExtrasRepository implements ExtrasInterface

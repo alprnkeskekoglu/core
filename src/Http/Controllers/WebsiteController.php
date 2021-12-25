@@ -1,12 +1,12 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
 use Database\Seeders\DatabaseSeeder;
-use Dawnstar\Database\seeds\LanguageSeeder;
-use Dawnstar\Http\Requests\WebsiteRequest;
-use Dawnstar\Models\Website;
-use Dawnstar\Models\Language;
+use Dawnstar\Core\Database\seeds\LanguageSeeder;
+use Dawnstar\Core\Http\Requests\WebsiteRequest;
+use Dawnstar\Core\Models\Website;
+use Dawnstar\Core\Models\Language;
 
 class WebsiteController extends BaseController
 {
@@ -15,7 +15,7 @@ class WebsiteController extends BaseController
         canUser("index");
 
         $websites = Website::all();
-        return view('Dawnstar::modules.website.index', compact('websites'));
+        return view('Core::modules.website.index', compact('websites'));
     }
 
     public function create()
@@ -23,7 +23,7 @@ class WebsiteController extends BaseController
         canUser("create");
 
         $languages = Language::all();
-        return view('Dawnstar::modules.website.create', compact('languages'));
+        return view('Core::modules.website.create', compact('languages'));
     }
 
     public function store(WebsiteRequest $request)
@@ -46,7 +46,7 @@ class WebsiteController extends BaseController
             $this->setSession($website);
         }
 
-        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Dawnstar::website.success.store')]);
+        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Core::website.success.store')]);
     }
 
 
@@ -57,7 +57,7 @@ class WebsiteController extends BaseController
         $selectedLanguages = $website->languages;
         $languages = Language::all();
 
-        return view('Dawnstar::modules.website.edit', compact('website', 'languages', 'selectedLanguages'));
+        return view('Core::modules.website.edit', compact('website', 'languages', 'selectedLanguages'));
     }
 
     public function update(Website $website, WebsiteRequest $request)
@@ -80,7 +80,7 @@ class WebsiteController extends BaseController
             $this->setSession($website);
         }
 
-        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Dawnstar::website.success.update')]);
+        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Core::website.success.update')]);
     }
 
     public function destroy(Website $website)
@@ -89,7 +89,7 @@ class WebsiteController extends BaseController
 
         $website->delete();
 
-        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Dawnstar::website.success.destroy')]);
+        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Core::website.success.destroy')]);
     }
 
     private function setSession(Website $website)

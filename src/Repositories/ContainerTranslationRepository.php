@@ -1,10 +1,10 @@
 <?php
 
-namespace Dawnstar\Repositories;
+namespace Dawnstar\Core\Repositories;
 
-use Dawnstar\Contracts\TranslationInterface;
-use Dawnstar\Models\Container;
-use Dawnstar\Models\ContainerTranslation;
+use Dawnstar\Core\Contracts\TranslationInterface;
+use Dawnstar\Core\Models\Container;
+use Dawnstar\Core\Models\ContainerTranslation;
 use Illuminate\Support\Facades\Schema;
 
 class ContainerTranslationRepository implements TranslationInterface

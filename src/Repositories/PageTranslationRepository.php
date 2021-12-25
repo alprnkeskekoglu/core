@@ -1,10 +1,10 @@
 <?php
 
-namespace Dawnstar\Repositories;
+namespace Dawnstar\Core\Repositories;
 
-use Dawnstar\Contracts\TranslationInterface;
-use Dawnstar\Models\Page;
-use Dawnstar\Models\PageTranslation;
+use Dawnstar\Core\Contracts\TranslationInterface;
+use Dawnstar\Core\Models\Page;
+use Dawnstar\Core\Models\PageTranslation;
 
 class PageTranslationRepository implements TranslationInterface
 {

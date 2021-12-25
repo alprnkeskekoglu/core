@@ -1,9 +1,9 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
-use Dawnstar\Models\Form;
-use Dawnstar\Models\FormMessage;
+use Dawnstar\Core\Models\Form;
+use Dawnstar\Core\Models\FormMessage;
 
 class FormMessageController extends BaseController
 {
@@ -13,7 +13,7 @@ class FormMessageController extends BaseController
 
         $messages = $form->messages()->orderByDesc('created_at')->paginate(15);
 
-        return view('Dawnstar::modules.form_message.index', compact('form', 'messages'));
+        return view('Core::modules.form_message.index', compact('form', 'messages'));
     }
 
     public function store(string $key)
@@ -27,7 +27,7 @@ class FormMessageController extends BaseController
         canUser("form.index", false);
 
         $message->update(['read' => 1]);
-        return view('Dawnstar::modules.form_message.show', compact('form', 'message'))->render();
+        return view('Core::modules.form_message.show', compact('form', 'message'))->render();
     }
 
     public function destroy(Form $form, FormMessage $message)
@@ -35,6 +35,6 @@ class FormMessageController extends BaseController
         canUser("form.destroy", false);
 
         $message->delete();
-        return redirect()->route('dawnstar.forms.messages.index', $form)->with(['success' => __('Dawnstar::form_message.success.destroy')]);
+        return redirect()->route('dawnstar.forms.messages.index', $form)->with(['success' => __('Core::form_message.success.destroy')]);
     }
 }

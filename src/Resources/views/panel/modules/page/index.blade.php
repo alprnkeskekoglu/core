@@ -1,7 +1,7 @@
-@extends('Dawnstar::layouts.app')
+@extends('Core::layouts.app')
 
 @section('content')
-    @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::page.title.index')])
+    @include('Core::includes.page_header',['headerTitle' => __('Core::page.title.index')])
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -9,10 +9,10 @@
                     <div class="float-end">
                         @if($structure->has_detail == 1)
                         <a href="{{ route('dawnstar.structures.containers.edit', [$structure, $structure->container]) }}" class="btn btn-secondary">
-                            @lang('Dawnstar::general.list_page')
+                            @lang('Core::general.list_page')
                         </a>
                         @endif
-                        @include('Dawnstar::includes.buttons.add_new', ['route' => route('dawnstar.structures.pages.create', $structure)])
+                        @include('Core::includes.buttons.add_new', ['route' => route('dawnstar.structures.pages.create', $structure)])
                     </div>
                 </div>
                 <div class="card-body">
@@ -53,12 +53,12 @@
                     previous: "<i class='mdi mdi-chevron-left'>",
                     next: "<i class='mdi mdi-chevron-right'>"
                 },
-                lengthMenu: "@lang('Dawnstar::datatable.lengthMenu')",
-                search: "@lang('Dawnstar::datatable.search')",
-                info: "@lang('Dawnstar::datatable.info')",
-                emptyTable: "@lang('Dawnstar::datatable.emptyTable')",
-                processing: "@lang('Dawnstar::datatable.processing')",
-                zeroRecords: "@lang('Dawnstar::datatable.zeroRecords')",
+                lengthMenu: "@lang('Core::datatable.lengthMenu')",
+                search: "@lang('Core::datatable.search')",
+                info: "@lang('Core::datatable.info')",
+                emptyTable: "@lang('Core::datatable.emptyTable')",
+                processing: "@lang('Core::datatable.processing')",
+                zeroRecords: "@lang('Core::datatable.zeroRecords')",
             },
             drawCallback: function () {
                 $(".dataTables_paginate > .pagination").addClass("pagination-rounded")

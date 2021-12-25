@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Observers;
+namespace Dawnstar\Core\Observers;
 
-use Dawnstar\Models\CategoryTranslation;
+use Dawnstar\Core\Models\CategoryTranslation;
 
 class CategoryTranslationObserver
 {

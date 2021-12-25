@@ -1,10 +1,10 @@
 <?php
 
-namespace Dawnstar\Services;
+namespace Dawnstar\Core\Services;
 
-use Dawnstar\Models\Website;
-use Dawnstar\Models\Admin;
-use Dawnstar\Models\AdminAction as Model;
+use Dawnstar\Core\Models\Website;
+use Dawnstar\Core\Models\Admin;
+use Dawnstar\Core\Models\AdminAction as Model;
 
 class AdminActionService
 {

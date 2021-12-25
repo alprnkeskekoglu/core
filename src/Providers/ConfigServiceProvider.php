@@ -1,6 +1,6 @@
 <?php
 
-namespace Dawnstar\Providers;
+namespace Dawnstar\Core\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

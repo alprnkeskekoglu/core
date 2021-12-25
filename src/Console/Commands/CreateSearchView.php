@@ -1,6 +1,6 @@
 <?php
 
-namespace Dawnstar\Console\Commands;
+namespace Dawnstar\Core\Console\Commands;
 
 use Illuminate\Console\Command;
 

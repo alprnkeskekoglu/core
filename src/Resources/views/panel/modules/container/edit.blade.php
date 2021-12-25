@@ -1,13 +1,13 @@
-@extends('Dawnstar::layouts.app')
+@extends('Core::layouts.app')
 
 @section('content')
-    @include('Dawnstar::includes.page_header',['headerTitle' => $container->translation->name])
+    @include('Core::includes.page_header',['headerTitle' => $container->translation->name])
     <div class="row">
         <div class="col-12">
             <div class="card">
                 @if($structure->type == 'dynamic')
                 <div class="card-header">
-                    @include('Dawnstar::includes.buttons.back', ['route' => route('dawnstar.structures.pages.index', $structure)])
+                    @include('Core::includes.buttons.back', ['route' => route('dawnstar.structures.pages.index', $structure)])
                 </div>
                 @endif
                 <div class="card-body">
@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="card-footer text-end">
-                    <button type="submit" class="btn btn-primary" form="containerUpdate">@lang('Dawnstar::general.save')</button>
+                    <button type="submit" class="btn btn-primary" form="containerUpdate">@lang('Core::general.save')</button>
                 </div>
             </div>
         </div>

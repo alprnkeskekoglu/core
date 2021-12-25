@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Repositories;
+namespace Dawnstar\Core\Repositories;
 
-use Dawnstar\Contracts\MediaInterface;
+use Dawnstar\Core\Contracts\MediaInterface;
 
 class MediaRepository implements MediaInterface
 {

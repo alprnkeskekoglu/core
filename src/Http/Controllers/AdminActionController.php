@@ -1,9 +1,9 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
-use Dawnstar\Models\Admin;
-use Dawnstar\Models\AdminAction;
+use Dawnstar\Core\Models\Admin;
+use Dawnstar\Core\Models\AdminAction;
 
 class AdminActionController extends BaseController
 {
@@ -12,6 +12,6 @@ class AdminActionController extends BaseController
         $admins = Admin::all();
         $actions = AdminAction::orderByDesc('id')->get();
 
-        return view('Dawnstar::modules.admin_action.index', compact('admins', 'actions'));
+        return view('Core::modules.admin_action.index', compact('admins', 'actions'));
     }
 }

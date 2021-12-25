@@ -1,11 +1,11 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
-use Dawnstar\Http\Requests\CustomTranslationRequest;
-use Dawnstar\Models\CustomTranslation;
-use Dawnstar\Models\Website;
-use Dawnstar\Models\Language;
+use Dawnstar\Core\Http\Requests\CustomTranslationRequest;
+use Dawnstar\Core\Models\CustomTranslation;
+use Dawnstar\Core\Models\Website;
+use Dawnstar\Core\Models\Language;
 use Illuminate\Http\Request;
 
 class CustomTranslationController extends BaseController
@@ -15,7 +15,7 @@ class CustomTranslationController extends BaseController
         canUser("custom_translation.index", false);
 
         $customTranslations = $this->getCustomTranslations();
-        return view('Dawnstar::modules.custom_translation.index', compact('customTranslations'));
+        return view('Core::modules.custom_translation.index', compact('customTranslations'));
     }
 
     public function search(Request $request)
@@ -23,7 +23,7 @@ class CustomTranslationController extends BaseController
         canUser("custom_translation.index", false);
 
         $customTranslations = $this->getCustomTranslations($request->get('search'));
-        return view('Dawnstar::modules.custom_translation.ajax', compact('customTranslations'))->render();
+        return view('Core::modules.custom_translation.ajax', compact('customTranslations'))->render();
     }
 
     public function update()
@@ -33,9 +33,9 @@ class CustomTranslationController extends BaseController
         $customTranslation = CustomTranslation::find(request('id'));
         if($customTranslation) {
             $customTranslation->update(['value' => request('value')]);
-            return response()->json(['success' => __('Dawnstar::custom_translation.success.update')]);
+            return response()->json(['success' => __('Core::custom_translation.success.update')]);
         }
-        return response()->json(['error' => __('Dawnstar::custom_translation.error.not_found')], 404);
+        return response()->json(['error' => __('Core::custom_translation.error.not_found')], 404);
     }
 
     public function destroy()
@@ -43,7 +43,7 @@ class CustomTranslationController extends BaseController
         canUser("custom_translation.destroy", false);
 
         $customTranslation = CustomTranslation::where('key', request('key'))->delete();
-        return response()->json(['success' => __('Dawnstar::custom_translation.success.destroy')]);
+        return response()->json(['success' => __('Core::custom_translation.success.destroy')]);
     }
 
     private function getCustomTranslations(string $search = null)

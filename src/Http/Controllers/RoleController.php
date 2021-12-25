@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
-use Dawnstar\Models\Website;
+use Dawnstar\Core\Models\Website;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -14,7 +14,7 @@ class RoleController extends BaseController
         canUser("role.index", false);
 
         $roles = Role::all();
-        return view('Dawnstar::modules.role.index', compact('roles'));
+        return view('Core::modules.role.index', compact('roles'));
     }
 
     public function create()
@@ -23,7 +23,7 @@ class RoleController extends BaseController
 
         $websites = Website::where('status', 1)->with('structures')->get();
 
-        return view('Dawnstar::modules.role.create', compact('websites'));
+        return view('Core::modules.role.create', compact('websites'));
     }
 
     public function store(Request $request)
@@ -47,7 +47,7 @@ class RoleController extends BaseController
 
         adminAction($role, 'store');
 
-        return redirect()->route('dawnstar.roles.index')->with(['success' => __('Dawnstar::role.success.store')]);
+        return redirect()->route('dawnstar.roles.index')->with(['success' => __('Core::role.success.store')]);
     }
 
 
@@ -61,7 +61,7 @@ class RoleController extends BaseController
         $websites = Website::where('status', 1)->with('structures')->get();
         $permissions = $role->getAllPermissions()->pluck('id','name')->toArray();
 
-        return view('Dawnstar::modules.role.edit', compact('role', 'websites', 'permissions'));
+        return view('Core::modules.role.edit', compact('role', 'websites', 'permissions'));
     }
 
     public function update(Role $role, Request $request)
@@ -86,7 +86,7 @@ class RoleController extends BaseController
 
         adminAction($role, 'update');
 
-        return redirect()->route('dawnstar.roles.index')->with(['success' => __('Dawnstar::role.success.update')]);
+        return redirect()->route('dawnstar.roles.index')->with(['success' => __('Core::role.success.update')]);
     }
 
     public function destroy(Role $role)
@@ -100,6 +100,6 @@ class RoleController extends BaseController
         $role->delete();
         adminAction($role, 'destroy');
 
-        return redirect()->route('dawnstar.roles.index')->with(['success' => __('Dawnstar::role.success.destroy')]);
+        return redirect()->route('dawnstar.roles.index')->with(['success' => __('Core::role.success.destroy')]);
     }
 }

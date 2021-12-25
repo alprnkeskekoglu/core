@@ -1,4 +1,4 @@
-@extends('Dawnstar::layouts.app')
+@extends('Core::layouts.app')
 
 @section('content')
     <div class="row">
@@ -17,7 +17,7 @@
                         </button>
                     </form>
                 </div>
-                <h4 class="page-title">@lang('Dawnstar::dashboard.title')</h4>
+                <h4 class="page-title">@lang('Core::dashboard.title')</h4>
             </div>
         </div>
     </div>

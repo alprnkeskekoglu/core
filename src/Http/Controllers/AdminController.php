@@ -1,11 +1,11 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
-use Dawnstar\Http\Requests\AdminRequest;
-use Dawnstar\MediaManager\Foundation\MediaUpload;
-use Dawnstar\MediaManager\Models\ModelMedia;
-use Dawnstar\Models\Admin;
+use Dawnstar\Core\Http\Requests\AdminRequest;
+use Dawnstar\Core\MediaManager\Foundation\MediaUpload;
+use Dawnstar\Core\MediaManager\Models\ModelMedia;
+use Dawnstar\Core\Models\Admin;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -16,7 +16,7 @@ class AdminController extends BaseController
         canUser('admin.index', false);
 
         $admins = Admin::all();
-        return view('Dawnstar::modules.admin.index', compact('admins'));
+        return view('Core::modules.admin.index', compact('admins'));
     }
 
     public function create()
@@ -24,7 +24,7 @@ class AdminController extends BaseController
         canUser('admin.create', false);
 
         $roles = Role::all();
-        return view('Dawnstar::modules.admin.create', compact('roles'));
+        return view('Core::modules.admin.create', compact('roles'));
     }
 
     public function store(AdminRequest $request)
@@ -41,7 +41,7 @@ class AdminController extends BaseController
         $role = Role::findById($roleId);
         $admin->syncRoles([$role->name]);
 
-        return redirect()->route('dawnstar.admins.index')->with(['success' => __('Dawnstar::admin.success.store')]);
+        return redirect()->route('dawnstar.admins.index')->with(['success' => __('Core::admin.success.store')]);
     }
 
 
@@ -50,7 +50,7 @@ class AdminController extends BaseController
         canUser('admin.edit', false);
 
         $roles = Role::all();
-        return view('Dawnstar::modules.admin.edit', compact('admin', 'roles'));
+        return view('Core::modules.admin.edit', compact('admin', 'roles'));
     }
 
     public function update(Admin $admin, AdminRequest $request)
@@ -71,7 +71,7 @@ class AdminController extends BaseController
         $role = Role::findById($roleId);
         $admin->syncRoles([$role->name]);
 
-        return redirect()->route('dawnstar.admins.index')->with(['success' => __('Dawnstar::admin.success.update')]);
+        return redirect()->route('dawnstar.admins.index')->with(['success' => __('Core::admin.success.update')]);
     }
 
     public function destroy(Admin $admin)
@@ -79,11 +79,11 @@ class AdminController extends BaseController
         canUser('admin.destroy', false);
 
         if($admin->id === auth()->id()) {
-            return redirect()->route('dawnstar.admins.index')->with(['error' => __('Dawnstar::admin.error.destroy_auth_admin')]);
+            return redirect()->route('dawnstar.admins.index')->with(['error' => __('Core::admin.error.destroy_auth_admin')]);
         }
 
         $admin->delete();
 
-        return redirect()->route('dawnstar.admins.index')->with(['success' => __('Dawnstar::admin.success.destroy')]);
+        return redirect()->route('dawnstar.admins.index')->with(['success' => __('Core::admin.success.destroy')]);
     }
 }

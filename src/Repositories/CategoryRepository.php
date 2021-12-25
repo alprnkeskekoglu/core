@@ -1,10 +1,10 @@
 <?php
 
-namespace Dawnstar\Repositories;
+namespace Dawnstar\Core\Repositories;
 
-use Dawnstar\Contracts\CategoryInterface;
-use Dawnstar\Models\Category;
-use Dawnstar\Models\Structure;
+use Dawnstar\Core\Contracts\CategoryInterface;
+use Dawnstar\Core\Models\Category;
+use Dawnstar\Core\Models\Structure;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Schema;
 

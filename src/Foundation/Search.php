@@ -1,9 +1,9 @@
 <?php
 
-namespace Dawnstar\Foundation;
+namespace Dawnstar\Core\Foundation;
 
 
-use Dawnstar\Models\SearchData;
+use Dawnstar\Core\Models\SearchData;
 
 class Search
 {

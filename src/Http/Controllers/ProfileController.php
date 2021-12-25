@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
-use Dawnstar\Http\Requests\ProfileRequest;
+use Dawnstar\Core\Http\Requests\ProfileRequest;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends BaseController
@@ -11,7 +11,7 @@ class ProfileController extends BaseController
     {
         $admin = auth()->user();
 
-        return view('Dawnstar::modules.profile.index', compact('admin'));
+        return view('Core::modules.profile.index', compact('admin'));
     }
 
     public function update(ProfileRequest $request)
@@ -29,6 +29,6 @@ class ProfileController extends BaseController
         $admin->update($data);
         $admin->syncMedias($medias);
 
-        return redirect()->route('dawnstar.profile.index')->with(['success' => __('Dawnstar::admin.success.profile_update')]);
+        return redirect()->route('dawnstar.profile.index')->with(['success' => __('Core::admin.success.profile_update')]);
     }
 }

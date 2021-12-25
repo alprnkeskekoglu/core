@@ -1,9 +1,9 @@
 <?php
 
-namespace Dawnstar\Models;
+namespace Dawnstar\Core\Models;
 
-use Dawnstar\MediaManager\Traits\HasMedia;
-use Dawnstar\Traits\HasTranslation;
+use Dawnstar\Core\MediaManager\Traits\HasMedia;
+use Dawnstar\Core\Traits\HasTranslation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

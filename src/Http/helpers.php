@@ -24,7 +24,7 @@ function statusClass(int $status): string
 
 function statusText(int $status): string
 {
-    return __('Dawnstar::general.status_options.' . $status);
+    return __('Core::general.status_options.' . $status);
 }
 
 function adminAction($model, string $type)
@@ -178,47 +178,47 @@ function panelMenu(): array
 {
     return [
         [
-            'name' => __('Dawnstar::panel_menu.website'),
+            'name' => __('Core::panel_menu.website'),
             'url' => route('dawnstar.websites.index'),
             'icon' => 'mdi mdi-monitor',
             'children' => []
         ],
         [
-            'name' => __('Dawnstar::panel_menu.structure'),
+            'name' => __('Core::panel_menu.structure'),
             'url' => route('dawnstar.structures.index'),
             'icon' => 'mdi mdi-tape-drive',
             'children' => []
         ],
         [
-            'name' => __('Dawnstar::panel_menu.panel_management'),
+            'name' => __('Core::panel_menu.panel_management'),
             'url' => 'panel_management',
             'icon' => 'mdi mdi-account-lock',
             'children' => [
                 [
-                    'name' => __('Dawnstar::panel_menu.admin'),
+                    'name' => __('Core::panel_menu.admin'),
                     'url' => route('dawnstar.admins.index')
                 ],
                 [
-                    'name' => __('Dawnstar::panel_menu.role'),
+                    'name' => __('Core::panel_menu.role'),
                     'url' => route('dawnstar.roles.index')
                 ]
             ]
         ],
         [
-            'name' => __('Dawnstar::panel_menu.website_management'),
+            'name' => __('Core::panel_menu.website_management'),
             'url' => 'website_management',
             'icon' => 'mdi mdi-monitor-dashboard',
             'children' => [
                 [
-                    'name' => __('Dawnstar::panel_menu.menu'),
+                    'name' => __('Core::panel_menu.menu'),
                     'url' => route('dawnstar.menus.index')
                 ],
                 [
-                    'name' => __('Dawnstar::panel_menu.form'),
+                    'name' => __('Core::panel_menu.form'),
                     'url' => route('dawnstar.forms.index')
                 ],
                 [
-                    'name' => __('Dawnstar::panel_menu.custom_translation'),
+                    'name' => __('Core::panel_menu.custom_translation'),
                     'url' => route('dawnstar.custom_translations.index')
                 ],
             ]

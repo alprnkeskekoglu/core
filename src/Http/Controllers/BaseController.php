@@ -1,6 +1,6 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 

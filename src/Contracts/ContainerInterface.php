@@ -1,9 +1,9 @@
 <?php
 
-namespace Dawnstar\Contracts;
+namespace Dawnstar\Core\Contracts;
 
-use Dawnstar\Models\Container;
-use Dawnstar\Models\Structure;
+use Dawnstar\Core\Models\Container;
+use Dawnstar\Core\Models\Structure;
 
 interface ContainerInterface extends BaseInterface
 {

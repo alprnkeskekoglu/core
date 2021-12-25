@@ -1,10 +1,10 @@
 <?php
 
-namespace Dawnstar\Repositories;
+namespace Dawnstar\Core\Repositories;
 
-use Dawnstar\Contracts\StructureInterface;
-use Dawnstar\Http\Requests\StructureRequest;
-use Dawnstar\Models\Structure;
+use Dawnstar\Core\Contracts\StructureInterface;
+use Dawnstar\Core\Http\Requests\StructureRequest;
+use Dawnstar\Core\Models\Structure;
 use Illuminate\Database\Eloquent\Collection;
 
 class StructureRepository implements StructureInterface

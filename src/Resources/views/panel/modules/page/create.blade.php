@@ -1,14 +1,14 @@
-@extends('Dawnstar::layouts.app')
+@extends('Core::layouts.app')
 
 @section('content')
-    @include('Dawnstar::includes.page_header',['headerTitle' => __('Dawnstar::page.title.create')])
+    @include('Core::includes.page_header',['headerTitle' => __('Core::page.title.create')])
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <a href="{{ route('dawnstar.structures.pages.index', $structure) }}" class="btn btn-secondary">
                         <i class="mdi mdi-arrow-left"></i>
-                        @lang('Dawnstar::general.back')
+                        @lang('Core::general.back')
                     </a>
                 </div>
                 <div class="card-body">
@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="card-footer text-end">
-                    <button type="submit" class="btn btn-primary" form="pageStore">@lang('Dawnstar::general.save')</button>
+                    <button type="submit" class="btn btn-primary" form="pageStore">@lang('Core::general.save')</button>
                 </div>
             </div>
         </div>

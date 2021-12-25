@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Traits;
+namespace Dawnstar\Core\Traits;
 
-use Dawnstar\Models\Language;
+use Dawnstar\Core\Models\Language;
 
 trait HasTranslation
 {

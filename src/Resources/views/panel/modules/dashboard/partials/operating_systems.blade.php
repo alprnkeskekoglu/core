@@ -1,5 +1,5 @@
 <div class="card-body">
-    <h4 class="header-title">@lang('Dawnstar::dashboard.operating_systems')</h4>
+    <h4 class="header-title">@lang('Core::dashboard.operating_systems')</h4>
     <div id="sessions-os" class="apex-charts mt-3"></div>
 </div>
 

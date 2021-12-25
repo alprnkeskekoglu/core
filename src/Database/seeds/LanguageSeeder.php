@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Database\seeds;
+namespace Dawnstar\Core\Database\seeds;
 
-use Dawnstar\Models\Language;
+use Dawnstar\Core\Models\Language;
 use Illuminate\Database\Seeder;
 
 class LanguageSeeder extends Seeder

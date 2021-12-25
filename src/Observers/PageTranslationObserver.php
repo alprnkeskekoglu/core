@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Observers;
+namespace Dawnstar\Core\Observers;
 
-use Dawnstar\Models\PageTranslation;
+use Dawnstar\Core\Models\PageTranslation;
 
 class PageTranslationObserver
 {

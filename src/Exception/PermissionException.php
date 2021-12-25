@@ -1,6 +1,6 @@
 <?php
 
-namespace Dawnstar\Exception;
+namespace Dawnstar\Core\Exception;
 
 use Exception;
 
@@ -8,6 +8,6 @@ class PermissionException extends Exception
 {
     public function render($request)
     {
-        return response()->view('Dawnstar::errors.permission', [], 403);
+        return response()->view('Core::errors.permission', [], 403);
     }
 }

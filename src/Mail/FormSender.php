@@ -1,10 +1,10 @@
 <?php
 
-namespace Dawnstar\Mail;
+namespace Dawnstar\Core\Mail;
 
-use Dawnstar\Models\Form;
-use Dawnstar\Models\FormMessage;
-use Dawnstar\Models\Language;
+use Dawnstar\Core\Models\Form;
+use Dawnstar\Core\Models\FormMessage;
+use Dawnstar\Core\Models\Language;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -22,7 +22,7 @@ class FormSender extends Mailable
         if (file_exists(resource_path("views/vendor/mail/form.blade.php"))) {
             $this->view = 'vendor.mail.form';
         } else {
-            $this->view = 'DawnstarWeb::mail.form';
+            $this->view = 'CoreWeb::mail.form';
         }
     }
 

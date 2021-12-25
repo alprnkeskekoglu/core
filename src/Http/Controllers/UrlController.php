@@ -1,9 +1,9 @@
 <?php
 
-namespace Dawnstar\Http\Controllers;
+namespace Dawnstar\Core\Http\Controllers;
 
-use Dawnstar\Models\Language;
-use Dawnstar\Models\Url;
+use Dawnstar\Core\Models\Language;
+use Dawnstar\Core\Models\Url;
 use Illuminate\Http\Request;
 
 class UrlController extends BaseController

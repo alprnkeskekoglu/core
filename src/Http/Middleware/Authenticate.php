@@ -1,8 +1,8 @@
 <?php
 
-namespace Dawnstar\Http\Middleware;
+namespace Dawnstar\Core\Http\Middleware;
 
-use Dawnstar\Models\Website;
+use Dawnstar\Core\Models\Website;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;

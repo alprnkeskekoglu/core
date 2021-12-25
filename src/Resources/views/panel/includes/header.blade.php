@@ -44,7 +44,7 @@
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg" aria-labelledby="topbar-notifydrop">
 
                     <div class="dropdown-item noti-title">
-                        <h5 class="m-0">@lang('Dawnstar::general.notification')</h5>
+                        <h5 class="m-0">@lang('Core::general.notification')</h5>
                     </div>
 
                     <div style="max-height: 230px;" data-simplebar>
@@ -55,7 +55,7 @@
                                 </div>
                                 <p class="notify-details">
                                     {!! $form->name !!}
-                                    <small class="text-muted">{!! $form->unread_messages_count !!} @lang('Dawnstar::form_message.unread_count')</small>
+                                    <small class="text-muted">{!! $form->unread_messages_count !!} @lang('Core::form_message.unread_count')</small>
                                 </p>
                             </a>
                         @endforeach
@@ -81,7 +81,7 @@
 
                     <a href="{{ route('dawnstar.profile.index') }}" class="dropdown-item notify-item">
                         <i class="mdi mdi-account-circle me-1"></i>
-                        <span>@lang('Dawnstar::admin.profile')</span>
+                        <span>@lang('Core::admin.profile')</span>
                     </a>
 
                     <a href="{{ route('dawnstar.developer.index') }}" class="dropdown-item notify-item">
@@ -93,7 +93,7 @@
                         @csrf
                         <button type="submit" class="dropdown-item notify-item">
                             <i class="mdi mdi-logout me-1"></i>
-                            <span>@lang('Dawnstar::auth.logout')</span>
+                            <span>@lang('Core::auth.logout')</span>
                         </button>
                     </form>
 

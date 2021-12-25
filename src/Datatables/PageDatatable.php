@@ -1,9 +1,9 @@
 <?php
 
-namespace Dawnstar\Datatables;
+namespace Dawnstar\Core\Datatables;
 
-use Dawnstar\Models\Page;
-use Dawnstar\Models\Structure;
+use Dawnstar\Core\Models\Page;
+use Dawnstar\Core\Models\Structure;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
