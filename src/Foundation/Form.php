@@ -5,9 +5,6 @@ namespace Dawnstar\Foundation;
 use Dawnstar\Mail\FormSender;
 use Dawnstar\Models\Form as Model;
 use Dawnstar\Models\FormMessage;
-use Dawnstar\Models\Language;
-use Dawnstar\Models\Url;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class Form
@@ -55,8 +52,8 @@ class Form
         ];
 
         $message = $this->form->messages()->create($data);
-        $this->sendEmail($message);
 
+        $this->sendEmail($message);
 
         if (Mail::failures()) {
             return back()->withErrors(implode(', ', Mail::failures()));

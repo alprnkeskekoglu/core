@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'unread_count' => 'Unread Message',
     'title' => [
         'index' => 'Form Messages',
     ],

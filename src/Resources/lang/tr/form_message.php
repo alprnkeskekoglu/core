@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'unread_count' => 'Adet Okunmayan Mesaj',
     'title' => [
         'index' => 'Form Mesajları',
     ],

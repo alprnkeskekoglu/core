@@ -17,4 +17,9 @@ class Form extends BaseModel
     {
         return $this->hasMany(FormMessage::class);
     }
+
+    public function unreadMessages()
+    {
+        return $this->hasMany(FormMessage::class)->where('read', 0);
+    }
 }

@@ -8,6 +8,8 @@ return [
     'no' => 'Hayır',
     'select' => 'Seçiniz',
 
+    'notification' => 'Bildirimler',
+
     'list_page' => 'Liste Sayfası',
 
     'actions' => 'İşlemler',

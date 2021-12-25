@@ -1,3 +1,6 @@
+@php
+    $forms = \Dawnstar\Models\Form::withCount('unreadMessages')->having('unread_messages_count', '>', 0)->active()->get();
+@endphp
 
 <div class="navbar-custom topnav-navbar topnav-navbar-dark">
     <div class="container-fluid">
@@ -34,38 +37,29 @@
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" id="topbar-notifydrop" role="button" aria-haspopup="true" aria-expanded="false">
                     <i class="dripicons-bell noti-icon"></i>
+                    @if($forms->isNotEmpty())
                     <span class="noti-icon-badge"></span>
+                    @endif
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg" aria-labelledby="topbar-notifydrop">
 
-                    <!-- item-->
                     <div class="dropdown-item noti-title">
-                        <h5 class="m-0">
-                            <span class="float-end">
-                                <a href="javascript: void(0);" class="text-dark">
-                                    <small>Clear All</small>
-                                </a>
-                            </span>Notification
-                        </h5>
+                        <h5 class="m-0">@lang('Dawnstar::general.notification')</h5>
                     </div>
 
                     <div style="max-height: 230px;" data-simplebar>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <div class="notify-icon bg-primary">
-                                <i class="mdi mdi-comment-account-outline"></i>
-                            </div>
-                            <p class="notify-details">Caleb Flakelar commented on Admin
-                                <small class="text-muted">1 min ago</small>
-                            </p>
-                        </a>
+                        @foreach($forms as $form)
+                            <a href="{{ route('dawnstar.forms.messages.index', $form) }}" class="dropdown-item notify-item">
+                                <div class="notify-icon bg-body">
+                                    <i class="mdi mdi-message"></i>
+                                </div>
+                                <p class="notify-details">
+                                    {!! $form->name !!}
+                                    <small class="text-muted">{!! $form->unread_messages_count !!} @lang('Dawnstar::form_message.unread_count')</small>
+                                </p>
+                            </a>
+                        @endforeach
                     </div>
-
-                    <!-- All-->
-                    <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
-                        View All
-                    </a>
-
                 </div>
             </li>
 

@@ -8,6 +8,8 @@ return [
     'no' => 'No',
     'select' => 'Select',
 
+    'notification' => 'Notifications',
+
     'list_page' => 'List Page',
 
     'actions' => 'Actions',

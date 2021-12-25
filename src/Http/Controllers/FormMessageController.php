@@ -11,7 +11,7 @@ class FormMessageController extends BaseController
     {
         canUser("form.index", false);
 
-        $messages = $form->messages()->orderByDesc('created_at')->paginate(12);
+        $messages = $form->messages()->orderByDesc('created_at')->paginate(15);
 
         return view('Dawnstar::modules.form_message.index', compact('form', 'messages'));
     }
