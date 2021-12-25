@@ -84,6 +84,11 @@
                         <span>@lang('Dawnstar::admin.profile')</span>
                     </a>
 
+                    <a href="{{ route('dawnstar.developer.index') }}" class="dropdown-item notify-item">
+                        <i class="mdi mdi-tools me-1"></i>
+                        <span>@lang('Developer::general.title')</span>
+                    </a>
+
                     <form action="{{ route('dawnstar.logout') }}" method="POST" class="d-inline">
                         @csrf
                         <button type="submit" class="dropdown-item notify-item">

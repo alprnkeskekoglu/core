@@ -27,7 +27,7 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapWebRoutes()
     {
-        Route::group(['middleware' => 'web'], function ($router) {
+        Route::group(['middleware' => ['web', 'maintenance']], function ($router) {
             require __DIR__ . '/../Routes/web.php';
         });
     }

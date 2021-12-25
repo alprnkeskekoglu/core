@@ -8,6 +8,7 @@ use Dawnstar\Console\Commands\Update;
 use Dawnstar\Foundation\Dawnstar;
 use Dawnstar\Http\Middleware\Authenticate;
 use Dawnstar\Http\Middleware\DefaultWebsite;
+use Dawnstar\Http\Middleware\Maintenance;
 use Dawnstar\Http\Middleware\RedirectIfAuthenticated;
 use Dawnstar\Models\CategoryTranslation;
 use Dawnstar\Models\ContainerTranslation;
@@ -58,6 +59,7 @@ class   DawnstarServiceProvider extends ServiceProvider
         $router->aliasMiddleware('dawnstar_auth', Authenticate::class);
         $router->aliasMiddleware('dawnstar_guest', RedirectIfAuthenticated::class);
         $router->aliasMiddleware('default_website', DefaultWebsite::class);
+        $router->aliasMiddleware('maintenance', Maintenance::class);
 
 
         Page::observe(PageObserver::class);
