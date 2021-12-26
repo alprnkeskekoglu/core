@@ -11,6 +11,7 @@ return [
     'notification' => 'Bildirimler',
 
     'list_page' => 'Liste Sayfası',
+    'category' => 'Kategoriler',
 
     'actions' => 'İşlemler',
     'status_options' => [

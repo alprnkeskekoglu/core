@@ -23,11 +23,11 @@
                     <i class="mdi mdi-chevron-down"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu" aria-labelledby="topbar-languagedrop">
-                    @foreach(session('dawnstar.languages') as $language)
-                        @continue($language->id === session('dawnstar.language.id'))
-                        <a href="{{ route('dawnstar.panel.changeLanguage', $language) }}" class="dropdown-item notify-item">
-                            <img src="{{ languageFlag($language->code) }}" alt="{{ $language->code }}" class="me-1" height="12">
-                            <span class="align-middle">{{ strtoupper($language->code) }}</span>
+                    @foreach(['tr', 'en'] as $languageCode)
+                        @continue($languageCode === session('dawnstar.language.code'))
+                        <a href="{{ route('dawnstar.panel.changeLanguage', ['code' => $languageCode]) }}" class="dropdown-item notify-item">
+                            <img src="{{ languageFlag($languageCode) }}" alt="{{ $languageCode }}" class="me-1" height="12">
+                            <span class="align-middle">{{ strtoupper($languageCode) }}</span>
                         </a>
                     @endforeach
                 </div>

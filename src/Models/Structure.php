@@ -33,6 +33,11 @@ class Structure extends BaseModel
         return $this->hasMany(Page::class);
     }
 
+    public function moduleBuilder(string $type)
+    {
+        return $this->hasMany(ModuleBuilder::class)->where('type', $type)->first();
+    }
+
     public function moduleBuilders()
     {
         return $this->hasMany(ModuleBuilder::class);

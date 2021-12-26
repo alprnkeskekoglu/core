@@ -6,10 +6,13 @@ use Dawnstar\Core\Models\Language;
 
 class PanelController extends BaseController
 {
-    public function changeLanguage(Language $language)
+    public function changeLanguage(string $code)
     {
-        session(['dawnstar.language' => $language]);
-        app()->setLocale(session('dawnstar.language.code', 'tr'));
+        $language = Language::where('code', $code)->first();
+        if($language) {
+            session(['dawnstar.language' => $language]);
+            app()->setLocale(session('dawnstar.language.code', 'tr'));
+        }
 
         return back();
     }

@@ -11,6 +11,7 @@ return [
     'notification' => 'Notifications',
 
     'list_page' => 'List Page',
+    'category' => 'Categories',
 
     'actions' => 'Actions',
     'status_options' => [

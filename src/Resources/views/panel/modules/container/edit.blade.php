@@ -5,11 +5,18 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                @if($structure->type == 'dynamic')
                 <div class="card-header">
-                    @include('Core::includes.buttons.back', ['route' => route('dawnstar.structures.pages.index', $structure)])
+                    <div class="float-start">
+                        @if($structure->type == 'dynamic')
+                            @include('Core::includes.buttons.back', ['route' => route('dawnstar.structures.pages.index', $structure)])
+                        @endif
+                        @if(auth('admin')->user()->hasRole('Super Admin'))
+                            <a href="{{ route('dawnstar.module_builders.edit', $structure->moduleBuilder('container')) }}" class="btn btn-secondary">
+                                @lang('ModuleBuilder::general.title.index')
+                            </a>
+                        @endif
+                    </div>
                 </div>
-                @endif
                 <div class="card-body">
                     <form action="{{ route('dawnstar.structures.containers.update', [$structure, $container]) }}" id="containerUpdate" method="POST">
                         @method('PUT')

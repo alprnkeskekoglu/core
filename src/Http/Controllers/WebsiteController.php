@@ -37,7 +37,7 @@ class WebsiteController extends BaseController
         $website = Website::create($data);
 
         if($data['default'] == 1) {
-            Website::where('default', 1)->where('id', $website->id)->update(['default' => 0]);
+            Website::where('default', 1)->where('id', '<>', $website->id)->update(['default' => 0]);
         }
 
         $website->languages()->sync($languages);

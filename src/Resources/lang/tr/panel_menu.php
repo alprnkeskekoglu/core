@@ -8,7 +8,7 @@ return [
     'panel_management' => 'Panel Yönetimi',
     'admin' => 'Yöneticiler',
     'role' => 'Roller',
-    //'setting' => 'Genel Ayarlar',
+    'setting' => 'Genel Ayarlar',
     //'log' => 'Admin Hareketleri',
 
     'website_management' => 'Website Yönetimi',

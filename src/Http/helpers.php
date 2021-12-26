@@ -67,8 +67,14 @@ function setSession()
 
     $website = \Dawnstar\Core\Models\Website::where('status', 1)->where('default', 1)->first();
     if ($website) {
-        $languages = $website->languages;
-        $language = $website->languages()->wherePivot('default', 1)->first();
+        $languages = $website->languages()->orderBy('pivot_default')->get();
+        $defaultLanguage = $website->languages()->wherePivot('default', 1)->first();
+    }
+
+    if(isset($defaultLanguage) && in_array($defaultLanguage->code, ['tr', 'en'])) {
+        $language = $defaultLanguage;
+    } else {
+        $language = \Dawnstar\Core\Models\Language::where('code', 'tr')->first();
     }
 
     session([
@@ -81,10 +87,22 @@ function setSession()
     ]);
 }
 
+function setting(string $key, $default = null): ?string
+{
+    $websiteId = session('dawnstar.website.id');
+    $settings = \Illuminate\Support\Facades\Cache::rememberForever('settings' . $websiteId, function () use ($websiteId) {
+        return \Dawnstar\Core\Models\Setting::where('website_id', $websiteId)->pluck('value', 'key')->toArray();
+    });
+
+    if (!empty($settings[$key])) {
+        return $settings[$key];
+    }
+    return $default;
+}
+
 function canUser(string $key, bool $hasWebsite = true)
 {
-    $user = auth('admin')->user();
-    $role = $user->roles->first();
+    $role = auth('admin')->user()->roles->first();
 
     if ($role->name == 'Super Admin') {
         return true;
@@ -201,7 +219,11 @@ function panelMenu(): array
                 [
                     'name' => __('Core::panel_menu.role'),
                     'url' => route('dawnstar.roles.index')
-                ]
+                ],
+                [
+                    'name' => __('Core::panel_menu.setting'),
+                    'url' => route('dawnstar.settings.index')
+                ],
             ]
         ],
         [

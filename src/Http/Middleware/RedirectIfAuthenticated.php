@@ -20,7 +20,7 @@ class RedirectIfAuthenticated
     public function handle(Request $request, Closure $next, ...$guards)
     {
         if (Auth::guard('admin')->check()) {
-            return redirect()->route('dawnstar.dashboard');
+            return redirect()->route('dawnstar.dashboard.index');
         }
 
         return $next($request);

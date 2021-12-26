@@ -37,7 +37,7 @@ class Form
     {
         if ($this->form->recaptcha_status == 1) {
             $this->recaptchaStatus = true;
-            $this->recaptchaKey = ''; //TODO setting import
+            $this->recaptchaKey = setting('recaptcha_site_key');
         }
     }
 

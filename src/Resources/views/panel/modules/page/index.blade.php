@@ -6,16 +6,23 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="float-end">
-                        @if($structure->has_detail == 1)
-                        <a href="{{ route('dawnstar.structures.containers.edit', [$structure, $structure->container]) }}" class="btn btn-secondary">
-                            @lang('Core::general.list_page')
+                    <div class="float-start">
+                        @if(auth('admin')->user()->hasRole('Super Admin'))
+                        <a href="{{ route('dawnstar.module_builders.edit', $structure->moduleBuilder('page')) }}" class="btn btn-secondary">
+                            @lang('ModuleBuilder::general.title.index')
                         </a>
                         @endif
+                    </div>
+                    <div class="float-end">
+                        @if($structure->has_detail == 1)
+                            <a href="{{ route('dawnstar.structures.containers.edit', [$structure, $structure->container]) }}" class="btn btn-secondary">
+                                @lang('Core::general.list_page')
+                            </a>
+                        @endif
                         @if($structure->has_category == 1)
-                        <a href="{{ route('dawnstar.structures.categories.index', [$structure]) }}" class="btn btn-secondary">
-                            @lang('Core::general.category')
-                        </a>
+                            <a href="{{ route('dawnstar.structures.categories.index', [$structure]) }}" class="btn btn-secondary">
+                                @lang('Core::general.category')
+                            </a>
                         @endif
                         @include('Core::includes.buttons.add_new', ['route' => route('dawnstar.structures.pages.create', $structure)])
                     </div>

@@ -22,6 +22,7 @@ use Dawnstar\Core\Http\Controllers\FormController;
 use Dawnstar\Core\Http\Controllers\FormMessageController;
 
 use Dawnstar\Core\Http\Controllers\CustomTranslationController;
+use Dawnstar\Core\Http\Controllers\SettingController;
 
 use Dawnstar\Core\Http\Controllers\UrlController;
 use Dawnstar\Core\Http\Controllers\PanelController;
@@ -73,11 +74,17 @@ Route::middleware(['dawnstar_auth'])->group(function () {
             Route::put('/', [CustomTranslationController::class, 'update'])->name('update');
             Route::delete('/', [CustomTranslationController::class, 'destroy'])->name('destroy');
         });
+
+
+        Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+        Route::get('settings/modal', [SettingController::class, 'modal'])->name('settings.modal');
+        Route::put('settings/update', [SettingController::class, 'update'])->name('settings.update');
+        Route::get('settings/image-quality', [SettingController::class, 'imageQuality'])->name('settings.image_quality');
     });
 
     Route::get('getUrl', [UrlController::class, 'getUrl'])->name('getUrl');
 
     Route::prefix('panel')->as('panel.')->group(function () {
-        Route::get('changeLanguage/{language}', [PanelController::class, 'changeLanguage'])->name('changeLanguage');
+        Route::get('changeLanguage/{code}', [PanelController::class, 'changeLanguage'])->name('changeLanguage');
     });
 });

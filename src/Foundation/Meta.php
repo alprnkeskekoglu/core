@@ -104,7 +104,9 @@ class Meta
 
         $return = '';
         foreach ($translations as $translation) {
-            $return .= "\n".'<link rel="alternate" hreflang="'.$translation->language->code.'" href="'.url($translation->url->url).'">';
+            if($translation->url) {
+                $return .= "\n".'<link rel="alternate" hreflang="'.$translation->language->code.'" href="'.url($translation->url->url).'">';
+            }
         }
         return $return;
     }
