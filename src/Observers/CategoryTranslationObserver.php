@@ -40,7 +40,15 @@ class CategoryTranslationObserver
     {
         $language = $categoryTranslation->language;
         $website = session('dawnstar.website');
-        $urlText = ($website->url_language_code == 1 ? "/{$language->code}/" : '/') . $categoryTranslation->slug;
+        $containerTranslation = $categoryTranslation->parent->container->translations()->where('language_id', $language->id)->first();
+
+        if($website->url_language_code != 1 && $website->defaultLanguage()->id == $language->id) {
+            $urlText = '/';
+        } else {
+            $urlText = "/{$language->code}/";
+        }
+        $urlText .= $containerTranslation->slug . '/' . $categoryTranslation->slug;
+
 
         return rtrim($urlText, '/');
     }

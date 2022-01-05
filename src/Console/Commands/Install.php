@@ -106,6 +106,6 @@ class Install extends Command
 
     private function createSuperAdmin()
     {
-        Role::firstOrCreate(['name' => 'Super Admin']);
+        Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'admin']);
     }
 }

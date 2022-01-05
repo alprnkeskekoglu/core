@@ -42,7 +42,12 @@ class PageTranslationObserver
         $website = session('dawnstar.website');
         $containerTranslation = $pageTranslation->parent->container->translations()->where('language_id', $language->id)->first();
 
-        $urlText = ($website->url_language_code == 1 ? "/{$language->code}/" : '/') . $containerTranslation->slug . '/' . $pageTranslation->slug;
+        if($website->url_language_code != 1 && $website->defaultLanguage()->id == $language->id) {
+            $urlText = '/';
+        } else {
+            $urlText = "/{$language->code}/";
+        }
+        $urlText .= $containerTranslation->slug . '/' . $pageTranslation->slug;
 
         return rtrim($urlText, '/');
     }

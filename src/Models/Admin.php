@@ -28,4 +28,33 @@ class Admin extends Authenticatable
     {
         return $this->first_name . ' ' . $this->last_name;
     }
+
+    public function __get($key)
+    {
+        $attribute = $this->getAttribute($key);
+
+        if ($attribute) {
+            return $attribute;
+        }
+
+        if (method_exists($this, 'extras')) {
+            if(\Str::startsWith($key, 'mf_')) {
+                $key = mb_substr($key, 3);
+                $medias = $this->medias();
+                if($key) {
+                    $medias->wherePivot('key', $key);
+                }
+                return $medias->orderBy('model_medias.order')->first();
+            } elseif(\Str::startsWith($key, 'mc_')) {
+                $key = mb_substr($key, 3);
+                $medias = $this->medias();
+                if($key) {
+                    $medias->wherePivot('key', $key);
+                }
+                return $medias->orderBy('model_medias.order')->get();
+            }
+        }
+
+        return $attribute;
+    }
 }

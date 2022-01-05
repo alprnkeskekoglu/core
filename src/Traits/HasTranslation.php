@@ -36,7 +36,7 @@ trait HasTranslation
         if(strpos($pathInfo, '/dawnstar') > -1) {
             $defaultLanguage = session('dawnstar.language');
         } else {
-            dd(1);
+            $defaultLanguage = dawnstar()->language;
         }
 
         $return = [];

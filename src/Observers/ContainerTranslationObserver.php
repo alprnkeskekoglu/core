@@ -40,7 +40,14 @@ class ContainerTranslationObserver
     {
         $language = $containerTranslation->language;
         $website = session('dawnstar.website');
-        $urlText = ($website->url_language_code == 1 ? "/{$language->code}/" : '/') . $containerTranslation->slug;
+
+        if($website->url_language_code != 1 && $website->defaultLanguage()->id == $language->id) {
+            $urlText = '/';
+        } else {
+            $urlText = "/{$language->code}/";
+        }
+
+        $urlText .= $containerTranslation->slug;
 
         return rtrim($urlText, '/');
     }

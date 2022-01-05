@@ -19,9 +19,11 @@ class ContainerTranslationRepository implements TranslationInterface
             $translation['container_id'] = $container->id;
             $translation['language_id'] = $languageId;
             $translation['status'] = $languages[$languageId];
-            $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
-                ltrim($translation['slug'], '/') :
-                $translation['slug'];
+            if(isset($translation['slug'])) {
+                $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
+                    ltrim($translation['slug'], '/') :
+                    $translation['slug'];
+            }
 
             $translationModel = ContainerTranslation::create($translation);
 
@@ -41,9 +43,12 @@ class ContainerTranslationRepository implements TranslationInterface
 
         foreach ($translations as $languageId => $translation) {
 
-            $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
-                ltrim($translation['slug'], '/') :
-                $translation['slug'];
+            if(isset($translation['slug'])) {
+                $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
+                    ltrim($translation['slug'], '/') :
+                    $translation['slug'];
+            }
+
             $translationModel = ContainerTranslation::updateOrCreate(
                 [
                     'container_id' => $container->id,

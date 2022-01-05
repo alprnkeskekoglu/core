@@ -42,21 +42,39 @@ class ContainerTranslation extends BaseModel
     {
         $attribute = $this->getAttribute($key);
 
-        $return = null;
-
         if ($attribute) {
-            $return = $attribute;
-        } elseif (method_exists($this, 'extras')) {
+            return $attribute;
+        }
+
+        if (method_exists($this, 'extras')) {
             $extras = $this->extras()->where('key', $key)->get();
             if ($extras->isNotEmpty()) {
                 if ($extras->count() > 1) {
-                    $return = $extras->pluck("value")->toArray();
+                    return $extras->pluck("value")->toArray();
                 } else {
-                    $return = $extras->first()->value;
+                    return $extras->first()->value;
                 }
             }
         }
 
-        return $return;
+        if (method_exists($this, 'extras')) {
+            if(\Str::startsWith($key, 'mf_')) {
+                $key = mb_substr($key, 3);
+                $medias = $this->medias();
+                if($key) {
+                    $medias->wherePivot('key', $key);
+                }
+                return $medias->orderBy('model_medias.order')->first();
+            } elseif(\Str::startsWith($key, 'mc_')) {
+                $key = mb_substr($key, 3);
+                $medias = $this->medias();
+                if($key) {
+                    $medias->wherePivot('key', $key);
+                }
+                return $medias->orderBy('model_medias.order')->get();
+            }
+        }
+
+        return $attribute;
     }
 }

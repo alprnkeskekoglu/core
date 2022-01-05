@@ -2,15 +2,15 @@
     $forms = \Dawnstar\Core\Models\Form::withCount('unreadMessages')->having('unread_messages_count', '>', 0)->active()->get();
 @endphp
 
-<div class="navbar-custom topnav-navbar topnav-navbar-dark">
+<div class="navbar-custom topnav-navbar">
     <div class="container-fluid">
         <!-- LOGO -->
         <a href="index.html" class="topnav-logo">
             <span class="topnav-logo-lg">
-                <img src="assets/images/logo-light.png" alt="" height="16">
+                <img src="{{ asset('vendor/dawnstar/core/medias/logo.png') }}" alt="" height="50">
             </span>
             <span class="topnav-logo-sm">
-                <img src="assets/images/logo_sm.png" alt="" height="16">
+                <img src="{{ asset('vendor/dawnstar/core/medias/logo-sm.png') }}" alt="" height="30">
             </span>
         </a>
 
