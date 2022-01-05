@@ -24,6 +24,11 @@ class Container extends BaseModel
         return $this->hasMany(Page::class);
     }
 
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
+
     public function translations()
     {
         return $this->hasMany(ContainerTranslation::class);

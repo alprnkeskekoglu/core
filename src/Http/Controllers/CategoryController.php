@@ -78,8 +78,6 @@ class CategoryController extends BaseController
 
     public function saveOrder(Request $request)
     {
-        canUser("structure.{$structure->id}.edit");
-
         $data = $request->get('data');
 
         $orderedData = buildTree($data);
