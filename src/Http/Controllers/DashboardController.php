@@ -202,7 +202,7 @@ class DashboardController extends BaseController
             ->get();
 
         $sum = $visits->sum('total');
-        $pageViews = $visits->take(8);
+        $visits = $visits->take(8);
         $referers = [];
         foreach ($visits as $visit) {
             $name = $visit->referer;
@@ -212,7 +212,7 @@ class DashboardController extends BaseController
             $referers[] = [
                 'name' => $name,
                 'count' => $visit->total,
-                'rate' => number_format($page->total * 100 / $sum, 1),
+                'rate' => number_format($visit->total * 100 / $sum, 1),
             ];
         }
 
