@@ -4,8 +4,7 @@
 
 <div class="navbar-custom topnav-navbar">
     <div class="container-fluid">
-        <!-- LOGO -->
-        <a href="index.html" class="topnav-logo">
+        <a href="{{ route('dawnstar.dashboard.index') }}" class="topnav-logo">
             <span class="topnav-logo-lg">
                 <img src="{{ asset('vendor/dawnstar/core/medias/logo.png') }}" alt="" height="50">
             </span>
@@ -76,8 +75,13 @@
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown" aria-labelledby="topbar-userdrop">
                     <!-- item-->
                     <div class=" dropdown-header noti-title">
-                        <h6 class="text-overflow m-0">Hoşgeldiniz !</h6>
+                        <h6 class="text-overflow m-0">@lang('Core::admin.welcome')</h6>
                     </div>
+
+                    <a href="/" target="_blank" class="dropdown-item notify-item">
+                        <i class="mdi mdi-home me-1"></i>
+                        <span>@lang('Core::admin.website')</span>
+                    </a>
 
                     <a href="{{ route('dawnstar.profile.index') }}" class="dropdown-item notify-item">
                         <i class="mdi mdi-account-circle me-1"></i>

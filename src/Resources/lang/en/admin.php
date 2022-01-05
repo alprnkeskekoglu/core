@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'welcome' => 'Welcome !',
+    'website' => 'Go Website',
     'profile' => 'My Account',
     'full_name' => 'Name Surname',
 

@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'welcome' => 'Hoşgeldiniz !',
+    'website' => 'Siteyi Görüntüle',
     'profile' => 'Hesabım',
     'full_name' => 'Ad Soyad',
 
