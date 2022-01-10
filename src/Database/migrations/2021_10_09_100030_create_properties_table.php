@@ -15,8 +15,10 @@ class CreatePropertiesTable extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('structure_id')->index()->constrained()->onDelete('cascade');
             $table->foreignId('container_id')->index()->constrained()->onDelete('cascade');
             $table->tinyInteger('status')->default(2);
+            $table->unsignedInteger('order')->nullable();
             $table->string('cvar_1')->nullable();
             $table->integer('cint_1')->nullable();
             $table->text('ctext_1')->nullable();

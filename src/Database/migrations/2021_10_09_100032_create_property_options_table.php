@@ -17,6 +17,7 @@ class CreatePropertyOptionsTable extends Migration
             $table->id();
             $table->foreignId('property_id')->index()->constrained()->onDelete('cascade');
             $table->tinyInteger('status')->default(2);
+            $table->unsignedInteger('order')->nullable();
             $table->string('cvar_1')->nullable();
             $table->integer('cint_1')->nullable();
             $table->text('ctext_1')->nullable();

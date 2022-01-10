@@ -24,6 +24,11 @@
                                 @lang('Core::general.category')
                             </a>
                         @endif
+                        @if($structure->has_property == 1)
+                            <a href="{{ route('dawnstar.structures.properties.index', [$structure]) }}" class="btn btn-secondary">
+                                @lang('Core::general.property')
+                            </a>
+                        @endif
                         @include('Core::includes.buttons.add_new', ['route' => route('dawnstar.structures.pages.create', $structure)])
                     </div>
                 </div>

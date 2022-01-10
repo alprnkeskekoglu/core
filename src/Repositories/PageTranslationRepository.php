@@ -17,9 +17,13 @@ class PageTranslationRepository implements TranslationInterface
             $translation['page_id'] = $page->id;
             $translation['language_id'] = $languageId;
             $translation['status'] = $languages[$languageId];
-            $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
-                ltrim($translation['slug'], '/') :
-                $translation['slug'];
+
+            if(isset($translation['slug'])) {
+                $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
+                    ltrim($translation['slug'], '/') :
+                    $translation['slug'];
+            }
+
             $translationModel = PageTranslation::create($translation);
 
             if (isset($translation['medias'])) {
@@ -42,9 +46,11 @@ class PageTranslationRepository implements TranslationInterface
 
         foreach ($translations as $languageId => $translation) {
 
-            $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
-                ltrim($translation['slug'], '/') :
-                $translation['slug'];
+            if(isset($translation['slug'])) {
+                $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
+                    ltrim($translation['slug'], '/') :
+                    $translation['slug'];
+            }
 
             $translationModel = PageTranslation::updateOrCreate(
                 [

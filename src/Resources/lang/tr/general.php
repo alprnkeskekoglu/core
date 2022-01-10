@@ -12,6 +12,7 @@ return [
 
     'list_page' => 'Liste Sayfası',
     'category' => 'Kategoriler',
+    'property' => 'Özellikler',
 
     'actions' => 'İşlemler',
     'status_options' => [

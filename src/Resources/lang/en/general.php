@@ -12,6 +12,7 @@ return [
 
     'list_page' => 'List Page',
     'category' => 'Categories',
+    'property' => 'Properties',
 
     'actions' => 'Actions',
     'status_options' => [

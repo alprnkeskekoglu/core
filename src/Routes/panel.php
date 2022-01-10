@@ -9,6 +9,8 @@ use Dawnstar\Core\Http\Controllers\StructureController;
 use Dawnstar\Core\Http\Controllers\ContainerController;
 use Dawnstar\Core\Http\Controllers\PageController;
 use Dawnstar\Core\Http\Controllers\CategoryController;
+use Dawnstar\Core\Http\Controllers\PropertyController;
+use Dawnstar\Core\Http\Controllers\PropertyOptionController;
 
 use Dawnstar\Core\Http\Controllers\AdminController;
 use Dawnstar\Core\Http\Controllers\RoleController;
@@ -50,6 +52,12 @@ Route::middleware(['dawnstar_auth'])->group(function () {
 
         Route::post('structures/{structure}/categories/saveOrder', [CategoryController::class, 'saveOrder'])->name('structures.categories.saveOrder');
         Route::resource('structures.categories', CategoryController::class)->except(['create', 'show']);
+
+        Route::post('structures/{structure}/properties/saveOrder', [PropertyController::class, 'saveOrder'])->name('structures.properties.saveOrder');
+        Route::resource('structures.properties', PropertyController::class)->except(['create', 'show']);
+
+        Route::post('structures/{structure}/properties/{property}/saveOrder', [PropertyOptionController::class, 'saveOrder'])->name('structures.properties.options.saveOrder');
+        Route::resource('structures.properties.options', PropertyOptionController::class)->except(['create', 'show']);
 
         Route::resource('admins', AdminController::class)->except(['show']);
         Route::get('admin-actions', [AdminActionController::class, 'index'])->name('admin_actions.index');

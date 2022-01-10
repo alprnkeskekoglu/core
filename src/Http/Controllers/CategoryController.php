@@ -26,8 +26,9 @@ class CategoryController extends BaseController
         $languages = $moduleBuilder->languages;
 
         $categories = $this->getCategories($structure);
+        $properties = $this->getProperties($structure);
 
-        return view('Core::modules.category.index', compact('structure', 'categories', 'moduleBuilder', 'languages'));
+        return view('Core::modules.category.index', compact('structure', 'categories', 'properties', 'moduleBuilder', 'languages'));
     }
 
     public function store(Structure $structure)
@@ -51,8 +52,9 @@ class CategoryController extends BaseController
         $languages = $moduleBuilder->languages;
 
         $categories = $this->getCategories($structure);
+        $properties = $this->getProperties($structure);
 
-        return view('Core::modules.category.edit', compact('structure', 'categories', 'category', 'moduleBuilder', 'languages'));
+        return view('Core::modules.category.edit', compact('structure', 'categories', 'properties', 'category', 'moduleBuilder', 'languages'));
     }
 
     public function update(Structure $structure, Category $category)
@@ -105,6 +107,18 @@ class CategoryController extends BaseController
                 }])
                     ->orderBy('left');
             }])
+            ->get();
+    }
+
+    private function getProperties(Structure $structure)
+    {
+        if(!$structure->has_property) {
+            return collect();
+        }
+
+        return $structure->properties()
+            ->orderBy('order')
+            ->where('status', 1)
             ->get();
     }
 }

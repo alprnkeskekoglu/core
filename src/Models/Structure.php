@@ -28,6 +28,11 @@ class Structure extends BaseModel
         return $this->hasMany(Category::class);
     }
 
+    public function properties()
+    {
+        return $this->hasMany(Property::class);
+    }
+
     public function pages()
     {
         return $this->hasMany(Page::class);

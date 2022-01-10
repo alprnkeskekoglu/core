@@ -28,12 +28,13 @@ class CategoryRepository implements CategoryInterface
 
     public function store(Structure $structure): Category
     {
-        $data = request()->except(['_token', '_method', 'translations', 'languages', 'medias', 'meta_tags', 'relations']);
+        $data = request()->except(['_token', '_method', 'translations', 'languages', 'medias', 'meta_tags', 'relations', 'properties']);
 
         $data['structure_id'] = $structure->id;
         $data['container_id'] = $structure->container->id;
 
         $category = Category::create($data);
+        $category->properties()->sync(request('properties', []));
 
         if (request('medias')) {
             $this->getMediaRepository()->syncMedias($category, request('medias'));
@@ -44,9 +45,10 @@ class CategoryRepository implements CategoryInterface
 
     public function update(Category $category)
     {
-        $requestData = request()->except(['_token', '_method', 'translations', 'languages', 'medias']);
+        $requestData = request()->except(['_token', '_method', 'translations', 'languages', 'medias', 'meta_tags', 'relations', 'properties']);
 
         $category->update($requestData);
+        $category->properties()->sync(request('properties', []));
 
         if (request('medias')) {
             $this->getMediaRepository()->syncMedias($category, request('medias'));

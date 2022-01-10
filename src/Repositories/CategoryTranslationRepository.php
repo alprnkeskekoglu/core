@@ -7,18 +7,21 @@ use Dawnstar\Core\Models\CategoryTranslation;
 
 class CategoryTranslationRepository implements TranslationInterface
 {
-    public function store($page)
+    public function store($category)
     {
         $languages = request('languages');
         $translations = request('translations');
 
         foreach ($translations as $languageId => $translation) {
-            $translation['category_id'] = $page->id;
+            $translation['category_id'] = $category->id;
             $translation['language_id'] = $languageId;
             $translation['status'] = $languages[$languageId];
-            $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
-                ltrim($translation['slug'], '/') :
-                $translation['slug'];
+
+            if(isset($translation['slug'])) {
+                $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
+                    ltrim($translation['slug'], '/') :
+                    $translation['slug'];
+            }
 
             $translationModel = CategoryTranslation::create($translation);
 
@@ -35,18 +38,22 @@ class CategoryTranslationRepository implements TranslationInterface
         }
     }
 
-    public function update($page)
+    public function update($category)
     {
         $languages = request('languages');
         $translations = request('translations');
 
         foreach ($translations as $languageId => $translation) {
-            $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
-                ltrim($translation['slug'], '/') :
-                $translation['slug'];
+
+            if(isset($translation['slug'])) {
+                $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
+                    ltrim($translation['slug'], '/') :
+                    $translation['slug'];
+            }
+
             $translationModel = CategoryTranslation::updateOrCreate(
                 [
-                    'category_id' => $page->id,
+                    'category_id' => $category->id,
                     'language_id' => $languageId,
                     'status' => $languages[$languageId],
                 ],

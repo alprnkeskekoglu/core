@@ -13,6 +13,7 @@ return [
         'order' => 'Order',
         'status' => 'Status',
         'name' => 'Category Name',
+        'properties' => 'Properties',
         'created_at' => ' Creation Date',
         'updated_at' => 'Updated Date'
     ],

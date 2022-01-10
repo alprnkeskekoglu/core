@@ -15,7 +15,7 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('structure_id')->index();
+            $table->foreignId('structure_id')->index()->constrained()->onDelete('cascade');
             $table->foreignId('container_id')->index()->constrained()->onDelete('cascade');
             $table->tinyInteger('status')->default(2);
             $table->unsignedBigInteger('parent_id')->default(0);
