@@ -47,6 +47,7 @@ Route::middleware(['dawnstar_auth'])->group(function () {
         Route::resource('structures', StructureController::class)->except(['show']);
         Route::resource('structures.containers', ContainerController::class)->only(['edit', 'update']);
 
+        Route::get('structures/{structure}/pages/getCategoryProperties', [PageController::class, 'getCategoryProperties'])->name('structures.pages.getCategoryProperties');
         Route::get('structures/{structure}/pages/datatable', [PageController::class, 'datatable'])->name('structures.pages.datatable');
         Route::resource('structures.pages', PageController::class)->except(['show']);
 

@@ -6,10 +6,14 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <a href="{{ route('dawnstar.structures.pages.index', $structure) }}" class="btn btn-secondary">
-                        <i class="mdi mdi-arrow-left"></i>
-                        @lang('Core::general.back')
-                    </a>
+                    <div class="float-start">
+                        @include('Core::includes.buttons.back', ['route' => route('dawnstar.structures.pages.index', $structure)])
+                        @if(auth('admin')->user()->hasRole('Super Admin'))
+                            <a href="{{ route('dawnstar.module_builders.edit', $structure->moduleBuilder('page')) }}" class="btn btn-secondary">
+                                @lang('ModuleBuilder::general.title.index')
+                            </a>
+                        @endif
+                    </div>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('dawnstar.structures.pages.update', [$structure, $page]) }}" id="pageUpdate" method="POST">

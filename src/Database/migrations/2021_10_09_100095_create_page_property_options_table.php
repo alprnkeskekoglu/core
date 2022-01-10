@@ -14,7 +14,6 @@ class CreatePagePropertyOptionsTable extends Migration
     public function up()
     {
         Schema::create('page_property_options', function (Blueprint $table) {
-            $table->unsignedBigInteger('property_option');
             $table->foreignId('page_id')->constrained()->onDelete('cascade');
             $table->foreignId('property_option_id')->constrained()->onDelete('cascade');
         });

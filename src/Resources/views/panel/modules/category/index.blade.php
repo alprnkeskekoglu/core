@@ -7,6 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="float-start">
+                        @include('Core::includes.buttons.back', ['route' => route('dawnstar.structures.pages.index', $structure)])
                         @if(auth('admin')->user()->hasRole('Super Admin'))
                             <a href="{{ route('dawnstar.module_builders.edit', $structure->moduleBuilder('category')) }}" class="btn btn-secondary">
                                 @lang('ModuleBuilder::general.title.index')

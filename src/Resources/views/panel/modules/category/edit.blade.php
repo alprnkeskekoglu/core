@@ -5,8 +5,17 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <div class="card-header">
+                    <div class="float-start">
+                        @include('Core::includes.buttons.back', ['route' => route('dawnstar.structures.categories.index', $structure)])
+                        @if(auth('admin')->user()->hasRole('Super Admin'))
+                            <a href="{{ route('dawnstar.module_builders.edit', $structure->moduleBuilder('category')) }}" class="btn btn-secondary">
+                                @lang('ModuleBuilder::general.title.index')
+                            </a>
+                        @endif
+                    </div>
+                </div>
                 <div class="card-body">
-
                     <div class="row">
                         <div class="col-lg-7">
                             <button type="button" class="btn btn-dark mb-2" id="orderSaveBtn">

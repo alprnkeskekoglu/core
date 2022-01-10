@@ -13,6 +13,11 @@ class Property extends BaseModel
     protected $table = 'properties';
     protected $guarded = ['id'];
 
+    public function structure()
+    {
+        return $this->belongsTo(Structure::class);
+    }
+
     public function container()
     {
         return $this->belongsTo(Container::class);
@@ -26,5 +31,10 @@ class Property extends BaseModel
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_properties');
+    }
+
+    public function options()
+    {
+        return $this->hasMany(PropertyOption::class);
     }
 }
