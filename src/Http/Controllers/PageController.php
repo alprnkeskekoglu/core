@@ -3,7 +3,9 @@
 namespace Dawnstar\Core\Http\Controllers;
 
 use Dawnstar\Core\Datatables\PageDatatable;
+use Dawnstar\Core\Models\CategoryProperty;
 use Dawnstar\Core\Models\Page;
+use Dawnstar\Core\Models\Property;
 use Dawnstar\Core\Models\Structure;
 use Dawnstar\Core\Repositories\PageRepository;
 use Dawnstar\Core\Repositories\PageTranslationRepository;
@@ -24,7 +26,7 @@ class PageController extends BaseController
 
     public function index(Structure $structure)
     {
-        if($structure->type != 'dynamic') {
+        if ($structure->type != 'dynamic') {
             return redirect()->route('dawnstar.structures.containers.edit', [$structure, $structure->container]);
         }
 
@@ -44,7 +46,7 @@ class PageController extends BaseController
 
     public function create(Structure $structure)
     {
-        if($structure->type != 'dynamic') {
+        if ($structure->type != 'dynamic') {
             abort(404);
         }
 
@@ -114,5 +116,22 @@ class PageController extends BaseController
         }
 
         return $datatable->query($structure, $request);
+    }
+
+    public function getCategoryProperties(Structure $structure, Request $request)
+    {
+        $categoryIds = $request->get('categories');
+        $value = $request->get('value', []);
+
+        $propertyIds = CategoryProperty::whereIn('category_id', $categoryIds)->pluck('property_id')->toArray();
+
+        $properties = Property::whereIn('id', $propertyIds)
+            ->active()
+            ->with(['translation', 'options' => function ($q) {
+                $q->active();
+            }])
+            ->get();
+
+        return view('ModuleBuilder::inputs.property_ajax', compact('properties', 'value'))->render();
     }
 }

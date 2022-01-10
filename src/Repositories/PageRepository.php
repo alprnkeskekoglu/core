@@ -29,7 +29,7 @@ class PageRepository implements PageInterface
 
     public function store(Structure $structure): Page
     {
-        $requestData = request()->except(['_token', '_method', 'translations', 'languages', 'medias', 'meta_tags', 'relations', 'categories']);
+        $requestData = request()->except(['_token', '_method', 'translations', 'languages', 'medias', 'meta_tags', 'relations', 'categories', 'properties']);
 
         $data = [];
 
@@ -47,6 +47,7 @@ class PageRepository implements PageInterface
         $this->getExtrasRepository()->store($page, $requestData);
         $this->syncCustomPages($page);
         $this->syncCategories($page);
+        $this->syncPropertyOptions($page);
 
         if (request('medias')) {
             $this->getMediaRepository()->syncMedias($page, request('medias'));
@@ -64,6 +65,7 @@ class PageRepository implements PageInterface
         $this->getExtrasRepository()->store($page, $requestData);
         $this->syncCustomPages($page);
         $this->syncCategories($page);
+        $this->syncPropertyOptions($page);
 
         if (request('medias')) {
             $this->getMediaRepository()->syncMedias($page, request('medias'));
@@ -93,6 +95,11 @@ class PageRepository implements PageInterface
     public function syncCategories(Page $page)
     {
         $page->categories()->sync(request('categories', []));
+    }
+
+    public function syncPropertyOptions(Page $page)
+    {
+        $page->propertyOptions()->sync(request('property_options', []));
     }
 
     private function getExtrasRepository()

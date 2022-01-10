@@ -2,12 +2,13 @@
 
 namespace Dawnstar\Core\Models;
 
+use Dawnstar\Core\Traits\HasTranslation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PropertyOption extends BaseModel
 {
-    use SoftDeletes;
+    use SoftDeletes, HasTranslation;
 
     protected $table = 'property_options';
     protected $guarded = ['id'];

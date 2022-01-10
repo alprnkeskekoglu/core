@@ -5,15 +5,24 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <div class="card-header">
+                    <div class="float-start">
+                        @include('Core::includes.buttons.back', ['route' => route('dawnstar.structures.categories.index', $structure)])
+                        @if(auth('admin')->user()->hasRole('Super Admin'))
+                            <a href="{{ route('dawnstar.module_builders.edit', $structure->moduleBuilder('category')) }}" class="btn btn-secondary">
+                                @lang('ModuleBuilder::general.title.index')
+                            </a>
+                        @endif
+                    </div>
+                </div>
                 <div class="card-body">
-
                     <div class="row">
                         <div class="col-lg-7">
                             <button type="button" class="btn btn-dark mb-2" id="orderSaveBtn">
                                 <i class="mdi mdi-order-numeric-ascending"></i>
                                 @lang('Core::category.order_save')
                             </button>
-                            <div class="dd" id="menuList">
+                            <div class="dd" id="categoryList">
                                 @include('Core::modules.category.items')
                             </div>
                         </div>
@@ -38,6 +47,24 @@
                                     </div>
                                     {!! $moduleBuilder->html() !!}
                                     <hr class="mt-3">
+                                    @if($structure->has_property)
+                                        @php
+                                            $selectedProperties = $category->properties()->pluck('id')->toArray();
+                                        @endphp
+                                        <div class="col-lg-12">
+                                            <div class="form-floating mb-3">
+                                                <select class="select2 form-select select2-multiple" data-toggle="select2" id="properties" name="properties[]" multiple>
+                                                    @foreach($properties as $property)
+                                                        <option {{ in_array($property->id, $selectedProperties) ? 'selected' : '' }} value="{{ $property->id }}">
+                                                            {!! $property->translation->name !!}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <label for="properties">@lang('Core::category.labels.properties')</label>
+                                            </div>
+                                        </div>
+                                        <hr class="mt-3">
+                                    @endif
                                     {!! $moduleBuilder->metaTagHtml() !!}
                                 </div>
                             </form>
@@ -62,9 +89,26 @@
     <script src="{{ asset('vendor/dawnstar/core/plugins/nestable/nestable.min.js') }}"></script>
     <script>
         $(document).ready(function () {
-            $('#menuList').nestable({
+            $('.select2-selection--multiple').addClass('form-select');
+            $('#categoryList').nestable({
                 maxDepth: 4
             });
+        });
+        $('#orderSaveBtn').on('click', function () {
+            $.ajax({
+                url: '{{ route('dawnstar.structures.categories.saveOrder', $structure) }}',
+                method: 'POST',
+                data: {
+                    'data': $('#categoryList').nestable('serialize'),
+                    '_token': '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    showMessage('success', '', '@lang('Core::category.success.order')')
+                },
+                error: function (response) {
+                    showMessage('error', 'Oops...', '')
+                }
+            })
         });
 
         @if($errors->any())

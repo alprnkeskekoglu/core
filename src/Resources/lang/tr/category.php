@@ -2,7 +2,7 @@
 
 return [
     'order_save' => 'Sıralamayı Güncelle',
-    
+
     'title' => [
         'index' => 'Kategoriler',
         'create' => 'Yeni Kategori Oluştur',
@@ -13,6 +13,7 @@ return [
         'order' => 'Sıra',
         'status' => 'Durum',
         'name' => 'Kategori Adı',
+        'properties' => 'Özellikler',
         'created_at' => 'Oluşturma Tarihi',
         'updated_at' => 'Güncelleme Tarihi'
     ],

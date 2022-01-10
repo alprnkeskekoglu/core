@@ -1,7 +1,7 @@
 @extends('Core::layouts.app')
 
 @section('content')
-    @include('Core::includes.page_header',['headerTitle' => __('Core::category.title.index')])
+    @include('Core::includes.page_header',['headerTitle' => __('Core::property.title.index')])
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -9,7 +9,7 @@
                     <div class="float-start">
                         @include('Core::includes.buttons.back', ['route' => route('dawnstar.structures.pages.index', $structure)])
                         @if(auth('admin')->user()->hasRole('Super Admin'))
-                            <a href="{{ route('dawnstar.module_builders.edit', $structure->moduleBuilder('category')) }}" class="btn btn-secondary">
+                            <a href="{{ route('dawnstar.module_builders.edit', $structure->moduleBuilder('property')) }}" class="btn btn-secondary">
                                 @lang('ModuleBuilder::general.title.index')
                             </a>
                         @endif
@@ -20,15 +20,37 @@
                         <div class="col-lg-6">
                             <button type="button" class="btn btn-dark mb-2" id="orderSaveBtn">
                                 <i class="mdi mdi-order-numeric-ascending"></i>
-                                @lang('Core::category.order_save')
+                                @lang('Core::property.order_save')
                             </button>
-                            <div class="dd" id="categoryList">
-                                @include('Core::modules.category.items')
+                            <div class="dd" id="propertyList">
+                                <ol class="dd-list">
+                                    @foreach($properties as $property)
+                                        <li class="dd-item" data-id="{{ $property->id }}">
+                                            <div class="float-end" style="padding: 0.65rem">
+                                                <i class="mdi mdi-18px mdi-circle text-{{ $property->status == 1 ? 'success' : 'danger' }}"></i>
+                                                <a href="{{ route('dawnstar.structures.properties.options.index', [$structure, $property]) }}" class="text-secondary">
+                                                    <i class="mdi mdi-18px mdi-format-list-bulleted-type"></i>
+                                                </a>
+                                                <a href="{{ route('dawnstar.structures.properties.edit', [$structure, $property]) }}" class="text-secondary">
+                                                    <i class="mdi mdi-18px mdi-pencil"></i>
+                                                </a>
+                                                <form action="{{ route('dawnstar.structures.properties.destroy', [$structure, $property]) }}" method="POST" class="d-inline">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button type="submit" class="btn action-icon p-0">
+                                                        <i class="mdi mdi-18px mdi-delete"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div class="dd-handle bg-white py-2 ps-3 rounded-1" style="height: 45px">{{ $property->translation->name }}</div>
+                                        </li>
+                                    @endforeach
+                                </ol>
                             </div>
                         </div>
 
                         <div class="col-lg-6">
-                            <form action="{{ route('dawnstar.structures.categories.store', [$structure]) }}" id="categoryStore" method="POST">
+                            <form action="{{ route('dawnstar.structures.properties.store', [$structure]) }}" id="propertyForm" method="POST">
                                 @csrf
                                 <div class="row">
                                     <div class="col-lg-12 mb-3">
@@ -45,21 +67,6 @@
                                         </div>
                                     </div>
                                     {!! $moduleBuilder->html() !!}
-                                    <hr class="mt-3">
-                                    @if($structure->has_property)
-                                        <div class="col-lg-12">
-                                            <div class="form-floating mb-3">
-                                                <select class="select2 form-select select2-multiple" data-toggle="select2" id="properties" name="properties[]" multiple>
-                                                    @foreach($properties as $property)
-                                                        <option value="{{ $property->id }}">{!! $property->translation->name !!}</option>
-                                                    @endforeach
-                                                </select>
-                                                <label for="properties">@lang('Core::category.labels.properties')</label>
-                                            </div>
-                                        </div>
-                                        <hr class="mt-3">
-                                    @endif
-                                    {!! $moduleBuilder->metaTagHtml() !!}
                                 </div>
                             </form>
                         </div>
@@ -67,7 +74,7 @@
                 </div>
 
                 <div class="card-footer text-end">
-                    <button type="submit" class="btn btn-primary" form="categoryStore">@lang('Core::general.save')</button>
+                    <button type="submit" class="btn btn-primary" form="propertyForm">@lang('Core::general.save')</button>
                 </div>
             </div>
         </div>
@@ -83,21 +90,20 @@
     <script src="{{ asset('vendor/dawnstar/core/plugins/nestable/nestable.min.js') }}"></script>
     <script>
         $(document).ready(function () {
-            $('.select2-selection--multiple').addClass('form-select');
-            $('#categoryList').nestable({
-                maxDepth: 4
+            $('#propertyList').nestable({
+                maxDepth: 1
             });
         });
         $('#orderSaveBtn').on('click', function () {
             $.ajax({
-                url: '{{ route('dawnstar.structures.categories.saveOrder', $structure) }}',
+                url: '{{ route('dawnstar.structures.properties.saveOrder', $structure) }}',
                 method: 'POST',
                 data: {
-                    'data': $('#categoryList').nestable('serialize'),
+                    'data': $('#propertyList').nestable('serialize'),
                     '_token': '{{ csrf_token() }}'
                 },
                 success: function (response) {
-                    showMessage('success', '', '@lang('Core::category.success.order')')
+                    showMessage('success', '', '@lang('Core::property.success.order')')
                 },
                 error: function (response) {
                     showMessage('error', 'Oops...', '')
