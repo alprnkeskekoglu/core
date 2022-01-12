@@ -24,6 +24,9 @@ class ContainerController extends BaseController
         canUser("structure.{$structure->id}.edit");
 
         if($structure->has_detail != 1) {
+            if($structure->type != 'dynamic') {
+                abort(404);
+            }
             return redirect()->route('dawnstar.structures.pages.index', $structure);
         }
 

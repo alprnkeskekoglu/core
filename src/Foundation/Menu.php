@@ -10,8 +10,17 @@ use Illuminate\Database\Eloquent\Collection;
 
 class Menu
 {
+    /**
+     * @var Language|mixed
+     */
     public Language $language;
+    /**
+     * @var Website|mixed
+     */
     public Website $website;
+    /**
+     * @var string
+     */
     public string $key;
 
     /**
@@ -25,6 +34,9 @@ class Menu
         $this->key = $key;
     }
 
+    /**
+     * @return array
+     */
     public function init(): array
     {
         $menu = $this->getMenu();
@@ -40,6 +52,9 @@ class Menu
         return $this->getMenuItemArray($menus, $menuItemIds);
     }
 
+    /**
+     * @return Model|null
+     */
     private function getMenu(): ?Model
     {
         return Model::where('key', $this->key)
@@ -48,6 +63,10 @@ class Menu
             ->first();
     }
 
+    /**
+     * @param Model $menu
+     * @return mixed
+     */
     private function getCurrentMenuItem(Model $menu)
     {
         $url = request()->path();
@@ -60,6 +79,10 @@ class Menu
             ->first();
     }
 
+    /**
+     * @param MenuItem $currentMenuItem
+     * @return array
+     */
     private function getActiveMenuItemIds(MenuItem $currentMenuItem): array
     {
         $parentIds = MenuItem::where('menu_id', $currentMenuItem->menu_id)
@@ -76,6 +99,10 @@ class Menu
         return $parentIds;
     }
 
+    /**
+     * @param Model $menu
+     * @return mixed
+     */
     private function getMenus(Model $menu)
     {
         return $menu->items()
@@ -86,6 +113,11 @@ class Menu
             ->get();
     }
 
+    /**
+     * @param Collection $menus
+     * @param array $activeMenuIds
+     * @return array
+     */
     private function getMenuItemArray(Collection $menus, array $activeMenuIds = []): array
     {
         $hold = [];

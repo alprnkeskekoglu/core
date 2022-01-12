@@ -27,6 +27,9 @@ class PageController extends BaseController
     public function index(Structure $structure)
     {
         if ($structure->type != 'dynamic') {
+            if($structure->has_detail == false) {
+                abort(404);
+            }
             return redirect()->route('dawnstar.structures.containers.edit', [$structure, $structure->container]);
         }
 
@@ -41,6 +44,7 @@ class PageController extends BaseController
             ['data' => 'updated_at', 'name' => 'updated_at', 'label' => __('Core::page.labels.updated_at'), 'searchable' => false],
             ['data' => 'actions', 'name' => 'actions', 'label' => __('Core::general.actions'), 'orderable' => false, 'searchable' => false],
         ];
+        
         return view('Core::modules.page.index', compact('structure', 'columns'));
     }
 

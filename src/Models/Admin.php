@@ -6,6 +6,7 @@ use Dawnstar\MediaManager\Traits\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Permission\Traits\HasRoles;
 
 class Admin extends Authenticatable
@@ -18,6 +19,31 @@ class Admin extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public static function boot()
+    {
+        static::created(function ($model) {
+            adminAction($model, 'store');
+            Cache::flush();
+        });
+
+        static::updated(function ($model) {
+            adminAction($model, 'update');
+            Cache::flush();
+        });
+
+        static::deleted(function ($model) {
+            adminAction($model, 'destroy');
+            Cache::flush();
+        });
+
+        parent::boot();
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
 
     public function actions()
     {

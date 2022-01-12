@@ -3,6 +3,7 @@
 namespace Dawnstar\Core\Http\Controllers;
 
 use Dawnstar\Core\Models\Form;
+use Dawnstar\Core\Foundation\Form as FormService;
 use Dawnstar\Core\Models\FormMessage;
 
 class FormMessageController extends BaseController
@@ -18,7 +19,7 @@ class FormMessageController extends BaseController
 
     public function store(string $key)
     {
-        $form = new \Dawnstar\Foundation\Form($key);
+        $form = new FormService($key);
         return $form->store();
     }
 

@@ -4,11 +4,17 @@ namespace Dawnstar\Core\Foundation;
 
 class Meta
 {
+    /**
+     * @return mixed
+     */
     public function getMetas()
     {
         return dawnstar()->url->metas;
     }
 
+    /**
+     * @return string
+     */
     public function getHtml()
     {
         $metas = $this->getMetas();
@@ -29,6 +35,10 @@ class Meta
         return $html;
     }
 
+    /**
+     * @param $metas
+     * @return string
+     */
     private function getMetaHtml($metas)
     {
         $html = '';
@@ -45,6 +55,9 @@ class Meta
         return $html;
     }
 
+    /**
+     * @return string
+     */
     private function getDefaultMetaHtml()
     {
         $keys = ['title', 'description', 'og:title', 'og:description'];
@@ -62,6 +75,11 @@ class Meta
         return $html;
     }
 
+    /**
+     * @param $key
+     * @param null $meta
+     * @return mixed
+     */
     private function getMetaValue($key, $meta = null)
     {
         if($meta && $meta->value) {
@@ -75,6 +93,10 @@ class Meta
         }
     }
 
+    /**
+     * @param string $key
+     * @return string
+     */
     private function getMetaTemplate(string $key)
     {
         if ($key == 'title') {
@@ -86,6 +108,9 @@ class Meta
         }
     }
 
+    /**
+     * @return string
+     */
     private function getRobots()
     {
         $content = dawnstar()->translation->status == 1 ? 'index, follow' : 'noindex';
@@ -93,11 +118,17 @@ class Meta
         return '<meta name="robots" content="' . $content . '">';
     }
 
+    /**
+     * @return string
+     */
     private function getCanonical()
     {
         return '<link rel="canonical" href="' . url(dawnstar()->url->url) . '"/>';
     }
 
+    /**
+     * @return string
+     */
     private function getAlternateLanguage()
     {
         $translations = dawnstar()->parent->translations;

@@ -6,11 +6,17 @@ use Dawnstar\Core\Models\Website;
 
 class Dawnstar
 {
+    /**
+     * Dawnstar constructor.
+     */
     public function __construct()
     {
         view()->share("dawnstar", $this);
     }
 
+    /**
+     * @return mixed
+     */
     public function website()
     {
         $fullUrl = request()->fullUrl();
@@ -22,6 +28,9 @@ class Dawnstar
         return Website::whereIn('domain', $domainArray)->first();
     }
 
+    /**
+     * @return string
+     */
     public function metasHtml()
     {
         $meta = new Meta();
@@ -29,6 +38,10 @@ class Dawnstar
         return $meta->getHtml();
     }
 
+    /**
+     * @param $name
+     * @return null
+     */
     public function __get($name)
     {
         if (isset($this->$name)) {
