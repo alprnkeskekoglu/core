@@ -148,6 +148,9 @@
                             </div>
                             <div class="col-lg-6 d-none" id="slugBox">
                                 @foreach($languages as $language)
+                                    @php
+                                        $website = session('dawnstar.website');
+                                    @endphp
                                     <div class="form-floating mb-3 hasLanguage {{ $loop->first ? '' : 'd-none' }}" data-language="{{ $language->id }}">
                                         <input type="text" class="form-control slugInput @if($errors->has('translations.' . $language->id . '.slug')) is-invalid @endif"
                                                id="translations_{{ $language->id }}_slug"
@@ -155,7 +158,7 @@
                                                value="/{{ old('translations.'.$language->id.'.slug') }}"
                                                data-language="{{ $language->id }}"/>
                                         <label for="translations_{{ $language->id }}_slug">@lang('Core::container.labels.slug') ({{ strtoupper($language->code) }})</label>
-                                        <div class="help-block text-muted ms-2">/{{ $language->code }}<span>/{{ ltrim(old('translations.'.$language->id.'.slug'), '/') }}</span></div>
+                                        <div class="help-block text-muted ms-2">{{ ($website->url_language_code != 1 && $website->defaultLanguage()->id == $language->id ? '' : "/{$language->code}") }}<span>/{{ ltrim(old('translations.'.$language->id.'.slug'), '/') }}</span></div>
                                         @error('translations.' . $language->id . '.slug')
                                         <div class="invalid-feedback">
                                             {{ $errors->first('translations.' . $language->id . '.slug') }}

@@ -10,6 +10,7 @@ return [
     'labels' => [
         'status' => 'Durum',
         'default' => 'Varsayılan website mi?',
+        'url_language_code' => 'Varsayılan dil kodu kullanılsın mı?',
         'name' => 'İsim',
         'domain' => 'Alan Adı',
         'languages' => 'Diller',

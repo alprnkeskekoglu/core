@@ -12,6 +12,7 @@ class WebsiteRequest extends FormRequest
         return [
             'status' => ['required', 'boolean'],
             'default' => ['required', 'boolean'],
+            'url_language_code' => ['required', 'boolean'],
             'name' => ['required'],
             'domain' => [
                 'required',

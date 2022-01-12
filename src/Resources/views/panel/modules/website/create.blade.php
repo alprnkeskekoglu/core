@@ -16,7 +16,7 @@
                     <form action="{{ route('dawnstar.websites.store') }}" id="websiteStore" method="POST">
                         @csrf
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <label class="form-label">@lang('Core::website.labels.status')</label>
                                 <div class="mb-3">
                                     <div class="form-check form-check-inline form-radio-success">
@@ -34,7 +34,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <label class="form-label">@lang('Core::website.labels.default')</label>
                                 <div class="mb-3">
                                     <div class="form-check form-check-inline form-radio-success">
@@ -46,6 +46,24 @@
                                         <label class="form-check-label" for="default_0">@lang('Core::general.no')</label>
                                     </div>
                                     @error('default')
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="form-label">@lang('Core::website.labels.url_language_code')</label>
+                                <div class="mb-3">
+                                    <div class="form-check form-check-inline form-radio-success">
+                                        <input type="radio" id="url_language_code_1" name="url_language_code" class="form-check-input @error('url_language_code') is-invalid @enderror" value="1" {{ old('url_language_code', 1) == 1 ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="url_language_code_1">@lang('Core::general.yes')</label>
+                                    </div>
+                                    <div class="form-check form-check-inline form-radio-danger">
+                                        <input type="radio" id="url_language_code_0" name="url_language_code" class="form-check-input @error('url_language_code') is-invalid @enderror" value="0" {{ old('url_language_code', 1) == 0 ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="url_language_code_0">@lang('Core::general.no')</label>
+                                    </div>
+                                    @error('url_language_code')
                                     <div class="invalid-feedback d-block">
                                         {{ $message }}
                                     </div>

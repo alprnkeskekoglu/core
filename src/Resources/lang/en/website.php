@@ -10,6 +10,7 @@ return [
     'labels' => [
         'status' => 'Status',
         'default' => 'Is it the default website?',
+        'url_language_code' => 'Use default language code?',
         'name' => 'Name',
         'domain' => 'Domain Name',
         'languages' => 'Languages',

@@ -30,7 +30,7 @@ class WebsiteController extends BaseController
     {
         canUser("create");
 
-        $data = $request->only(['status', 'default', 'name', 'domain']);
+        $data = $request->only(['status', 'default', 'url_language_code', 'name', 'domain']);
         $languages = $request->get('languages');
         $defaultLanguage = $request->get('default_language');
 
@@ -65,7 +65,7 @@ class WebsiteController extends BaseController
     {
         canUser("edit");
 
-        $data = $request->only(['status', 'default', 'name', 'domain']);
+        $data = $request->only(['status', 'default', 'url_language_code', 'name', 'domain']);
         $languages = $request->get('languages');
         $defaultLanguage = $request->get('default_language');
 

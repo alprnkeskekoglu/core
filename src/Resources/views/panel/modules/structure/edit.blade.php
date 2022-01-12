@@ -107,7 +107,7 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6" id="nameBox">
                                 @foreach($languages as $language)
                                     @php
                                         $translation = $structure->container->translations()->where('language_id', $language->id)->first();
@@ -127,10 +127,11 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 d-none" id="slugBox">
                                 @foreach($languages as $language)
                                     @php
                                         $translation = $structure->container->translations()->where('language_id', $language->id)->first();
+                                        $website = session('dawnstar.website');
                                     @endphp
                                     <div class="form-floating mb-3 hasLanguage {{ $loop->first ? '' : 'd-none' }}" data-language="{{ $language->id }}">
                                         <input type="text" class="form-control slugInput @if($errors->has('translations.' . $language->id . '.slug')) is-invalid @endif"
@@ -139,7 +140,7 @@
                                                value="{{ old('translations.'.$language->id.'.slug', optional($translation)->slug) }}"
                                                data-language="{{ $language->id }}"/>
                                         <label for="translations_{{ $language->id }}_slug">@lang('Core::container.labels.slug') ({{ strtoupper($language->code) }})</label>
-                                        <div class="help-block text-muted ms-2">/{{ $language->code }}<span>/{{ old('translations.'.$language->id.'.slug', optional($translation)->slug) }}</span></div>
+                                        <div class="help-block text-muted ms-2">{{ ($website->url_language_code != 1 && $website->defaultLanguage()->id == $language->id ? '' : "/{$language->code}") }}<span>/{{ ltrim(old('translations.'.$language->id.'.slug', optional($translation)->slug)) }}</span></div>
                                         @error('translations.' . $language->id . '.slug')
                                         <div class="invalid-feedback">
                                             {{ $errors->first('translations.' . $language->id . '.slug') }}
@@ -167,6 +168,7 @@
     <script>
         $(document).ready(function () {
             updateOptions($('#type').val());
+            $('#has_url').trigger('change');
         })
 
         $('#type').on('change', function () {
@@ -177,6 +179,16 @@
             $('#has_detail, #has_category, #has_property, #has_url, #is_searchable').prop('disabled', false);
 
             updateOptions(value);
+        });
+
+        $('#has_url').on('change', function () {
+            if ($(this).is(':checked')) {
+                $('#slugBox').removeClass('d-none')
+                $('#nameBox').find('input').addClass('nameInput');
+            } else {
+                $('#slugBox').addClass('d-none')
+                $('#nameBox').find('input').removeClass('nameInput');
+            }
         });
 
         function updateOptions(value) {
