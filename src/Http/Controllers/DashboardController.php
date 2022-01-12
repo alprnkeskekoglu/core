@@ -29,8 +29,6 @@ class DashboardController extends BaseController
 
     public function getReport()
     {
-        $this->startDate = Carbon::parse(request('start_date', Carbon::now()->subWeek()->format('Y-m-d')));
-        $this->endDate = Carbon::parse(request('end_date', Carbon::now()->format('Y-m-d')))->endOfDay();
         $report = request('report');
 
         return $this->{$report}();

@@ -11,13 +11,7 @@ use Illuminate\Http\Request;
 
 class PropertyController extends BaseController
 {
-    /**
-     * @var PropertyRepository
-     */
     private PropertyRepository $propertyRepository;
-    /**
-     * @var PropertyTranslationRepository
-     */
     private PropertyTranslationRepository $propertyTranslationRepository;
 
     public function __construct(PropertyRepository $propertyRepository, PropertyTranslationRepository $propertyTranslationRepository)

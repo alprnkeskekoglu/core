@@ -12,6 +12,9 @@ use Yajra\DataTables\Facades\DataTables;
 
 class CategoryController extends BaseController
 {
+    private CategoryRepository $categoryRepository;
+    private CategoryTranslationRepository $categoryTranslationRepository;
+
     public function __construct(CategoryRepository $categoryRepository, CategoryTranslationRepository $categoryTranslationRepository)
     {
         $this->categoryRepository = $categoryRepository;

@@ -23,7 +23,7 @@ class LoginController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->intended('admin/dashboard');
+            return redirect()->intended('dawnstar/dashboard');
         }
 
         return back()->withErrors([

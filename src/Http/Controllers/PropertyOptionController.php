@@ -12,13 +12,7 @@ use Illuminate\Http\Request;
 
 class PropertyOptionController extends BaseController
 {
-    /**
-     * @var PropertyOptionRepository
-     */
     private PropertyOptionRepository $propertyOptionRepository;
-    /**
-     * @var PropertyOptionTranslationRepository
-     */
     private PropertyOptionTranslationRepository $propertyOptionTranslationRepository;
 
     public function __construct(PropertyOptionRepository $propertyOptionRepository, PropertyOptionTranslationRepository $propertyOptionTranslationRepository)

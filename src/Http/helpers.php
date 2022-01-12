@@ -113,13 +113,13 @@ function canUser(string $key, bool $hasWebsite = true)
     }
 
     if (!$role->hasPermissionTo($key)) {
-        throw new \Dawnstar\Exception\PermissionException();
+        throw new \Dawnstar\Core\Exception\PermissionException();
     }
 }
 
 function custom(string $key, string $value = null, int $languageId = null)
 {
-    $languageId = $languageId ?: 164;
+    $languageId = $languageId ?: dawnstar()->language->id;
 
     $customTranslations = \Illuminate\Support\Facades\Cache::rememberForever('customTranslations_' . $languageId, function () use ($languageId) {
         return \Dawnstar\Core\Models\CustomTranslation::where('language_id', $languageId)->pluck('value', 'key')->toArray();
@@ -140,7 +140,8 @@ function custom(string $key, string $value = null, int $languageId = null)
     );
 
 
-    $languages = [84]; // TODO
+    $website = dawnstar()->website;
+    $languages = $website->languages;
 
     foreach ($languages as $language) {
         \Dawnstar\Core\Models\CustomTranslation::firstOrCreate(

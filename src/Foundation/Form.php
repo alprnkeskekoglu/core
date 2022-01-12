@@ -9,18 +9,40 @@ use Illuminate\Support\Facades\Mail;
 
 class Form
 {
+    /**
+     * @var string
+     */
     public string $key;
+    /**
+     * @var Model|null
+     */
     public Model $form;
+    /**
+     * @var string
+     */
     public string $storeUrl;
+    /**
+     * @var bool
+     */
     public bool $recaptchaStatus = false;
+    /**
+     * @var string|null
+     */
     public ?string $recaptchaKey;
 
+    /**
+     * Form constructor.
+     * @param string $key
+     */
     public function __construct(string $key)
     {
         $this->key = $key;
         $this->form = $this->getForm();
     }
 
+    /**
+     * @return $this
+     */
     public function init()
     {
         if(is_null($this->form)) {
@@ -41,6 +63,9 @@ class Form
         }
     }
 
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store()
     {
         $requestData = request()->except('_token', 'g-recaptcha-response');
@@ -61,6 +86,9 @@ class Form
         return back()->with('success', custom('form.' . $this->form->id  . '.success_message', 'Form başarıyla gönderildi.'));
     }
 
+    /**
+     * @param FormMessage $message
+     */
     public function sendEmail(FormMessage $message)
     {
         $formClass = 'App\Mail\Form';
@@ -71,6 +99,9 @@ class Form
         }
     }
 
+    /**
+     * @return Model|null
+     */
     private function getForm(): ?Model
     {
         return Model::where('key', $this->key)

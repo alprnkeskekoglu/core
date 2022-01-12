@@ -7,12 +7,19 @@ use Dawnstar\Core\Models\SearchData;
 
 class Search
 {
+    /**
+     * Search constructor.
+     */
     public function __construct()
     {
         $dawnstar = dawnstar();
         $this->language = $dawnstar->language;
     }
 
+    /**
+     * @param int $perPage
+     * @return mixed
+     */
     public function getResults(int $perPage = 10)
     {
         $request = request();
@@ -24,6 +31,11 @@ class Search
         return $results->withPath(url($newPath));
     }
 
+    /**
+     * @param int $perPage
+     * @param string $query
+     * @return mixed
+     */
     private function search(int $perPage, string $query = '')
     {
         return SearchData::where('language_id', $this->language->id)

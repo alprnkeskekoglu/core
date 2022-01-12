@@ -70,7 +70,7 @@
                                     <select class="form-select @error('role_id') is-invalid @enderror" id="role_id" name="role_id">
                                         <option value="">@lang('Core::general.select')</option>
                                         @foreach($roles as $role)
-                                            <option value="{{ $role->id }}" {{ old('role_id', $admin->role_id) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                                            <option value="{{ $role->id }}" {{ old('role_id', $admin->roles->first()->id) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
                                         @endforeach
                                     </select>
                                     <label for="role_id">@lang('Core::admin.labels.role_id')</label>

@@ -47,10 +47,10 @@
                 method: 'DELETE',
                 success: function (response) {
                     self.closest('.customTranslationBox').remove();
-                    showNotification('success', response.success)
+                    showMessage('success', response.success)
                 },
                 error: function (response) {
-                    showNotification('error', response.responseJSON.error)
+                    showMessage('error', response.responseJSON.error)
                 }
             })
         });
@@ -62,14 +62,14 @@
         $('body').delegate('.languageInput', 'keyup', function (e) {
             clearTimeout(typingTimer);
             typedInput = $(this);
-            typingTimer = setTimeout(updateCustomLanguage, doneTypingInterval);
+            typingTimer = setTimeout(updateCustomTranslation, doneTypingInterval);
         });
 
         $('body').delegate('.languageInput', 'keydown', function () {
             clearTimeout(typingTimer);
         });
 
-        function updateCustomLanguage() {
+        function updateCustomTranslation() {
             var id = typedInput.attr('data-id');
             var value = typedInput.val();
             $.ajax({
@@ -77,10 +77,10 @@
                 data: {id, value, '_token': '{{ csrf_token() }}'},
                 method: 'PUT',
                 success: function (response) {
-                    showNotification('success', response.success)
+                    showMessage('success', response.success)
                 },
                 error: function (response) {
-                    showNotification('error', response.responseJSON.error)
+                    showMessage('error', response.responseJSON.error)
                 }
             })
         }
