@@ -71,10 +71,9 @@ class Menu
     {
         $url = request()->path();
 
-        return MenuItem::active()
-            ->where('menu_id', $menu->id)
+        return $menu->items()
             ->whereHas('url', function ($q) use ($url) {
-                $q->where("url", "LIKE", "%$url%");
+                $q->where("url", "like", "%$url%");
             })
             ->first();
     }

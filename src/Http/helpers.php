@@ -51,14 +51,7 @@ function form(string $key)
 
 function menu(string $key)
 {
-    $dawnstar = dawnstar();
-
-    $websiteId = $dawnstar->website->id;
-    $languageId = $dawnstar->language->id;
-
-    return \Illuminate\Support\Facades\Cache::rememberForever('menu' . $key . $websiteId . $languageId, function () use ($key) {
-        return (new \Dawnstar\Foundation\Menu($key))->init();
-    });
+    return (new \Dawnstar\Core\Foundation\Menu($key))->init();
 }
 
 function setSession()

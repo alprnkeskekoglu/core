@@ -50,6 +50,6 @@ class CategoryTranslationObserver
         $urlText .= $containerTranslation->slug . '/' . $categoryTranslation->slug;
 
 
-        return rtrim($urlText, '/');
+        return $urlText;
     }
 }

@@ -49,6 +49,6 @@ class PageTranslationObserver
         }
         $urlText .= $containerTranslation->slug . '/' . $pageTranslation->slug;
 
-        return rtrim($urlText, '/');
+        return $urlText;
     }
 }
