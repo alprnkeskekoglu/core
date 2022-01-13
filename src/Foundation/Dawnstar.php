@@ -38,6 +38,15 @@ class Dawnstar
         return $meta->getHtml();
     }
 
+    public function homepageUrl() {
+        $homepage = \Dawnstar\Core\Models\Structure::where('key', 'homepage')->first();
+
+        if ($homepage && $homepage->container->translation) {
+            return $homepage->container->translation->url;
+        }
+        return "javascript:void(0);";
+    }
+
     /**
      * @param $name
      * @return null

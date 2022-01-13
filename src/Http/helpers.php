@@ -38,7 +38,7 @@ function searchUrl()
     $structure = \Dawnstar\Core\Models\Structure::where('key', 'search')
         ->first();
 
-    if ($structure && $structure->container->detail) {
+    if ($structure && $structure->container->translation) {
         return url($structure->container->translation->url->url);
     }
     return "javascript:void(0);";
@@ -46,7 +46,7 @@ function searchUrl()
 
 function form(string $key)
 {
-    return (new \Dawnstar\Foundation\Form($key))->init();
+    return (new \Dawnstar\Core\Foundation\Form($key))->init();
 }
 
 function menu(string $key)

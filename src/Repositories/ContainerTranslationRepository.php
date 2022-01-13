@@ -12,8 +12,8 @@ class ContainerTranslationRepository implements TranslationInterface
 
     public function store($container)
     {
-        $languages = request('languages');
-        $translations = request('translations');
+        $languages = request('languages', []);
+        $translations = request('translations', []);
 
         foreach ($translations as $languageId => $translation) {
             $translation['container_id'] = $container->id;
@@ -41,8 +41,8 @@ class ContainerTranslationRepository implements TranslationInterface
 
     public function update($container)
     {
-        $languages = request('languages');
-        $translations = request('translations');
+        $languages = request('languages', []);
+        $translations = request('translations', []);
 
         foreach ($translations as $languageId => $translation) {
 

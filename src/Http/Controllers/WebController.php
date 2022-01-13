@@ -28,10 +28,15 @@ class WebController extends BaseController
             $homePage = Structure::where('website_id', $website->id)->where('key', 'homepage')->first();
             $homePageDetail = $homePage->container->translations()->where('language_id', $website->defaultLanguage()->id)->first();
 
-            if($homePageDetail) {
-                return redirect()->to($homePageDetail->url->url);
+            if(is_null($homePageDetail)) {
+                abort(404);
             }
-            abort(404);
+
+            if($homePageDetail->url->url != '/') {
+                return redirect()->to($homePageDetail->url->url);
+            } else {
+                $parsedUrl['path'] = '/';
+            }
         }
 
         $path = $parsedUrl['path'];

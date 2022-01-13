@@ -5,10 +5,10 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "dawnstar/media-manager": "dev-master",
-        "dawnstar/module-builder": "dev-master",
-        "dawnstar/region": "dev-master",
-        "dawnstar/developer": "dev-master",
+        "dawnstar/media-manager": "^1.1",
+        "dawnstar/module-builder": "^1.0",
+        "dawnstar/region": "^1.0",
+        "dawnstar/developer": "^1.0",
         "dawnstar/tracker": "^1.0",
         "spatie/laravel-permission": "^5.4",
         "yajra/laravel-datatables-oracle": "~9.0"
