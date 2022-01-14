@@ -119,7 +119,7 @@ class DashboardController extends BaseController
 
         $return = [];
         foreach ($operatingSystems as $operatingSystem) {
-            $return[ucwords($operatingSystem->name)] = $operatingSystem->cookies_count;
+            $return[ucwords($operatingSystem->name ?: 'none')] = $operatingSystem->cookies_count;
         }
         $operatingSystems = $return;
 
@@ -137,7 +137,7 @@ class DashboardController extends BaseController
 
         $return = [];
         foreach ($browsers as $browser) {
-            $return[ucwords($browser->name)] = $browser->cookies_count;
+            $return[ucwords($browser->name ?: 'none')] = $browser->cookies_count;
         }
         $browsers = $return;
 
@@ -202,9 +202,10 @@ class DashboardController extends BaseController
         $sum = $visits->sum('total');
         $visits = $visits->take(8);
         $referers = [];
+
         foreach ($visits as $visit) {
             $name = $visit->referer;
-            if (!$visit->referer) {
+            if (!$visit->referer || $visit->referer == dawnstar()->website->domain) {
                 $name = 'Direct';
             }
             $referers[] = [

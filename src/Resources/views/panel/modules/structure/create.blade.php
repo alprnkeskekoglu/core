@@ -146,7 +146,7 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div class="col-lg-6 d-none" id="slugBox">
+                            <div class="col-lg-6 {{ old('has_url') == 1 ? '' : 'd-none' }}" id="slugBox">
                                 @foreach($languages as $language)
                                     @php
                                         $website = session('dawnstar.website');
