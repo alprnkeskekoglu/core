@@ -8,23 +8,25 @@ use Illuminate\Support\Facades\Schema;
 
 class MetaTagRepository implements MetaTagInterface
 {
-    public function sync($translation, $data)
+    public function sync($model, $data)
     {
-        $url = $translation->url;
-        $data = $data[$translation->language_id];
+        foreach ($model->translations as $translation) {
+            $url = $translation->url;
+            $data = $data[$translation->language_id];
 
-        if ($url) {
-            foreach ($data as $key => $value) {
-                MetaTag::updateOrCreate(
-                    [
-                        'url_id' => $url->id,
-                        'key' => $key
-                    ],
-                    [
-                        'template' => $this->getTemplate($key),
-                        'value' => $value,
-                    ]
-                );
+            if ($url) {
+                foreach ($data as $key => $value) {
+                    MetaTag::updateOrCreate(
+                        [
+                            'url_id' => $url->id,
+                            'key' => $key
+                        ],
+                        [
+                            'template' => $this->getTemplate($key),
+                            'value' => $value,
+                        ]
+                    );
+                }
             }
         }
     }

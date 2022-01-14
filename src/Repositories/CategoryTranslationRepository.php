@@ -31,10 +31,10 @@ class CategoryTranslationRepository implements TranslationInterface
             }
 
             $this->getExtrasRepository()->store($translationModel, $translation);
+        }
 
-            if (request('meta_tags')) {
-                $this->getMetaTagRepository()->sync($translationModel, request('meta_tags'));
-            }
+        if (request('meta_tags')) {
+            $this->getMetaTagRepository()->sync($category, request('meta_tags'));
         }
     }
 
@@ -66,10 +66,10 @@ class CategoryTranslationRepository implements TranslationInterface
             }
 
             $this->getExtrasRepository()->store($translationModel, $translation);
+        }
 
-            if (request('meta_tags')) {
-                $this->getMetaTagRepository()->sync($translationModel, request('meta_tags'));
-            }
+        if (request('meta_tags')) {
+            $this->getMetaTagRepository()->sync($category, request('meta_tags'));
         }
     }
 

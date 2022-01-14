@@ -20,26 +20,6 @@ class Admin extends Authenticatable
         'remember_token',
     ];
 
-    public static function boot()
-    {
-        static::created(function ($model) {
-            adminAction($model, 'store');
-            Cache::flush();
-        });
-
-        static::updated(function ($model) {
-            adminAction($model, 'update');
-            Cache::flush();
-        });
-
-        static::deleted(function ($model) {
-            adminAction($model, 'destroy');
-            Cache::flush();
-        });
-
-        parent::boot();
-    }
-
     public function scopeActive($query)
     {
         return $query->where('status', 1);
@@ -63,22 +43,20 @@ class Admin extends Authenticatable
             return $attribute;
         }
 
-        if (method_exists($this, 'extras')) {
-            if(\Str::startsWith($key, 'mf_')) {
-                $key = mb_substr($key, 3);
-                $medias = $this->medias();
-                if($key) {
-                    $medias->wherePivot('key', $key);
-                }
-                return $medias->orderBy('model_medias.order')->first();
-            } elseif(\Str::startsWith($key, 'mc_')) {
-                $key = mb_substr($key, 3);
-                $medias = $this->medias();
-                if($key) {
-                    $medias->wherePivot('key', $key);
-                }
-                return $medias->orderBy('model_medias.order')->get();
+        if(\Str::startsWith($key, 'mf_')) {
+            $key = mb_substr($key, 3);
+            $medias = $this->medias();
+            if($key) {
+                $medias->wherePivot('key', $key);
             }
+            return $medias->orderBy('model_medias.order')->first();
+        } elseif(\Str::startsWith($key, 'mc_')) {
+            $key = mb_substr($key, 3);
+            $medias = $this->medias();
+            if($key) {
+                $medias->wherePivot('key', $key);
+            }
+            return $medias->orderBy('model_medias.order')->get();
         }
 
         return $attribute;
