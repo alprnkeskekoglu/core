@@ -49,6 +49,6 @@ class ContainerTranslationObserver
 
         $urlText .= $containerTranslation->slug;
 
-        return $urlText;
+        return $urlText == '//' ? substr($urlText, 0,1) : rtrim($urlText, '/');
     }
 }
