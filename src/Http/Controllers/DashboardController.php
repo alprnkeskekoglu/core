@@ -202,9 +202,10 @@ class DashboardController extends BaseController
         $sum = $visits->sum('total');
         $visits = $visits->take(8);
         $referers = [];
+
         foreach ($visits as $visit) {
             $name = $visit->referer;
-            if (!$visit->referer) {
+            if (!$visit->referer || $visit->referer == dawnstar()->website->domain) {
                 $name = 'Direct';
             }
             $referers[] = [
