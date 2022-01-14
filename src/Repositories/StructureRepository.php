@@ -33,7 +33,7 @@ class StructureRepository implements StructureInterface
      */
     public function getAll(): Collection
     {
-        return Structure::where('website_id', session('dawnstar.website.id'))->get();
+        return Structure::where('website_id', session('dawnstar.website.id'))->with('container.translation')->get();
     }
 
     /**
