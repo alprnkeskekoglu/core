@@ -4,6 +4,7 @@ namespace Dawnstar\Core\Console\Commands;
 
 use Database\Seeders\DatabaseSeeder;
 use Dawnstar\Core\Database\seeds\LanguageSeeder;
+use Dawnstar\Core\Models\Admin;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
@@ -26,20 +27,16 @@ class Install extends Command
             return;
         }
 
-        $this->vendorPublish();
         $this->removeUserMigration();
+
+        $this->vendorPublish();
+        $this->migrate();
+        $this->seed();
+        $this->createSuperAdmin();
+
         $this->cleanWebRoute();
         $this->createDirectories();
         $this->createSymbolicLink();
-
-        Artisan::call('migrate', ['--force' => true]);
-        $this->info(Artisan::output());
-
-        $seeder = new DatabaseSeeder();
-        $seeder->call([LanguageSeeder::class]);
-        $this->info("Database seed completed!" . PHP_EOL);
-
-        $this->createSuperAdmin();
 
         @unlink(resource_path('views/welcome.blade.php'));
 
@@ -49,6 +46,11 @@ class Install extends Command
         $this->info("------------------" . PHP_EOL);
         $this->info(" Install Completed " . PHP_EOL);
         $this->info("------------------" . PHP_EOL);
+    }
+
+    private function removeUserMigration()
+    {
+        @unlink(base_path('database/migrations/2014_10_12_000000_create_users_table.php'));
     }
 
     private function vendorPublish()
@@ -61,9 +63,22 @@ class Install extends Command
         $this->info(Artisan::output());
     }
 
-    private function removeUserMigration()
+    private function migrate()
     {
-        @unlink(base_path('database/migrations/2014_10_12_000000_create_users_table.php'));
+        Artisan::call('migrate', ['--force' => true]);
+        $this->info(Artisan::output());
+    }
+
+    private function seed()
+    {
+        $seeder = new DatabaseSeeder();
+        $seeder->call([LanguageSeeder::class]);
+        $this->info("Database seed completed!" . PHP_EOL);
+    }
+
+    private function createSuperAdmin()
+    {
+        Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'admin']);
     }
 
     private function cleanWebRoute()
@@ -102,10 +117,5 @@ class Install extends Command
     {
         Artisan::call('storage:link');
         $this->info(Artisan::output());
-    }
-
-    private function createSuperAdmin()
-    {
-        Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'admin']);
     }
 }

@@ -12,7 +12,7 @@ function slugify(str) {
     return str;
 }
 
-function showMessage(type, title, message, timer = 1500) {
+function showMessage(type, title, message, timer = 1200) {
     let timerInterval;
     Swal.fire({
         icon: type,

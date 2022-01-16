@@ -1,5 +1,7 @@
 @php
-    $structures = \Dawnstar\Core\Models\Structure::active()->get();
+    $containers = \Illuminate\Support\Facades\Cache::rememberForever('structures' . session('dawnstar.website.id') . session('dawnstar.language.id'), function() {
+        return \Dawnstar\Core\Models\Container::whereHas('structure', function($q) {$q->active();})->with('translation')->get();
+    });
 @endphp
 <div class="leftside-menu leftside-menu-detached">
     <div class="leftbar-user">
@@ -42,7 +44,7 @@
             @endif
         @endforeach
 
-        @if($structures->isNotEmpty())
+        @if($containers->isNotEmpty())
             <li class="side-nav-title side-nav-item"></li>
 
             <li class="side-nav-item">
@@ -53,9 +55,9 @@
                 </a>
                 <div class="collapse" id="page">
                     <ul class="side-nav-second-level">
-                        @foreach($structures as $structure)
+                        @foreach($containers as $container)
                             <li>
-                                <a href="{{ route('dawnstar.structures.pages.index', [$structure]) }}">{{ $structure->container->translation->name }}</a>
+                                <a href="{{ route('dawnstar.structures.pages.index', [$container->structure]) }}">{{ $container->translation->name }}</a>
                             </li>
                         @endforeach
                     </ul>
