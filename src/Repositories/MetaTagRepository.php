@@ -12,7 +12,7 @@ class MetaTagRepository implements MetaTagInterface
     {
         foreach ($model->translations as $translation) {
             $url = $translation->url;
-            $data = $data[$translation->language_id];
+            $data = $data[$translation->language_id] ?? [];
 
             if ($url) {
                 foreach ($data as $key => $value) {

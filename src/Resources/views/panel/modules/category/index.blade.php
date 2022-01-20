@@ -45,8 +45,8 @@
                                         </div>
                                     </div>
                                     {!! $moduleBuilder->html() !!}
-                                    <hr class="mt-3">
                                     @if($structure->has_property)
+                                        <hr class="mt-3">
                                         <div class="col-lg-12">
                                             <div class="form-floating mb-3">
                                                 <select class="select2 form-select select2-multiple" data-toggle="select2" id="properties" name="properties[]" multiple>
@@ -57,7 +57,6 @@
                                                 <label for="properties">@lang('Core::category.labels.properties')</label>
                                             </div>
                                         </div>
-                                        <hr class="mt-3">
                                     @endif
                                     {!! $moduleBuilder->metaTagHtml() !!}
                                 </div>

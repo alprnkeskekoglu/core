@@ -33,7 +33,7 @@
     <table>
         @foreach($messages as $key => $value)
             <tr>
-                <td><b>{!! custom('form.' . $form->id . '.' . $key) !!}</b></td>
+                <td><b>{!! custom('form.' . $form->id . '.' . $key, 164) !!}</b></td>
                 <td>{!! $value !!}</td>
             </tr>
         @endforeach

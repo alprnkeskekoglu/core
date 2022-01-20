@@ -18,7 +18,7 @@ class FormSender extends Mailable
         $this->form = $form;
         $this->message = $message;
 
-        $this->subject = custom('form.' . $form->id . '.subject', $form->name);
+        $this->subject = custom('form.' . $form->id . '.subject', $form->name, 164);
         if (file_exists(resource_path("views/vendor/mail/form.blade.php"))) {
             $this->view = 'vendor.mail.form';
         } else {

@@ -46,8 +46,8 @@
                                         </div>
                                     </div>
                                     {!! $moduleBuilder->html() !!}
-                                    <hr class="mt-3">
                                     @if($structure->has_property)
+                                        <hr class="mt-3">
                                         @php
                                             $selectedProperties = $category->properties()->pluck('id')->toArray();
                                         @endphp
@@ -63,7 +63,6 @@
                                                 <label for="properties">@lang('Core::category.labels.properties')</label>
                                             </div>
                                         </div>
-                                        <hr class="mt-3">
                                     @endif
                                     {!! $moduleBuilder->metaTagHtml() !!}
                                 </div>

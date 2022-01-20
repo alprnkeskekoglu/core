@@ -22,7 +22,7 @@
         @foreach($message->data as $key => $value)
             @continue($key == 'email')
         <tr>
-            <td class="fw-bolder w-25">{{ custom('form.' . $form->id . '.' . $key) }}</td>
+            <td class="fw-bolder w-25">{{ custom('form.' . $form->id . '.' . $key, '', 164) }}</td>
             <td>{{ $value }}</td>
         </tr>
         @endforeach

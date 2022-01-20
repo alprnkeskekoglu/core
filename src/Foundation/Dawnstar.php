@@ -38,13 +38,37 @@ class Dawnstar
         return $meta->getHtml();
     }
 
-    public function homepageUrl() {
+    public function homepageUrl()
+    {
         $homepage = \Dawnstar\Core\Models\Structure::where('key', 'homepage')->first();
 
         if ($homepage && $homepage->container->translation) {
             return $homepage->container->translation->url;
         }
         return "javascript:void(0);";
+    }
+
+
+    public function otherLanguages(bool $removeActiveLanguage = false)
+    {
+        $parent = $this->parent;
+
+        $translations = $parent->translations;
+        $activeLanguage = $this->language;
+
+        $return = [];
+        foreach ($translations as $translation) {
+            if (($removeActiveLanguage && $activeLanguage->id == $translation->language_id) || $translation->url) {
+                continue;
+            }
+            $return[] = [
+                'id' => $translation->language_id,
+                'code' => $translation->language->code,
+                'url' => url($translation->url->url),
+                'active' => $activeLanguage->id == $translation->language_id
+            ];
+        }
+        return $return;
     }
 
     /**
