@@ -5,6 +5,9 @@ namespace Dawnstar\Core\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property int $id
+ */
 class Website extends Model
 {
     use SoftDeletes;

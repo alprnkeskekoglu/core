@@ -3,29 +3,41 @@
 namespace Dawnstar\Core\Foundation;
 
 use Dawnstar\Core\Models\Website;
+use Dawnstar\Core\Repositories\Interfaces\WebsiteRepositoryInterface;
+use Dawnstar\Core\Services\ParseUrlService;
 
 class Dawnstar
 {
+    protected ?Website $website;
+
     /**
      * Dawnstar constructor.
      */
-    public function __construct()
+    public function __construct(
+        protected ParseUrlService            $parseUrlService,
+        protected WebsiteRepositoryInterface $websiteRepository
+    )
     {
         view()->share("dawnstar", $this);
     }
 
     /**
-     * @return mixed
+     * @param $website
+     * @return void
      */
-    public function website()
+    public function setWebsite($website)
     {
-        $fullUrl = request()->fullUrl();
-        $parsedUrl = parse_url($fullUrl);
+        $this->website = $website;
+    }
 
-        $domain = $parsedUrl["host"] = str_replace("www.", "", $parsedUrl["host"]);
-        $domainArray = [$domain, "www." . $domain];
+    /**
+     * @return Website|null
+     */
+    public function website(): ?Website
+    {
+        $parsedUrl = $this->parseUrlService->getParsedUrl();
 
-        return Website::whereIn('domain', $domainArray)->first();
+        return $this->websiteRepository->getWebsiteByUrl($parsedUrl);
     }
 
     /**
@@ -38,13 +50,21 @@ class Dawnstar
         return $meta->getHtml();
     }
 
-    public function homepageUrl() {
+    public function homepageUrl()
+    {
         $homepage = \Dawnstar\Core\Models\Structure::where('key', 'homepage')->first();
 
         if ($homepage && $homepage->container->translation) {
             return $homepage->container->translation->url;
         }
         return "javascript:void(0);";
+    }
+
+    public function setDawnstarSettings(array $settings)
+    {
+        foreach ($settings as $key => $value) {
+            $this->$key = $value;
+        }
     }
 
     /**

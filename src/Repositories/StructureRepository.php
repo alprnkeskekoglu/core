@@ -2,13 +2,17 @@
 
 namespace Dawnstar\Core\Repositories;
 
-use Dawnstar\Core\Contracts\StructureInterface;
 use Dawnstar\Core\Http\Requests\StructureRequest;
 use Dawnstar\Core\Models\Structure;
+use Dawnstar\Core\Models\Website;
+use Dawnstar\Core\Repositories\Interfaces\StructureRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
-class StructureRepository implements StructureInterface
+class StructureRepository implements StructureRepositoryInterface
 {
+    public function __construct(protected Structure $model)
+    {
+    }
 
     /**
      * @param int $id
@@ -68,5 +72,14 @@ class StructureRepository implements StructureInterface
     public function destroy(Structure $structure)
     {
         $structure->delete();
+    }
+
+    /**
+     * @param Website $website
+     * @return Structure|null
+     */
+    public function getHomePageByWebsite(Website $website): ?Structure
+    {
+        return $this->model->where('website_id', $website->id)->where('key', 'homepage')->first();
     }
 }

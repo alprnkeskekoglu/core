@@ -18,6 +18,7 @@ use Dawnstar\Core\Observers\CategoryTranslationObserver;
 use Dawnstar\Core\Observers\ContainerTranslationObserver;
 use Dawnstar\Core\Observers\PageObserver;
 use Dawnstar\Core\Observers\PageTranslationObserver;
+use Dawnstar\Core\Providers\RepositoryServiceProvider;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -30,6 +31,7 @@ class CoreServiceProvider extends ServiceProvider
     {
         $this->app->register(ConfigServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+        $this->app->register(RepositoryServiceProvider::class);
 
         $this->app->singleton(Dawnstar::class, Dawnstar::class);
         $this->app->bind("Dawnstar", Dawnstar::class);
