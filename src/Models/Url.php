@@ -4,6 +4,9 @@ namespace Dawnstar\Core\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property Model $model
+ */
 class Url extends BaseModel
 {
     /* Types
