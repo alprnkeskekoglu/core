@@ -4,6 +4,7 @@ namespace Dawnstar\Core\Console\Commands;
 
 use Database\Seeders\DatabaseSeeder;
 use Dawnstar\Core\Database\seeds\LanguageSeeder;
+use Dawnstar\Core\Database\seeds\AdminSeeder;
 use Dawnstar\Core\Models\Admin;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
@@ -32,7 +33,6 @@ class Install extends Command
         $this->vendorPublish();
         $this->migrate();
         $this->seed();
-        $this->createSuperAdmin();
 
         $this->cleanWebRoute();
         $this->createDirectories();
@@ -72,13 +72,11 @@ class Install extends Command
     private function seed()
     {
         $seeder = new DatabaseSeeder();
-        $seeder->call([LanguageSeeder::class]);
+        $seeder->call([
+            LanguageSeeder::class,
+            AdminSeeder::class
+        ]);
         $this->info("Database seed completed!" . PHP_EOL);
-    }
-
-    private function createSuperAdmin()
-    {
-        Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'admin']);
     }
 
     private function cleanWebRoute()
