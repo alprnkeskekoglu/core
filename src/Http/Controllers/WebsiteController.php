@@ -3,18 +3,29 @@
 namespace Dawnstar\Core\Http\Controllers;
 
 use Database\Seeders\DatabaseSeeder;
+use Dawnstar\Core\Contracts\WebsiteInterface;
 use Dawnstar\Core\Database\seeds\LanguageSeeder;
 use Dawnstar\Core\Http\Requests\WebsiteRequest;
 use Dawnstar\Core\Models\Website;
 use Dawnstar\Core\Models\Language;
+use Dawnstar\Core\Repositories\LanguageRepository;
+use Dawnstar\Core\Repositories\WebsiteRepository;
 
 class WebsiteController extends BaseController
 {
+    public function __construct(
+        protected WebsiteRepository $websiteRepository,
+        protected LanguageRepository $languageRepository
+    )
+    {
+    }
+
     public function index()
     {
         canUser("index");
 
-        $websites = Website::all();
+        $websites = $this->websiteRepository->getAll();
+
         return view('Core::modules.website.index', compact('websites'));
     }
 
@@ -22,7 +33,8 @@ class WebsiteController extends BaseController
     {
         canUser("create");
 
-        $languages = Language::all();
+        $languages = $this->languageRepository->getAll();
+
         return view('Core::modules.website.create', compact('languages'));
     }
 
@@ -30,24 +42,9 @@ class WebsiteController extends BaseController
     {
         canUser("create");
 
-        $data = $request->only(['status', 'default', 'url_language_code', 'name', 'domain']);
-        $languages = $request->get('languages');
-        $defaultLanguage = $request->get('default_language');
+        $this->websiteRepository->store();
 
-        $website = Website::create($data);
-
-        if($data['default'] == 1) {
-            Website::where('default', 1)->where('id', '<>', $website->id)->update(['default' => 0]);
-        }
-
-        $website->languages()->sync($languages);
-        $website->languages()->updateExistingPivot($defaultLanguage, ['default' => 1]);
-
-        if(session('dawmstar.website') == null) {
-            $this->setSession($website);
-        }
-
-        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Core::website.success.store')]);
+        return to_route('dawnstar.websites.index')->with(['success' => __('Core::website.success.store')]);
     }
 
 
@@ -56,7 +53,7 @@ class WebsiteController extends BaseController
         canUser("edit");
 
         $selectedLanguages = $website->languages;
-        $languages = Language::all();
+        $languages = $this->languageRepository->getAll();
 
         return view('Core::modules.website.edit', compact('website', 'languages', 'selectedLanguages'));
     }
@@ -65,44 +62,17 @@ class WebsiteController extends BaseController
     {
         canUser("edit");
 
-        $data = $request->only(['status', 'default', 'url_language_code', 'name', 'domain']);
-        $languages = $request->get('languages');
-        $defaultLanguage = $request->get('default_language');
+        $this->websiteRepository->update($website);
 
-        $website->update($data);
-        $website->languages()->sync($languages);
-        $website->languages()->updateExistingPivot($defaultLanguage, ['default' => 1]);
-
-        if($data['default'] == 1) {
-            $defaultWebsites = Website::where('default', 1)->where('id', '<>', $website->id)->update(['default' => 0]);
-        }
-
-        if($website->id === session('dawnstar.website.id')) {
-            $this->setSession($website);
-        }
-
-        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Core::website.success.update')]);
+        return to_route('dawnstar.websites.index')->with(['success' => __('Core::website.success.update')]);
     }
 
     public function destroy(Website $website)
     {
         canUser("destroy");
 
-        $website->delete();
+        $this->websiteRepository->destroy($website);
 
-        return redirect()->route('dawnstar.websites.index')->with(['success' => __('Core::website.success.destroy')]);
-    }
-
-    private function setSession(Website $website)
-    {
-        $languages = $website->languages;
-        $language = $website->languages()->wherePivot('default', 1)->first();
-        session([
-            'dawnstar' => [
-                'website' => $website,
-                'languages' => $languages,
-                'language' => $language,
-            ]
-        ]);
+        return to_route('dawnstar.websites.index')->with(['success' => __('Core::website.success.destroy')]);
     }
 }
