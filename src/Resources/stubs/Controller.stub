@@ -1,0 +1,15 @@
+<?php
+
+namespace {&namespace&};
+
+use App\Http\Controllers\Controller;
+use Dawnstar\Core\Foundation\Dawnstar;
+
+class {&class&} extends Controller
+{
+    {%container%}
+
+    {%page%}
+
+    {%category%}
+}

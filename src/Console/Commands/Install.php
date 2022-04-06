@@ -99,7 +99,7 @@ class Install extends Command
         if (!is_dir(resource_path('views/layouts'))) {
             File::makeDirectory(resource_path('views/layouts'), 0777, true, true);
 
-            $appLayout = file_get_contents(base_path('vendor/dawnstar/module-builder/src/Resources/stubs/app.stub'));
+            $appLayout = file_get_contents(base_path('vendor/dawnstar/core/src/Resources/stubs/app.stub'));
             file_put_contents(resource_path('views/layouts/app.blade.php'), $appLayout);
         }
         if (!is_dir(resource_path('views/includes'))) {

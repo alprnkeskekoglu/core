@@ -6,6 +6,7 @@ use Dawnstar\Core\Contracts\StructureInterface;
 use Dawnstar\Core\Http\Requests\StructureRequest;
 use Dawnstar\Core\Models\Structure;
 use Dawnstar\Core\Models\Website;
+use Dawnstar\Core\Services\ModuleFileService;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -65,7 +66,16 @@ class StructureRepository implements StructureInterface
         $data = request()->only(['status', 'type', 'key', 'has_detail', 'has_category', 'has_property', 'has_url', 'is_searchable']);
         $data['website_id'] = session('dawnstar.website.id');
 
-        return Structure::create($data);
+        $structure = Structure::create($data);
+
+        $moduleBuilderRepository = new ModuleBuilderRepository();
+        $moduleBuilderRepository->store($structure);
+
+        if(config('app.env') == 'local') {
+            $this->createFiles($structure);
+        }
+
+        return $structure;
     }
 
     /**
@@ -84,5 +94,13 @@ class StructureRepository implements StructureInterface
     public function destroy(Structure $structure): void
     {
         $structure->delete();
+    }
+
+
+    private function createFiles(Structure $structure): void
+    {
+        $service = new ModuleFileService($structure);
+        $service->createController();
+        $service->createBlades();
     }
 }
