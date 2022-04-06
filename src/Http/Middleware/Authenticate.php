@@ -16,6 +16,7 @@ class Authenticate extends Middleware
         config(['auth.defaults.guard' => 'admin']);
 
         if(is_null(session('dawnstar'))) {
+            session(['dawnstar.admin' => auth('admin')->user()]);
             setSession();
         }
 

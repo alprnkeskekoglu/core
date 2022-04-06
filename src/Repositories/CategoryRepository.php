@@ -11,21 +11,38 @@ use Illuminate\Support\Facades\Schema;
 class CategoryRepository implements CategoryInterface
 {
 
+    /**
+     * @param int $id
+     * @return Category
+     */
     public function getById(int $id): Category
     {
         return Category::find($id);
     }
 
-    public function getByStructureId(Structure $structure): Collection
+    /**
+     * @param Structure $structure
+     * @return Collection
+     */
+    public function getByStructure(Structure $structure): Collection
     {
         return Category::where('structure_id', $structure->id)->get();
     }
 
+    /**
+     * @param Structure $structure
+     * @param int $status
+     * @return Collection
+     */
     public function getByStatus(Structure $structure, int $status): Collection
     {
         return Category::where('structure_id', $structure->id)->where('status', $status)->get();
     }
 
+    /**
+     * @param Structure $structure
+     * @return Category
+     */
     public function store(Structure $structure): Category
     {
         $data = request()->except(['_token', '_method', 'translations', 'languages', 'medias', 'meta_tags', 'relations', 'properties']);
@@ -43,7 +60,11 @@ class CategoryRepository implements CategoryInterface
         return $category;
     }
 
-    public function update(Category $category)
+    /**
+     * @param Category $category
+     * @return Category
+     */
+    public function update(Category $category): Category
     {
         $requestData = request()->except(['_token', '_method', 'translations', 'languages', 'medias', 'meta_tags', 'relations', 'properties']);
 
@@ -57,11 +78,17 @@ class CategoryRepository implements CategoryInterface
         return $category;
     }
 
-    public function destroy(Category $category)
+    /**
+     * @param Category $category
+     */
+    public function destroy(Category $category): void
     {
         $category->delete();
     }
 
+    /**
+     * @return MediaRepository
+     */
     private function getMediaRepository()
     {
         return new MediaRepository();

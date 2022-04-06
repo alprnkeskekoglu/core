@@ -3,6 +3,7 @@
 namespace Dawnstar\Core\Contracts;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 interface BaseInterface
 {
@@ -11,15 +12,4 @@ interface BaseInterface
      * @return mixed
      */
     public function getById(int $id);
-
-    /**
-     * @return Collection
-     */
-    public function getAll(): Collection;
-
-    /**
-     * @param int $status
-     * @return Collection
-     */
-    public function getByStatus(int $status): Collection;
 }
