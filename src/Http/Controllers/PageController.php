@@ -92,7 +92,7 @@ class PageController extends BaseController
         $moduleBuilder = new ModuleBuilderService($structure, 'page', $page);
         $moduleBuilder->validate();
 
-        $page = $this->pageRepository->update($page);
+        $this->pageRepository->update($page);
         $this->pageTranslationRepository->update($page);
 
         return to_route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Core::page.success.update')]);

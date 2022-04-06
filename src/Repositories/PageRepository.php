@@ -5,7 +5,6 @@ namespace Dawnstar\Core\Repositories;
 use Dawnstar\Core\Contracts\PageInterface;
 use Dawnstar\Core\Models\Category;
 use Dawnstar\Core\Models\Page;
-use Dawnstar\Core\Models\PageExtra;
 use Dawnstar\Core\Models\Structure;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Schema;
