@@ -10,21 +10,18 @@ use Dawnstar\ModuleBuilder\Services\ModuleBuilderService;
 
 class ContainerController extends BaseController
 {
-    protected ContainerRepository $containerRepository;
-    protected ContainerTranslationRepository $containerTranslationRepository;
-
-    public function __construct(ContainerRepository $containerRepository, ContainerTranslationRepository $containerTranslationRepository)
+    public function __construct(
+        protected ContainerRepository $containerRepository,
+        protected ContainerTranslationRepository $containerTranslationRepository)
     {
-        $this->containerRepository = $containerRepository;
-        $this->containerTranslationRepository = $containerTranslationRepository;
     }
 
     public function edit(Structure $structure, Container $container)
     {
         canUser("structure.{$structure->id}.edit");
 
-        if($structure->has_detail != 1) {
-            if($structure->type != 'dynamic') {
+        if ($structure->has_detail != 1) {
+            if ($structure->type != 'dynamic') {
                 abort(404);
             }
             return to_route('dawnstar.structures.pages.index', $structure);

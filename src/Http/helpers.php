@@ -10,6 +10,14 @@ function languageFlag(string $code): string
     return "//flagcdn.com/h20/" . ($code == 'en' ? 'gb' : $code) . ".png";
 }
 
+function trimSlug(string $slug = null) {
+    return ($slug && $slug != '/') ? ltrim($slug, '/') : $slug;
+}
+
+/*
+ * ----------------------
+ */
+
 function statusClass(int $status): string
 {
     switch ($status) {

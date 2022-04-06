@@ -40,9 +40,8 @@ interface WebsiteInterface extends BaseInterface
 
     /**
      * @param Website $website
-     * @return Website
      */
-    public function update(Website $website): Website;
+    public function update(Website $website): void;
 
     /**
      * @param Website $website

@@ -74,9 +74,8 @@ class WebsiteRepository implements WebsiteInterface
 
     /**
      * @param Website $website
-     * @return Website
      */
-    public function update(Website $website): Website
+    public function update(Website $website): void
     {
         $data = request()->only(['status', 'default', 'url_language_code', 'name', 'domain']);
         $languages = request()->get('languages');
@@ -93,8 +92,6 @@ class WebsiteRepository implements WebsiteInterface
         if ($website->id === session('dawnstar.website.id')) {
             $this->setSession($website);
         }
-
-        return $website;
     }
 
     /**
