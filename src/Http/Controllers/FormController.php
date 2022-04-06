@@ -33,7 +33,7 @@ class FormController extends BaseController
 
         $form = Form::create($data);
 
-        return redirect()->route('dawnstar.forms.index')->with(['success' => __('Core::form.success.store')]);
+        return to_route('dawnstar.forms.index')->with(['success' => __('Core::form.success.store')]);
     }
 
 
@@ -52,7 +52,7 @@ class FormController extends BaseController
 
         $form->update($data);
 
-        return redirect()->route('dawnstar.forms.index')->with(['success' => __('Core::form.success.update')]);
+        return to_route('dawnstar.forms.index')->with(['success' => __('Core::form.success.update')]);
     }
 
     public function destroy(Form $form)
@@ -61,6 +61,6 @@ class FormController extends BaseController
 
         $form->delete();
 
-        return redirect()->route('dawnstar.forms.index')->with(['success' => __('Core::form.success.destroy')]);
+        return to_route('dawnstar.forms.index')->with(['success' => __('Core::form.success.destroy')]);
     }
 }

@@ -27,7 +27,7 @@ class ContainerController extends BaseController
             if($structure->type != 'dynamic') {
                 abort(404);
             }
-            return redirect()->route('dawnstar.structures.pages.index', $structure);
+            return to_route('dawnstar.structures.pages.index', $structure);
         }
 
         $moduleBuilder = new ModuleBuilderService($structure, 'container', $container);
@@ -46,6 +46,6 @@ class ContainerController extends BaseController
         $this->containerRepository->update($container);
         $this->containerTranslationRepository->update($container);
 
-        return redirect()->route('dawnstar.structures.containers.edit', [$structure, $container])->with(['success' => __('Core::structure.success.update')]);
+        return to_route('dawnstar.structures.containers.edit', [$structure, $container])->with(['success' => __('Core::structure.success.update')]);
     }
 }

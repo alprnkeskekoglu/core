@@ -37,7 +37,7 @@ class LoginController extends Controller
 
         session()->forget('dawnstar');
 
-        return redirect()->route('dawnstar.login.index');
+        return to_route('dawnstar.login.index');
     }
 
     private function validate(Request $request)

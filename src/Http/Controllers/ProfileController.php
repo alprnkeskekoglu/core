@@ -29,6 +29,6 @@ class ProfileController extends BaseController
         $admin->update($data);
         $admin->syncMedias($medias);
 
-        return redirect()->route('dawnstar.profile.index')->with(['success' => __('Core::admin.success.profile_update')]);
+        return to_route('dawnstar.profile.index')->with(['success' => __('Core::admin.success.profile_update')]);
     }
 }

@@ -18,6 +18,11 @@ interface WebsiteInterface extends BaseInterface
     public function getById(int $id): Website;
 
     /**
+     * @return Website
+     */
+    public function getDefault(): Website;
+
+    /**
      * @return Collection
      */
     public function getAll(): Collection;

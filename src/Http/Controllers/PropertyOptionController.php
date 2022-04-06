@@ -43,7 +43,7 @@ class PropertyOptionController extends BaseController
         $propertyOption = $this->propertyOptionRepository->store($structure, $property);
         $this->propertyOptionTranslationRepository->store($propertyOption);
 
-        return redirect()->route('dawnstar.structures.properties.options.index', [$structure, $property])->with(['success' => __('Core::property.success.store')]);
+        return to_route('dawnstar.structures.properties.options.index', [$structure, $property])->with(['success' => __('Core::property.success.store')]);
     }
 
     public function edit(Structure $structure, Property $property, PropertyOption $option)
@@ -68,7 +68,7 @@ class PropertyOptionController extends BaseController
         $option = $this->propertyOptionRepository->update($option);
         $this->propertyOptionTranslationRepository->update($option);
 
-        return redirect()->route('dawnstar.structures.properties.options.index', [$structure, $property])->with(['success' => __('Core::property.success.update')]);
+        return to_route('dawnstar.structures.properties.options.index', [$structure, $property])->with(['success' => __('Core::property.success.update')]);
     }
 
     public function destroy(Structure $structure, Property $property, PropertyOption $option)
@@ -77,7 +77,7 @@ class PropertyOptionController extends BaseController
 
         $this->propertyOptionRepository->destroy($option);
 
-        return redirect()->route('dawnstar.structures.properties.options.index', [$structure, $property])->with(['success' => __('Core::property.success.destroy')]);
+        return to_route('dawnstar.structures.properties.options.index', [$structure, $property])->with(['success' => __('Core::property.success.destroy')]);
     }
 
     public function saveOrder(Request $request)

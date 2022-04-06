@@ -33,7 +33,7 @@ class MenuController extends BaseController
 
         $menu = Menu::create($data);
 
-        return redirect()->route('dawnstar.menus.index')->with(['success' => __('Core::menu.success.store')]);
+        return to_route('dawnstar.menus.index')->with(['success' => __('Core::menu.success.store')]);
     }
 
     public function edit(Menu $menu)
@@ -51,7 +51,7 @@ class MenuController extends BaseController
 
         $menu->update($data);
 
-        return redirect()->route('dawnstar.menus.index')->with(['success' => __('Core::menu.success.update')]);
+        return to_route('dawnstar.menus.index')->with(['success' => __('Core::menu.success.update')]);
     }
 
     public function destroy(Menu $menu)
@@ -60,6 +60,6 @@ class MenuController extends BaseController
 
         $menu->delete();
 
-        return redirect()->route('dawnstar.menus.index')->with(['success' => __('Core::menu.success.destroy')]);
+        return to_route('dawnstar.menus.index')->with(['success' => __('Core::menu.success.destroy')]);
     }
 }

@@ -57,7 +57,7 @@ class StructureController extends BaseController
         $moduleBuilderRepository->store($structure);
         DB::commit();
 
-        return redirect()->route('dawnstar.structures.index')->with(['success' => __('Core::structure.success.store')]);
+        return to_route('dawnstar.structures.index')->with(['success' => __('Core::structure.success.store')]);
     }
 
 
@@ -77,7 +77,7 @@ class StructureController extends BaseController
         $this->structureRepository->update($structure, $request);
         $this->containerTranslationRepository->update($structure->container, $request);
 
-        return redirect()->route('dawnstar.structures.index')->with(['success' => __('Core::structure.success.update')]);
+        return to_route('dawnstar.structures.index')->with(['success' => __('Core::structure.success.update')]);
     }
 
     public function destroy(Structure $structure)
@@ -86,6 +86,6 @@ class StructureController extends BaseController
 
         $this->structureRepository->destroy($structure);
 
-        return redirect()->route('dawnstar.structures.index')->with(['success' => __('Core::structure.success.destroy')]);
+        return to_route('dawnstar.structures.index')->with(['success' => __('Core::structure.success.destroy')]);
     }
 }

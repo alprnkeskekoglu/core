@@ -39,7 +39,7 @@ class AdminController extends BaseController
         $role = Role::findById($roleId);
         $admin->syncRoles([$role->name]);
 
-        return redirect()->route('dawnstar.admins.index')->with(['success' => __('Core::admin.success.store')]);
+        return to_route('dawnstar.admins.index')->with(['success' => __('Core::admin.success.store')]);
     }
 
 
@@ -69,7 +69,7 @@ class AdminController extends BaseController
         $role = Role::findById($roleId);
         $admin->syncRoles([$role->name]);
 
-        return redirect()->route('dawnstar.admins.index')->with(['success' => __('Core::admin.success.update')]);
+        return to_route('dawnstar.admins.index')->with(['success' => __('Core::admin.success.update')]);
     }
 
     public function destroy(Admin $admin)
@@ -77,11 +77,11 @@ class AdminController extends BaseController
         canUser('admin.destroy', false);
 
         if($admin->id === auth()->id()) {
-            return redirect()->route('dawnstar.admins.index')->with(['error' => __('Core::admin.error.destroy_auth_admin')]);
+            return to_route('dawnstar.admins.index')->with(['error' => __('Core::admin.error.destroy_auth_admin')]);
         }
 
         $admin->delete();
 
-        return redirect()->route('dawnstar.admins.index')->with(['success' => __('Core::admin.success.destroy')]);
+        return to_route('dawnstar.admins.index')->with(['success' => __('Core::admin.success.destroy')]);
     }
 }

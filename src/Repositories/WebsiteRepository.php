@@ -23,6 +23,14 @@ class WebsiteRepository implements WebsiteInterface
     }
 
     /**
+     * @return Website
+     */
+    public function getDefault(): Website
+    {
+        return Website::where('status', 1)->where('default', 1)->first();
+    }
+
+    /**
      * @return Collection
      */
     public function getAll(): Collection
@@ -57,7 +65,7 @@ class WebsiteRepository implements WebsiteInterface
         $website->languages()->sync($languages);
         $website->languages()->updateExistingPivot($defaultLanguage, ['default' => 1]);
 
-        if (session('dawmstar.website') == null) {
+        if (session('dawnstar.website') == null) {
             $this->setSession($website);
         }
 

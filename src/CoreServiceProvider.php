@@ -44,7 +44,7 @@ class CoreServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/Database/migrations');
         $this->loadViewsFrom(__DIR__ . '/Resources/views/panel', 'Core');
         $this->loadViewsFrom(__DIR__ . '/Resources/views/web', 'CoreWeb');
-        $this->loadTranslationsFrom(__DIR__ . '/Resources/lang', 'Core');
+        $this->loadTranslationsFrom(__DIR__ . '/Lang', 'Core');
 
         $this->publishes([__DIR__ . '/Assets' => public_path('vendor/dawnstar/core')], 'dawnstar-core-assets');
 

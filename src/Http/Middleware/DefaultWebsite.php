@@ -24,6 +24,6 @@ class DefaultWebsite
         if($defaultWebsite) {
             return $next($request);
         }
-        return redirect()->route('dawnstar.websites.create');
+        return to_route('dawnstar.websites.index');
     }
 }
