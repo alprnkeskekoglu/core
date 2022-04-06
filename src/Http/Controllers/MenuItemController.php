@@ -33,7 +33,7 @@ class MenuItemController extends BaseController
         $menuItem = MenuItem::create($data);
         $menuItem->syncMedias($medias);
 
-        return redirect()->route('dawnstar.menus.items.index', $menu)->with(['success' => __('Core::menu_item.success.store')]);
+        return to_route('dawnstar.menus.items.index', $menu)->with(['success' => __('Core::menu_item.success.store')]);
     }
 
     public function edit(Menu $menu, MenuItem $item)
@@ -56,7 +56,7 @@ class MenuItemController extends BaseController
         $item->update($data);
         $item->syncMedias($medias);
 
-        return redirect()->route('dawnstar.menus.items.index', $menu)->with(['success' => __('Core::menu_item.success.update')]);
+        return to_route('dawnstar.menus.items.index', $menu)->with(['success' => __('Core::menu_item.success.update')]);
     }
 
     public function destroy(Menu $menu)
@@ -65,7 +65,7 @@ class MenuItemController extends BaseController
 
         $menu->delete();
 
-        return redirect()->route('dawnstar.menus.index')->with(['success' => __('Core::menu.success.destroy')]);
+        return to_route('dawnstar.menus.index')->with(['success' => __('Core::menu.success.destroy')]);
     }
 
     public function getUrls()

@@ -14,15 +14,11 @@ use Illuminate\Support\Facades\DB;
 
 class StructureController extends BaseController
 {
-    protected StructureRepository $structureRepository;
-    protected ContainerRepository $containerRepository;
-    protected ContainerTranslationRepository $containerTranslationRepository;
-
-    public function __construct(StructureRepository $structureRepository, ContainerRepository $containerRepository, ContainerTranslationRepository $containerTranslationRepository)
+    public function __construct(
+        protected StructureRepository $structureRepository,
+        protected ContainerRepository $containerRepository,
+        protected ContainerTranslationRepository $containerTranslationRepository)
     {
-        $this->structureRepository = $structureRepository;
-        $this->containerRepository = $containerRepository;
-        $this->containerTranslationRepository = $containerTranslationRepository;
     }
 
     public function index()
@@ -38,8 +34,8 @@ class StructureController extends BaseController
         canUser("structure.create");
 
         $languages = session('dawnstar.languages');
-        $hasHomepage = Structure::where('key', 'homepage')->exists();
-        $hasSearch = Structure::where('key', 'search')->exists();
+        $hasHomepage = $this->structureRepository->hasHomepage();
+        $hasSearch = $this->structureRepository->hasSearch();
 
         return view('Core::modules.structure.create', compact('languages', 'hasHomepage', 'hasSearch'));
     }
@@ -49,7 +45,7 @@ class StructureController extends BaseController
         canUser("structure.create");
 
         DB::beginTransaction();
-        $structure = $this->structureRepository->store($request);
+        $structure = $this->structureRepository->store();
         $container = $this->containerRepository->store($structure);
         $this->containerTranslationRepository->store($container);
 
@@ -57,7 +53,7 @@ class StructureController extends BaseController
         $moduleBuilderRepository->store($structure);
         DB::commit();
 
-        return redirect()->route('dawnstar.structures.index')->with(['success' => __('Core::structure.success.store')]);
+        return to_route('dawnstar.structures.index')->with(['success' => __('Core::structure.success.store')]);
     }
 
 
@@ -77,7 +73,7 @@ class StructureController extends BaseController
         $this->structureRepository->update($structure, $request);
         $this->containerTranslationRepository->update($structure->container, $request);
 
-        return redirect()->route('dawnstar.structures.index')->with(['success' => __('Core::structure.success.update')]);
+        return to_route('dawnstar.structures.index')->with(['success' => __('Core::structure.success.update')]);
     }
 
     public function destroy(Structure $structure)
@@ -86,6 +82,6 @@ class StructureController extends BaseController
 
         $this->structureRepository->destroy($structure);
 
-        return redirect()->route('dawnstar.structures.index')->with(['success' => __('Core::structure.success.destroy')]);
+        return to_route('dawnstar.structures.index')->with(['success' => __('Core::structure.success.destroy')]);
     }
 }

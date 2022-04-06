@@ -2,17 +2,18 @@
 
 namespace Dawnstar\Core\Repositories;
 
+use Dawnstar\Core\Contracts\StructureInterface;
 use Dawnstar\Core\Http\Requests\StructureRequest;
 use Dawnstar\Core\Models\Structure;
 use Dawnstar\Core\Models\Website;
-use Dawnstar\Core\Repositories\Interfaces\StructureRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
-class StructureRepository implements StructureRepositoryInterface
+/**
+ * Class StructureRepository
+ * @package Dawnstar\Core\Repositories
+ */
+class StructureRepository implements StructureInterface
 {
-    public function __construct(protected Structure $model)
-    {
-    }
 
     /**
      * @param int $id
@@ -41,13 +42,27 @@ class StructureRepository implements StructureRepositoryInterface
     }
 
     /**
-     * @param StructureRequest $structureRequest
+     * @return bool
+     */
+    public function hasHomepage(): bool
+    {
+        return Structure::where('key', 'homepage')->exists();
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasSearch(): bool
+    {
+        return Structure::where('key', 'search')->exists();
+    }
+
+    /**
      * @return Structure
      */
-    public function store(StructureRequest $structureRequest): Structure
+    public function store(): Structure
     {
-        $data = $structureRequest->only(['status', 'type', 'key', 'has_detail', 'has_category', 'has_property', 'has_url', 'is_searchable']);
-
+        $data = request()->only(['status', 'type', 'key', 'has_detail', 'has_category', 'has_property', 'has_url', 'is_searchable']);
         $data['website_id'] = session('dawnstar.website.id');
 
         return Structure::create($data);
@@ -55,31 +70,19 @@ class StructureRepository implements StructureRepositoryInterface
 
     /**
      * @param Structure $structure
-     * @param StructureRequest $structureRequest
-     * @return mixed|void
      */
-    public function update(Structure $structure, StructureRequest $structureRequest)
+    public function update(Structure $structure): void
     {
-        $data = $structureRequest->only(['status', 'type', 'key', 'has_detail', 'has_category', 'has_property', 'has_url', 'is_searchable']);
+        $data = request()->only(['status', 'type', 'has_detail', 'has_category', 'has_property', 'has_url', 'is_searchable']);
 
         $structure->update($data);
     }
 
     /**
      * @param Structure $structure
-     * @return mixed|void
      */
-    public function destroy(Structure $structure)
+    public function destroy(Structure $structure): void
     {
         $structure->delete();
-    }
-
-    /**
-     * @param Website $website
-     * @return Structure|null
-     */
-    public function getHomePageByWebsite(Website $website): ?Structure
-    {
-        return $this->model->where('website_id', $website->id)->where('key', 'homepage')->first();
     }
 }

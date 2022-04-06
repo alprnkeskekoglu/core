@@ -22,4 +22,5 @@ return [
     ],
 
     'required' => 'This field is required!',
+    'no_notifications' => 'There is no any notification.',
 ];

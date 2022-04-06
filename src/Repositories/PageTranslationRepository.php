@@ -11,20 +11,22 @@ class PageTranslationRepository implements TranslationInterface
     public function store($page)
     {
         $languages = request('languages');
-        $translations = request('translations');
+        $translations = request('translations', []);
 
         foreach ($translations as $languageId => $translation) {
-            $translation['page_id'] = $page->id;
-            $translation['language_id'] = $languageId;
-            $translation['status'] = $languages[$languageId];
 
             if(isset($translation['slug'])) {
-                $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
-                    ltrim($translation['slug'], '/') :
-                    $translation['slug'];
+                $translation['slug'] = trimSlug($translation['slug']);
             }
+            $translation['status'] = $languages[$languageId];
 
-            $translationModel = PageTranslation::create($translation);
+            $translationModel = PageTranslation::firstOrCreate(
+                [
+                    'page_id' => $page->id,
+                    'language_id' => $languageId,
+                ],
+                $translation
+            );
 
             if (isset($translation['medias'])) {
                 $this->getMediaRepository()->syncMedias($translationModel, $translation['medias']);
@@ -42,21 +44,19 @@ class PageTranslationRepository implements TranslationInterface
     public function update($page)
     {
         $languages = request('languages');
-        $translations = request('translations');
+        $translations = request('translations', []);
 
         foreach ($translations as $languageId => $translation) {
 
             if(isset($translation['slug'])) {
-                $translation['slug'] = ($translation['slug'] && $translation['slug'] != '/') ?
-                    ltrim($translation['slug'], '/') :
-                    $translation['slug'];
+                $translation['slug'] = trimSlug($translation['slug']);
             }
 
+            $translation['status'] = $languages[$languageId];
             $translationModel = PageTranslation::updateOrCreate(
                 [
                     'page_id' => $page->id,
                     'language_id' => $languageId,
-                    'status' => $languages[$languageId],
                 ],
                 $translation
             );

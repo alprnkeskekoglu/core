@@ -49,7 +49,7 @@ class Page extends BaseModel
         return $this->belongsToMany(PropertyOption::class, 'page_property_options');
     }
 
-    public function customPages(string $key = null)
+    public function subPages(string $key = null)
     {
         $pages = $this->belongsToMany(Page::class, 'page_relations', 'locale_id', 'foreign_id');
 

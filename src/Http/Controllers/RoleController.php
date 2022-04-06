@@ -47,7 +47,7 @@ class RoleController extends BaseController
 
         adminAction($role, 'store');
 
-        return redirect()->route('dawnstar.roles.index')->with(['success' => __('Core::role.success.store')]);
+        return to_route('dawnstar.roles.index')->with(['success' => __('Core::role.success.store')]);
     }
 
 
@@ -56,7 +56,7 @@ class RoleController extends BaseController
         canUser("role.edit", false);
 
         if ($role->id == 1) {
-            return redirect()->route('dawnstar.roles.index');
+            return to_route('dawnstar.roles.index');
         }
         $websites = Website::where('status', 1)->with('structures')->get();
         $permissions = $role->getAllPermissions()->pluck('id','name')->toArray();
@@ -86,7 +86,7 @@ class RoleController extends BaseController
 
         adminAction($role, 'update');
 
-        return redirect()->route('dawnstar.roles.index')->with(['success' => __('Core::role.success.update')]);
+        return to_route('dawnstar.roles.index')->with(['success' => __('Core::role.success.update')]);
     }
 
     public function destroy(Role $role)
@@ -94,12 +94,12 @@ class RoleController extends BaseController
         canUser("role.destroy", false);
 
         if ($role->id == 1) {
-            return redirect()->route('dawnstar.roles.index');
+            return to_route('dawnstar.roles.index');
         }
 
         $role->delete();
         adminAction($role, 'destroy');
 
-        return redirect()->route('dawnstar.roles.index')->with(['success' => __('Core::role.success.destroy')]);
+        return to_route('dawnstar.roles.index')->with(['success' => __('Core::role.success.destroy')]);
     }
 }

@@ -2,23 +2,55 @@
 
 namespace Dawnstar\Core\Contracts;
 
+use Dawnstar\Core\Models\Category;
 use Dawnstar\Core\Models\Page;
 use Dawnstar\Core\Models\Structure;
 use Illuminate\Database\Eloquent\Collection;
 
-interface PageInterface
+/**
+ * Interface PageInterface
+ * @package Dawnstar\Core\Contracts
+ */
+interface PageInterface extends BaseInterface
 {
+    /**
+     * @param int $id
+     * @return Page
+     */
     public function getById(int $id): Page;
 
-    public function getByStructureId(Structure $structure): Collection;
+    /**
+     * @param Structure $structure
+     * @param int|null $status
+     * @return Collection
+     */
+    public function getByStructure(Structure $structure, int $status = null): Collection;
 
-    public function getByStatus(Structure $structure, int $status): Collection;
+    /**
+     * @param Category $category
+     * @param int|null $status
+     * @return Collection
+     */
+    public function getByCategory(Category $category, int $status = null): Collection;
 
+    /**
+     * @param Structure $structure
+     * @return Page
+     */
     public function store(Structure $structure): Page;
 
-    public function update(Page $page);
+    /**
+     * @param Page $page
+     */
+    public function update(Page $page): void;
 
-    public function destroy(Page $page);
+    /**
+     * @param Page $page
+     */
+    public function destroy(Page $page): void;
 
-    public function syncCustomPages(Page $page);
+    /**
+     * @param Page $page
+     */
+    public function syncSubPages(Page $page): void;
 }

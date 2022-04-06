@@ -93,6 +93,7 @@ Route::middleware(['dawnstar_auth'])->group(function () {
     Route::get('getUrl', [UrlController::class, 'getUrl'])->name('getUrl');
 
     Route::prefix('panel')->as('panel.')->group(function () {
-        Route::get('changeLanguage/{code}', [PanelController::class, 'changeLanguage'])->name('changeLanguage');
+        Route::get('changeLanguage/{language}', [PanelController::class, 'changeLanguage'])->name('changeLanguage');
+        Route::get('changeWebsite/{website}', [PanelController::class, 'changeWebsite'])->name('changeWebsite');
     });
 });

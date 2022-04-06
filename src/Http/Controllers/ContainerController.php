@@ -10,24 +10,21 @@ use Dawnstar\ModuleBuilder\Services\ModuleBuilderService;
 
 class ContainerController extends BaseController
 {
-    protected ContainerRepository $containerRepository;
-    protected ContainerTranslationRepository $containerTranslationRepository;
-
-    public function __construct(ContainerRepository $containerRepository, ContainerTranslationRepository $containerTranslationRepository)
+    public function __construct(
+        protected ContainerRepository $containerRepository,
+        protected ContainerTranslationRepository $containerTranslationRepository)
     {
-        $this->containerRepository = $containerRepository;
-        $this->containerTranslationRepository = $containerTranslationRepository;
     }
 
     public function edit(Structure $structure, Container $container)
     {
         canUser("structure.{$structure->id}.edit");
 
-        if($structure->has_detail != 1) {
-            if($structure->type != 'dynamic') {
+        if ($structure->has_detail != 1) {
+            if ($structure->type != 'dynamic') {
                 abort(404);
             }
-            return redirect()->route('dawnstar.structures.pages.index', $structure);
+            return to_route('dawnstar.structures.pages.index', $structure);
         }
 
         $moduleBuilder = new ModuleBuilderService($structure, 'container', $container);
@@ -46,6 +43,6 @@ class ContainerController extends BaseController
         $this->containerRepository->update($container);
         $this->containerTranslationRepository->update($container);
 
-        return redirect()->route('dawnstar.structures.containers.edit', [$structure, $container])->with(['success' => __('Core::structure.success.update')]);
+        return to_route('dawnstar.structures.containers.edit', [$structure, $container])->with(['success' => __('Core::structure.success.update')]);
     }
 }

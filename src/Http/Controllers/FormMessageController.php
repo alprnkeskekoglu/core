@@ -36,6 +36,6 @@ class FormMessageController extends BaseController
         canUser("form.destroy", false);
 
         $message->delete();
-        return redirect()->route('dawnstar.forms.messages.index', $form)->with(['success' => __('Core::form_message.success.destroy')]);
+        return to_route('dawnstar.forms.messages.index', $form)->with(['success' => __('Core::form_message.success.destroy')]);
     }
 }

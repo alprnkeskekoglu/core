@@ -22,4 +22,6 @@ return [
     ],
 
     'required' => 'Bu alan zorunludur!',
+
+    'no_notifications' => 'Bildirim bulunmamaktadır.',
 ];

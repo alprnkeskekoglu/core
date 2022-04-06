@@ -10,12 +10,12 @@ class MetaTagRepository implements MetaTagInterface
 {
     public function sync($model, $data)
     {
-        foreach ($model->translations as $translation) {
+        foreach ($model->translations()->active()->get() as $translation) {
             $url = $translation->url;
-            $data = $data[$translation->language_id];
+            $metaTags = $data[$translation->language_id];
 
             if ($url) {
-                foreach ($data as $key => $value) {
+                foreach ($metaTags as $key => $value) {
                     MetaTag::updateOrCreate(
                         [
                             'url_id' => $url->id,

@@ -15,13 +15,10 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PageController extends BaseController
 {
-    protected PageRepository $pageRepository;
-    protected PageTranslationRepository $pageTranslationRepository;
-
-    public function __construct(PageRepository $pageRepository, PageTranslationRepository $pageTranslationRepository)
+    public function __construct(
+        protected PageRepository $pageRepository,
+        protected PageTranslationRepository $pageTranslationRepository)
     {
-        $this->pageRepository = $pageRepository;
-        $this->pageTranslationRepository = $pageTranslationRepository;
     }
 
     public function index(Structure $structure)
@@ -30,7 +27,7 @@ class PageController extends BaseController
             if($structure->has_detail == false) {
                 abort(404);
             }
-            return redirect()->route('dawnstar.structures.containers.edit', [$structure, $structure->container]);
+            return to_route('dawnstar.structures.containers.edit', [$structure, $structure->container]);
         }
 
         canUser("structure.{$structure->id}.index");
@@ -44,7 +41,7 @@ class PageController extends BaseController
             ['data' => 'updated_at', 'name' => 'updated_at', 'label' => __('Core::page.labels.updated_at'), 'searchable' => false],
             ['data' => 'actions', 'name' => 'actions', 'label' => __('Core::general.actions'), 'orderable' => false, 'searchable' => false],
         ];
-        
+
         return view('Core::modules.page.index', compact('structure', 'columns'));
     }
 
@@ -72,7 +69,7 @@ class PageController extends BaseController
         $page = $this->pageRepository->store($structure);
         $this->pageTranslationRepository->store($page);
 
-        return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Core::page.success.store')]);
+        return to_route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Core::page.success.store')]);
     }
 
     public function edit(Structure $structure, Page $page)
@@ -92,10 +89,10 @@ class PageController extends BaseController
         $moduleBuilder = new ModuleBuilderService($structure, 'page', $page);
         $moduleBuilder->validate();
 
-        $page = $this->pageRepository->update($page);
+        $this->pageRepository->update($page);
         $this->pageTranslationRepository->update($page);
 
-        return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Core::page.success.update')]);
+        return to_route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Core::page.success.update')]);
     }
 
     public function destroy(Structure $structure, Page $page)
@@ -103,7 +100,7 @@ class PageController extends BaseController
         canUser("structure.{$structure->id}.destroy");
 
         $this->pageRepository->destroy($page);
-        return redirect()->route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Core::page.success.destroy')]);
+        return to_route('dawnstar.structures.pages.index', $structure)->with(['success' => __('Core::page.success.destroy')]);
     }
 
     public function datatable(Structure $structure, Request $request)
