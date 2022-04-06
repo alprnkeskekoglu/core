@@ -15,13 +15,10 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PageController extends BaseController
 {
-    protected PageRepository $pageRepository;
-    protected PageTranslationRepository $pageTranslationRepository;
-
-    public function __construct(PageRepository $pageRepository, PageTranslationRepository $pageTranslationRepository)
+    public function __construct(
+        protected PageRepository $pageRepository,
+        protected PageTranslationRepository $pageTranslationRepository)
     {
-        $this->pageRepository = $pageRepository;
-        $this->pageTranslationRepository = $pageTranslationRepository;
     }
 
     public function index(Structure $structure)
