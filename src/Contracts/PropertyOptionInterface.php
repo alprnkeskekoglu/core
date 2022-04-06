@@ -7,7 +7,7 @@ use Dawnstar\Core\Models\PropertyOption;
 use Dawnstar\Core\Models\Structure;
 use Illuminate\Database\Eloquent\Collection;
 
-interface PropertyOptionInterface
+interface PropertyOptionInterface extends BaseInterface
 {
     public function getById(int $id): PropertyOption;
 
@@ -17,7 +17,7 @@ interface PropertyOptionInterface
 
     public function store(Structure $structure, Property $property): PropertyOption;
 
-    public function update(PropertyOption $propertyOption);
+    public function update(PropertyOption $propertyOption): void;
 
-    public function destroy(PropertyOption $propertyOption);
+    public function destroy(PropertyOption $propertyOption): void;
 }

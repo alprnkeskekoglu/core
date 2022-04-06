@@ -14,6 +14,17 @@ function trimSlug(string $slug = null) {
     return ($slug && $slug != '/') ? ltrim($slug, '/') : $slug;
 }
 
+function getTableColumns(string $tableName, array $data): array
+{
+    $response = [];
+    foreach ($data as $key => $value) {
+        if (Illuminate\Support\Facades\Schema::hasColumn($tableName, $key)) {
+            $response[$key] = $value;
+        }
+    }
+    return $response;
+}
+
 /*
  * ----------------------
  */
