@@ -35,16 +35,14 @@ class PropertyOptionRepository implements PropertyOptionInterface
         return PropertyOption::create($data);
     }
 
-    public function update(PropertyOption $propertyOption)
+    public function update(PropertyOption $propertyOption): void
     {
         $requestData = request()->except(['_token', '_method', 'translations', 'languages']);
 
         $propertyOption->update($requestData);
-
-        return $propertyOption;
     }
 
-    public function destroy(PropertyOption $propertyOption)
+    public function destroy(PropertyOption $propertyOption): void
     {
         $propertyOption->delete();
     }
