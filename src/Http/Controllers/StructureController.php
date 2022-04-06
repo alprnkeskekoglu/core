@@ -48,9 +48,6 @@ class StructureController extends BaseController
         $structure = $this->structureRepository->store();
         $container = $this->containerRepository->store($structure);
         $this->containerTranslationRepository->store($container);
-
-        $moduleBuilderRepository = new ModuleBuilderRepository();
-        $moduleBuilderRepository->store($structure);
         DB::commit();
 
         return to_route('dawnstar.structures.index')->with(['success' => __('Core::structure.success.store')]);
