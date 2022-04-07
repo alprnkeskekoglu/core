@@ -1,14 +1,14 @@
 <?php
 
-namespace Dawnstar\Core\Foundation;
+namespace Dawnstar\Core\Services;
 
 use Dawnstar\Core\Models\Language;
 use Dawnstar\Core\Models\MenuItem;
 use Dawnstar\Core\Models\Website;
-use Dawnstar\Core\Models\Menu as Model;
+use Dawnstar\Core\Models\Menu;
 use Illuminate\Database\Eloquent\Collection;
 
-class Menu
+class MenuService
 {
     /**
      * @var Language|mixed
@@ -18,20 +18,15 @@ class Menu
      * @var Website|mixed
      */
     public Website $website;
-    /**
-     * @var string
-     */
-    public string $key;
 
     /**
      * Menu constructor.
      * @param string $key
      */
-    public function __construct(string $key)
+    public function __construct(public string $key)
     {
         $this->language = dawnstar()->language;
         $this->website = dawnstar()->website;
-        $this->key = $key;
     }
 
     /**
@@ -53,21 +48,21 @@ class Menu
     }
 
     /**
-     * @return Model|null
+     * @return Menu|null
      */
-    private function getMenu(): ?Model
+    private function getMenu(): ?Menu
     {
-        return Model::where('key', $this->key)
+        return Menu::where('key', $this->key)
             ->where('website_id', $this->website->id)
             ->active()
             ->first();
     }
 
     /**
-     * @param Model $menu
+     * @param Menu $menu
      * @return mixed
      */
-    private function getCurrentMenuItem(Model $menu)
+    private function getCurrentMenuItem(Menu $menu)
     {
         $url = request()->path();
 
@@ -99,10 +94,10 @@ class Menu
     }
 
     /**
-     * @param Model $menu
+     * @param Menu $menu
      * @return mixed
      */
-    private function getMenus(Model $menu)
+    private function getMenus(Menu $menu)
     {
         return $menu->items()
             ->where('language_id', $this->language->id)

@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('languages', function (Blueprint $table) {
-            $table->id();
-            $table->string('code');
-            $table->string('native_name');
+        Schema::create('form_message_medias', function (Blueprint $table) {
+            $table->foreignId('form_message_id')->index()->constrained()->cascadeOnDelete();
+            $table->foreignId('media_id')->index()->constrained('medias')->cascadeOnDelete();
         });
     }
 
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('languages');
+        Schema::dropIfExists('form_message_medias');
     }
-};
+};;
