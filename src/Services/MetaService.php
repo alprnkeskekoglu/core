@@ -92,7 +92,7 @@ class MetaService
     {
         if ($key == 'title') {
             return '<{0}>{1}</{0}>';
-        } elseif (\Str::startsWith($key, 'og:')) {
+        } elseif (str()->startsWith($key, 'og:')) {
             return '<meta property="{0}" content="{1}">';
         } else {
             return '<meta name="{0}" content="{1}">';

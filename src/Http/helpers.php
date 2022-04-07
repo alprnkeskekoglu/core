@@ -258,6 +258,10 @@ function panelMenu(): array
                     'url' => route('dawnstar.forms.index')
                 ],
                 [
+                    'name' => __('Core::panel_menu.popup'),
+                    'url' => route('dawnstar.popups.index')
+                ],
+                [
                     'name' => __('Core::panel_menu.custom_translation'),
                     'url' => route('dawnstar.custom_translations.index')
                 ],

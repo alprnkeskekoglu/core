@@ -15,6 +15,7 @@ return [
     'website_management' => 'Website Management',
     //'user' => 'Users',
     'menu' => 'Menu',
+    'popup' => 'Popup',
     'form' => 'Forms',
     'custom_translation' => 'Language Translations',
 

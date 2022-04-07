@@ -57,14 +57,14 @@ class ContainerTranslation extends BaseModel
             }
         }
 
-        if(\Str::startsWith($key, 'mf_')) {
+        if(str()->startsWith($key, 'mf_')) {
             $key = mb_substr($key, 3);
             $medias = $this->medias();
             if($key) {
                 $medias->wherePivot('key', $key);
             }
             return $medias->orderBy('model_medias.order')->first();
-        } elseif(\Str::startsWith($key, 'mc_')) {
+        } elseif(str()->startsWith($key, 'mc_')) {
             $key = mb_substr($key, 3);
             $medias = $this->medias();
             if($key) {

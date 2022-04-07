@@ -14,6 +14,7 @@ return [
     'website_management' => 'Website Yönetimi',
     //'user' => 'Kullanıcılar',
     'menu' => 'Menü',
+    'popup' => 'Popup',
     'form' => 'Formlar',
     'custom_translation' => 'Dil Çevirileri',
 
