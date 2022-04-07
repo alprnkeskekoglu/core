@@ -25,6 +25,16 @@ function getTableColumns(string $tableName, array $data): array
     return $response;
 }
 
+function form(string $key)
+{
+    return (new \Dawnstar\Core\Services\FormService($key))->init();
+}
+
+function menu(string $key)
+{
+    return (new \Dawnstar\Core\Services\MenuService($key))->init();
+}
+
 /*
  * ----------------------
  */
@@ -61,16 +71,6 @@ function searchUrl()
         return url($structure->container->translation->url->url);
     }
     return "javascript:void(0);";
-}
-
-function form(string $key)
-{
-    return (new \Dawnstar\Core\Foundation\Form($key))->init();
-}
-
-function menu(string $key)
-{
-    return (new \Dawnstar\Core\Foundation\Menu($key))->init();
 }
 
 function setSession()
@@ -256,6 +256,10 @@ function panelMenu(): array
                 [
                     'name' => __('Core::panel_menu.form'),
                     'url' => route('dawnstar.forms.index')
+                ],
+                [
+                    'name' => __('Core::panel_menu.popup'),
+                    'url' => route('dawnstar.popups.index')
                 ],
                 [
                     'name' => __('Core::panel_menu.custom_translation'),

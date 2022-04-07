@@ -53,11 +53,12 @@ class CategoryController extends BaseController
 
         $moduleBuilder = new ModuleBuilderService($structure, 'category', $category);
         $languages = $moduleBuilder->languages;
+        $activeLanguageIds = $moduleBuilder->getActiveTranslations();
 
         $categories = $this->getCategories($structure);
         $properties = $this->getProperties($structure);
 
-        return view('Core::modules.category.edit', compact('structure', 'categories', 'properties', 'category', 'moduleBuilder', 'languages'));
+        return view('Core::modules.category.edit', compact('structure', 'categories', 'properties', 'category', 'moduleBuilder', 'languages', 'activeLanguageIds'));
     }
 
     public function update(Structure $structure, Category $category)

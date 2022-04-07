@@ -51,10 +51,11 @@ class PropertyController extends BaseController
 
         $moduleBuilder = new ModuleBuilderService($structure, 'property', $property);
         $languages = $moduleBuilder->languages;
+        $activeLanguageIds = $moduleBuilder->getActiveTranslations();
 
         $properties = $this->propertyRepository->getByStructureId($structure)->sortBy('order');
 
-        return view('Core::modules.property.edit', compact('structure', 'properties', 'property', 'moduleBuilder', 'languages'));
+        return view('Core::modules.property.edit', compact('structure', 'properties', 'property', 'moduleBuilder', 'languages', 'activeLanguageIds'));
     }
 
     public function update(Structure $structure, Property $property)

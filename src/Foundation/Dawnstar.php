@@ -3,47 +3,31 @@
 namespace Dawnstar\Core\Foundation;
 
 use Dawnstar\Core\Models\Website;
-use Dawnstar\Core\Repositories\Interfaces\WebsiteRepositoryInterface;
+use Dawnstar\Core\Repositories\WebsiteRepository;
 use Dawnstar\Core\Services\MetaService;
-use Dawnstar\Core\Services\ParseUrlService;
 
+/**
+ * Class Dawnstar
+ * @package Dawnstar\Core\Foundation
+ */
 class Dawnstar
 {
-    protected ?Website $website;
-
     /**
      * Dawnstar constructor.
      */
-    public function __construct(
-        protected ParseUrlService            $parseUrlService,
-        protected WebsiteRepositoryInterface $websiteRepository
+    public function __construct
+    (
+        protected WebsiteRepository $websiteRepository,
     )
     {
         view()->share("dawnstar", $this);
     }
 
-    /**
-     * @param $website
-     * @return void
-     */
-    public function setWebsite($website)
+    public function website(): Website
     {
-        $this->website = $website;
+        return $this->websiteRepository->getByUrl();
     }
 
-    /**
-     * @return Website|null
-     */
-    public function website(): ?Website
-    {
-        $parsedUrl = $this->parseUrlService->getParsedUrl();
-
-        return $this->websiteRepository->getWebsiteByUrl($parsedUrl);
-    }
-
-    /**
-     * @return string
-     */
     public function metasHtml()
     {
         $meta = new MetaService();
@@ -51,6 +35,9 @@ class Dawnstar
         return $meta->getHtml();
     }
 
+    /**
+     * @return string
+     */
     public function homepageUrl()
     {
         $homepage = \Dawnstar\Core\Models\Structure::where('key', 'homepage')->first();
@@ -61,12 +48,15 @@ class Dawnstar
         return "javascript:void(0);";
     }
 
+    /**
+     * @return mixed
+     */
     public function language()
     {
         $request = request();
         if ($request->segment(1)) {
             $language = $this->website->languages()->where('code', $request->segment(1))->first();
-            if($language) {
+            if ($language) {
                 return $language;
             }
         }
@@ -102,13 +92,6 @@ class Dawnstar
             ];
         }
         return $return;
-    }
-
-    public function setDawnstarSettings(array $settings)
-    {
-        foreach ($settings as $key => $value) {
-            $this->$key = $value;
-        }
     }
 
     /**

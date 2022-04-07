@@ -1,19 +1,20 @@
 <?php
 
-namespace Dawnstar\Core\Foundation;
+namespace Dawnstar\Core\Services;
 
 
+use Dawnstar\Core\Models\Language;
 use Dawnstar\Core\Models\SearchData;
 
-class Search
+class SearchService
 {
+    public Language $language;
     /**
      * Search constructor.
      */
     public function __construct()
     {
-        $dawnstar = dawnstar();
-        $this->language = $dawnstar->language;
+        $this->language = dawnstar()->language;
     }
 
     /**
@@ -22,7 +23,6 @@ class Search
      */
     public function getResults(int $perPage = 10)
     {
-        $request = request();
         $query = strip_tags(request('q'));
 
         $results = $this->search($perPage, $query);
@@ -43,6 +43,7 @@ class Search
             ->where('translation_name', '<>', '')
             ->whereHas('url')
             ->with('url', 'model')
+            ->groupBy('url_id')
             ->where(function ($q) use ($query) {
                 $q->where('translation_name', 'like', '%' . $query . '%')
                     ->orWhere('translation_detail', 'like', '%' . $query . '%')

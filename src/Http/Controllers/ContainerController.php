@@ -29,8 +29,9 @@ class ContainerController extends BaseController
 
         $moduleBuilder = new ModuleBuilderService($structure, 'container', $container);
         $languages = $moduleBuilder->languages;
+        $activeLanguageIds = $moduleBuilder->getActiveTranslations();
 
-        return view('Core::modules.container.edit', compact('structure', 'container', 'moduleBuilder', 'languages'));
+        return view('Core::modules.container.edit', compact('structure', 'container', 'moduleBuilder', 'languages', 'activeLanguageIds'));
     }
 
     public function update(Structure $structure, Container $container)

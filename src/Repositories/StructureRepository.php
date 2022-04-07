@@ -3,10 +3,9 @@
 namespace Dawnstar\Core\Repositories;
 
 use Dawnstar\Core\Contracts\StructureInterface;
-use Dawnstar\Core\Http\Requests\StructureRequest;
 use Dawnstar\Core\Models\Structure;
-use Dawnstar\Core\Models\Website;
 use Dawnstar\Core\Services\ModuleFileService;
+use Dawnstar\ModuleBuilder\Repositories\ModuleBuilderRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 /**

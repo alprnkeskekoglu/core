@@ -38,16 +38,14 @@ class PropertyRepository implements PropertyInterface
         return $property;
     }
 
-    public function update(Property $property)
+    public function update(Property $property): void
     {
         $requestData = request()->except(['_token', '_method', 'translations', 'languages']);
 
         $property->update($requestData);
-
-        return $property;
     }
 
-    public function destroy(Property $property)
+    public function destroy(Property $property): void
     {
         $property->delete();
     }
