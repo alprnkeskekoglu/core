@@ -52,10 +52,11 @@ class PropertyOptionController extends BaseController
 
         $moduleBuilder = new ModuleBuilderService($structure, 'property', $option);
         $languages = $moduleBuilder->languages;
+        $activeLanguageIds = $moduleBuilder->getActiveTranslations();
 
         $propertyOptions = $this->propertyOptionRepository->getByProperty($property)->sortBy('order');
 
-        return view('Core::modules.property_option.edit', compact('structure', 'property', 'propertyOptions', 'option', 'moduleBuilder', 'languages'));
+        return view('Core::modules.property_option.edit', compact('structure', 'property', 'propertyOptions', 'option', 'moduleBuilder', 'languages', 'activeLanguageIds'));
     }
 
     public function update(Structure $structure, Property $property, PropertyOption $option)

@@ -10,6 +10,7 @@
         "dawnstar/region": "^1.0",
         "dawnstar/developer": "^1.0",
         "dawnstar/tracker": "^1.0",
+        "dawnstar/popup": "^1.0",
         "spatie/laravel-permission": "^5.4",
         "yajra/laravel-datatables-oracle": "~9.0"
     },

@@ -78,8 +78,9 @@ class PageController extends BaseController
 
         $moduleBuilder = new ModuleBuilderService($structure, 'page', $page);
         $languages = $moduleBuilder->languages;
+        $activeLanguageIds = $moduleBuilder->getActiveTranslations();
 
-        return view('Core::modules.page.edit', compact('structure', 'page', 'moduleBuilder', 'languages'));
+        return view('Core::modules.page.edit', compact('structure', 'page', 'moduleBuilder', 'languages', 'activeLanguageIds'));
     }
 
     public function update(Structure $structure, Page $page)

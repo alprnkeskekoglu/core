@@ -24,17 +24,19 @@
                                 <div class="d-flex">
                                     @foreach($languages as $language)
                                         <div class="ms-1">
-                                            <button type="button" class="btn btn-outline-secondary p-1 languageBtn{{ $loop->first ? ' active' : '' }}" data-language="{{ $language->id }}" {{ old('languages.' . $language->id, 1) == 1 ? '' : 'disabled' }}>
+                                            <button type="button" class="btn btn-outline-secondary p-1 languageBtn{{ $loop->first ? ' active' : '' }}"
+                                                    data-language="{{ $language->id }}" {{ old('languages.' . $language->id, $activeLanguageIds[$language->id]) == 1 ? '' : 'disabled' }}>
                                                 <img src="{{ languageFlag($language->code) }}" width="25"> {{ strtoupper($language->code) }}
                                             </button>
-                                            <span class="btn-language-status {{ old('languages.' . $language->id, 1) == 1 ? 'bg-danger' : 'bg-success' }}" data-status="1"><i class="mdi {{ old('languages.' . $language->id, 1) == 1 ? 'mdi-close' : 'mdi-check' }}"></i></span>
-                                            <input type="hidden" name="languages[{{ $language->id }}]" value="{{ old('languages.' . $language->id, 1) }}">
+                                            <span class="btn-language-status {{ old('languages.' . $language->id, $activeLanguageIds[$language->id]) == 1 ? 'bg-danger' : 'bg-success' }}" data-status="{{ $activeLanguageIds[$language->id] }}">
+                                                <i class="mdi {{ old('languages.' . $language->id, $activeLanguageIds[$language->id]) == 1 ? 'mdi-close' : 'mdi-check' }}"></i>
+                                            </span>
+                                            <input type="hidden" name="languages[{{ $language->id }}]" value="{{ old('languages.' . $language->id, $activeLanguageIds[$language->id]) }}">
                                         </div>
                                     @endforeach
                                 </div>
                             </div>
                             {!! $moduleBuilder->html() !!}
-                            <hr class="mt-3">
                             {!! $moduleBuilder->metaTagHtml() !!}
                         </div>
                     </form>
