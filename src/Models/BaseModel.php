@@ -41,16 +41,4 @@ class BaseModel extends Model
     {
         return $query->where('website_id', session('dawnstar.website.id'));
     }
-
-    public function syncMedias(array $medias)
-    {
-        foreach ($medias as $key => $media_ids) {
-            $media_ids = explode(',', $media_ids);
-            $save = [];
-            foreach ($media_ids as $media_id) {
-                $save[$media_id] = ['key' => $key];
-            }
-            $this->medias()->sync($save);
-        }
-    }
 }
