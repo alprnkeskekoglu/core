@@ -11,7 +11,7 @@ use Dawnstar\Core\Models\FormResult;
 use Mail;
 use Dawnstar\Core\Models\FormResultMedia;
 use Dawnstar\Core\Notifications\FormNotification;
-use Dawnstar\MediaManager\Foundation\MediaUpload;
+use Dawnstar\MediaManager\Services\MediaUploadService;
 use Dawnstar\MediaManager\Models\Folder;
 
 /**
@@ -137,7 +137,7 @@ class FormService
     private function mediaUpload($file)
     {
         $folder = Folder::firstOrCreate(['name' => $this->key, 'private' => 1]);
-        $mediaUpload = new MediaUpload('private', $folder->id);
+        $mediaUpload = new MediaUploadService('private', $folder->id);
         return $mediaUpload->fromComputer($file);
     }
 
