@@ -3,6 +3,7 @@
 namespace Dawnstar\Core\Foundation;
 
 use Dawnstar\Core\Models\Website;
+use Dawnstar\Core\Repositories\WebsiteRepository;
 use Dawnstar\Core\Services\MetaService;
 
 /**
@@ -14,28 +15,19 @@ class Dawnstar
     /**
      * Dawnstar constructor.
      */
-    public function __construct()
+    public function __construct
+    (
+        protected WebsiteRepository $websiteRepository,
+    )
     {
         view()->share("dawnstar", $this);
     }
 
-    /**
-     * @return mixed
-     */
-    public function website()
+    public function website(): Website
     {
-        $fullUrl = request()->fullUrl();
-        $parsedUrl = parse_url($fullUrl);
-
-        $domain = $parsedUrl["host"] = str_replace("www.", "", $parsedUrl["host"]);
-        $domainArray = [$domain, "www." . $domain];
-
-        return Website::whereIn('domain', $domainArray)->first();
+        return $this->websiteRepository->getByUrl();
     }
 
-    /**
-     * @return string
-     */
     public function metasHtml()
     {
         $meta = new MetaService();

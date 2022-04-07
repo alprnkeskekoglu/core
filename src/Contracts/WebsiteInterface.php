@@ -36,6 +36,11 @@ interface WebsiteInterface extends BaseInterface
     /**
      * @return Website
      */
+    public function getByUrl(): Website;
+
+    /**
+     * @return Website
+     */
     public function store(): Website;
 
     /**

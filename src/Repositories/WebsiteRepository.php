@@ -50,6 +50,20 @@ class WebsiteRepository implements WebsiteInterface
     /**
      * @return Website
      */
+    public function getByUrl(): Website
+    {
+        $fullUrl = request()->fullUrl();
+        $parsedUrl = parse_url($fullUrl);
+
+        $domain = $parsedUrl["host"] = str_replace("www.", "", $parsedUrl["host"]);
+        $domainArray = [$domain, "www." . $domain];
+
+        return Website::whereIn('domain', $domainArray)->first();
+    }
+
+    /**
+     * @return Website
+     */
     public function store(): Website
     {
         $data = request()->only(['status', 'default', 'url_language_code', 'name', 'domain']);

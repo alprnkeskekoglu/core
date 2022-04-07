@@ -4,8 +4,15 @@ namespace Dawnstar\Core\Services;
 
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class MetaService
+ * @package Dawnstar\Core\Services
+ */
 class MetaService
 {
+    /**
+     * @return Collection
+     */
     public function getMetas(): Collection
     {
         return dawnstar()->url ? dawnstar()->url->metas : new Collection();
@@ -14,7 +21,7 @@ class MetaService
     /**
      * @return string
      */
-    public function getHtml()
+    public function getHtml(): string
     {
         $metas = $this->getMetas();
         $metaData = $this->getMetaData($metas);
@@ -39,7 +46,6 @@ class MetaService
 
         return array_merge($defaultData, $metaData);
     }
-
 
     /**
      * @param array $metaData
@@ -82,7 +88,7 @@ class MetaService
      * @param string $key
      * @return string
      */
-    private function getMetaTemplate(string $key)
+    private function getMetaTemplate(string $key): string
     {
         if ($key == 'title') {
             return '<{0}>{1}</{0}>';
@@ -96,7 +102,7 @@ class MetaService
     /**
      * @return string
      */
-    private function getCanonical()
+    private function getCanonical(): string
     {
         return '<link rel="canonical" href="' . url(dawnstar()->url->url) . '"/>';
     }
@@ -104,7 +110,7 @@ class MetaService
     /**
      * @return string
      */
-    private function getAlternateLanguage()
+    private function getAlternateLanguage(): string
     {
         $translations = dawnstar()->parent->translations;
 
